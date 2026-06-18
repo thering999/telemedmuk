@@ -131,17 +131,37 @@ function SnapshotView({ snapshot, snapshotIndex }: SnapshotViewProps) {
   // When a single facility is selected, the "by district" bar chart is not
   // meaningful (it would show just one bar). Swap it for a breakdown of that
   // facility's own service-type composition (Type2 / Type3 / Type5) instead.
+  // Only meaningful when the selected facility's selected-year stats
+  // actually carry a type-level breakdown (Format A) — Format B/C facilities
+  // have no type2/type3/type5 at all for that year.
+  const selectedFacilityHasTypeBreakdown = useMemo(() => {
+    if (!selectedFacility) return false
+    const stats = selectedFacility.byYear[fiscalYear]
+    return stats?.type2 !== undefined || stats?.type3 !== undefined || stats?.type5 !== undefined
+  }, [selectedFacility, fiscalYear])
+
   const facilityTypeChartData = useMemo(() => {
-    if (!selectedFacility) return []
+    if (!selectedFacility || !selectedFacilityHasTypeBreakdown) return []
     const stats = selectedFacility.byYear[fiscalYear]
     return [
       { type: 'Type2', value: stats?.type2 ?? 0 },
       { type: 'Type3', value: stats?.type3 ?? 0 },
       { type: 'Type5', value: stats?.type5 ?? 0 },
     ]
-  }, [selectedFacility, fiscalYear])
+  }, [selectedFacility, fiscalYear, selectedFacilityHasTypeBreakdown])
+
+  // Only facilities whose selected-year stats actually carry a type-level
+  // breakdown (Format A) can contribute to this chart — Format B/C facilities
+  // have no type2/type3/type5 at all for that year.
+  const hasTypeBreakdownData = useMemo(() => {
+    return filteredFacilities.some((f) => {
+      const stats = f.byYear[fiscalYear]
+      return stats?.type2 !== undefined || stats?.type3 !== undefined || stats?.type5 !== undefined
+    })
+  }, [filteredFacilities, fiscalYear])
 
   const pieChartData = useMemo(() => {
+    if (!hasTypeBreakdownData) return []
     let type2 = 0
     let type3 = 0
     let type5 = 0
@@ -156,7 +176,7 @@ function SnapshotView({ snapshot, snapshotIndex }: SnapshotViewProps) {
       { type: 'Type3', value: type3 },
       { type: 'Type5', value: type5 },
     ].filter((d) => d.value > 0)
-  }, [filteredFacilities, fiscalYear])
+  }, [filteredFacilities, fiscalYear, hasTypeBreakdownData])
 
   // Optional multi-snapshot trend line: only meaningful when there is more
   // than one snapshot available in the index. Fetches the other snapshots
@@ -307,23 +327,29 @@ function SnapshotView({ snapshot, snapshotIndex }: SnapshotViewProps) {
                 จำนวนผู้รับบริการ Telemedicine แยกตามประเภทบริการ — {selectedFacility.hospname} (ปีงบ{' '}
                 {fiscalYear})
               </h3>
-              <div style={{ width: '100%', height: 360 }}>
-                <ResponsiveContainer>
-                  <BarChart
-                    data={facilityTypeChartData}
-                    margin={{ top: 8, right: 16, left: 0, bottom: 8 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="type" tick={{ fontSize: 12, fill: '#475569' }} />
-                    <YAxis tick={{ fontSize: 12, fill: '#475569' }} />
-                    <Tooltip
-                      formatter={(value) => Number(value ?? 0).toLocaleString('th-TH')}
-                      contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
-                    />
-                    <Bar dataKey="value" name="ผู้รับบริการ Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              {selectedFacilityHasTypeBreakdown ? (
+                <div style={{ width: '100%', height: 360 }}>
+                  <ResponsiveContainer>
+                    <BarChart
+                      data={facilityTypeChartData}
+                      margin={{ top: 8, right: 16, left: 0, bottom: 8 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                      <XAxis dataKey="type" tick={{ fontSize: 12, fill: '#475569' }} />
+                      <YAxis tick={{ fontSize: 12, fill: '#475569' }} />
+                      <Tooltip
+                        formatter={(value) => Number(value ?? 0).toLocaleString('th-TH')}
+                        contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
+                      />
+                      <Bar dataKey="value" name="ผู้รับบริการ Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <p className="flex h-[360px] items-center justify-center text-center text-slate-400">
+                  ไม่มีข้อมูลแยกประเภทบริการสำหรับชุดข้อมูลนี้
+                </p>
+              )}
             </>
           ) : (
             <>
@@ -364,7 +390,11 @@ function SnapshotView({ snapshot, snapshotIndex }: SnapshotViewProps) {
           <h3 className="mb-4 text-base font-semibold text-slate-800">
             สัดส่วนผู้รับบริการ Telemedicine แยกตามประเภทบริการ (ปีงบ {fiscalYear})
           </h3>
-          {pieChartData.length > 0 ? (
+          {!hasTypeBreakdownData ? (
+            <p className="flex h-[360px] items-center justify-center text-center text-slate-400">
+              ไม่มีข้อมูลแยกประเภทบริการสำหรับชุดข้อมูลนี้
+            </p>
+          ) : pieChartData.length > 0 ? (
             <div style={{ width: '100%', height: 360 }}>
               <ResponsiveContainer>
                 <PieChart>
