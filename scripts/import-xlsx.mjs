@@ -22,8 +22,9 @@ const ROOT_DIR = join(__dirname, '..');
 const RAW_DIR = join(ROOT_DIR, 'data', 'raw');
 const OUT_DIR = join(ROOT_DIR, 'public', 'data', 'snapshots');
 
-// Filename pattern: YYYYMMDD_PP_telemed_hosp_NNN.xlsx
-const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp_\d+\.xlsx$/i;
+// Filename pattern: YYYYMMDD_PP_telemed_hosp[_NNN].xlsx
+// The trailing running-number suffix is optional since not every Hippo export includes one.
+const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\d+)?\.xlsx$/i;
 
 const PROVINCE_NAMES = {
   49: 'มุกดาหาร',

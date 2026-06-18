@@ -1,8 +1,9 @@
 import * as XLSX from 'xlsx'
 import type { Facility, Snapshot } from '../types/hdc'
 
-// Filename pattern: YYYYMMDD_PP_telemed_hosp_NNN.xlsx (same as scripts/import-xlsx.mjs)
-const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp_\d+\.xlsx$/i
+// Filename pattern: YYYYMMDD_PP_telemed_hosp[_NNN].xlsx (same as scripts/import-xlsx.mjs)
+// The trailing running-number suffix is optional since not every Hippo export includes one.
+const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\d+)?\.xlsx$/i
 
 const PROVINCE_NAMES: Record<string, string> = {
   '49': 'มุกดาหาร',
