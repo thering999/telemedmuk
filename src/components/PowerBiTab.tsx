@@ -18,7 +18,7 @@ function PowerBiTab() {
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="relative w-full" style={{ aspectRatio: '16 / 9', minHeight: '600px' }}>
           <iframe
-            title="รายงานโทรเวชกรรม Power BI"
+            title="รายงาน Telemedicine Power BI"
             src={POWER_BI_URL}
             className="absolute inset-0 h-full w-full"
             allowFullScreen

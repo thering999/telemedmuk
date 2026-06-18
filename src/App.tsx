@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import PowerBiTab from './components/PowerBiTab'
+import LookerStudioTab from './components/LookerStudioTab'
 import HdcTab from './components/HdcTab'
+import ImportExcelTab from './components/ImportExcelTab'
 
-type TabKey = 'powerbi' | 'hdc'
+type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import'
 
 const TABS: { key: TabKey; label: string }[] = [
-  { key: 'powerbi', label: 'ข้อมูลโทรเวชกรรม (Power BI)' },
+  { key: 'powerbi', label: 'ข้อมูล Telemedicine (Power BI)' },
+  { key: 'looker', label: 'ข้อมูล Telemedicine (Looker Studio)' },
   { key: 'hdc', label: 'ข้อมูล HDC (Hippo)' },
+  { key: 'import', label: 'นำเข้า Excel' },
 ]
 
 function App() {
@@ -17,10 +21,10 @@ function App() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
           <h1 className="text-2xl font-semibold text-slate-800 sm:text-3xl">
-            Dashboard โทรเวชกรรม จังหวัดมุกดาหาร
+            Dashboard Telemedicine จังหวัดมุกดาหาร
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            ภาพรวมการให้บริการโทรเวชกรรมในพื้นที่จังหวัดมุกดาหาร
+            ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
           </p>
         </div>
       </header>
@@ -43,7 +47,10 @@ function App() {
           ))}
         </div>
 
-        {activeTab === 'powerbi' ? <PowerBiTab /> : <HdcTab />}
+        {activeTab === 'powerbi' && <PowerBiTab />}
+        {activeTab === 'looker' && <LookerStudioTab />}
+        {activeTab === 'hdc' && <HdcTab />}
+        {activeTab === 'import' && <ImportExcelTab />}
       </main>
     </div>
   )

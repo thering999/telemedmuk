@@ -1,7 +1,11 @@
 {
+  "skillListingMaxDescChars": 700,
+  "skillListingBudgetFraction": 0.006,
   "permissions": {
     "allow": [
-      "Bash(rtk grep *)"
+      "Bash(rtk grep *)",
+      "PowerShell(rtk npm run build)",
+      "PowerShell(rtk npm run lint)"
     ],
     "deny": [
       "Bash(ls *)",
@@ -53,7 +57,5 @@
       "PowerShell(wget *)",
       "PowerShell(Invoke-WebRequest *)"
     ]
-  },
-  "skillListingMaxDescChars": 700,
-  "skillListingBudgetFraction": 0.006
+  }
 }
