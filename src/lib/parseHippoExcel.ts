@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx'
-import type { Facility, FiscalYear, Snapshot, YearStats } from '../types/hdc'
+import type { Facility, FiscalYear, ReportCategory, Snapshot, YearStats } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
 
 // Filename pattern: YYYYMMDD_PP_telemed_hosp[_suffix][ (N)].xlsx (same as
@@ -10,6 +10,37 @@ import { FISCAL_YEARS } from '../types/hdc'
 // optional " (N)"/"(N)" tolerates the suffix browsers add to a
 // re-downloaded duplicate file (e.g. Chrome's "file (1).xlsx").
 const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\w+)?(?: ?\(\d+\))?\.xlsx$/i
+
+// Isolates just the optional "_suffix" group (without the trailing " (N)"
+// dedup tag) so category rules can be applied independently of date parsing.
+// Mirrors SUFFIX_PATTERN in scripts/import-xlsx.mjs — keep in sync.
+const SUFFIX_PATTERN = /^\d{4}\d{2}\d{2}_\d{2}_telemed_hosp(_\w+)?(?: ?\(\d+\))?\.xlsx$/i
+
+// Keep in sync with ReportCategory in src/types/hdc.ts
+const NEW_CATEGORIES: ReportCategory[] = ['all', 'person', 'ncd', 'mch', 'ltc_pal', 'followup']
+
+/**
+ * Detect the report category from a Hippo export filename, mirroring the
+ * same rules as scripts/import-xlsx.mjs's detectCategory():
+ *  - no suffix, or "_NNN" (running number), or "_typeinNNN" -> "base"
+ *  - "_all" / "_person" / "_ncd" / "_mch" / "_ltc_pal" / "_followup" -> that category
+ *  - anything else (including filenames that don't match the base
+ *    date/province/telemed_hosp shape at all) -> null, caller should reject.
+ */
+export function detectCategory(filename: string): ReportCategory | 'base' | null {
+  const match = SUFFIX_PATTERN.exec(filename)
+  if (!match) return null
+  const suffix = match[1] as string | undefined // e.g. "_235", "_typein235", "_all", or undefined
+
+  if (!suffix) return 'base'
+  if (/^_\d+$/.test(suffix)) return 'base'
+  if (/^_typein\d+$/.test(suffix)) return 'base'
+
+  const tag = suffix.slice(1) // drop leading underscore
+  if (NEW_CATEGORIES.includes(tag as ReportCategory)) return tag as ReportCategory
+
+  return null
+}
 
 const PROVINCE_NAMES: Record<string, string> = {
   '49': 'มุกดาหาร',
@@ -132,6 +163,34 @@ function transformRow(row: RawRow): Facility {
 
 export class ParseHippoExcelError extends Error {}
 
+// Column names that, if present on the first row, positively identify a
+// NEW (non-"base") category by its actual shape — used as a belt-and-
+// suspenders check independent of the filename, so an uploaded file that's
+// mislabeled (or matches the base filename pattern loosely) still gets
+// rejected with a clear message instead of producing a wrong/empty preview.
+// Order matters only for the log message; checks are independent.
+const CATEGORY_SIGNATURE_COLUMNS: Array<{ category: ReportCategory; columns: string[] }> = [
+  { category: 'all', columns: ['Type1_68_WalkIn', 'Type5_69_Telemed'] },
+  { category: 'person', columns: ['PersonAll68', 'Person_Type5_69'] },
+  { category: 'followup', columns: ['Total_Visits_69', 'FollowUp_Telemed'] },
+  { category: 'ncd', columns: ['Visit_DM', 'Tele_DM'] },
+  { category: 'mch', columns: ['Visit_ANC', 'Tele_ANC'] },
+  { category: 'ltc_pal', columns: ['Visit_LTC', 'Tele_LTC'] },
+]
+
+/**
+ * Inspect a row's actual columns to detect a NEW report category by shape,
+ * independent of filename. Returns null if the row doesn't match any known
+ * NEW category's signature columns (i.e. it looks like "base", or is simply
+ * unrecognized — either way, the base transform path is allowed to proceed).
+ */
+function detectCategoryByColumns(row: RawRow): ReportCategory | null {
+  for (const { category, columns } of CATEGORY_SIGNATURE_COLUMNS) {
+    if (columns.every((col) => col in row)) return category
+  }
+  return null
+}
+
 /**
  * Parse an uploaded Hippo telemedicine export (.xlsx, read client-side as an
  * ArrayBuffer) into a Snapshot. Lenient about the filename (falls back to
@@ -139,6 +198,12 @@ export class ParseHippoExcelError extends Error {}
  * pattern) but strict about basic structural sanity (must have a sheet, must
  * have at least one row with a hospcode) so obviously-wrong files produce a
  * clear error instead of a blank dashboard.
+ *
+ * This ad hoc preview path only understands the "base" category's row shape.
+ * If the uploaded file is shaped like one of the NEW categories (all/person/
+ * ncd/mch/ltc_pal/followup) — detected by column presence, not just
+ * filename — it is rejected with a clear Thai message pointing the user at
+ * "บันทึกไปยัง GitHub" instead, rather than silently mis-parsing it.
  */
 export function parseHippoExcelFile(buffer: ArrayBuffer, filename: string): Snapshot {
   let workbook: XLSX.WorkBook
@@ -159,6 +224,13 @@ export function parseHippoExcelFile(buffer: ArrayBuffer, filename: string): Snap
 
   if (rows.length === 0) {
     throw new ParseHippoExcelError('ไฟล์นี้ไม่มีข้อมูลแถวใด ๆ')
+  }
+
+  const detectedCategory = detectCategoryByColumns(rows[0])
+  if (detectedCategory) {
+    throw new ParseHippoExcelError(
+      `ไฟล์นี้เป็นรายงานหมวด '${detectedCategory}' ซึ่งหน้านำเข้าเฉพาะกิจยังไม่รองรับการแสดงตัวอย่าง — กดปุ่ม 'บันทึกไปยัง GitHub' เพื่อเผยแพร่ข้อมูลนี้ได้ตามปกติ`,
+    )
   }
 
   const facilities = rows.map(transformRow)

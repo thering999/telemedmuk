@@ -5,7 +5,8 @@
     "allow": [
       "Bash(rtk grep *)",
       "PowerShell(rtk npm run build)",
-      "PowerShell(rtk npm run lint)"
+      "PowerShell(rtk npm run lint)",
+      "PowerShell(rtk ls \"D:\\\\www\\\\telemedmuk\\\\data\\\\raw\")"
     ],
     "deny": [
       "Bash(ls *)",

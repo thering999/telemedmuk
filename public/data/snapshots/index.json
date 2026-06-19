@@ -1,11 +1,29 @@
 [
   {
+    "date": "2026-06-19",
+    "sourceFile": [
+      "20260619_49_telemed_hosp.xlsx",
+      "20260619_49_telemed_hosp_235.xlsx",
+      "20260619_49_telemed_hosp_typein235.xlsx"
+    ],
+    "facilityCount": 86,
+    "categories": [
+      "all",
+      "followup",
+      "ltc_pal",
+      "mch",
+      "ncd",
+      "person"
+    ]
+  },
+  {
     "date": "2026-06-18",
     "sourceFile": [
       "20260618_49_telemed_hosp.xlsx",
       "20260618_49_telemed_hosp_235.xlsx",
       "20260618_49_telemed_hosp_typein235.xlsx"
     ],
-    "facilityCount": 86
+    "facilityCount": 86,
+    "categories": []
   }
 ]
