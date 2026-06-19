@@ -144,24 +144,6 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     return { totalOp, totalTelemed, percent }
   }, [filteredFacilities, fiscalYear])
 
-  // เกณฑ์ OP68 เทียบ Telemed69: a fixed cross-fiscal-year comparison (OP from
-  // FY68 as the denominator, Telemedicine from FY69 as the numerator) — the
-  // original metric named directly in the source data's own
-  // PercentTelemed69PerOP68 column. This is intentionally NOT affected by the
-  // ปีงบประมาณ toggle above, since it's defined as exactly these two fixed
-  // years, not "whichever year is selected." Aggregated correctly as
-  // sum(telemed69)/sum(op68), not an average of each facility's own percent.
-  const op68Telemed69Kpi = useMemo(() => {
-    let sumOp68 = 0
-    let sumTelemed69 = 0
-    for (const f of filteredFacilities) {
-      sumOp68 += f.byYear['68']?.op ?? 0
-      sumTelemed69 += telemedVisits(f.byYear['69'])
-    }
-    const percent = sumOp68 > 0 ? (sumTelemed69 / sumOp68) * 100 : null
-    return { sumOp68, sumTelemed69, percent }
-  }, [filteredFacilities])
-
   const districtChartData = useMemo(() => {
     const byDistrict = new Map<string, number>()
     for (const f of filteredFacilities) {
@@ -409,18 +391,6 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         <KpiCard label="ร้อยละ Telemedicine ต่อ OP" value={`${kpis.percent.toFixed(1)}%`} accent />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KpiCard label="OP รวม (ปีงบ 68)" value={op68Telemed69Kpi.sumOp68.toLocaleString('th-TH')} />
-        <KpiCard
-          label="ผู้รับบริการ Telemedicine รวม (ปีงบ 69)"
-          value={op68Telemed69Kpi.sumTelemed69.toLocaleString('th-TH')}
-        />
-        <KpiCard
-          label="เกณฑ์ OP68 เทียบ Telemed69"
-          value={op68Telemed69Kpi.percent === null ? 'ไม่มีข้อมูล' : `${op68Telemed69Kpi.percent.toFixed(1)}%`}
-          accent
-        />
-      </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
