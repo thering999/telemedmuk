@@ -61,6 +61,44 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
   }, [filteredFacilities])
 
   const exportColumns = useMemo<ExportColumn<TypeBreakdownFacility>[]>(() => {
+    if (isPersonReport) {
+      return [
+        { key: 'hospcode', label: 'รหัสสถาน', value: (f) => f.hospcode },
+        { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
+        { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
+        { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
+        { key: 'op68', label: 'OP68', value: (f) => f.byYear['68']?.op ?? 0 },
+        { key: 'type1', label: 'Person Type1 (69)', value: (f) => f.byYear['69']?.type1 ?? 0 },
+        { key: 'type2', label: 'Person Type2 (69)', value: (f) => f.byYear['69']?.type2 ?? 0 },
+        { key: 'type3', label: 'Person Type3 (69)', value: (f) => f.byYear['69']?.type3 ?? 0 },
+        { key: 'type4', label: 'Person Type4 (69)', value: (f) => f.byYear['69']?.type4 ?? 0 },
+        { key: 'type5', label: 'Person Type5 (69)', value: (f) => f.byYear['69']?.type5 ?? 0 },
+        {
+          key: 'telemedPercent',
+          label: 'Telemedicine %',
+          value: (f) => {
+            const op68 = f.byYear['68']?.op ?? 0
+            const type5 = f.byYear['69']?.type5 ?? 0
+            return op68 > 0 ? Number(((type5 / op68) * 100).toFixed(2)) : 0
+          },
+        },
+        {
+          key: 'allTypesSum',
+          label: 'All Types Sum',
+          value: (f) => {
+            const stats69 = f.byYear['69']
+            if (!stats69) return 0
+            return (
+              (stats69.type1 ?? 0) +
+              (stats69.type2 ?? 0) +
+              (stats69.type3 ?? 0) +
+              (stats69.type4 ?? 0) +
+              (stats69.type5 ?? 0)
+            )
+          },
+        },
+      ]
+    }
     return [
       { key: 'hospcode', label: 'รหัสสถาน', value: (f) => f.hospcode },
       { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
@@ -76,7 +114,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
         value: (f) => ((f.byYear['69']?.type2 ?? 0) + (f.byYear['69']?.type3 ?? 0) + (f.byYear['69']?.type5 ?? 0)),
       },
     ]
-  }, [])
+  }, [isPersonReport])
 
   return (
     <div className="flex flex-col gap-6">
