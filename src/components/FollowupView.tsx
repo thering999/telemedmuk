@@ -203,7 +203,15 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                   <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
                   <td className="px-3 py-2 text-slate-800">{f.hospname}</td>
                   <td className="px-3 py-2 text-slate-600">{f.ampName}</td>
-                  <td className="px-3 py-2 text-slate-600">{f.hostypeName}</td>
+                  <td className="px-3 py-2 text-slate-600">
+                    <span className="text-xs">
+                      {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
+                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
+                      ) : (
+                        <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
+                      )}
+                    </span>
+                  </td>
                   <td className="px-3 py-2 text-right text-slate-700">
                     {f.totalVisits69.toLocaleString('th-TH')}
                   </td>
