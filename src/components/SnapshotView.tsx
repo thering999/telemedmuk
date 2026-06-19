@@ -34,7 +34,7 @@ const DEFAULT_DOCS: ReportInfoPanelProps = {
   methodology:
     "เกณฑ์หลัก OP68→Telemed69 มาจากสูตรดั้งเดิมในข้อมูลต้นทาง (คอลัมน์ PercentTelemed69PerOP68) คำนวณแบบรวมก่อนหารเสมอ (sum(Telemed69) ÷ sum(OP68)) ไม่ใช่ค่าเฉลี่ยของร้อยละรายสถานบริการ — ส่วนมุมมองเสริม (ปีงบเดียวกัน) รองรับไฟล์ส่งออก 2 รูปแบบที่ใช้ร่วมกันได้จากสูตรเดียวกัน (q_telemed_hosp_muk.ipynb): ไฟล์ที่แยกย่อย Type2 (นัดหมาย/ส่งต่อ) + Type3 (เชิงรุก/ชุมชน) + Type5 (โทรเวชกรรม) เป็น 'Telemed', และไฟล์ที่มีผลรวม Telemed สำเร็จรูปอยู่แล้ว ข้อมูลกรอกมือ (typein) แยกไว้เป็นรายงานต่างหาก (ดูแท็บ 'ข้อมูลเกณฑ์จาก PH-EOC') เนื่องจากใช้สูตรคำนวณคนละแบบ (จากสมุดบันทึก q_telemed_hosp-235.ipynb) เพื่อไม่ให้ตัวเลขสองสูตรปนกันในตารางเดียว",
   source: 'ตาราง service (ระบบ Hippo) ร่วมกับตารางอ้างอิงระดับประเทศ icd10_chk_op เพื่อกรองเฉพาะการรับบริการที่นับเป็น OP ที่ถูกต้อง (valid=\'T\' และ OP_PP=\'OP\')',
-  template: 'q_telemed_hosp_muk.ipynb',
+  template: 'q_telemed_hosp_muk.ipynb (ตัวอย่าง Ad Hoc)',
 }
 
 export interface SnapshotViewProps {

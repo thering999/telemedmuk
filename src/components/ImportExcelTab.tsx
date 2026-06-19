@@ -232,17 +232,23 @@ function ImportExcelTab() {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900 shadow-sm">
-        <p className="font-medium">หมายเหตุสำคัญ</p>
-        <p className="mt-1 text-slate-700">
-          ข้อมูลที่อัปโหลดในแท็บนี้จะแสดงผลเฉพาะในเบราว์เซอร์ของท่านเท่านั้น{' '}
-          <span className="font-semibold">ไม่ถูกบันทึกไว้ที่ใด</span> และจะหายไปเมื่อรีเฟรชหน้านี้
-          หากต้องการให้ข้อมูลนี้แสดงผลแบบถาวรสำหรับผู้เข้าชมทุกคนบนเว็บไซต์จริง สามารถกดปุ่ม
-          "บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร" ด้านล่างได้เลยหลังนำเข้าไฟล์สำเร็จ (ไม่ต้องใช้ token หรือความรู้ทางเทคนิคใด ๆ)
-          ระบบจะนำไฟล์ไปวางไว้ที่ <code className="rounded bg-amber-100 px-1">data/raw/</code> บน branch{' '}
-          <code className="rounded bg-amber-100 px-1">main</code> ของโปรเจกต์ให้อัตโนมัติ แล้วให้ระบบอัตโนมัติ
-          (GitHub Actions) ประมวลผลและเผยแพร่ข้อมูลต่อเอง — นี่คือวิธีบันทึกข้อมูลแบบถาวรบนเว็บไซต์แบบ static นี้
-          ส่วนแท็บนี้เองมีไว้สำหรับดูข้อมูลแบบเฉพาะกิจ (ad hoc) อย่างรวดเร็วเท่านั้น
-        </p>
+        <p className="font-medium">ℹ️ หมายเหตุสำคัญ</p>
+        <div className="mt-2 space-y-2 text-slate-700">
+          <p>
+            ข้อมูลที่อัปโหลดในแท็บนี้จะแสดงผลเฉพาะในเบราว์เซอร์ของท่านเท่านั้น{' '}
+            <span className="font-semibold">ไม่ถูกบันทึกไว้ที่ใด</span> และจะหายไปเมื่อรีเฟรชหน้านี้
+          </p>
+          <p>
+            หากต้องการให้ข้อมูลนี้แสดงผลแบบถาวรสำหรับผู้เข้าชมทุกคนบนเว็บไซต์จริง สามารถกดปุ่ม
+            "บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร" ด้านล่างได้เลยหลังนำเข้าไฟล์สำเร็จ (ไม่ต้องใช้ token หรือความรู้ทางเทคนิคใด ๆ)
+            ระบบจะนำไฟล์ไปวางไว้ที่ <code className="rounded bg-amber-100 px-1">data/raw/</code> บน branch{' '}
+            <code className="rounded bg-amber-100 px-1">main</code> ของโปรเจกต์ให้อัตโนมัติ
+          </p>
+          <p>
+            <strong>สิ่งที่ต้องเช็ก:</strong> ข้อมูลคือสิ่งที่สำคัญที่สุด อย่าลืมตรวจสอบว่าไฟล์มีคอลัมน์ที่คาดหวัง (hospcode, hospname, OP68, Telemed69 เป็นต้น)
+            และจำนวนแถวว่าสมบูรณ์หรือไม่ ก่อนบันทึกข้อมูลให้ถาวรบน GitHub
+          </p>
+        </div>
       </div>
 
       <div
@@ -385,14 +391,13 @@ function ImportExcelTab() {
 
           {singlePreview && singlePreview.previewSnapshot && (
             <>
-              <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                <p className="text-sm text-slate-600">
-                  ตัวอย่างข้อมูลจากไฟล์: <span className="font-medium text-slate-800">{singlePreview.filename}</span>
+              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4 shadow-sm">
+                <p className="text-sm text-blue-900">
+                  <span className="font-semibold">ตัวอย่างข้อมูล:</span> {singlePreview.filename}
                   {' — '}
                   {singlePreview.dateWasGuessed ? (
                     <>
-                      ไม่พบรูปแบบวันที่ในชื่อไฟล์ จึงใช้วันที่ปัจจุบันแทน (
-                      {formatThaiDate(singlePreview.previewSnapshot.snapshotDate)})
+                      ไม่พบรูปแบบวันที่ในชื่อไฟล์ ({formatThaiDate(singlePreview.previewSnapshot.snapshotDate)})
                     </>
                   ) : (
                     <>ข้อมูล ณ {formatThaiDate(singlePreview.previewSnapshot.snapshotDate)}</>
