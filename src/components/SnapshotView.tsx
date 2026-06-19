@@ -754,36 +754,36 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         <div className="overflow-x-auto">
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
-                <th className="px-3 py-2 font-medium">รหัสสถาน</th>
-                <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
-                <th className="px-3 py-2 font-medium">อำเภอ</th>
-                <th className="px-3 py-2 font-medium">ประเภท</th>
+              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">รหัสสถาน</th>
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">สถานพยาบาล</th>
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">อำเภอ</th>
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">ประเภท</th>
                 {isTypeinReport ? (
                   <>
-                    <th className="px-3 py-2 text-right font-medium">OP69</th>
-                    <th className="px-3 py-2 text-right font-medium">Telemed69</th>
-                    <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">OP69</th>
+                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Telemed69</th>
+                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ร้อยละ</th>
                   </>
                 ) : (
                   <>
-                    <th className="px-3 py-2 text-right font-medium">OP68</th>
-                    <th className="px-3 py-2 text-right font-medium">Telemed69</th>
-                    <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">OP68</th>
+                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Telemed69</th>
+                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ร้อยละ</th>
                   </>
                 )}
-                <th className="px-3 py-2 font-medium">สถานะ</th>
+                <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">สถานะ</th>
               </tr>
             </thead>
             <tbody>
               {filteredFacilities.map((f) => {
                 const percent = isTypeinReport ? f.percentTelemed69PerOP68 : f.percentTelemed69PerOP68
                 return (
-                  <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
-                    <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
-                    <td className="px-3 py-2 text-slate-800">{f.hospname}</td>
-                    <td className="px-3 py-2 text-slate-600">{f.ampName}</td>
-                    <td className="px-3 py-2 text-slate-600">
+                  <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
+                    <td className="px-4 py-3 text-slate-600 text-sm font-mono">{f.hospcode}</td>
+                    <td className="px-4 py-3 text-slate-800 font-medium">{f.hospname}</td>
+                    <td className="px-4 py-3 text-slate-600 text-sm">{f.ampName}</td>
+                    <td className="px-4 py-3 text-slate-600">
                       <span className="text-xs">
                         {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
                           <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
@@ -792,13 +792,13 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                         )}
                       </span>
                     </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
+                    <td className="px-4 py-3 text-right text-slate-700">
                       {isTypeinReport
                         ? (f.byYear['69']?.op ?? 0).toLocaleString('th-TH')
                         : (f.byYear['68']?.op ?? 0).toLocaleString('th-TH')
                       }
                     </td>
-                    <td className="px-3 py-2 text-right font-medium text-slate-800">
+                    <td className="px-4 py-3 text-right font-medium text-slate-800">
                       {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
                     </td>
                     <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
