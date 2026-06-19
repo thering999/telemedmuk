@@ -280,9 +280,10 @@ function ImportExcelTab() {
             <button
               type="button"
               onClick={reset}
-              className="ml-auto rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100"
+              className="ml-auto rounded-lg border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-100"
+              title="ล้างข้อมูลนำเข้าทั้งหมด"
             >
-              นำเข้าไฟล์ใหม่
+              🗑️ ล้างข้อมูล
             </button>
           </div>
 
