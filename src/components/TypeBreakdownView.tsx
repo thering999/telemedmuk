@@ -192,6 +192,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                     <th className="px-3 py-2 text-right font-medium">Person Type4 (69)</th>
                     <th className="px-3 py-2 text-right font-medium">Person Type5 (69)</th>
                     <th className="px-3 py-2 text-right font-medium">Type5 %</th>
+                    <th className="px-3 py-2 text-right font-medium">All Types Sum</th>
                   </>
                 ) : (
                   <>
@@ -242,6 +243,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                             return `${percent.toFixed(2)}%`
                           })()}
                         </td>
+                        <td className="px-3 py-2 text-right text-slate-600 text-sm">{typeSum.toLocaleString('th-TH')}</td>
                       </>
                     ) : (
                       <>
@@ -256,7 +258,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={isPersonReport ? 11 : 9} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -291,6 +293,16 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                           const totalOp = filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0)
                           const percent = totalOp > 0 ? (totalType5 / totalOp) * 100 : 0
                           return `${percent.toFixed(2)}%`
+                        })()}
+                      </td>
+                      <td className="px-3 py-3 text-right text-slate-600 text-sm">
+                        {(() => {
+                          const type1Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0)
+                          const type2Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0)
+                          const type3Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0)
+                          const type4Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0)
+                          const type5Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0)
+                          return (type1Sum + type2Sum + type3Sum + type4Sum + type5Sum).toLocaleString('th-TH')
                         })()}
                       </td>
                     </>
