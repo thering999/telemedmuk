@@ -303,6 +303,22 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     <div className="flex flex-col gap-6">
       <ReportInfoPanel {...docs} />
 
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+        <span>📊 ข้อมูล: {filteredFacilities.length} สถานบริการ</span>
+        <span>•</span>
+        <span>📅 ปีงบ {fiscalYear}</span>
+        <span>•</span>
+        {(() => {
+          const totalRecords = filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0);
+          return <span>👥 {totalRecords.toLocaleString('th-TH')} รายการ</span>;
+        })()}
+        <span className="ml-auto">
+          {filteredFacilities.length === snapshot.facilities.length
+            ? '✅ ไม่มีตัวกรอง'
+            : `🔍 ${snapshot.facilities.length - filteredFacilities.length} รายการถูกซ่อน`}
+        </span>
+      </div>
+
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <div className="flex flex-col gap-1">
           <label htmlFor="district-select" className="text-sm font-medium text-slate-600">
