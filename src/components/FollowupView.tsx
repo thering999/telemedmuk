@@ -16,26 +16,37 @@ export interface FollowupViewProps {
   snapshot: FollowupSnapshot
 }
 
+const ALL_HOSTYPES = '__all__'
+
 function FollowupView({ snapshot }: FollowupViewProps) {
   const [search, setSearch] = useState('')
+  const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
 
   const [prevSnapshot, setPrevSnapshot] = useState(snapshot)
   if (snapshot !== prevSnapshot) {
     setPrevSnapshot(snapshot)
     setSearch('')
+    setHostype(ALL_HOSTYPES)
   }
+
+  const hostypeOptions = useMemo(() => {
+    const set = new Set<string>()
+    for (const f of snapshot.facilities) set.add(f.hostypeName)
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'th'))
+  }, [snapshot])
 
   const filteredFacilities = useMemo<FollowupFacility[]>(() => {
     const q = search.trim().toLowerCase()
-    if (!q) return snapshot.facilities
     return snapshot.facilities.filter((f) => {
+      if (hostype !== ALL_HOSTYPES && f.hostypeName !== hostype) return false
+      if (!q) return true
       return (
         f.hospname.toLowerCase().includes(q) ||
         f.ampName.toLowerCase().includes(q) ||
         f.hospcode.toLowerCase().includes(q)
       )
     })
-  }, [snapshot, search])
+  }, [snapshot, search, hostype])
 
   const kpis = useMemo(() => {
     let totalVisits = 0
@@ -74,8 +85,26 @@ function FollowupView({ snapshot }: FollowupViewProps) {
         template="q_telemed_hosp_muk.ipynb"
       />
 
-      <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800">ติดตามต่อเนื่อง (ปีงบ 69)</h2>
+        <div className="ml-auto flex flex-col gap-1">
+          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
+            ประเภทสถานบริการ
+          </label>
+          <select
+            id="hostype-select"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            value={hostype}
+            onChange={(e) => setHostype(e.target.value)}
+          >
+            <option value={ALL_HOSTYPES}>ทั้งหมด</option>
+            {hostypeOptions.map((ht) => (
+              <option key={ht} value={ht}>
+                {ht}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">

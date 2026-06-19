@@ -20,27 +20,38 @@ export interface GroupBreakdownViewProps {
   docs: ReportInfoPanelProps
 }
 
+const ALL_HOSTYPES = '__all__'
+
 function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
   const [search, setSearch] = useState('')
+  const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
 
   const [prevSnapshot, setPrevSnapshot] = useState(snapshot)
   if (snapshot !== prevSnapshot) {
     setPrevSnapshot(snapshot)
     setSearch('')
+    setHostype(ALL_HOSTYPES)
   }
+
+  const hostypeOptions = useMemo(() => {
+    const set = new Set<string>()
+    for (const f of snapshot.facilities) set.add(f.hostypeName)
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'th'))
+  }, [snapshot])
 
   const filteredFacilities = useMemo<GroupBreakdownFacility[]>(() => {
     const q = search.trim().toLowerCase()
-    if (!q) return snapshot.facilities
     return snapshot.facilities.filter((f) => {
+      if (hostype !== ALL_HOSTYPES && f.hostypeName !== hostype) return false
+      if (!q) return true
       return (
         f.hospname.toLowerCase().includes(q) ||
         f.ampName.toLowerCase().includes(q) ||
         f.hospcode.toLowerCase().includes(q)
       )
     })
-  }, [snapshot, search])
+  }, [snapshot, search, hostype])
 
   const yearKpis = useMemo(() => {
     let totalOp = 0
@@ -77,6 +88,24 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800">{title}</h2>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
+            ประเภทสถานบริการ
+          </label>
+          <select
+            id="hostype-select"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            value={hostype}
+            onChange={(e) => setHostype(e.target.value)}
+          >
+            <option value={ALL_HOSTYPES}>ทั้งหมด</option>
+            {hostypeOptions.map((ht) => (
+              <option key={ht} value={ht}>
+                {ht}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="ml-auto flex items-center gap-2">
           <span className="text-sm font-medium text-slate-600">ปีงบประมาณ</span>
           <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1">

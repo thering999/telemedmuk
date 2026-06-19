@@ -76,14 +76,22 @@ function classifyQuadrant(op: number, rate: number, medianOp: number, medianRate
   return 'waitingForSupport'
 }
 
+const ALL_HOSTYPES = '__all__'
+
 function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisViewProps) {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
   const [search, setSearch] = useState('')
+  // Only affects the bottom "รายละเอียดสถานพยาบาล" table below — the tiered
+  // target sections (district ≥30%, รพ.สต. ≥10%) intentionally always see
+  // every facility type, since "อำเภอ รวม รพ.+รพ.สต." only means something
+  // when both types are present.
+  const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
 
   const [prevSnapshot, setPrevSnapshot] = useState(allSnapshot)
   if (allSnapshot !== prevSnapshot) {
     setPrevSnapshot(allSnapshot)
     setSearch('')
+    setHostype(ALL_HOSTYPES)
   }
 
   // Join step: base snapshot (mcode/mName) + all-category snapshot (Type1-5 byYear), keyed by hospcode.
@@ -126,6 +134,20 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       return { facility: f, stats, rate, denominator, op, type5 }
     })
   }, [filteredFacilities, fiscalYear])
+
+  const hostypeOptions = useMemo(() => {
+    const set = new Set<string>()
+    for (const f of combinedFacilities) set.add(f.hostypeName)
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'th'))
+  }, [combinedFacilities])
+
+  // Facility-type-filtered rows, used ONLY by the bottom table — every other
+  // computed section above intentionally ignores this filter (see comment on
+  // the `hostype` state declaration).
+  const tableRows = useMemo(() => {
+    if (hostype === ALL_HOSTYPES) return yearRows
+    return yearRows.filter((row) => row.facility.hostypeName === hostype)
+  }, [yearRows, hostype])
 
   // Province-wide KPI summary (aggregate across facilities currently in scope).
   const provinceKpis = useMemo(() => {
@@ -582,7 +604,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                   <th className="px-3 py-2 font-medium">อำเภอ</th>
                   <th className="px-3 py-2 font-medium">สังกัด</th>
                   <th className="px-3 py-2 text-right font-medium">Type5</th>
-                  <th className="px-3 py-2 text-right font-medium">TYPEIN2+3+5</th>
+                  <th className="px-3 py-2 text-right font-medium">OP</th>
                   <th className="px-3 py-2 text-right font-medium">อัตรา %</th>
                   <th className="px-3 py-2 font-medium">หมายเหตุ</th>
                 </tr>
@@ -613,13 +635,27 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
-          <input
-            type="text"
-            placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <select
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              value={hostype}
+              onChange={(e) => setHostype(e.target.value)}
+            >
+              <option value={ALL_HOSTYPES}>ประเภทสถานบริการ: ทั้งหมด</option>
+              {hostypeOptions.map((ht) => (
+                <option key={ht} value={ht}>
+                  {ht}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -638,7 +674,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               </tr>
             </thead>
             <tbody>
-              {yearRows.map((row) => {
+              {tableRows.map((row) => {
                 const quadrant = quadrantData.lookup.get(row.facility.hospcode)
                 return (
                   <tr key={row.facility.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
@@ -660,7 +696,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                   </tr>
                 )
               })}
-              {yearRows.length === 0 && (
+              {tableRows.length === 0 && (
                 <tr>
                   <td colSpan={9} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา

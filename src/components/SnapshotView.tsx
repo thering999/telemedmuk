@@ -20,6 +20,7 @@ import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
+const ALL_HOSTYPES = '__all__'
 
 const PIE_COLORS = ['#0d9488', '#2563eb', '#f59e0b']
 
@@ -56,6 +57,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
   const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
   const [search, setSearch] = useState('')
   const [district, setDistrict] = useState<string>(ALL_DISTRICTS)
+  const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const [facilityCode, setFacilityCode] = useState<string>(ALL_FACILITIES)
 
   // Reset the filters whenever the snapshot itself changes (new data
@@ -66,6 +68,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
   if (snapshot !== prevSnapshot) {
     setPrevSnapshot(snapshot)
     setDistrict(ALL_DISTRICTS)
+    setHostype(ALL_HOSTYPES)
     setFacilityCode(ALL_FACILITIES)
     setSearch('')
   }
@@ -76,15 +79,19 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     return Array.from(set).sort((a, b) => a.localeCompare(b, 'th'))
   }, [snapshot])
 
+  const hostypeOptions = useMemo(() => {
+    const set = new Set<string>()
+    for (const f of snapshot.facilities) set.add(f.hostypeName)
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'th'))
+  }, [snapshot])
+
   const facilityOptions = useMemo(() => {
-    const facilities =
-      district === ALL_DISTRICTS
-        ? snapshot.facilities
-        : snapshot.facilities.filter((f) => f.ampName === district)
-    return facilities
+    return snapshot.facilities
+      .filter((f) => district === ALL_DISTRICTS || f.ampName === district)
+      .filter((f) => hostype === ALL_HOSTYPES || f.hostypeName === hostype)
       .slice()
       .sort((a, b) => a.hospcode.localeCompare(b.hospcode))
-  }, [snapshot, district])
+  }, [snapshot, district, hostype])
 
   // If the currently-selected facility falls out of the cascaded options
   // (district changed to one that doesn't contain it), treat the selection
@@ -102,6 +109,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     const q = search.trim().toLowerCase()
     return snapshot.facilities.filter((f) => {
       if (district !== ALL_DISTRICTS && f.ampName !== district) return false
+      if (hostype !== ALL_HOSTYPES && f.hostypeName !== hostype) return false
       if (effectiveFacilityCode !== ALL_FACILITIES && f.hospcode !== effectiveFacilityCode) return false
       if (q) {
         const matches =
@@ -112,7 +120,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
       }
       return true
     })
-  }, [snapshot, district, effectiveFacilityCode, search])
+  }, [snapshot, district, hostype, effectiveFacilityCode, search])
 
   const selectedFacility = useMemo(
     () =>
@@ -228,6 +236,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
       let total = 0
       for (const f of s.facilities) {
         if (district !== ALL_DISTRICTS && f.ampName !== district) continue
+        if (hostype !== ALL_HOSTYPES && f.hostypeName !== hostype) continue
         if (effectiveFacilityCode !== ALL_FACILITIES && f.hospcode !== effectiveFacilityCode) continue
         total += telemedVisits(f.byYear[fiscalYear])
       }
@@ -263,7 +272,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     return () => {
       cancelled = true
     }
-  }, [showTrendChart, otherDates, snapshot, district, effectiveFacilityCode, fiscalYear])
+  }, [showTrendChart, otherDates, snapshot, district, hostype, effectiveFacilityCode, fiscalYear])
 
   return (
     <div className="flex flex-col gap-6">
@@ -284,6 +293,25 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
             {districtOptions.map((amp) => (
               <option key={amp} value={amp}>
                 {amp}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
+            ประเภทสถานบริการ
+          </label>
+          <select
+            id="hostype-select"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            value={hostype}
+            onChange={(e) => setHostype(e.target.value)}
+          >
+            <option value={ALL_HOSTYPES}>ทั้งหมด</option>
+            {hostypeOptions.map((ht) => (
+              <option key={ht} value={ht}>
+                {ht}
               </option>
             ))}
           </select>
