@@ -103,14 +103,26 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <KpiCard label="OP68 รวม" value={kpis.totalOp68.toLocaleString('th-TH')} />
         <KpiCard
-          label="Type2+Type3+Type5 รวม (ปีงบ 69)"
-          value={`${kpis.totalTypes69.toLocaleString('th-TH')} ${valueLabel}`}
+          label="Type2 รวม"
+          value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+        />
+        <KpiCard
+          label="Type3 รวม"
+          value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+        />
+        <KpiCard
+          label="Type5 รวม"
+          value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
           accent
         />
-        <KpiCard label="ร้อยละ Type2+3+5 ต่อ OP68" value={`${kpis.percent.toFixed(1)}%`} accent />
+        <KpiCard
+          label="รวม Type2+3+5"
+          value={kpis.totalTypes69.toLocaleString('th-TH')}
+          accent
+        />
       </div>
 
 
@@ -143,16 +155,19 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                 <th className="px-3 py-2 font-medium">อำเภอ</th>
                 <th className="px-3 py-2 font-medium">ประเภท</th>
                 <th className="px-3 py-2 text-right font-medium">OP68</th>
-                <th className="px-3 py-2 text-right font-medium">Type2+3+5 (69)</th>
-                <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
-                <th className="px-3 py-2 font-medium">สถานะ</th>
+                <th className="px-3 py-2 text-right font-medium">Type2 (69)</th>
+                <th className="px-3 py-2 text-right font-medium">Type3 (69)</th>
+                <th className="px-3 py-2 text-right font-medium">Type5 (69)</th>
+                <th className="px-3 py-2 text-right font-medium">รวม</th>
               </tr>
             </thead>
             <tbody>
               {filteredFacilities.map((f) => {
                 const op68 = f.byYear['68']?.op ?? 0
-                const types69 = ((f.byYear['69']?.type2 ?? 0) + (f.byYear['69']?.type3 ?? 0) + (f.byYear['69']?.type5 ?? 0))
-                const percent = op68 > 0 ? (types69 / op68) * 100 : 0
+                const type2 = f.byYear['69']?.type2 ?? 0
+                const type3 = f.byYear['69']?.type3 ?? 0
+                const type5 = f.byYear['69']?.type5 ?? 0
+                const typeSum = type2 + type3 + type5
                 return (
                   <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
@@ -168,23 +183,16 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                       </span>
                     </td>
                     <td className="px-3 py-2 text-right text-slate-700">{op68.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right font-medium text-brand-700">{types69.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
-                    <td className="px-3 py-2">
-                      {percent >= 5 ? (
-                        <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">✓ ดี</span>
-                      ) : percent >= 2 ? (
-                        <span className="inline-block rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">≈ ปานกลาง</span>
-                      ) : (
-                        <span className="inline-block rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">! ต้องปรับปรุง</span>
-                      )}
-                    </td>
+                    <td className="px-3 py-2 text-right text-slate-700">{type2.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right font-semibold text-slate-800">{typeSum.toLocaleString('th-TH')}</td>
                   </tr>
                 )
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={9} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -196,9 +204,16 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3 text-right">{kpis.totalOp68.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right text-brand-700">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
                   <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypes69.toLocaleString('th-TH')}</td>
-                  <td className="px-3 py-3 text-right text-brand-700">{kpis.percent.toFixed(1)}%</td>
-                  <td className="px-3 py-3"></td>
                 </tr>
               )}
             </tbody>
