@@ -120,7 +120,7 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`${title}_${snapshot.snapshotDate}`}
-              title={`${title} (ปีงบ ${fiscalYear}) — ${snapshot.snapshotDate}`}
+              title={`${title} (OP68 vs Type2+3+5/69) — ${snapshot.snapshotDate}`}
               columns={exportColumns}
               rows={filteredFacilities}
             />
