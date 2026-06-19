@@ -619,6 +619,40 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   </td>
                 </tr>
               )}
+              {filteredFacilities.length > 0 && (
+                <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
+                  <td className="px-3 py-3">รวม</td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {(() => {
+                      const total = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0)
+                      return total.toLocaleString('th-TH')
+                    })()}
+                  </td>
+                  <td className="px-3 py-3 text-right text-brand-700">
+                    {(() => {
+                      const totalOp = filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0)
+                      const totalTelemed = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0)
+                      const percent = totalOp > 0 ? (totalTelemed / totalOp) * 100 : 0
+                      return `${percent.toFixed(1)}%`
+                    })()}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -225,6 +225,31 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                   </td>
                 </tr>
               )}
+              {filteredFacilities.length > 0 && (
+                <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
+                  <td className="px-3 py-3">รวม</td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + f.totalVisits69, 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + f.followUpNormal, 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right text-brand-700">
+                    {filteredFacilities.reduce((sum, f) => sum + f.followUpTelemed, 0).toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {(() => {
+                      const totalAll = filteredFacilities.reduce((sum, f) => sum + f.totalVisits69, 0)
+                      const totalTelemed = filteredFacilities.reduce((sum, f) => sum + f.followUpTelemed, 0)
+                      const percent = totalAll > 0 ? (totalTelemed / totalAll) * 100 : 0
+                      return `${percent.toFixed(1)}%`
+                    })()}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

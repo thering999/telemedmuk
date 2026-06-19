@@ -271,6 +271,24 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                   </td>
                 </tr>
               )}
+              {filteredFacilities.length > 0 && (
+                <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
+                  <td className="px-3 py-3">รวม</td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3"></td>
+                  <td className="px-3 py-3"></td>
+                  {snapshot.groupDefs.map((def) => {
+                    const visit = filteredFacilities.reduce((sum, f) => sum + (f.groups[def.key]?.visit ?? 0), 0)
+                    const tele = filteredFacilities.reduce((sum, f) => sum + (f.groups[def.key]?.tele ?? 0), 0)
+                    return (
+                      <Fragment key={def.key}>
+                        <td className="px-3 py-3 text-right">{visit.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-3 text-right text-brand-700">{tele.toLocaleString('th-TH')}</td>
+                      </Fragment>
+                    )
+                  })}
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
