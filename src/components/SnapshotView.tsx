@@ -829,33 +829,33 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
               )}
               {filteredFacilities.length > 0 && (
                 <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
-                  <td className="px-3 py-3">รวม</td>
+                  <td className="px-3 py-3">รวม (68→69)</td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0).toLocaleString('th-TH')}
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
                     {(() => {
-                      const total = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0)
+                      const total = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0)
                       return total.toLocaleString('th-TH')
                     })()}
                   </td>
                   <td className="px-3 py-3 text-right text-brand-700">
                     {(() => {
-                      const totalOp = filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0)
-                      const totalTelemed = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0)
-                      const percent = totalOp > 0 ? (totalTelemed / totalOp) * 100 : 0
+                      const totalOp68 = filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0)
+                      const totalTelemed69 = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0)
+                      const percent = totalOp68 > 0 ? (totalTelemed69 / totalOp68) * 100 : 0
                       return `${percent.toFixed(1)}%`
                     })()}
                   </td>
