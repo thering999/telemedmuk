@@ -749,13 +749,17 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               <div className="flex justify-between items-center">
                 <span className="text-slate-700">เป้าหมายจังหวัด (≥30%):</span>
                 <span className="font-bold text-lg">
-                  {((districtTargets.filter(d => d.rate >= DISTRICT_TARGET_RATE).length / Math.max(districtTargets.length, 1)) * 100).toFixed(0)}%
+                  {((districtTargets.filter(d => d.rate !== null && d.rate >= DISTRICT_TARGET_RATE).length / Math.max(districtTargets.length, 1)) * 100).toFixed(0)}%
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-700">เป้าหมายรพสต. (≥10%):</span>
                 <span className="font-bold text-lg">
-                  {((filteredFacilities.filter(f => f.hostypeName.includes(RPST_HOSTYPE_MATCH) && officialRate(f.byYear[fiscalYear]) && officialRate(f.byYear[fiscalYear])! >= RPST_TARGET_RATE).length / Math.max(filteredFacilities.filter(f => f.hostypeName.includes(RPST_HOSTYPE_MATCH)).length, 1)) * 100).toFixed(0)}%
+                  {((filteredFacilities.filter(f => {
+                    if (!f.hostypeName.includes(RPST_HOSTYPE_MATCH)) return false
+                    const rate = officialRate(f.byYear[fiscalYear])
+                    return rate !== null && rate >= RPST_TARGET_RATE
+                  }).length / Math.max(filteredFacilities.filter(f => f.hostypeName.includes(RPST_HOSTYPE_MATCH)).length, 1)) * 100).toFixed(0)}%
                 </span>
               </div>
               <div className="flex justify-between items-center">
