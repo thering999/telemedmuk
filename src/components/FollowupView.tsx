@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import type { FollowupFacility, FollowupSnapshot } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
+import { CHART_COLORS } from '../lib/designSystem'
 import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 
@@ -156,8 +157,8 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                 contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
               />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="normal" name="ติดตามแบบปกติ" fill="#2563eb" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="telemed" name="ติดตามผ่าน Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="normal" name="ติดตามแบบปกติ" fill={CHART_COLORS.secondary} radius={[6, 6, 0, 0]} />
+              <Bar dataKey="telemed" name="ติดตามผ่าน Telemedicine" fill={CHART_COLORS.primary} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

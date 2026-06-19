@@ -12,6 +12,7 @@ import {
 import type { FiscalYear, GroupBreakdownFacility, GroupBreakdownSnapshot } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
+import { CHART_COLORS } from '../lib/designSystem'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 
@@ -188,8 +189,8 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                 contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
               />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="visit" name="Visit" fill="#2563eb" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="tele" name="Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="visit" name="Visit" fill={CHART_COLORS.secondary} radius={[6, 6, 0, 0]} />
+              <Bar dataKey="tele" name="Telemedicine" fill={CHART_COLORS.primary} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
