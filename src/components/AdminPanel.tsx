@@ -181,7 +181,15 @@ function AdminPanel({ onClose }: AdminPanelProps) {
               >
                 ล้างประวัติการนำเข้า
               </button>
-              <p className="text-xs text-slate-600">ลบข้อมูล import ที่ค้างอยู่ใน cache</p>
+              <p className="text-xs text-slate-600">ลบข้อมูล import ที่ค้างอยู่ใน localStorage (session)</p>
+
+              <div className="mt-4 rounded-lg bg-blue-50 border border-blue-200 p-3">
+                <p className="text-xs font-semibold text-blue-900 mb-2">ℹ️ เกี่ยวกับข้อมูลที่แสดง</p>
+                <p className="text-xs text-blue-800 leading-relaxed">
+                  ข้อมูล Dashboard (snapshots) มาจาก <code className="bg-blue-100 px-1 rounded">public/data/snapshots/</code> และเก็บใน <strong>Browser Cache</strong> ไม่ใช่ localStorage
+                  — หากต้องการลบข้อมูลทั้งหมด ให้ล้าง Browser Cache ตามด้านล่าง
+                </p>
+              </div>
             </div>
           </section>
 
@@ -200,9 +208,19 @@ function AdminPanel({ onClose }: AdminPanelProps) {
                 onClick={handleClearCache}
                 className="w-full rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-900 px-4 py-3 font-medium border border-rose-300 transition mt-4"
               >
-                ⚠️ ล้างข้อมูล Cache ทั้งหมด
+                ⚠️ ล้างข้อมูล Session
               </button>
-              <p className="text-xs text-slate-600 text-rose-700">⚠️ ลบข้อมูลที่เก็บไว้ทั้งหมด (เช่น session, cache)</p>
+              <p className="text-xs text-slate-600 text-rose-700">⚠️ ลบ localStorage/sessionStorage เท่านั้น (ไม่ลบ Browser Cache)</p>
+
+              <div className="mt-4 rounded-lg bg-rose-50 border border-rose-200 p-3">
+                <p className="text-xs font-semibold text-rose-900 mb-2">📱 ล้างข้อมูล Dashboard ทั้งหมด</p>
+                <p className="text-xs text-rose-800 leading-relaxed mb-2">
+                  ล้าง Browser Cache โดยกด <strong>Ctrl+Shift+Delete</strong> (Windows/Linux) หรือ <strong>Cmd+Shift+Delete</strong> (Mac)
+                </p>
+                <p className="text-xs text-rose-700">
+                  → เลือก "Cached images and files" → ล้างข้อมูลตั้งแต่ "All time"
+                </p>
+              </div>
             </div>
           </section>
 
