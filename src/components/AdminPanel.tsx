@@ -36,14 +36,21 @@ function AdminPanel({ onClose }: AdminPanelProps) {
 
   const handleClearImportHistory = () => {
     const keysToDelete = []
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)
-      if (key && key.includes('import')) {
+    // Get all keys before clearing (since clearing changes iteration)
+    const allKeys = Array.from({ length: localStorage.length }, (_, i) => localStorage.key(i)).filter(Boolean)
+
+    // Find and delete import/file related keys
+    allKeys.forEach(key => {
+      if (key && (key.includes('import') || key.includes('file') || key.includes('upload') || key.includes('hippo'))) {
+        localStorage.removeItem(key)
         keysToDelete.push(key)
       }
-    }
-    keysToDelete.forEach(key => localStorage.removeItem(key))
-    setSuccessMessage(`ล้างประวัติการนำเข้า ${keysToDelete.length} รายการ สำเร็จ`)
+    })
+
+    // Also clear session storage
+    sessionStorage.clear()
+
+    setSuccessMessage(`ล้างประวัติการนำเข้า ${keysToDelete.length} รายการและ session storage สำเร็จ`)
   }
 
   const handleExportDiagnostics = () => {

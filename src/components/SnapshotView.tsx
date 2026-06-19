@@ -430,19 +430,6 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KpiCard label={`OP รวม (ปีงบ ${fiscalYear})`} value={kpis.totalOp.toLocaleString('th-TH')} description="เสริม" />
-        <KpiCard
-          label={`Telemedicine รวม (ปีงบ ${fiscalYear})`}
-          value={kpis.totalTelemed.toLocaleString('th-TH')}
-          description="เสริม"
-        />
-        <KpiCard
-          label={`ร้อยละ (ปีงบ ${fiscalYear})`}
-          value={`${kpis.percent.toFixed(1)}%`}
-          description="เสริม"
-        />
-      </div>
 
       <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 px-5 py-4 shadow-sm">
         <h3 className="mb-4 text-sm font-semibold text-slate-800">📊 เป้าหมายและความก้าวหน้า</h3>
@@ -763,55 +750,37 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                 <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
                 <th className="px-3 py-2 font-medium">อำเภอ</th>
                 <th className="px-3 py-2 font-medium">ประเภท</th>
-                <th className="px-3 py-2 text-right font-medium">OP รวม</th>
-                <th className="px-3 py-2 text-right font-medium">Type2</th>
-                <th className="px-3 py-2 text-right font-medium">Type3</th>
-                <th className="px-3 py-2 text-right font-medium">Type5</th>
-                <th className="px-3 py-2 text-right font-medium">รวม Telemedicine</th>
-                <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+                <th className="px-3 py-2 text-right font-medium">OP68</th>
+                <th className="px-3 py-2 text-right font-medium">Telemed69</th>
+                <th className="px-3 py-2 text-right font-medium">PercentTelemed69PerOP68</th>
                 <th className="px-3 py-2 font-medium">สถานะ</th>
               </tr>
             </thead>
             <tbody>
               {filteredFacilities.map((f) => {
-                const stats = f.byYear[fiscalYear]
-                const telemed = telemedVisits(stats)
-                const op = stats?.op ?? 0
-                const percent = op > 0 ? (telemed / op) * 100 : 0
                 return (
                   <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
                     <td className="px-3 py-2 text-slate-800">{f.hospname}</td>
                     <td className="px-3 py-2 text-slate-600">{f.ampName}</td>
                     <td className="px-3 py-2 text-slate-600">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs">
-                          {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
-                            <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
-                          ) : (
-                            <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
-                          )}
-                        </span>
-                      </div>
+                      <span className="text-xs">
+                        {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
+                          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
+                        ) : (
+                          <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
+                        )}
+                      </span>
                     </td>
-                    <td className="px-3 py-2 text-right text-slate-700">{op.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type2 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type3 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type5 ?? 0).toLocaleString('th-TH')}
-                    </td>
+                    <td className="px-3 py-2 text-right text-slate-700">{(f.byYear['68']?.op ?? 0).toLocaleString('th-TH')}</td>
                     <td className="px-3 py-2 text-right font-medium text-slate-800">
-                      {telemed.toLocaleString('th-TH')}
+                      {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
                     </td>
-                    <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
+                    <td className="px-3 py-2 text-right text-brand-700">{f.percentTelemed69PerOP68.toFixed(1)}%</td>
                     <td className="px-3 py-2">
-                      {percent >= 5 ? (
+                      {f.percentTelemed69PerOP68 >= 5 ? (
                         <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">✓ ดี</span>
-                      ) : percent >= 2 ? (
+                      ) : f.percentTelemed69PerOP68 >= 2 ? (
                         <span className="inline-block rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">≈ ปานกลาง</span>
                       ) : (
                         <span className="inline-block rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">! ต้องปรับปรุง</span>
@@ -822,14 +791,14 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={11} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={8} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
               )}
               {filteredFacilities.length > 0 && (
                 <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
-                  <td className="px-3 py-3">รวม (68→69)</td>
+                  <td className="px-3 py-3">รวม</td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
@@ -837,19 +806,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                     {filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {(() => {
-                      const total = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0)
-                      return total.toLocaleString('th-TH')
-                    })()}
+                    {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right text-brand-700">
                     {(() => {
