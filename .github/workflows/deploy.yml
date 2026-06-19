@@ -36,6 +36,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_SAVE_WORKER_URL: ${{ secrets.VITE_SAVE_WORKER_URL }}
+          VITE_APP_SHARED_KEY: ${{ secrets.VITE_APP_SHARED_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
