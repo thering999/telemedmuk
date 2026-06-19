@@ -20,6 +20,9 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
 
+  // Detect if this is person report (has all 5 types) vs service breakdown (has Type2,3,5 only)
+  const isPersonReport = snapshot.category === 'person'
+
   const [prevSnapshot, setPrevSnapshot] = useState(snapshot)
   if (snapshot !== prevSnapshot) {
     setPrevSnapshot(snapshot)
@@ -103,23 +106,51 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className={`grid grid-cols-1 gap-4 ${isPersonReport ? 'sm:grid-cols-3 lg:grid-cols-6' : 'sm:grid-cols-2 lg:grid-cols-5'}`}>
         <KpiCard label="OP68 รวม" value={kpis.totalOp68.toLocaleString('th-TH')} />
+        {isPersonReport ? (
+          <>
+            <KpiCard
+              label="Type1 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0).toLocaleString('th-TH')}
+            />
+            <KpiCard
+              label="Type2 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+            />
+            <KpiCard
+              label="Type3 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+            />
+            <KpiCard
+              label="Type4 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0).toLocaleString('th-TH')}
+            />
+            <KpiCard
+              label="Type5 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+              accent
+            />
+          </>
+        ) : (
+          <>
+            <KpiCard
+              label="Type2 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+            />
+            <KpiCard
+              label="Type3 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+            />
+            <KpiCard
+              label="Type5 รวม"
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+              accent
+            />
+          </>
+        )}
         <KpiCard
-          label="Type2 รวม"
-          value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
-        />
-        <KpiCard
-          label="Type3 รวม"
-          value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
-        />
-        <KpiCard
-          label="Type5 รวม"
-          value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
-          accent
-        />
-        <KpiCard
-          label="รวม Type2+3+5"
+          label="รวมทั้งหมด"
           value={kpis.totalTypes69.toLocaleString('th-TH')}
           accent
         />
@@ -155,19 +186,36 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                 <th className="px-3 py-2 font-medium">อำเภอ</th>
                 <th className="px-3 py-2 font-medium">ประเภท</th>
                 <th className="px-3 py-2 text-right font-medium">OP68</th>
-                <th className="px-3 py-2 text-right font-medium">Type2 (69)</th>
-                <th className="px-3 py-2 text-right font-medium">Type3 (69)</th>
-                <th className="px-3 py-2 text-right font-medium">Type5 (69)</th>
-                <th className="px-3 py-2 text-right font-medium">รวม</th>
+                {isPersonReport ? (
+                  <>
+                    <th className="px-3 py-2 text-right font-medium">Type1</th>
+                    <th className="px-3 py-2 text-right font-medium">Type2</th>
+                    <th className="px-3 py-2 text-right font-medium">Type3</th>
+                    <th className="px-3 py-2 text-right font-medium">Type4</th>
+                    <th className="px-3 py-2 text-right font-medium">Type5</th>
+                    <th className="px-3 py-2 text-right font-medium">รวม</th>
+                  </>
+                ) : (
+                  <>
+                    <th className="px-3 py-2 text-right font-medium">Type2 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Type3 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Type5 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">รวม</th>
+                  </>
+                )}
               </tr>
             </thead>
             <tbody>
               {filteredFacilities.map((f) => {
                 const op68 = f.byYear['68']?.op ?? 0
+                const type1 = f.byYear['69']?.type1 ?? 0
                 const type2 = f.byYear['69']?.type2 ?? 0
                 const type3 = f.byYear['69']?.type3 ?? 0
+                const type4 = f.byYear['69']?.type4 ?? 0
                 const type5 = f.byYear['69']?.type5 ?? 0
-                const typeSum = type2 + type3 + type5
+                const typeSum = isPersonReport
+                  ? type1 + type2 + type3 + type4 + type5
+                  : type2 + type3 + type5
                 return (
                   <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
@@ -183,16 +231,28 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                       </span>
                     </td>
                     <td className="px-3 py-2 text-right text-slate-700">{op68.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right text-slate-700">{type2.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
+                    {isPersonReport ? (
+                      <>
+                        <td className="px-3 py-2 text-right text-slate-700">{type1.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-slate-700">{type2.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-slate-700">{type4.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
+                      </>
+                    ) : (
+                      <>
+                        <td className="px-3 py-2 text-right text-slate-700">{type2.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
+                      </>
+                    )}
                     <td className="px-3 py-2 text-right font-semibold text-slate-800">{typeSum.toLocaleString('th-TH')}</td>
                   </tr>
                 )
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -204,15 +264,37 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3 text-right">{kpis.totalOp68.toLocaleString('th-TH')}</td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right text-brand-700">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
+                  {isPersonReport ? (
+                    <>
+                      <td className="px-3 py-3 text-right">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-3 py-3 text-right">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-3 py-3 text-right">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-3 py-3 text-right">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-3 py-3 text-right text-brand-700">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="px-3 py-3 text-right">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-3 py-3 text-right">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-3 py-3 text-right text-brand-700">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                    </>
+                  )}
                   <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypes69.toLocaleString('th-TH')}</td>
                 </tr>
               )}
