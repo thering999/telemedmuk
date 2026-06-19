@@ -340,7 +340,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         </span>
       </div>
 
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 px-5 py-4 shadow-md hover:shadow-lg transition-shadow">
         <div className="flex flex-col gap-1">
           <label htmlFor="district-select" className="text-sm font-medium text-slate-600">
             อำเภอ
@@ -875,16 +875,16 @@ function KpiCard({
   description?: string
 }) {
   return (
-    <div className={`rounded-xl border-2 p-6 shadow-sm transition-all hover:shadow-md ${accent ? `border-[${CHART_COLORS.primary}] bg-gradient-to-br from-[${COLORS.telemed[50]}] to-[${COLORS.telemed[100]}]` : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+    <div className={`rounded-xl border-2 p-6 shadow-md transition-all hover:shadow-xl hover:scale-105 ${accent ? 'border-cyan-400 bg-gradient-to-br from-cyan-50 via-teal-50 to-emerald-50' : 'border-slate-200 bg-gradient-to-br from-white to-slate-50 hover:border-slate-400'}`}>
       <div className="flex items-start justify-between">
-        <p className="text-xs font-medium uppercase tracking-wider text-slate-600">{label}</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-slate-700">{label}</p>
         {description && (
-          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${description === 'หลัก' ? `bg-[${CHART_COLORS.primary}] text-white` : 'bg-slate-100 text-slate-700'}`}>
+          <span className={`text-xs font-bold px-3 py-1 rounded-full ${description === 'หลัก' ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md' : 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-800 font-semibold'}`}>
             {description}
           </span>
         )}
       </div>
-      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800'}`}>{value}</p>
+      <p className={`mt-3 text-4xl font-bold bg-clip-text ${accent ? 'text-transparent bg-gradient-to-r from-cyan-600 to-teal-600' : 'text-slate-900'}`}>{value}</p>
     </div>
   )
 }
