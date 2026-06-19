@@ -31,7 +31,9 @@ const QUADRANT_META: Record<Quadrant, { label: string; color: string }> = {
   waitingForSupport: { label: 'Waiting for Support (กลุ่มรอการสนับสนุน)', color: '#94a3b8' },
 }
 
-const TARGET_RATE = 30
+const DISTRICT_TARGET_RATE = 30
+const RPST_TARGET_RATE = 10
+const RPST_HOSTYPE_MATCH = 'ส่งเสริมสุขภาพตำบล'
 
 interface CombinedFacility {
   hospcode: string
@@ -44,15 +46,18 @@ interface CombinedFacility {
 
 function officialDenominator(stats: TypeYearStats | undefined): number {
   if (!stats) return 0
-  return stats.type2 + stats.type3 + stats.type5
+  return stats.op
 }
 
-/** TYPEIN5 ÷ (TYPEIN2+TYPEIN3+TYPEIN5) × 100 — null when denominator is 0 ("ไม่มีข้อมูล"), never NaN/0-by-force. */
+/** Type5 (Telemedicine) ÷ OP × 100 — the same definition used everywhere else in this
+ * dashboard (q_telemed_hosp_muk.ipynb's own convention), so this view's percentage reads
+ * consistently with ภาพรวม/แยกประเภทบริการ instead of introducing a second, differently-scaled
+ * "official" formula. Null when OP is 0 ("ไม่มีข้อมูล"), never NaN/0-by-force. */
 function officialRate(stats: TypeYearStats | undefined): number | null {
   if (!stats) return null
-  const den = officialDenominator(stats)
-  if (den <= 0) return null
-  return (stats.type5 / den) * 100
+  const op = officialDenominator(stats)
+  if (op <= 0) return null
+  return (stats.type5 / op) * 100
 }
 
 function median(values: number[]): number {
@@ -230,11 +235,48 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
     return yearRows.filter((row) => row.rate !== null && row.rate > 50)
   }, [yearRows])
 
+  // District (อำเภอ) aggregate — combines every facility type (รพ. + รพ.สต. + อื่นๆ) within
+  // each district. Target: ≥30% combined.
+  const districtTargets = useMemo(() => {
+    const byDistrict = new Map<string, { ampName: string; count: number; totalOp: number; totalType5: number }>()
+    for (const row of yearRows) {
+      if (!row.stats) continue
+      const key = row.facility.ampName
+      const entry = byDistrict.get(key) ?? { ampName: key, count: 0, totalOp: 0, totalType5: 0 }
+      entry.count += 1
+      entry.totalOp += row.op
+      entry.totalType5 += row.type5
+      byDistrict.set(key, entry)
+    }
+    return Array.from(byDistrict.values())
+      .map((entry) => ({
+        ...entry,
+        rate: entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null,
+      }))
+      .sort((a, b) => a.ampName.localeCompare(b.ampName, 'th'))
+  }, [yearRows])
+
+  // รพ.สต. (sub-district health promoting hospital)-only aggregate. Target: ≥10%.
+  const rpstSummary = useMemo(() => {
+    let totalOp = 0
+    let totalType5 = 0
+    let count = 0
+    for (const row of yearRows) {
+      if (!row.stats) continue
+      if (!row.facility.hostypeName.includes(RPST_HOSTYPE_MATCH)) continue
+      count += 1
+      totalOp += row.op
+      totalType5 += row.type5
+    }
+    const rate = totalOp > 0 ? (totalType5 / totalOp) * 100 : null
+    return { count, totalOp, totalType5, rate }
+  }, [yearRows])
+
   return (
     <div className="flex flex-col gap-6">
       <ReportInfoPanel
         objective="เปรียบเทียบสถานบริการกับเกณฑ์มาตรฐานระดับประเทศ จัดกลุ่มเชิงกลยุทธ์ และคาดการณ์แนวโน้มการใช้บริการโทรเวชกรรม เพื่อสนับสนุนการตัดสินใจเชิงนโยบาย"
-        methodology="ใช้สูตรตัวชี้วัดทางการ: อัตรา = TYPEIN5 ÷ (TYPEIN2+TYPEIN3+TYPEIN5) × 100 เป้าหมายของกระทรวงสาธารณสุขคือไม่น้อยกว่าร้อยละ 30 (ฐานข้อมูลอ้างอิงระดับประเทศอยู่ที่ประมาณ 8-9% ณ ช่วงเวลาที่อ้างอิง) การจัดกลุ่มเชิงกลยุทธ์ 4 ส่วน (Champions/Sleeping Giants/Active Small/Waiting for Support) แบ่งตามค่ามัธยฐาน (median) ของ OP และอัตราในกลุ่มสถานบริการที่กำลังดูอยู่ ส่วนสถานบริการที่มีอัตราเกิน 50% จะถูกตั้งข้อสังเกตให้ตรวจสอบความถูกต้องของข้อมูลใน HDC"
+        methodology="อัตรา = Type5 (จำนวนครั้งโทรเวชกรรม) ÷ OP × 100 — สูตรเดียวกันกับที่ใช้ในแท็บภาพรวม/แยกประเภทบริการ เพื่อให้ตัวเลขอ่านง่ายและสอดคล้องกันทั้งระบบ เทียบกับเป้าหมาย 2 ระดับ: รายอำเภอ (รวม รพ.+รพ.สต. ในอำเภอนั้น) ไม่น้อยกว่าร้อยละ 30 และเฉพาะ รพ.สต. ไม่น้อยกว่าร้อยละ 10 — อ้างอิงเป้าหมายร้อยละ 30 จากเอกสาร SOP ของกระทรวงสาธารณสุข ส่วนเป้ารพ.สต. 10% และการแยกระดับอำเภอ/รพ.สต. เป็นเกณฑ์ที่ผู้ดูแลระบบกำหนดเพิ่มให้เหมาะกับการติดตามจริง การจัดกลุ่มเชิงกลยุทธ์ 4 ส่วน (Champions/Sleeping Giants/Active Small/Waiting for Support) แบ่งตามค่ามัธยฐาน (median) ของ OP และอัตราในกลุ่มสถานบริการที่กำลังดูอยู่ ส่วนสถานบริการที่มีอัตราเกิน 50% จะถูกตั้งข้อสังเกตให้ตรวจสอบความถูกต้องของข้อมูลใน HDC"
         source="ตาราง service (ระบบ Hippo) ผ่านข้อมูลหมวด 'แยกประเภทบริการ' (Type1-5) ร่วมกับข้อมูลสังกัด (MCODE/M_NAME) จากรายงานภาพรวม"
         template="ร่าง SOP ขับเคลื่อน Telemedicine, MOPH Telemedicine 2569 (นพ.วรเวทย์ โรจน์จรัสไพศาล, รองผู้อำนวยการสำนักสุขภาพดิจิทัล, 11 พ.ค. 2569) — เกณฑ์เป้าหมาย 30% อ้างอิงจากเอกสารนี้; กรอบวิเคราะห์ 4 ส่วน (quadrant) และการพยากรณ์ดัดแปลงจากการวิเคราะห์ส่วนตัวใน q_telemed_hosp_muk.ipynb"
       />
@@ -265,30 +307,13 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       {/* KPI summary cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">อัตราตามเกณฑ์ สธ. (มาตรฐานทางการ)</p>
-          {provinceKpis.aggregateRate === null ? (
-            <p className="mt-2 text-3xl font-semibold text-slate-800">ไม่มีข้อมูล</p>
-          ) : (
-            <>
-              <p className="mt-2 text-3xl font-semibold text-slate-800">
-                {provinceKpis.aggregateRate.toFixed(2)}%
-              </p>
-              <p className="mt-1 text-sm text-slate-500">
-                เป้าหมาย {TARGET_RATE.toFixed(1)}%{' '}
-                <span
-                  className={`ml-1 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                    provinceKpis.aggregateRate >= TARGET_RATE
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-rose-100 text-rose-700'
-                  }`}
-                >
-                  {provinceKpis.aggregateRate >= TARGET_RATE
-                    ? 'ถึงเป้าหมายแล้ว'
-                    : `ขาดอีก ${(TARGET_RATE - provinceKpis.aggregateRate).toFixed(1)} จุด`}
-                </span>
-              </p>
-            </>
-          )}
+          <p className="text-sm text-slate-500">อัตรา Telemedicine ต่อ OP (ทั้งจังหวัด)</p>
+          <p className="mt-2 text-3xl font-semibold text-slate-800">
+            {provinceKpis.aggregateRate === null ? 'ไม่มีข้อมูล' : `${provinceKpis.aggregateRate.toFixed(2)}%`}
+          </p>
+          <p className="mt-1 text-sm text-slate-500">
+            ตัวเลขรวมทั้งจังหวัด — ดูเทียบเป้าหมายรายอำเภอ/รพ.สต. ด้านล่าง
+          </p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-500">อัตราการเริ่มใช้งาน (Activation Rate)</p>
@@ -319,6 +344,89 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           </div>
         </div>
       )}
+
+      {/* Tiered targets: รพ.สต. ≥10%, district (รวม รพ.+รพ.สต.) ≥30% */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h3 className="mb-1 text-base font-semibold text-slate-800">เป้าหมายตามระดับ (ปีงบ {fiscalYear})</h3>
+        <p className="mb-4 text-sm text-slate-500">
+          เป้าหมาย รพ.สต. ไม่น้อยกว่าร้อยละ {RPST_TARGET_RATE} · เป้าหมายรวมรายอำเภอ (รพ.+รพ.สต.) ไม่น้อยกว่าร้อยละ{' '}
+          {DISTRICT_TARGET_RATE}
+        </p>
+
+        <div className="mb-5 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:max-w-sm">
+          <p className="text-sm text-slate-500">รพ.สต. ทั้งจังหวัด ({rpstSummary.count.toLocaleString('th-TH')} แห่ง)</p>
+          <p className="mt-2 text-2xl font-semibold text-slate-800">
+            {rpstSummary.rate === null ? 'ไม่มีข้อมูล' : `${rpstSummary.rate.toFixed(2)}%`}
+          </p>
+          {rpstSummary.rate !== null && (
+            <span
+              className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                rpstSummary.rate >= RPST_TARGET_RATE
+                  ? 'bg-emerald-100 text-emerald-700'
+                  : 'bg-rose-100 text-rose-700'
+              }`}
+            >
+              {rpstSummary.rate >= RPST_TARGET_RATE
+                ? 'ถึงเป้าหมายแล้ว'
+                : `ขาดอีก ${(RPST_TARGET_RATE - rpstSummary.rate).toFixed(1)} จุด`}
+            </span>
+          )}
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-500">
+                <th className="px-3 py-2 font-medium">อำเภอ</th>
+                <th className="px-3 py-2 text-right font-medium">จำนวนหน่วย</th>
+                <th className="px-3 py-2 text-right font-medium">OP รวม</th>
+                <th className="px-3 py-2 text-right font-medium">Type5 รวม</th>
+                <th className="px-3 py-2 text-right font-medium">อัตรา %</th>
+                <th className="px-3 py-2 font-medium">เทียบเป้าหมาย {DISTRICT_TARGET_RATE}%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {districtTargets.map((row) => (
+                <tr key={row.ampName} className="border-b border-slate-100 hover:bg-slate-50">
+                  <td className="px-3 py-2 text-slate-800">{row.ampName}</td>
+                  <td className="px-3 py-2 text-right text-slate-700">{row.count.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-2 text-right text-slate-700">{row.totalOp.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-2 text-right font-medium text-brand-700">
+                    {row.totalType5.toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-2 text-right text-slate-700">
+                    {row.rate === null ? 'ไม่มีข้อมูล' : `${row.rate.toFixed(2)}%`}
+                  </td>
+                  <td className="px-3 py-2">
+                    {row.rate === null ? (
+                      '—'
+                    ) : (
+                      <span
+                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                          row.rate >= DISTRICT_TARGET_RATE
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : 'bg-rose-100 text-rose-700'
+                        }`}
+                      >
+                        {row.rate >= DISTRICT_TARGET_RATE
+                          ? 'ถึงเป้าหมายแล้ว'
+                          : `ขาดอีก ${(DISTRICT_TARGET_RATE - row.rate).toFixed(1)} จุด`}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {districtTargets.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="px-3 py-6 text-center text-slate-400">
+                    ไม่มีข้อมูล
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       {/* MOPH vs LGO comparison */}
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
