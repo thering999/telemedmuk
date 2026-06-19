@@ -36,7 +36,6 @@ export interface TypeBreakdownViewProps {
 const ALL_HOSTYPES = '__all__'
 
 function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownViewProps) {
-  const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
 
@@ -67,17 +66,17 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
   }, [snapshot, search, hostype])
 
   const kpis = useMemo(() => {
-    let totalAll = 0
-    let totalOp = 0
-    let totalType5 = 0
+    let totalOp68 = 0
+    let totalTypes69 = 0
     for (const f of filteredFacilities) {
-      const stats = f.byYear[fiscalYear]
-      totalAll += stats?.service ?? 0
-      totalOp += stats?.op ?? 0
-      totalType5 += stats?.type5 ?? 0
+      const op68 = f.byYear['68']
+      const types69 = f.byYear['69']
+      totalOp68 += op68?.op ?? 0
+      totalTypes69 += ((types69?.type2 ?? 0) + (types69?.type3 ?? 0) + (types69?.type5 ?? 0))
     }
-    return { totalAll, totalOp, totalType5 }
-  }, [filteredFacilities, fiscalYear])
+    const percent = totalOp68 > 0 ? (totalTypes69 / totalOp68) * 100 : 0
+    return { totalOp68, totalTypes69, percent }
+  }, [filteredFacilities])
 
   const districtChartData = useMemo(() => {
     const byDistrict = new Map<string, Record<string, number>>()
@@ -118,7 +117,7 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800">{title}</h2>
-        <div className="flex flex-col gap-1">
+        <div className="ml-auto flex flex-col gap-1">
           <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
             ประเภทสถานบริการ
           </label>
@@ -136,69 +135,18 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
             ))}
           </select>
         </div>
-        <div className="ml-auto flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600">ปีงบประมาณ</span>
-          <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1">
-            {FISCAL_YEARS.map((year) => (
-              <button
-                key={year}
-                type="button"
-                onClick={() => setFiscalYear(year)}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                  fiscalYear === year
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <KpiCard label="OP68 รวม" value={kpis.totalOp68.toLocaleString('th-TH')} />
         <KpiCard
-          label={`รวมทั้งหมด (ปีงบ ${fiscalYear})`}
-          value={`${kpis.totalAll.toLocaleString('th-TH')} ${valueLabel}`}
-        />
-        <KpiCard label={`OP รวม (ปีงบ ${fiscalYear})`} value={kpis.totalOp.toLocaleString('th-TH')} />
-        <KpiCard
-          label={`Telemedicine รวม (ปีงบ ${fiscalYear})`}
-          value={`${kpis.totalType5.toLocaleString('th-TH')} ${valueLabel}`}
+          label="Type2+Type3+Type5 รวม (ปีงบ 69)"
+          value={`${kpis.totalTypes69.toLocaleString('th-TH')} ${valueLabel}`}
           accent
         />
+        <KpiCard label="ร้อยละ Type2+3+5 ต่อ OP68" value={`${kpis.percent.toFixed(1)}%`} accent />
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-slate-800">
-          จำนวน{valueLabel}แยกตามประเภทบริการและอำเภอ (ปีงบ {fiscalYear})
-        </h3>
-        <div style={{ width: '100%', height: 400 }}>
-          <ResponsiveContainer>
-            <BarChart data={districtChartData} margin={{ top: 8, right: 16, left: 0, bottom: 48 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-              <XAxis
-                dataKey="ampName"
-                angle={-30}
-                textAnchor="end"
-                interval={0}
-                height={70}
-                tick={{ fontSize: 12, fill: '#475569' }}
-              />
-              <YAxis tick={{ fontSize: 12, fill: '#475569' }} />
-              <Tooltip
-                formatter={(value) => Number(value ?? 0).toLocaleString('th-TH')}
-                contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
-              />
-              <Legend wrapperStyle={{ fontSize: 12 }} />
-              {TYPE_SERIES.map((s) => (
-                <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} radius={[4, 4, 0, 0]} />
-              ))}
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -221,24 +169,24 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px] text-left text-sm">
+          <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-slate-500">
                 <th className="px-3 py-2 font-medium">รหัสสถาน</th>
                 <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
                 <th className="px-3 py-2 font-medium">อำเภอ</th>
                 <th className="px-3 py-2 font-medium">ประเภท</th>
-                <th className="px-3 py-2 text-right font-medium">Type1</th>
-                <th className="px-3 py-2 text-right font-medium">Type2</th>
-                <th className="px-3 py-2 text-right font-medium">Type3</th>
-                <th className="px-3 py-2 text-right font-medium">Type4</th>
-                <th className="px-3 py-2 text-right font-medium">Type5</th>
-                <th className="px-3 py-2 text-right font-medium">OP รวม</th>
+                <th className="px-3 py-2 text-right font-medium">OP68</th>
+                <th className="px-3 py-2 text-right font-medium">Type2+3+5 (69)</th>
+                <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+                <th className="px-3 py-2 font-medium">สถานะ</th>
               </tr>
             </thead>
             <tbody>
               {filteredFacilities.map((f) => {
-                const stats = f.byYear[fiscalYear]
+                const op68 = f.byYear['68']?.op ?? 0
+                const types69 = ((f.byYear['69']?.type2 ?? 0) + (f.byYear['69']?.type3 ?? 0) + (f.byYear['69']?.type5 ?? 0))
+                const percent = op68 > 0 ? (types69 / op68) * 100 : 0
                 return (
                   <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
                     <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
@@ -253,30 +201,24 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                         )}
                       </span>
                     </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type1 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type2 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type3 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.type4 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right font-medium text-brand-700">
-                      {(stats?.type5 ?? 0).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
-                      {(stats?.op ?? 0).toLocaleString('th-TH')}
+                    <td className="px-3 py-2 text-right text-slate-700">{op68.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right font-medium text-brand-700">{types69.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
+                    <td className="px-3 py-2">
+                      {percent >= 5 ? (
+                        <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">✓ ดี</span>
+                      ) : percent >= 2 ? (
+                        <span className="inline-block rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">≈ ปานกลาง</span>
+                      ) : (
+                        <span className="inline-block rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">! ต้องปรับปรุง</span>
+                      )}
                     </td>
                   </tr>
                 )
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={10} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={8} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -287,24 +229,10 @@ function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownV
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type1 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type2 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type3 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type4 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right text-brand-700">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.type5 ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0).toLocaleString('th-TH')}
-                  </td>
+                  <td className="px-3 py-3 text-right">{kpis.totalOp68.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypes69.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-3 text-right text-brand-700">{kpis.percent.toFixed(1)}%</td>
+                  <td className="px-3 py-3"></td>
                 </tr>
               )}
             </tbody>
