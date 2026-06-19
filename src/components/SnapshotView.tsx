@@ -598,6 +598,59 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         )}
       </div>
 
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-amber-900">🎯 สถานบริการที่มีผลกระทบสูงต่อเป้าหมาย</h3>
+        <p className="mb-3 text-xs text-amber-800">
+          สถานบริการที่มีปริมาณผู้รับบริการ (OP) มากที่สุด เพื่อเป้าหมายการเพิ่มการใช้ Telemedicine ของจังหวัด
+        </p>
+        <div className="overflow-hidden rounded-lg">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-amber-200 bg-amber-100 text-amber-900">
+                <th className="px-3 py-2 font-medium">ลำดับ</th>
+                <th className="px-3 py-2 font-medium">รหัสสถาน</th>
+                <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
+                <th className="px-3 py-2 font-medium">อำเภอ</th>
+                <th className="px-3 py-2 text-right font-medium">OP</th>
+                <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+                <th className="px-3 py-2 text-right font-medium">ต้องเพิ่มถึง 5%</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-amber-100 bg-white">
+              {(() => {
+                const highImpact = filteredFacilities
+                  .map((f) => {
+                    const stats = f.byYear[fiscalYear];
+                    const op = stats?.op ?? 0;
+                    const telemed = telemedVisits(stats);
+                    const percent = op > 0 ? (telemed / op) * 100 : 0;
+                    const needed = Math.max(0, (op * 0.05) - telemed);
+                    return { f, op, telemed, percent, needed };
+                  })
+                  .sort((a, b) => b.op - a.op)
+                  .slice(0, 10);
+
+                return highImpact.map((item, idx) => (
+                  <tr key={item.f.hospcode} className={idx % 2 === 0 ? 'bg-white' : 'bg-amber-50'}>
+                    <td className="px-3 py-2 font-medium">{idx + 1}</td>
+                    <td className="px-3 py-2">{item.f.hospcode}</td>
+                    <td className="px-3 py-2">{item.f.hospname}</td>
+                    <td className="px-3 py-2">{item.f.ampName}</td>
+                    <td className="px-3 py-2 text-right font-medium">{item.op.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right">{item.percent.toFixed(1)}%</td>
+                    <td className="px-3 py-2 text-right">
+                      <span className={item.needed > 0 ? 'text-amber-700 font-medium' : 'text-emerald-700'}>
+                        {item.needed > 0 ? `+${Math.ceil(item.needed)}` : '✓'}
+                      </span>
+                    </td>
+                  </tr>
+                ));
+              })()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
