@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react'
 import type { ReportCategory, Snapshot } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
-import { ParseHippoExcelError, detectCategory, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
+import { ParseHippoExcelError, detectCategory, detectCategoryByColumns, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
 import SnapshotView from './SnapshotView'
+import * as XLSX from 'xlsx'
 
 type FileSaveState =
   | { status: 'idle' }
@@ -88,8 +89,28 @@ function ImportExcelTab() {
       const reader = new FileReader()
       reader.onload = () => {
         const buffer = reader.result as ArrayBuffer
-        const category = detectCategory(file.name)
+        let category = detectCategory(file.name)
         const dateWasGuessed = parseFilenameMeta(file.name) === null
+
+        // Try column-based detection if filename suggests 'base'
+        // to catch mislabeled files (e.g., _235 suffix with 'all' columns)
+        if (category === 'base' || category === null) {
+          try {
+            const wb = XLSX.read(buffer, { defval: '' })
+            const ws = wb.Sheets[wb.SheetNames?.[0]]
+            if (ws) {
+              const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, { defval: '' })
+              if (rows.length > 0) {
+                const detectedByColumns = detectCategoryByColumns(rows[0])
+                if (detectedByColumns) {
+                  category = detectedByColumns
+                }
+              }
+            }
+          } catch {
+            // Silently ignore column detection errors; fall back to filename detection
+          }
+        }
 
         let previewSnapshot: Snapshot | undefined
         let previewError: string | undefined

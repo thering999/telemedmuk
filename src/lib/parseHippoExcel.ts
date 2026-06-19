@@ -187,7 +187,7 @@ const CATEGORY_SIGNATURE_COLUMNS: Array<{ category: ReportCategory; columns: str
  * NEW category's signature columns (i.e. it looks like "base", or is simply
  * unrecognized — either way, the base transform path is allowed to proceed).
  */
-function detectCategoryByColumns(row: RawRow): ReportCategory | null {
+export function detectCategoryByColumns(row: RawRow): ReportCategory | null {
   for (const { category, columns } of CATEGORY_SIGNATURE_COLUMNS) {
     if (columns.every((col) => col in row)) return category
   }
