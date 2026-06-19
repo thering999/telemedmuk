@@ -732,6 +732,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                 <th className="px-3 py-2 text-right font-medium">Type5</th>
                 <th className="px-3 py-2 text-right font-medium">รวม Telemedicine</th>
                 <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+                <th className="px-3 py-2 font-medium">สถานะ</th>
               </tr>
             </thead>
             <tbody>
@@ -770,12 +771,21 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                       {telemed.toLocaleString('th-TH')}
                     </td>
                     <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
+                    <td className="px-3 py-2">
+                      {percent >= 5 ? (
+                        <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">✓ ดี</span>
+                      ) : percent >= 2 ? (
+                        <span className="inline-block rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">≈ ปานกลาง</span>
+                      ) : (
+                        <span className="inline-block rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">! ต้องปรับปรุง</span>
+                      )}
+                    </td>
                   </tr>
                 )
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={10} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={11} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -812,6 +822,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                       return `${percent.toFixed(1)}%`
                     })()}
                   </td>
+                  <td className="px-3 py-3"></td>
                 </tr>
               )}
             </tbody>
