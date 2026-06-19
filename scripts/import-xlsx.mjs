@@ -30,11 +30,13 @@ const ROOT_DIR = join(__dirname, '..');
 const RAW_DIR = join(ROOT_DIR, 'data', 'raw');
 const OUT_DIR = join(ROOT_DIR, 'public', 'data', 'snapshots');
 
-// Filename pattern: YYYYMMDD_PP_telemed_hosp[_suffix].xlsx
+// Filename pattern: YYYYMMDD_PP_telemed_hosp[_suffix][ (N)].xlsx
 // The trailing suffix is optional and may be a running number (e.g. "_235")
 // or a free-form tag (e.g. "_typein235" for the manually-typed-in subset
 // export) since not every Hippo export includes one or uses the same scheme.
-const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\w+)?\.xlsx$/i;
+// The further optional " (N)"/"(N)" tolerates the suffix browsers add to a
+// re-downloaded duplicate file (e.g. Chrome's "file (1).xlsx").
+const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\w+)?(?: ?\(\d+\))?\.xlsx$/i;
 
 const PROVINCE_NAMES = {
   49: 'มุกดาหาร',

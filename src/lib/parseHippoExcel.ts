@@ -2,11 +2,14 @@ import * as XLSX from 'xlsx'
 import type { Facility, FiscalYear, Snapshot, YearStats } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
 
-// Filename pattern: YYYYMMDD_PP_telemed_hosp[_suffix].xlsx (same as scripts/import-xlsx.mjs)
-// The trailing suffix is optional and may be a running number (e.g. "_235")
-// or a free-form tag (e.g. "_typein235" for the manually-typed-in subset
-// export) since not every Hippo export includes one or uses the same scheme.
-const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\w+)?\.xlsx$/i
+// Filename pattern: YYYYMMDD_PP_telemed_hosp[_suffix][ (N)].xlsx (same as
+// scripts/import-xlsx.mjs and worker/src/index.ts). The trailing suffix is
+// optional and may be a running number (e.g. "_235") or a free-form tag
+// (e.g. "_typein235" for the manually-typed-in subset export) since not
+// every Hippo export includes one or uses the same scheme. The further
+// optional " (N)"/"(N)" tolerates the suffix browsers add to a
+// re-downloaded duplicate file (e.g. Chrome's "file (1).xlsx").
+const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\w+)?(?: ?\(\d+\))?\.xlsx$/i
 
 const PROVINCE_NAMES: Record<string, string> = {
   '49': 'มุกดาหาร',

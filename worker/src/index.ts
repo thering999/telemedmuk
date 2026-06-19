@@ -45,8 +45,11 @@ const GITHUB_REPO = 'telemedmuk'
 const GITHUB_BRANCH = 'main'
 
 // Exact same pattern as src/lib/parseHippoExcel.ts's FILENAME_PATTERN. Keep
-// these in sync if the upstream pattern ever changes.
-const FILENAME_PATTERN = /^\d{4}\d{2}\d{2}_\d{2}_telemed_hosp(?:_\w+)?\.xlsx$/i
+// these in sync if the upstream pattern ever changes. The trailing
+// " (N)" / "(N)" is the suffix browsers add to a re-downloaded file that
+// already exists in the Downloads folder (e.g. Chrome's "file (1).xlsx") —
+// tolerate it so a re-saved duplicate doesn't get rejected outright.
+const FILENAME_PATTERN = /^\d{4}\d{2}\d{2}_\d{2}_telemed_hosp(?:_\w+)?(?: ?\(\d+\))?\.xlsx$/i
 
 // 10 MB cap on the *decoded* file size, to bound abuse via huge payloads.
 const MAX_DECODED_BYTES = 10 * 1024 * 1024
