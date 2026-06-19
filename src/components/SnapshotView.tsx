@@ -4,6 +4,7 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  Legend,
   Line,
   LineChart,
   Pie,
@@ -17,14 +18,13 @@ import type { Facility, FiscalYear, Snapshot, SnapshotIndexEntry } from '../type
 import { FISCAL_YEARS, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import type { ExportColumn } from '../lib/exportTable'
+import { CHART_COLORS, COLORS } from '../lib/designSystem'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
 const ALL_HOSTYPES = '__all__'
-
-const PIE_COLORS = ['#0d9488', '#2563eb', '#f59e0b']
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
@@ -545,7 +545,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                         formatter={(value) => Number(value ?? 0).toLocaleString('th-TH')}
                         contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
                       />
-                      <Bar dataKey="value" name="ผู้รับบริการ Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
+                      <Bar dataKey="value" name="ผู้รับบริการ Telemedicine" fill={CHART_COLORS.primary} radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -614,7 +614,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                     }
                   >
                     {pieChartData.map((entry, index) => (
-                      <Cell key={entry.type} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                      <Cell key={entry.type} fill={CHART_COLORS.pie[index % CHART_COLORS.pie.length]} />
                     ))}
                   </Pie>
                   <Tooltip formatter={(value) => Number(value ?? 0).toLocaleString('th-TH')} />
@@ -876,11 +876,11 @@ function KpiCard({
   description?: string
 }) {
   return (
-    <div className={`rounded-2xl border p-5 shadow-sm ${accent ? 'border-brand-200 bg-brand-50' : 'border-slate-200 bg-white'}`}>
+    <div className={`rounded-xl border-2 p-6 shadow-sm transition-all hover:shadow-md ${accent ? `border-[${CHART_COLORS.primary}] bg-gradient-to-br from-[${COLORS.telemed[50]}] to-[${COLORS.telemed[100]}]` : 'border-slate-200 bg-white hover:border-slate-300'}`}>
       <div className="flex items-start justify-between">
-        <p className="text-sm text-slate-500">{label}</p>
+        <p className="text-xs font-medium uppercase tracking-wider text-slate-600">{label}</p>
         {description && (
-          <span className={`text-xs font-medium ${description === 'หลัก' ? 'text-brand-600' : 'text-slate-400'}`}>
+          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${description === 'หลัก' ? `bg-[${CHART_COLORS.primary}] text-white` : 'bg-slate-100 text-slate-700'}`}>
             {description}
           </span>
         )}
