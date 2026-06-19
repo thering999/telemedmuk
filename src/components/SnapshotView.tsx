@@ -409,20 +409,31 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
       <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 px-5 py-4 shadow-sm">
         <h3 className="mb-4 text-sm font-semibold text-slate-800">📊 เป้าหมายและความก้าวหน้า</h3>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {(() => {
             const primaryCare = filteredFacilities.filter(f => f.hostypeName.includes('ส่งเสริมสุขภาพตำบล'));
             const primaryCareOP = primaryCare.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0);
             const primaryCareTelemed = primaryCare.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0);
             const primaryCarePercent = primaryCareOP > 0 ? (primaryCareTelemed / primaryCareOP) * 100 : 0;
             const primaryCareGoal = 10;
-            const primaryCareStatus = primaryCarePercent >= primaryCareGoal ? '✅' : '⚠️';
+            const primaryCareStatus = primaryCarePercent >= primaryCareGoal;
+            const primaryCareProgress = Math.min(100, (primaryCarePercent / primaryCareGoal) * 100);
 
             return (
-              <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2">
-                <p className="text-xs font-medium text-blue-900">รพสต. (Primary Care)</p>
-                <p className="mt-1 text-lg font-bold text-blue-700">{primaryCarePercent.toFixed(1)}%</p>
-                <p className="text-xs text-blue-600">เป้าหมาย: {primaryCareGoal}% {primaryCareStatus}</p>
+              <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium text-blue-900">รพสต. (Primary Care)</p>
+                  <p className="text-sm font-bold text-blue-700">{primaryCarePercent.toFixed(1)}%</p>
+                </div>
+                <div className="mt-2 h-2 w-full rounded-full bg-blue-200">
+                  <div
+                    className={`h-full rounded-full transition-all ${
+                      primaryCareStatus ? 'bg-emerald-500' : 'bg-blue-500'
+                    }`}
+                    style={{ width: `${primaryCareProgress}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-xs text-blue-600">เป้าหมาย: {primaryCareGoal}% {primaryCareStatus ? '✅' : '⚠️'}</p>
               </div>
             );
           })()}
@@ -430,13 +441,24 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           {(() => {
             const districtGoal = 30;
             const currentPercent = kpis.percent;
-            const status = currentPercent >= districtGoal ? '✅' : '⚠️';
+            const districtStatus = currentPercent >= districtGoal;
+            const districtProgress = Math.min(100, (currentPercent / districtGoal) * 100);
 
             return (
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2">
-                <p className="text-xs font-medium text-emerald-900">อำเภอ (District Avg)</p>
-                <p className="mt-1 text-lg font-bold text-emerald-700">{currentPercent.toFixed(1)}%</p>
-                <p className="text-xs text-emerald-600">เป้าหมาย: {districtGoal}% {status}</p>
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium text-emerald-900">อำเภอ (District Avg)</p>
+                  <p className="text-sm font-bold text-emerald-700">{currentPercent.toFixed(1)}%</p>
+                </div>
+                <div className="mt-2 h-2 w-full rounded-full bg-emerald-200">
+                  <div
+                    className={`h-full rounded-full transition-all ${
+                      districtStatus ? 'bg-emerald-600' : 'bg-emerald-500'
+                    }`}
+                    style={{ width: `${districtProgress}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-xs text-emerald-600">เป้าหมาย: {districtGoal}% {districtStatus ? '✅' : '⚠️'}</p>
               </div>
             );
           })()}
@@ -446,12 +468,21 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
             const allOP = allFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0);
             const allTelemed = allFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0);
             const allPercent = allOP > 0 ? (allTelemed / allOP) * 100 : 0;
+            const provinceProgress = Math.min(100, (allPercent / 20) * 100); // Assume 20% is aspirational for province
 
             return (
-              <div className="rounded-lg border border-slate-300 bg-slate-100 px-3 py-2">
-                <p className="text-xs font-medium text-slate-700">จังหวัดรวม (Province)</p>
-                <p className="mt-1 text-lg font-bold text-slate-800">{allPercent.toFixed(1)}%</p>
-                <p className="text-xs text-slate-600">{allFacilities.length} สถานบริการ</p>
+              <div className="rounded-lg border border-slate-300 bg-slate-100 px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium text-slate-700">จังหวัดรวม (Province)</p>
+                  <p className="text-sm font-bold text-slate-800">{allPercent.toFixed(1)}%</p>
+                </div>
+                <div className="mt-2 h-2 w-full rounded-full bg-slate-300">
+                  <div
+                    className="h-full rounded-full bg-slate-600 transition-all"
+                    style={{ width: `${provinceProgress}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-xs text-slate-600">{allFacilities.length} สถานบริการ</p>
               </div>
             );
           })()}
