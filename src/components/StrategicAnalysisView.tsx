@@ -15,7 +15,9 @@ import {
 } from 'recharts'
 import type { FiscalYear, Snapshot, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
+import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
+import ExportToolbar from './ExportToolbar'
 
 export interface StrategicAnalysisViewProps {
   baseSnapshot: Snapshot
@@ -256,6 +258,27 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
   const anomalyRows = useMemo(() => {
     return yearRows.filter((row) => row.rate !== null && row.rate > 50)
   }, [yearRows])
+
+  const exportColumns = useMemo<ExportColumn<(typeof tableRows)[number]>[]>(() => {
+    return [
+      { key: 'hospcode', label: 'รหัสสถาน', value: (row) => row.facility.hospcode },
+      { key: 'hospname', label: 'สถานพยาบาล', value: (row) => row.facility.hospname },
+      { key: 'ampName', label: 'อำเภอ', value: (row) => row.facility.ampName },
+      { key: 'mName', label: 'สังกัด', value: (row) => row.facility.mName },
+      { key: 'hostypeName', label: 'ประเภท', value: (row) => row.facility.hostypeName },
+      { key: 'op', label: 'OP', value: (row) => row.op },
+      { key: 'type5', label: 'Type5 (Telemedicine)', value: (row) => row.type5 },
+      { key: 'rate', label: 'อัตรา %', value: (row) => (row.rate === null ? '' : Number(row.rate.toFixed(2))) },
+      {
+        key: 'quadrant',
+        label: 'กลุ่มเชิงกลยุทธ์',
+        value: (row) => {
+          const quadrant = quadrantData.lookup.get(row.facility.hospcode)
+          return quadrant ? QUADRANT_META[quadrant].label : 'ไม่มีข้อมูล'
+        },
+      },
+    ]
+  }, [quadrantData])
 
   // District (อำเภอ) aggregate — combines every facility type (รพ. + รพ.สต. + อื่นๆ) within
   // each district. Target: ≥30% combined.
@@ -636,6 +659,12 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
           <div className="flex flex-wrap items-center gap-3">
+            <ExportToolbar
+              filenameBase={`วิเคราะห์เชิงกลยุทธ์_${allSnapshot.snapshotDate}`}
+              title={`วิเคราะห์เชิงกลยุทธ์ (ปีงบ ${fiscalYear}) — ${allSnapshot.snapshotDate}`}
+              columns={exportColumns}
+              rows={tableRows}
+            />
             <select
               className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
               value={hostype}

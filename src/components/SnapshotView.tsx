@@ -16,7 +16,9 @@ import {
 import type { Facility, FiscalYear, Snapshot, SnapshotIndexEntry } from '../types/hdc'
 import { FISCAL_YEARS, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
+import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
+import ExportToolbar from './ExportToolbar'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
@@ -274,6 +276,29 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     }
   }, [showTrendChart, otherDates, snapshot, district, hostype, effectiveFacilityCode, fiscalYear])
 
+  const exportColumns = useMemo<ExportColumn<Facility>[]>(() => {
+    return [
+      { key: 'hospcode', label: 'รหัสสถาน', value: (f) => f.hospcode },
+      { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
+      { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
+      { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
+      { key: 'op', label: `OP รวม (ปีงบ ${fiscalYear})`, value: (f) => f.byYear[fiscalYear]?.op ?? 0 },
+      { key: 'type2', label: 'Type2', value: (f) => f.byYear[fiscalYear]?.type2 ?? 0 },
+      { key: 'type3', label: 'Type3', value: (f) => f.byYear[fiscalYear]?.type3 ?? 0 },
+      { key: 'type5', label: 'Type5', value: (f) => f.byYear[fiscalYear]?.type5 ?? 0 },
+      { key: 'telemed', label: 'รวม Telemedicine', value: (f) => telemedVisits(f.byYear[fiscalYear]) },
+      {
+        key: 'percent',
+        label: 'ร้อยละ',
+        value: (f) => {
+          const stats = f.byYear[fiscalYear]
+          const op = stats?.op ?? 0
+          return op > 0 ? Number(((telemedVisits(stats) / op) * 100).toFixed(2)) : 0
+        },
+      },
+    ]
+  }, [fiscalYear])
+
   return (
     <div className="flex flex-col gap-6">
       <ReportInfoPanel {...docs} />
@@ -524,13 +549,21 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
-          <input
-            type="text"
-            placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <ExportToolbar
+              filenameBase={`ภาพรวม_${snapshot.snapshotDate}`}
+              title={`ภาพรวม โทรเวชกรรม จ.มุกดาหาร (ปีงบ ${fiscalYear}) — ${snapshot.snapshotDate}`}
+              columns={exportColumns}
+              rows={filteredFacilities}
+            />
+            <input
+              type="text"
+              placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">

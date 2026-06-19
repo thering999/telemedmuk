@@ -10,7 +10,9 @@ import {
   YAxis,
 } from 'recharts'
 import type { FollowupFacility, FollowupSnapshot } from '../types/hdc'
+import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
+import ExportToolbar from './ExportToolbar'
 
 export interface FollowupViewProps {
   snapshot: FollowupSnapshot
@@ -75,6 +77,20 @@ function FollowupView({ snapshot }: FollowupViewProps) {
       .map(([ampName, v]) => ({ ampName, ...v }))
       .sort((a, b) => a.ampName.localeCompare(b.ampName, 'th'))
   }, [filteredFacilities])
+
+  const exportColumns = useMemo<ExportColumn<FollowupFacility>[]>(
+    () => [
+      { key: 'hospcode', label: 'รหัสสถาน', value: (f) => f.hospcode },
+      { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
+      { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
+      { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
+      { key: 'totalVisits69', label: 'ผู้รับบริการรวม', value: (f) => f.totalVisits69 },
+      { key: 'followUpNormal', label: 'ติดตามแบบปกติ', value: (f) => f.followUpNormal },
+      { key: 'followUpTelemed', label: 'ติดตามผ่าน Telemedicine', value: (f) => f.followUpTelemed },
+      { key: 'percentTelemedUsage', label: 'ร้อยละ', value: (f) => Number(f.percentTelemedUsage.toFixed(1)) },
+    ],
+    [],
+  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -150,13 +166,21 @@ function FollowupView({ snapshot }: FollowupViewProps) {
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
-          <input
-            type="text"
-            placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <ExportToolbar
+              filenameBase={`ติดตามต่อเนื่อง_${snapshot.snapshotDate}`}
+              title={`ติดตามต่อเนื่อง (ปีงบ 69) — ${snapshot.snapshotDate}`}
+              columns={exportColumns}
+              rows={filteredFacilities}
+            />
+            <input
+              type="text"
+              placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">

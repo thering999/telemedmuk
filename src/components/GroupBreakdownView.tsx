@@ -11,7 +11,9 @@ import {
 } from 'recharts'
 import type { FiscalYear, GroupBreakdownFacility, GroupBreakdownSnapshot } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
+import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
+import ExportToolbar from './ExportToolbar'
 
 export interface GroupBreakdownViewProps {
   snapshot: GroupBreakdownSnapshot
@@ -81,6 +83,24 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
   const groupChartData = useMemo(() => {
     return groupKpis.map((g) => ({ label: g.label, visit: g.visit, tele: g.tele }))
   }, [groupKpis])
+
+  const exportColumns = useMemo<ExportColumn<GroupBreakdownFacility>[]>(() => {
+    const base: ExportColumn<GroupBreakdownFacility>[] = [
+      { key: 'hospcode', label: 'รหัสสถาน', value: (f) => f.hospcode },
+      { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
+      { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
+      { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
+    ]
+    const groupCols: ExportColumn<GroupBreakdownFacility>[] = snapshot.groupDefs.flatMap((def) => [
+      { key: `${def.key}_visit`, label: `${def.label} (visit)`, value: (f) => f.groups[def.key]?.visit ?? 0 },
+      { key: `${def.key}_tele`, label: `${def.label} (tele)`, value: (f) => f.groups[def.key]?.tele ?? 0 },
+    ])
+    const tail: ExportColumn<GroupBreakdownFacility>[] = [
+      { key: 'op', label: `OP รวม (ปีงบ ${fiscalYear})`, value: (f) => f.byYear[fiscalYear]?.op ?? 0 },
+      { key: 'telemed', label: `Telemedicine รวม (ปีงบ ${fiscalYear})`, value: (f) => f.byYear[fiscalYear]?.telemed ?? 0 },
+    ]
+    return [...base, ...groupCols, ...tail]
+  }, [snapshot.groupDefs, fiscalYear])
 
   return (
     <div className="flex flex-col gap-6">
@@ -178,13 +198,21 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
-          <input
-            type="text"
-            placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <ExportToolbar
+              filenameBase={`${title}_${snapshot.snapshotDate}`}
+              title={`${title} (ปีงบ ${fiscalYear}) — ${snapshot.snapshotDate}`}
+              columns={exportColumns}
+              rows={filteredFacilities}
+            />
+            <input
+              type="text"
+              placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">
