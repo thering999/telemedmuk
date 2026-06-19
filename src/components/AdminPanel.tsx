@@ -1,21 +1,8 @@
 import { useState } from 'react'
-import crypto from 'crypto'
 
-// Hash password (simple SHA256 for client-side verification)
-// Real apps should use backend authentication
-const PASSWORD_HASH = 'd4c8e8e8a8e8e8e8e8e8e8e8e8e8e8e8' // Will be replaced with actual hash
-
-function hashPassword(password: string): string {
-  // Simple hash for demo - NOT for production
-  // In production, use bcrypt or similar on backend
-  const encoded = new TextEncoder().encode(password)
-  let hash = 0
-  for (let i = 0; i < encoded.length; i++) {
-    hash = ((hash << 5) - hash) + encoded[i]
-    hash = hash & hash // Convert to 32bit integer
-  }
-  return Math.abs(hash).toString(16)
-}
+// Admin password (plain text for internal tool)
+// In production, use proper authentication backend
+const ADMIN_PASSWORD = 'Ssj4900036!@#'
 
 interface AdminPanelProps {
   onClose?: () => void
@@ -29,9 +16,7 @@ function AdminPanel({ onClose }: AdminPanelProps) {
 
   const handleLogin = () => {
     setError('')
-    // Simple password check - NOT secure for production
-    // Password should be Ssj4900036!@#
-    if (password === 'Ssj4900036!@#') {
+    if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       setPassword('')
     } else {
