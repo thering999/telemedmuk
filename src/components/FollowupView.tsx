@@ -187,24 +187,24 @@ function FollowupView({ snapshot }: FollowupViewProps) {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
-                <th className="px-3 py-2 font-medium">รหัสสถาน</th>
-                <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
-                <th className="px-3 py-2 font-medium">อำเภอ</th>
-                <th className="px-3 py-2 font-medium">ประเภท</th>
-                <th className="px-3 py-2 text-right font-medium">ผู้รับบริการรวม</th>
-                <th className="px-3 py-2 text-right font-medium">ติดตามแบบปกติ</th>
-                <th className="px-3 py-2 text-right font-medium">ติดตามผ่าน Telemedicine</th>
-                <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
+              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">รหัสสถาน</th>
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">สถานพยาบาล</th>
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">อำเภอ</th>
+                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">ประเภท</th>
+                <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ผู้รับบริการรวม</th>
+                <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ติดตามแบบปกติ</th>
+                <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ติดตามผ่าน Telemedicine</th>
+                <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ร้อยละ</th>
               </tr>
             </thead>
             <tbody>
               {filteredFacilities.map((f) => (
-                <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
-                  <td className="px-3 py-2 text-slate-800">{f.hospname}</td>
-                  <td className="px-3 py-2 text-slate-600">{f.ampName}</td>
-                  <td className="px-3 py-2 text-slate-600">
+                <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
+                  <td className="px-4 py-3 text-slate-600 text-sm font-mono">{f.hospcode}</td>
+                  <td className="px-4 py-3 text-slate-800 font-medium">{f.hospname}</td>
+                  <td className="px-4 py-3 text-slate-600 text-sm">{f.ampName}</td>
+                  <td className="px-4 py-3 text-slate-600">
                     <span className="text-xs">
                       {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
                         <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
@@ -213,16 +213,16 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                       )}
                     </span>
                   </td>
-                  <td className="px-3 py-2 text-right text-slate-700">
+                  <td className="px-4 py-3 text-right text-slate-700">
                     {f.totalVisits69.toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-2 text-right text-slate-700">
+                  <td className="px-4 py-3 text-right text-slate-700">
                     {f.followUpNormal.toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-2 text-right font-medium text-brand-700">
+                  <td className="px-4 py-3 text-right font-medium text-brand-700">
                     {f.followUpTelemed.toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-2 text-right text-slate-700">
+                  <td className="px-4 py-3 text-right text-slate-700">
                     {f.percentTelemedUsage.toFixed(1)}%
                   </td>
                 </tr>
@@ -235,12 +235,12 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                 </tr>
               )}
               {filteredFacilities.length > 0 && (
-                <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
-                  <td className="px-3 py-3">รวม</td>
-                  <td className="px-3 py-3"></td>
-                  <td className="px-3 py-3"></td>
-                  <td className="px-3 py-3"></td>
-                  <td className="px-3 py-3 text-right">
+                <tr className="border-t-2 border-slate-400 bg-gradient-to-r from-slate-100 to-slate-50 font-bold text-slate-800">
+                  <td className="px-4 py-3">รวม</td>
+                  <td className="px-4 py-3"></td>
+                  <td className="px-4 py-3"></td>
+                  <td className="px-4 py-3"></td>
+                  <td className="px-4 py-3 text-right">
                     {filteredFacilities.reduce((sum, f) => sum + f.totalVisits69, 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
