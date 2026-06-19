@@ -16,6 +16,7 @@ import {
 import type { Facility, FiscalYear, Snapshot, SnapshotIndexEntry } from '../types/hdc'
 import { FISCAL_YEARS, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
+import ReportInfoPanel from './ReportInfoPanel'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
@@ -250,6 +251,13 @@ function SnapshotView({ snapshot, snapshotIndex }: SnapshotViewProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <ReportInfoPanel
+        objective="ภาพรวมจำนวนผู้รับบริการ (OP) และสัดส่วนการใช้บริการรูปแบบทางไกล/นัดหมาย/เชิงรุก ของแต่ละสถานบริการในจังหวัดมุกดาหาร เทียบ 2 ปีงบประมาณ"
+        methodology="รองรับไฟล์ส่งออก 3 รูปแบบที่ใช้ร่วมกันได้: ไฟล์ที่แยกย่อย Type2 (นัดหมาย/ส่งต่อ) + Type3 (เชิงรุก/ชุมชน) + Type5 (โทรเวชกรรม) เป็น 'Telemed', ไฟล์ที่มีผลรวม Telemed สำเร็จรูปอยู่แล้ว, และไฟล์กรอกมือ (typein) เฉพาะปีงบ 69 — ระบบรวมเป็นค่าเดียวต่อสถานบริการให้อัตโนมัติ ตัวหารหลักคือ OP ถ้าไฟล์ไม่มี OP จะใช้ Service แทน"
+        source="ตาราง service (ระบบ Hippo) ร่วมกับตารางอ้างอิงระดับประเทศ icd10_chk_op เพื่อกรองเฉพาะการรับบริการที่นับเป็น OP ที่ถูกต้อง (valid='T' และ OP_PP='OP')"
+        template="q_telemed_hosp_muk.ipynb (ส่วนข้อมูลภาพรวม) และ q_telemed_hosp-235.ipynb (สำหรับไฟล์กรอกมือ/typein)"
+      />
+
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <div className="flex flex-col gap-1">
           <label htmlFor="district-select" className="text-sm font-medium text-slate-600">

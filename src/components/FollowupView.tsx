@@ -10,6 +10,7 @@ import {
   YAxis,
 } from 'recharts'
 import type { FollowupFacility, FollowupSnapshot } from '../types/hdc'
+import ReportInfoPanel from './ReportInfoPanel'
 
 export interface FollowupViewProps {
   snapshot: FollowupSnapshot
@@ -66,6 +67,13 @@ function FollowupView({ snapshot }: FollowupViewProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <ReportInfoPanel
+        objective="เทียบสัดส่วนการนัดติดตามต่อเนื่องแบบมาคลินิกปกติ กับแบบโทรเวชกรรม เฉพาะปีงบประมาณ 69 (ปีปัจจุบัน) — รายงานนี้ไม่มีข้อมูลปีงบ 68"
+        methodology="FollowUp_Total = จำนวนครั้งที่ typein เป็น 2 หรือ 5 รวมกัน (นัดหมายปกติ + โทรเวชกรรม), FollowUp_Normal = เฉพาะ typein=2, FollowUp_Telemed = เฉพาะ typein=5 — ร้อยละคำนวณจาก FollowUp_Telemed ÷ FollowUp_Total"
+        source="ตาราง service เฉพาะช่วงปีงบประมาณ 69"
+        template="q_telemed_hosp_muk.ipynb"
+      />
+
       <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800">ติดตามต่อเนื่อง (ปีงบ 69)</h2>
       </div>

@@ -11,13 +11,16 @@ import {
 } from 'recharts'
 import type { FiscalYear, GroupBreakdownFacility, GroupBreakdownSnapshot } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
+import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 
 export interface GroupBreakdownViewProps {
   snapshot: GroupBreakdownSnapshot
   title: string
+  /** Per-instance documentation content (differs between ncd/mch/ltc_pal). */
+  docs: ReportInfoPanelProps
 }
 
-function GroupBreakdownView({ snapshot, title }: GroupBreakdownViewProps) {
+function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
   const [search, setSearch] = useState('')
 
@@ -70,6 +73,8 @@ function GroupBreakdownView({ snapshot, title }: GroupBreakdownViewProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <ReportInfoPanel {...docs} />
+
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800">{title}</h2>
         <div className="ml-auto flex items-center gap-2">

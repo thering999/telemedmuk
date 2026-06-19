@@ -12,6 +12,50 @@ import SnapshotView from './SnapshotView'
 import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
 import FollowupView from './FollowupView'
+import type { ReportInfoPanelProps } from './ReportInfoPanel'
+
+const ALL_DOCS: ReportInfoPanelProps = {
+  objective:
+    'ดูว่าผู้รับบริการมาในรูปแบบใดบ้างจากทั้ง 5 รูปแบบ เพื่อเข้าใจ \'ส่วนผสม\' ของวิธีให้บริการ ไม่ใช่แค่ตัวเลขรวม',
+  methodology:
+    'นับจากฟิลด์ typein ในระบบ Hippo ตามนิยามต้นฉบับ — Type 1: มารับบริการเอง (Walk-in), Type 2: มีนัดหมายไว้หรือถูกส่งต่อมา (Appointment/Refer), Type 3: บริการเชิงรุก เช่น หน่วยแพทย์เคลื่อนที่หรือคัดกรองในชุมชน (Community outreach), Type 4: ให้บริการที่บ้าน (Home Visit), Type 5: การแพทย์ทางไกล (Telemedicine) มุมมองนี้แสดง Type 5 เป็นค่า \'Telemedicine\' ตรงตามนิยาม ไม่ได้รวมกับ Type 2/3 แบบที่ใช้ในมุมมองภาพรวม',
+  source: 'ตาราง service ร่วมกับ icd10_chk_op',
+  template: 'q_telemed_hosp_muk.ipynb',
+}
+
+const PERSON_DOCS: ReportInfoPanelProps = {
+  objective:
+    'เหมือนมุมมอง \'แยกประเภทบริการ\' แต่ตัดผลกระทบจากผู้ป่วยที่มารับบริการหลายครั้ง — นับ \'จำนวนคน\' ไม่ใช่ \'จำนวนครั้ง\' จึงเหมาะกับการประเมินความครอบคลุมของบริการมากกว่าปริมาณงาน',
+  methodology:
+    'นับจำนวนรหัสผู้ป่วย (pid) ที่ไม่ซ้ำกัน ต่อสถานบริการ ต่อปีงบประมาณ ต่อรูปแบบ typein เดียวกับมุมมอง \'แยกประเภทบริการ\'',
+  source: 'ตาราง person ร่วมกับ service',
+  template: 'q_telemed_hosp_muk.ipynb',
+}
+
+const NCD_DOCS: ReportInfoPanelProps = {
+  objective:
+    'ติดตามการใช้บริการโทรเวชกรรมในการดูแลผู้ป่วยโรคเรื้อรัง (NCD) 4 กลุ่มหลัก เพื่อดูว่ากลุ่มโรคใดเข้าถึงบริการทางไกลได้มากหรือน้อย',
+  methodology:
+    'จับคู่รหัสโรคเรื้อรังในตาราง chronic — เบาหวาน (รหัส E10-E14), ความดันโลหิตสูง (รหัส I10-I15), มะเร็ง (รหัสขึ้นต้นด้วย C ทั้งหมด), จิตเวช (รหัสขึ้นต้นด้วย F ทั้งหมด) นับเป็นการใช้โทรเวชกรรมเมื่อ typein=\'5\' เท่านั้น ตัวเลขรายกลุ่มโรคเป็นยอดรวมไม่แยกปีงบประมาณ (ต่างจากตัวเลข OP/Telemed รวมท้ายตารางซึ่งแยกตามปีงบตามปกติ)',
+  source: 'ตาราง chronic ร่วมกับ service',
+  template: 'q_telemed_hosp_muk.ipynb',
+}
+
+const MCH_DOCS: ReportInfoPanelProps = {
+  objective: 'ติดตามการใช้บริการโทรเวชกรรมในงานอนามัยแม่และเด็ก 4 กลุ่มบริการหลัก',
+  methodology:
+    'จับคู่รหัสวินิจฉัยในตาราง diagnosis_opd — ฝากครรภ์/ANC (รหัสขึ้นต้นด้วย O หรือช่วง Z32-Z36), ดูแลหลังคลอด/PNC (รหัส Z39), ตรวจสุขภาพเด็กดี/WCC (รหัส Z001, Z761, Z762), วางแผนครอบครัว/FP (รหัส Z30) เช่นเดียวกับ NCD ตัวเลขรายกลุ่มเป็นยอดรวมไม่แยกปีงบประมาณ',
+  source: 'ตาราง diagnosis_opd ร่วมกับ service',
+  template: 'q_telemed_hosp_muk.ipynb',
+}
+
+const LTC_PAL_DOCS: ReportInfoPanelProps = {
+  objective:
+    'ติดตามการใช้บริการโทรเวชกรรมในงานดูแลผู้ป่วยระยะยาวและระยะท้าย — หมายเหตุสำคัญ: รายงานนี้แสดงเฉพาะสถานบริการที่มีเคสจริงในช่วงเวลานี้เท่านั้น สถานบริการที่ไม่มีเคส LTC/Palliative จะไม่ปรากฏในตาราง ไม่ได้หมายความว่าข้อมูลขาดหายหรือผิดพลาด',
+  methodology: 'จับคู่รหัสวินิจฉัย Z74-Z75 = การดูแลระยะยาว (LTC), รหัส Z515 = การดูแลแบบประคับประคอง (Palliative)',
+  source: 'ตาราง diagnosis_opd ร่วมกับ service',
+  template: 'q_telemed_hosp_muk.ipynb',
+}
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
@@ -219,6 +263,11 @@ function HdcTab() {
         </select>
       </div>
 
+      <p className="text-xs text-slate-500">
+        ปีงบประมาณ 68 = 1 ต.ค. 2567 – 30 ก.ย. 2568 · ปีงบประมาณ 69 = 1 ต.ค. 2568 – 30 ก.ย. 2569
+        (ข้อมูลเฉพาะจังหวัดมุกดาหาร รหัส 49)
+      </p>
+
       <div className="inline-flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
         {visibleSubTabs.map((tab) => (
           <button
@@ -267,19 +316,29 @@ function HdcTab() {
                   snapshot={currentCategoryData.all}
                   valueLabel="ครั้ง"
                   title="แยกประเภทบริการ"
+                  docs={ALL_DOCS}
                 />
               )}
               {effectiveSubTab === 'person' && currentCategoryData.person && (
-                <TypeBreakdownView snapshot={currentCategoryData.person} valueLabel="คน" title="รายคน" />
+                <TypeBreakdownView
+                  snapshot={currentCategoryData.person}
+                  valueLabel="คน"
+                  title="รายคน"
+                  docs={PERSON_DOCS}
+                />
               )}
               {effectiveSubTab === 'ncd' && currentCategoryData.ncd && (
-                <GroupBreakdownView snapshot={currentCategoryData.ncd} title="NCD" />
+                <GroupBreakdownView snapshot={currentCategoryData.ncd} title="NCD" docs={NCD_DOCS} />
               )}
               {effectiveSubTab === 'mch' && currentCategoryData.mch && (
-                <GroupBreakdownView snapshot={currentCategoryData.mch} title="MCH" />
+                <GroupBreakdownView snapshot={currentCategoryData.mch} title="MCH" docs={MCH_DOCS} />
               )}
               {effectiveSubTab === 'ltc_pal' && currentCategoryData.ltc_pal && (
-                <GroupBreakdownView snapshot={currentCategoryData.ltc_pal} title="LTC/Palliative" />
+                <GroupBreakdownView
+                  snapshot={currentCategoryData.ltc_pal}
+                  title="LTC/Palliative"
+                  docs={LTC_PAL_DOCS}
+                />
               )}
               {effectiveSubTab === 'followup' && currentCategoryData.followup && (
                 <FollowupView snapshot={currentCategoryData.followup} />

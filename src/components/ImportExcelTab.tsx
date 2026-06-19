@@ -1,35 +1,57 @@
 import { useRef, useState } from 'react'
-import type { Snapshot } from '../types/hdc'
+import type { ReportCategory, Snapshot } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
-import { ParseHippoExcelError, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
+import { ParseHippoExcelError, detectCategory, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
 import SnapshotView from './SnapshotView'
 
-type UploadState =
-  | { status: 'idle' }
-  | { status: 'parsing'; filename: string }
-  | { status: 'error'; filename: string; message: string }
-  | {
-      status: 'ready'
-      filename: string
-      snapshot: Snapshot
-      dateWasGuessed: boolean
-      /** Raw bytes of the originally-uploaded file, kept so the GitHub publish
-       * flow can base64-encode and commit the exact same bytes without
-       * re-reading the File a second time. */
-      buffer: ArrayBuffer
-    }
-
-type SaveState =
+type FileSaveState =
   | { status: 'idle' }
   | { status: 'saving' }
   | { status: 'success'; actionsUrl: string }
   | { status: 'error'; message: string }
+
+interface SelectedFile {
+  /** Stable per-file key for React lists and state updates (filename can
+   * collide in theory, e.g. re-adding the same browser dedup-suffixed file,
+   * so a counter-based id is used instead of the filename itself). */
+  id: string
+  filename: string
+  category: ReportCategory | 'base' | null
+  /** Raw bytes of the originally-uploaded file, kept so the GitHub publish
+   * flow can base64-encode and commit the exact same bytes without
+   * re-reading the File a second time. */
+  buffer: ArrayBuffer
+  previewSnapshot?: Snapshot
+  previewError?: string
+  dateWasGuessed: boolean
+  selected: boolean
+  saveState: FileSaveState
+}
 
 const GITHUB_OWNER = 'thering999'
 const GITHUB_REPO = 'telemedmuk'
 
 const SAVE_WORKER_URL = import.meta.env.VITE_SAVE_WORKER_URL ?? ''
 const APP_SHARED_KEY = import.meta.env.VITE_APP_SHARED_KEY ?? ''
+
+const DEFAULT_ACTIONS_URL = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions`
+
+const CATEGORY_LABELS: Record<ReportCategory | 'base', string> = {
+  base: 'ภาพรวม',
+  all: 'แยกประเภทบริการ',
+  person: 'รายคน',
+  ncd: 'NCD',
+  mch: 'MCH',
+  ltc_pal: 'LTC/Palliative',
+  followup: 'ติดตามต่อเนื่อง',
+}
+
+const UNKNOWN_CATEGORY_LABEL = 'ไม่รู้จักรูปแบบไฟล์นี้'
+
+function categoryLabel(category: ReportCategory | 'base' | null): string {
+  if (category === null) return UNKNOWN_CATEGORY_LABEL
+  return CATEGORY_LABELS[category]
+}
 
 /** Browser-safe base64 encoding of an ArrayBuffer without spreading huge
  * arrays into String.fromCharCode (which can blow the call stack on larger
@@ -51,75 +73,108 @@ interface SaveSnapshotResponseBody {
   error?: string
 }
 
+let nextFileId = 0
+
 function ImportExcelTab() {
-  const [state, setState] = useState<UploadState>({ status: 'idle' })
-  const [saveState, setSaveState] = useState<SaveState>({ status: 'idle' })
+  const [files, setFiles] = useState<SelectedFile[]>([])
+  const [batchSummary, setBatchSummary] = useState<string | null>(null)
+  const [isSavingBatch, setIsSavingBatch] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleFile = (file: File) => {
-    setState({ status: 'parsing', filename: file.name })
-    setSaveState({ status: 'idle' })
-    const reader = new FileReader()
-    reader.onload = () => {
-      try {
+  const readFileAsEntry = (file: File): Promise<SelectedFile> => {
+    return new Promise((resolve) => {
+      const id = `f${nextFileId++}`
+      const reader = new FileReader()
+      reader.onload = () => {
         const buffer = reader.result as ArrayBuffer
-        const snapshot = parseHippoExcelFile(buffer, file.name)
+        const category = detectCategory(file.name)
         const dateWasGuessed = parseFilenameMeta(file.name) === null
-        setState({ status: 'ready', filename: file.name, snapshot, dateWasGuessed, buffer })
-      } catch (err) {
-        setState({
-          status: 'error',
+
+        let previewSnapshot: Snapshot | undefined
+        let previewError: string | undefined
+        if (category === 'base') {
+          try {
+            previewSnapshot = parseHippoExcelFile(buffer, file.name)
+          } catch (err) {
+            previewError =
+              err instanceof ParseHippoExcelError
+                ? err.message
+                : err instanceof Error
+                  ? `เกิดข้อผิดพลาดที่ไม่คาดคิด: ${err.message}`
+                  : 'เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างอ่านไฟล์'
+          }
+        }
+
+        resolve({
+          id,
           filename: file.name,
-          message:
-            err instanceof ParseHippoExcelError
-              ? err.message
-              : err instanceof Error
-                ? `เกิดข้อผิดพลาดที่ไม่คาดคิด: ${err.message}`
-                : 'เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างอ่านไฟล์',
+          category,
+          buffer,
+          previewSnapshot,
+          previewError,
+          dateWasGuessed,
+          selected: category !== null,
+          saveState: { status: 'idle' },
         })
       }
-    }
-    reader.onerror = () => {
-      setState({
-        status: 'error',
-        filename: file.name,
-        message: 'ไม่สามารถอ่านไฟล์นี้ได้ กรุณาลองใหม่อีกครั้ง',
-      })
-    }
-    reader.readAsArrayBuffer(file)
+      reader.onerror = () => {
+        resolve({
+          id,
+          filename: file.name,
+          category: null,
+          buffer: new ArrayBuffer(0),
+          previewError: 'ไม่สามารถอ่านไฟล์นี้ได้ กรุณาลองใหม่อีกครั้ง',
+          dateWasGuessed: false,
+          selected: false,
+          saveState: { status: 'idle' },
+        })
+      }
+      reader.readAsArrayBuffer(file)
+    })
+  }
+
+  const handleFiles = async (fileList: FileList) => {
+    setBatchSummary(null)
+    const newEntries = await Promise.all(Array.from(fileList).map(readFileAsEntry))
+    setFiles((prev) => [...prev, ...newEntries])
   }
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) handleFile(file)
+    if (e.target.files && e.target.files.length > 0) void handleFiles(e.target.files)
   }
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
-    const file = e.dataTransfer.files?.[0]
-    if (file) handleFile(file)
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) void handleFiles(e.dataTransfer.files)
   }
 
   const reset = () => {
-    setState({ status: 'idle' })
-    setSaveState({ status: 'idle' })
+    setFiles([])
+    setBatchSummary(null)
     if (inputRef.current) inputRef.current.value = ''
   }
 
-  const saveToGitHub = async () => {
-    if (state.status !== 'ready' || !SAVE_WORKER_URL) return
-    setSaveState({ status: 'saving' })
-    const { filename, buffer } = state
+  const toggleSelected = (id: string) => {
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id && f.category !== null ? { ...f, selected: !f.selected } : f)),
+    )
+  }
 
+  const updateFileSaveState = (id: string, saveState: FileSaveState) => {
+    setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, saveState } : f)))
+  }
+
+  const saveOneFile = async (entry: SelectedFile): Promise<boolean> => {
+    updateFileSaveState(entry.id, { status: 'saving' })
     try {
-      const contentBase64 = arrayBufferToBase64(buffer)
+      const contentBase64 = arrayBufferToBase64(entry.buffer)
       const response = await fetch(SAVE_WORKER_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-App-Key': APP_SHARED_KEY,
         },
-        body: JSON.stringify({ filename, contentBase64 }),
+        body: JSON.stringify({ filename: entry.filename, contentBase64 }),
       })
 
       const body = (await response.json().catch(() => ({}))) as SaveSnapshotResponseBody
@@ -128,17 +183,50 @@ function ImportExcelTab() {
         throw new Error(body.error ?? `บันทึกไม่สำเร็จ (HTTP ${response.status})`)
       }
 
-      setSaveState({
+      updateFileSaveState(entry.id, {
         status: 'success',
-        actionsUrl: body.actionsUrl ?? `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions`,
+        actionsUrl: body.actionsUrl ?? DEFAULT_ACTIONS_URL,
       })
+      return true
     } catch (err) {
-      setSaveState({
+      updateFileSaveState(entry.id, {
         status: 'error',
         message: `บันทึกไม่สำเร็จ — ${err instanceof Error ? err.message : String(err)}`,
       })
+      return false
     }
   }
+
+  const saveSelectedToGitHub = async () => {
+    if (!SAVE_WORKER_URL) return
+    const targets = files.filter((f) => f.selected)
+    if (targets.length === 0) return
+
+    setIsSavingBatch(true)
+    setBatchSummary(null)
+
+    let successCount = 0
+    for (const entry of targets) {
+      // Sequential on purpose: avoid hammering the Worker/GitHub API with a
+      // burst of concurrent commits, and let the UI show live progress
+      // through the list rather than a single frozen button.
+      const ok = await saveOneFile(entry)
+      if (ok) successCount += 1
+    }
+
+    setIsSavingBatch(false)
+    setBatchSummary(`บันทึกสำเร็จ ${successCount} จาก ${targets.length} ไฟล์`)
+  }
+
+  const selectedCount = files.filter((f) => f.selected).length
+  const anySaveSucceeded = files.some((f) => f.saveState.status === 'success')
+  const lastSuccessActionsUrl =
+    [...files].reverse().find((f) => f.saveState.status === 'success')?.saveState as
+      | { status: 'success'; actionsUrl: string }
+      | undefined
+
+  const baseFilesWithPreview = files.filter((f) => f.selected && f.previewSnapshot)
+  const singlePreview = baseFilesWithPreview.length === 1 ? baseFilesWithPreview[0] : undefined
 
   return (
     <div className="flex flex-col gap-6">
@@ -148,7 +236,7 @@ function ImportExcelTab() {
           ข้อมูลที่อัปโหลดในแท็บนี้จะแสดงผลเฉพาะในเบราว์เซอร์ของท่านเท่านั้น{' '}
           <span className="font-semibold">ไม่ถูกบันทึกไว้ที่ใด</span> และจะหายไปเมื่อรีเฟรชหน้านี้
           หากต้องการให้ข้อมูลนี้แสดงผลแบบถาวรสำหรับผู้เข้าชมทุกคนบนเว็บไซต์จริง สามารถกดปุ่ม
-          "บันทึกไฟล์นี้ไปยัง GitHub แบบถาวร" ด้านล่างได้เลยหลังนำเข้าไฟล์สำเร็จ (ไม่ต้องใช้ token หรือความรู้ทางเทคนิคใด ๆ)
+          "บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร" ด้านล่างได้เลยหลังนำเข้าไฟล์สำเร็จ (ไม่ต้องใช้ token หรือความรู้ทางเทคนิคใด ๆ)
           ระบบจะนำไฟล์ไปวางไว้ที่ <code className="rounded bg-amber-100 px-1">data/raw/</code> บน branch{' '}
           <code className="rounded bg-amber-100 px-1">main</code> ของโปรเจกต์ให้อัตโนมัติ แล้วให้ระบบอัตโนมัติ
           (GitHub Actions) ประมวลผลและเผยแพร่ข้อมูลต่อเอง — นี่คือวิธีบันทึกข้อมูลแบบถาวรบนเว็บไซต์แบบ static นี้
@@ -162,49 +250,25 @@ function ImportExcelTab() {
         onDrop={onDrop}
       >
         <p className="mb-3 text-sm text-slate-600">
-          เลือกไฟล์ Excel (.xlsx) ที่ส่งออกจาก Hippo เพื่อดูรายงานแบบเฉพาะกิจ หรือลากไฟล์มาวางที่นี่
+          เลือกไฟล์ Excel (.xlsx) ที่ส่งออกจาก Hippo ได้ครั้งละหลายไฟล์ เพื่อดูตัวอย่างหรือบันทึกพร้อมกัน หรือลากไฟล์มาวางที่นี่
         </p>
         <input
           ref={inputRef}
           type="file"
           accept=".xlsx"
+          multiple
           onChange={onInputChange}
           className="mx-auto block w-full max-w-sm text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white file:shadow-sm hover:file:bg-brand-700"
         />
       </div>
 
-      {state.status === 'parsing' && (
-        <p className="text-center text-slate-500">กำลังอ่านไฟล์ {state.filename}...</p>
-      )}
-
-      {state.status === 'error' && (
-        <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700">
-          <p className="font-medium">ไม่สามารถนำเข้าไฟล์ "{state.filename}" ได้</p>
-          <p className="mt-1 text-sm">{state.message}</p>
-          <button
-            type="button"
-            onClick={reset}
-            className="mt-3 rounded-lg border border-rose-300 px-3 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-100"
-          >
-            ลองไฟล์อื่น
-          </button>
-        </div>
-      )}
-
-      {state.status === 'ready' && (
+      {files.length > 0 && (
         <>
           <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
             <p className="text-sm text-slate-600">
-              ข้อมูลจากไฟล์ที่อัปโหลด: <span className="font-medium text-slate-800">{state.filename}</span>
+              เลือกไฟล์ไว้ <span className="font-medium text-slate-800">{files.length}</span> ไฟล์
               {' — '}
-              {state.dateWasGuessed ? (
-                <>
-                  ไม่พบรูปแบบวันที่ในชื่อไฟล์ จึงใช้วันที่ปัจจุบันแทน (
-                  {formatThaiDate(state.snapshot.snapshotDate)})
-                </>
-              ) : (
-                <>ข้อมูล ณ {formatThaiDate(state.snapshot.snapshotDate)}</>
-              )}
+              พร้อมบันทึก <span className="font-medium text-slate-800">{selectedCount}</span> ไฟล์
             </p>
             <button
               type="button"
@@ -215,11 +279,63 @@ function ImportExcelTab() {
             </button>
           </div>
 
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-50 text-slate-500">
+                <tr>
+                  <th className="px-4 py-2 font-medium">เลือก</th>
+                  <th className="px-4 py-2 font-medium">ไฟล์</th>
+                  <th className="px-4 py-2 font-medium">ประเภทรายงาน</th>
+                  <th className="px-4 py-2 font-medium">สถานะการบันทึก</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {files.map((f) => {
+                  const isUnknown = f.category === null
+                  return (
+                    <tr key={f.id} className={isUnknown ? 'bg-rose-50' : undefined}>
+                      <td className="px-4 py-2">
+                        <input
+                          type="checkbox"
+                          checked={f.selected}
+                          disabled={isUnknown}
+                          onChange={() => toggleSelected(f.id)}
+                          className="h-4 w-4 rounded border-slate-300 text-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
+                        />
+                      </td>
+                      <td className={`px-4 py-2 ${isUnknown ? 'text-rose-700' : 'text-slate-700'}`}>
+                        {f.filename}
+                        {f.previewError && (
+                          <p className="mt-0.5 text-xs text-rose-600">{f.previewError}</p>
+                        )}
+                      </td>
+                      <td className={isUnknown ? 'px-4 py-2 font-medium text-rose-700' : 'px-4 py-2 text-slate-600'}>
+                        {categoryLabel(f.category)}
+                      </td>
+                      <td className="px-4 py-2">
+                        {f.saveState.status === 'idle' && <span className="text-slate-400">—</span>}
+                        {f.saveState.status === 'saving' && (
+                          <span className="text-slate-500">กำลังบันทึก...</span>
+                        )}
+                        {f.saveState.status === 'success' && (
+                          <span className="text-emerald-700">บันทึกสำเร็จ ✓</span>
+                        )}
+                        {f.saveState.status === 'error' && (
+                          <span className="text-rose-700">{f.saveState.message}</span>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+
           <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 shadow-sm">
             <div>
-              <p className="font-medium text-emerald-900">บันทึกไฟล์นี้ไปยัง GitHub แบบถาวร (สำหรับผู้ดูแลระบบ)</p>
+              <p className="font-medium text-emerald-900">บันทึกไฟล์ที่เลือกไปยัง GitHub แบบถาวร (สำหรับผู้ดูแลระบบ)</p>
               <p className="mt-1 text-sm leading-relaxed text-slate-700">
-                กดปุ่มด้านล่างเพื่อส่งไฟล์นี้ไปบันทึกไว้ที่ <code className="rounded bg-emerald-100 px-1">data/raw/</code>{' '}
+                กดปุ่มด้านล่างเพื่อส่งไฟล์ที่เลือกไว้ไปบันทึกที่ <code className="rounded bg-emerald-100 px-1">data/raw/</code>{' '}
                 บน branch <code className="rounded bg-emerald-100 px-1">main</code> ของ repository{' '}
                 <code className="rounded bg-emerald-100 px-1">thering999/telemedmuk</code> โดยอัตโนมัติ —
                 ไม่ต้องใช้ token หรือความรู้ด้าน GitHub ใด ๆ ระบบจะไปกระตุ้น GitHub Actions ที่มีอยู่แล้วให้ประมวลผลและเผยแพร่ข้อมูลให้เอง
@@ -229,11 +345,11 @@ function ImportExcelTab() {
             <div>
               <button
                 type="button"
-                onClick={saveToGitHub}
-                disabled={!SAVE_WORKER_URL || saveState.status === 'saving'}
+                onClick={saveSelectedToGitHub}
+                disabled={!SAVE_WORKER_URL || selectedCount === 0 || isSavingBatch}
                 className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300"
               >
-                {saveState.status === 'saving' ? 'กำลังบันทึก...' : 'บันทึกไฟล์นี้ไปยัง GitHub แบบถาวร'}
+                {isSavingBatch ? 'กำลังบันทึก...' : 'บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร'}
               </button>
               {!SAVE_WORKER_URL && (
                 <p className="mt-2 text-xs text-rose-600">
@@ -242,12 +358,20 @@ function ImportExcelTab() {
               )}
             </div>
 
-            {saveState.status === 'success' && (
+            {batchSummary && (
+              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm text-emerald-800">
+                {batchSummary}
+              </div>
+            )}
+
+            {anySaveSucceeded && (
               <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm text-emerald-800">
                 บันทึกไฟล์ขึ้น branch <code className="rounded bg-emerald-100 px-1">main</code> สำเร็จแล้ว
                 ระบบ GitHub Actions จะ build และเผยแพร่เว็บไซต์เวอร์ชันใหม่โดยอัตโนมัติภายในไม่กี่นาที สามารถติดตามสถานะได้ที่{' '}
                 <a
-                  href={saveState.actionsUrl}
+                  href={
+                    lastSuccessActionsUrl?.status === 'success' ? lastSuccessActionsUrl.actionsUrl : DEFAULT_ACTIONS_URL
+                  }
                   target="_blank"
                   rel="noreferrer noopener"
                   className="font-medium text-brand-700 underline hover:text-brand-800"
@@ -256,15 +380,27 @@ function ImportExcelTab() {
                 </a>
               </div>
             )}
-
-            {saveState.status === 'error' && (
-              <div className="rounded-lg border border-rose-300 bg-rose-50 px-3 py-2 text-sm text-rose-700">
-                {saveState.message}
-              </div>
-            )}
           </div>
 
-          <SnapshotView snapshot={state.snapshot} />
+          {singlePreview && singlePreview.previewSnapshot && (
+            <>
+              <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+                <p className="text-sm text-slate-600">
+                  ตัวอย่างข้อมูลจากไฟล์: <span className="font-medium text-slate-800">{singlePreview.filename}</span>
+                  {' — '}
+                  {singlePreview.dateWasGuessed ? (
+                    <>
+                      ไม่พบรูปแบบวันที่ในชื่อไฟล์ จึงใช้วันที่ปัจจุบันแทน (
+                      {formatThaiDate(singlePreview.previewSnapshot.snapshotDate)})
+                    </>
+                  ) : (
+                    <>ข้อมูล ณ {formatThaiDate(singlePreview.previewSnapshot.snapshotDate)}</>
+                  )}
+                </p>
+              </div>
+              <SnapshotView snapshot={singlePreview.previewSnapshot} />
+            </>
+          )}
         </>
       )}
     </div>

@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import type { FiscalYear, TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
+import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 
 const TYPE_SERIES: { key: 'type1' | 'type2' | 'type3' | 'type4' | 'type5'; label: string; color: string }[] = [
   { key: 'type1', label: 'Type1 Walk-in', color: '#0d9488' },
@@ -26,9 +27,11 @@ export interface TypeBreakdownViewProps {
   valueLabel: string
   /** Section title, e.g. "แยกประเภทบริการ" or "รายคน". */
   title: string
+  /** Per-instance documentation content (differs between "all" and "person"). */
+  docs: ReportInfoPanelProps
 }
 
-function TypeBreakdownView({ snapshot, valueLabel, title }: TypeBreakdownViewProps) {
+function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownViewProps) {
   const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
   const [search, setSearch] = useState('')
 
@@ -83,6 +86,8 @@ function TypeBreakdownView({ snapshot, valueLabel, title }: TypeBreakdownViewPro
 
   return (
     <div className="flex flex-col gap-6">
+      <ReportInfoPanel {...docs} />
+
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800">{title}</h2>
         <div className="ml-auto flex items-center gap-2">
