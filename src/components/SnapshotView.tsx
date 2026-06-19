@@ -135,17 +135,23 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     [snapshot, effectiveFacilityCode],
   )
 
-  // Base metric: OP68 เทียบ Telemed69 (FIXED years, not affected by toggle)
+  // Base metric: OP68 เทียบ Telemed69 (for base report) or OP69 เทียบ Telemed69 (for typein)
   const baseMetricKpis = useMemo(() => {
-    let totalOp68 = 0
+    let totalOp = 0
     let totalTelemed69 = 0
     for (const f of filteredFacilities) {
-      totalOp68 += f.byYear['68']?.op ?? 0
+      if (isTypeinReport) {
+        // PH-EOC: OP69 (Service69) vs Telemed69
+        totalOp += f.byYear['69']?.op ?? 0
+      } else {
+        // Base: OP68 vs Telemed69
+        totalOp += f.byYear['68']?.op ?? 0
+      }
       totalTelemed69 += telemedVisits(f.byYear['69'])
     }
-    const percent = totalOp68 > 0 ? (totalTelemed69 / totalOp68) * 100 : 0
-    return { totalOp: totalOp68, totalTelemed: totalTelemed69, percent }
-  }, [filteredFacilities])
+    const percent = totalOp > 0 ? (totalTelemed69 / totalOp) * 100 : 0
+    return { totalOp, totalTelemed: totalTelemed69, percent }
+  }, [filteredFacilities, isTypeinReport])
 
   // Supplementary metric: Year-flexible comparison (affected by fiscal year toggle)
   const kpis = useMemo(() => {
@@ -416,7 +422,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <KpiCard
-          label="OP รวม (ปีงบ 68)"
+          label={isTypeinReport ? "OP รวม (ปีงบ 69)" : "OP รวม (ปีงบ 68)"}
           value={baseMetricKpis.totalOp.toLocaleString('th-TH')}
           description="เกณฑ์หลัก"
         />
@@ -426,7 +432,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           description="เกณฑ์หลัก"
         />
         <KpiCard
-          label="เกณฑ์ OP68 เทียบ Telemed69"
+          label={isTypeinReport ? "เกณฑ์ OP69 เทียบ Telemed69" : "เกณฑ์ OP68 เทียบ Telemed69"}
           value={`${baseMetricKpis.percent.toFixed(1)}%`}
           accent
           description="หลัก"
@@ -755,15 +761,15 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                 <th className="px-3 py-2 font-medium">ประเภท</th>
                 {isTypeinReport ? (
                   <>
-                    <th className="px-3 py-2 text-right font-medium">Service69</th>
+                    <th className="px-3 py-2 text-right font-medium">OP69</th>
                     <th className="px-3 py-2 text-right font-medium">Telemed69</th>
-                    <th className="px-3 py-2 text-right font-medium">PercentTelemed69</th>
+                    <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
                   </>
                 ) : (
                   <>
                     <th className="px-3 py-2 text-right font-medium">OP68</th>
                     <th className="px-3 py-2 text-right font-medium">Telemed69</th>
-                    <th className="px-3 py-2 text-right font-medium">PercentTelemed69PerOP68</th>
+                    <th className="px-3 py-2 text-right font-medium">ร้อยละ</th>
                   </>
                 )}
                 <th className="px-3 py-2 font-medium">สถานะ</th>
@@ -786,21 +792,15 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                         )}
                       </span>
                     </td>
-                    {isTypeinReport ? (
-                      <>
-                        <td className="px-3 py-2 text-right text-slate-700">{(f.serviceAll ?? 0).toLocaleString('th-TH')}</td>
-                        <td className="px-3 py-2 text-right font-medium text-slate-800">
-                          {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td className="px-3 py-2 text-right text-slate-700">{(f.byYear['68']?.op ?? 0).toLocaleString('th-TH')}</td>
-                        <td className="px-3 py-2 text-right font-medium text-slate-800">
-                          {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
-                        </td>
-                      </>
-                    )}
+                    <td className="px-3 py-2 text-right text-slate-700">
+                      {isTypeinReport
+                        ? (f.byYear['69']?.op ?? 0).toLocaleString('th-TH')
+                        : (f.byYear['68']?.op ?? 0).toLocaleString('th-TH')
+                      }
+                    </td>
+                    <td className="px-3 py-2 text-right font-medium text-slate-800">
+                      {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
+                    </td>
                     <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
                     <td className="px-3 py-2">
                       {percent >= 5 ? (
@@ -827,32 +827,29 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
-                  {isTypeinReport ? (
-                    <>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.serviceAll ?? 0), 0).toLocaleString('th-TH')}
-                      </td>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0).toLocaleString('th-TH')}
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0).toLocaleString('th-TH')}
-                      </td>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0).toLocaleString('th-TH')}
-                      </td>
-                    </>
-                  )}
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities
+                      .reduce(
+                        (sum, f) =>
+                          sum +
+                          (isTypeinReport ? f.byYear['69']?.op ?? 0 : f.byYear['68']?.op ?? 0),
+                        0,
+                      )
+                      .toLocaleString('th-TH')}
+                  </td>
+                  <td className="px-3 py-3 text-right">
+                    {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0).toLocaleString('th-TH')}
+                  </td>
                   <td className="px-3 py-3 text-right text-brand-700">
                     {(() => {
-                      const totalService = isTypeinReport
-                        ? filteredFacilities.reduce((sum, f) => sum + (f.serviceAll ?? 0), 0)
-                        : filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0)
+                      const totalOp = filteredFacilities.reduce(
+                        (sum, f) =>
+                          sum +
+                          (isTypeinReport ? f.byYear['69']?.op ?? 0 : f.byYear['68']?.op ?? 0),
+                        0,
+                      )
                       const totalTelemed = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0)
-                      const percent = totalService > 0 ? (totalTelemed / totalService) * 100 : 0
+                      const percent = totalOp > 0 ? (totalTelemed / totalOp) * 100 : 0
                       return `${percent.toFixed(1)}%`
                     })()}
                   </td>
