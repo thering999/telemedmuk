@@ -8,14 +8,14 @@ import AdminPanel from './components/AdminPanel'
 type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import'
 
 const TABS: { key: TabKey; label: string }[] = [
+  { key: 'hdc', label: 'ข้อมูล HDC (Hippo)' },
   { key: 'powerbi', label: 'ข้อมูล Telemedicine (Power BI)' },
   { key: 'looker', label: 'ข้อมูล Telemedicine (Looker Studio)' },
-  { key: 'hdc', label: 'ข้อมูล HDC (Hippo)' },
   { key: 'import', label: 'นำเข้า Excel' },
 ]
 
 function App() {
-  const [activeTab, setActiveTab] = useState<TabKey>('powerbi')
+  const [activeTab, setActiveTab] = useState<TabKey>('hdc')
   const [showAdmin, setShowAdmin] = useState(false)
 
   return (
