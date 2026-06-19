@@ -16,13 +16,16 @@ const FILENAME_PATTERN = /^(\d{4})(\d{2})(\d{2})_(\d{2})_telemed_hosp(?:_\w+)?(?
 // Mirrors SUFFIX_PATTERN in scripts/import-xlsx.mjs — keep in sync.
 const SUFFIX_PATTERN = /^\d{4}\d{2}\d{2}_\d{2}_telemed_hosp(_\w+)?(?: ?\(\d+\))?\.xlsx$/i
 
-// Keep in sync with ReportCategory in src/types/hdc.ts
-const NEW_CATEGORIES: ReportCategory[] = ['all', 'person', 'ncd', 'mch', 'ltc_pal', 'followup']
+// Keep in sync with ReportCategory in src/types/hdc.ts. "typein" is kept
+// separate from "base" since it's computed from a different notebook/formula
+// (q_telemed_hosp-235.ipynb) than the master notebook's base/_NNN files.
+const NEW_CATEGORIES: ReportCategory[] = ['all', 'person', 'ncd', 'mch', 'ltc_pal', 'followup', 'typein']
 
 /**
  * Detect the report category from a Hippo export filename, mirroring the
  * same rules as scripts/import-xlsx.mjs's detectCategory():
- *  - no suffix, or "_NNN" (running number), or "_typeinNNN" -> "base"
+ *  - no suffix, or "_NNN" (running number) -> "base"
+ *  - "_typeinNNN" -> "typein" (own report, different formula)
  *  - "_all" / "_person" / "_ncd" / "_mch" / "_ltc_pal" / "_followup" -> that category
  *  - anything else (including filenames that don't match the base
  *    date/province/telemed_hosp shape at all) -> null, caller should reject.
@@ -34,7 +37,7 @@ export function detectCategory(filename: string): ReportCategory | 'base' | null
 
   if (!suffix) return 'base'
   if (/^_\d+$/.test(suffix)) return 'base'
-  if (/^_typein\d+$/.test(suffix)) return 'base'
+  if (/^_typein\d+$/.test(suffix)) return 'typein'
 
   const tag = suffix.slice(1) // drop leading underscore
   if (NEW_CATEGORIES.includes(tag as ReportCategory)) return tag as ReportCategory

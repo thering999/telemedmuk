@@ -58,6 +58,15 @@ const LTC_PAL_DOCS: ReportInfoPanelProps = {
   template: 'q_telemed_hosp_muk.ipynb',
 }
 
+const TYPEIN_DOCS: ReportInfoPanelProps = {
+  objective:
+    'ข้อมูลเฉพาะปีงบประมาณ 69 สำหรับสถานบริการที่กรอกข้อมูลเข้าระบบเอง (manual entry) ไม่ได้ดึงตรงจากระบบ Hippo เหมือนรายงานภาพรวม — แยกไว้เป็นรายงานต่างหากเพื่อไม่ให้ปนกับตัวเลขที่คำนวณด้วยสูตรอื่น',
+  methodology:
+    'ใช้ Service69 เป็นตัวหาร (แทน OP เนื่องจากไฟล์นี้ไม่มีคอลัมน์ OP) และ Telemed69 เป็นยอดโทรเวชกรรม — มีข้อมูลเฉพาะปีงบ 69 เท่านั้น ไม่มีปีงบ 68 ให้เทียบ สูตรนี้มาจากสมุดบันทึกคนละเล่มกับรายงานภาพรวม จึงไม่ควรนำตัวเลขทั้งสองรายงานมารวม/เทียบกันตรงๆ',
+  source: 'ไฟล์กรอกมือที่ส่งออกจากระบบ Hippo เฉพาะส่วน (ไม่ใช่ตาราง service ทั้งหมดเหมือนภาพรวม)',
+  template: 'q_telemed_hosp-235.ipynb',
+}
+
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
 type SubTabKey = 'base' | ReportCategory | 'strategic'
@@ -73,10 +82,12 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
   ltc_pal: 'ltc_pal',
   followup: 'followup',
   strategic: 'all',
+  typein: 'typein',
 }
 
 const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'base', label: 'ภาพรวม' },
+  { key: 'typein', label: 'ข้อมูลกรอกมือ' },
   { key: 'all', label: 'แยกประเภทบริการ' },
   { key: 'person', label: 'รายคน' },
   { key: 'ncd', label: 'NCD' },
@@ -101,6 +112,9 @@ interface CategoryDataMap {
   mch?: GroupBreakdownSnapshot
   ltc_pal?: GroupBreakdownSnapshot
   followup?: FollowupSnapshot
+  /** Same Snapshot/Facility shape as the base category — rendered via the
+   * same SnapshotView component, just with different documentation text. */
+  typein?: Snapshot
 }
 
 function HdcTab() {
@@ -365,6 +379,9 @@ function HdcTab() {
               )}
               {effectiveSubTab === 'strategic' && currentCategoryData.all && (
                 <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
+              )}
+              {effectiveSubTab === 'typein' && currentCategoryData.typein && (
+                <SnapshotView snapshot={currentCategoryData.typein} docs={TYPEIN_DOCS} />
               )}
             </>
           )}

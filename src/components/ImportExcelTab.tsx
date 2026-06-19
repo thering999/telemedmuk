@@ -38,6 +38,7 @@ const DEFAULT_ACTIONS_URL = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/a
 
 const CATEGORY_LABELS: Record<ReportCategory | 'base', string> = {
   base: 'ภาพรวม',
+  typein: 'ข้อมูลกรอกมือ',
   all: 'แยกประเภทบริการ',
   person: 'รายคน',
   ncd: 'NCD',

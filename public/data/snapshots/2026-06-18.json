@@ -3,8 +3,7 @@
   "sourceFile": [
     "20260618_49_telemed_hosp(1).xlsx",
     "20260618_49_telemed_hosp.xlsx",
-    "20260618_49_telemed_hosp_235.xlsx",
-    "20260618_49_telemed_hosp_typein235.xlsx"
+    "20260618_49_telemed_hosp_235.xlsx"
   ],
   "province": {
     "code": "49",
@@ -21,15 +20,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 19833,
+      "opAll": 11078,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6503,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 107,
-          "op": 107
+          "op": 4575,
+          "type2": 0,
+          "type3": 0,
+          "type5": 107
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.65
     },
     {
       "hospcode": "05741",
@@ -221,15 +230,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 42236,
+      "opAll": 18814,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 10632,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 8,
-          "op": 8
+          "telemed": 9,
+          "op": 8182,
+          "type2": 0,
+          "type3": 0,
+          "type5": 9
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.08
     },
     {
       "hospcode": "05748",
@@ -241,15 +260,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 17255,
+      "opAll": 9642,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6156,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 1,
-          "op": 1
+          "op": 3486,
+          "type2": 0,
+          "type3": 0,
+          "type5": 1
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.02
     },
     {
       "hospcode": "05749",
@@ -261,15 +290,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 16486,
+      "opAll": 8645,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4959,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 1,
-          "op": 1
+          "op": 3686,
+          "type2": 0,
+          "type3": 0,
+          "type5": 1
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.02
     },
     {
       "hospcode": "05750",
@@ -311,15 +350,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 28150,
+      "opAll": 12517,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7004,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 20,
-          "op": 20
+          "op": 5513,
+          "type2": 0,
+          "type3": 0,
+          "type5": 20
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.29
     },
     {
       "hospcode": "05752",
@@ -571,15 +620,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 690950,
+      "opAll": 511874,
       "byYear": {
+        "68": {
+          "telemed": 204263,
+          "op": 293134,
+          "type2": 192208,
+          "type3": 7765,
+          "type5": 4290
+        },
         "69": {
-          "telemed": 8831,
-          "op": 50874
+          "telemed": 161441,
+          "op": 218740,
+          "type2": 145087,
+          "type3": 5755,
+          "type5": 10599
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 3.62
     },
     {
       "hospcode": "14879",
@@ -591,15 +650,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 14159,
+      "opAll": 9030,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5391,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 46,
-          "op": 46
+          "op": 3639,
+          "type2": 0,
+          "type3": 0,
+          "type5": 46
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.85
     },
     {
       "hospcode": "14893",
@@ -701,15 +770,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 10401,
+      "opAll": 5486,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3417,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 40,
-          "op": 40
+          "op": 2069,
+          "type2": 0,
+          "type3": 0,
+          "type5": 40
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.17
     },
     {
       "hospcode": "05762",
@@ -751,15 +830,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 20592,
+      "opAll": 10371,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6203,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 15,
-          "op": 15
+          "op": 4168,
+          "type2": 0,
+          "type3": 0,
+          "type5": 15
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.24
     },
     {
       "hospcode": "05764",
@@ -831,15 +920,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 12320,
+      "opAll": 8189,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4976,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 4,
-          "op": 4
+          "telemed": 7,
+          "op": 3213,
+          "type2": 0,
+          "type3": 0,
+          "type5": 7
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.14
     },
     {
       "hospcode": "05767",
@@ -881,15 +980,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 12393,
+      "opAll": 7193,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3801,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 15,
-          "op": 15
+          "op": 3392,
+          "type2": 0,
+          "type3": 0,
+          "type5": 15
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.39
     },
     {
       "hospcode": "11113",
@@ -901,15 +1010,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 175059,
+      "opAll": 132933,
       "byYear": {
+        "68": {
+          "telemed": 40601,
+          "op": 77842,
+          "type2": 39094,
+          "type3": 0,
+          "type5": 1507
+        },
         "69": {
-          "telemed": 273,
-          "op": 8411
+          "telemed": 28886,
+          "op": 55091,
+          "type2": 28277,
+          "type3": 2,
+          "type5": 607
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.78
     },
     {
       "hospcode": "11759",
@@ -921,15 +1040,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 14740,
+      "opAll": 8543,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5293,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 23,
-          "op": 23
+          "telemed": 25,
+          "op": 3250,
+          "type2": 1,
+          "type3": 0,
+          "type5": 24
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.45
     },
     {
       "hospcode": "05769",
@@ -1091,15 +1220,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 33551,
+      "opAll": 13149,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7261,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 4,
-          "op": 5
+          "telemed": 6,
+          "op": 5888,
+          "type2": 0,
+          "type3": 2,
+          "type5": 4
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.06
     },
     {
       "hospcode": "05776",
@@ -1291,12 +1430,22 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 7088,
+      "opAll": 4185,
       "byYear": {
-        "69": {
+        "68": {
           "telemed": 0,
-          "op": 1
+          "op": 2175,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
+        "69": {
+          "telemed": 3,
+          "op": 2010,
+          "type2": 3,
+          "type3": 0,
+          "type5": 0
         }
       },
       "percentTelemed69PerOP68": 0
@@ -1311,15 +1460,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 175193,
+      "opAll": 112938,
       "byYear": {
+        "68": {
+          "telemed": 19344,
+          "op": 63742,
+          "type2": 18238,
+          "type3": 18,
+          "type5": 1088
+        },
         "69": {
-          "telemed": 1294,
-          "op": 7979
+          "telemed": 20779,
+          "op": 49196,
+          "type2": 18775,
+          "type3": 37,
+          "type5": 1967
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 3.09
     },
     {
       "hospcode": "05781",
@@ -1331,15 +1490,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 23191,
+      "opAll": 9009,
       "byYear": {
-        "69": {
+        "68": {
           "telemed": 0,
-          "op": 2
+          "op": 4755,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
+        "69": {
+          "telemed": 217,
+          "op": 4254,
+          "type2": 1,
+          "type3": 1,
+          "type5": 215
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 4.52
     },
     {
       "hospcode": "05782",
@@ -1351,15 +1520,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 8313,
+      "opAll": 5950,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3332,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 83,
-          "op": 83
+          "op": 2618,
+          "type2": 0,
+          "type3": 0,
+          "type5": 83
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 2.49
     },
     {
       "hospcode": "05783",
@@ -1371,12 +1550,22 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 18534,
+      "opAll": 10445,
       "byYear": {
-        "69": {
+        "68": {
           "telemed": 0,
-          "op": 40
+          "op": 5887,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
+        "69": {
+          "telemed": 40,
+          "op": 4558,
+          "type2": 40,
+          "type3": 0,
+          "type5": 0
         }
       },
       "percentTelemed69PerOP68": 0
@@ -1391,15 +1580,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 5947,
+      "opAll": 3060,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 1912,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 81,
-          "op": 81
+          "op": 1148,
+          "type2": 0,
+          "type3": 0,
+          "type5": 81
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 4.24
     },
     {
       "hospcode": "05785",
@@ -1411,15 +1610,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 23258,
+      "opAll": 11334,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6978,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 30,
-          "op": 30
+          "telemed": 135,
+          "op": 4356,
+          "type2": 0,
+          "type3": 0,
+          "type5": 135
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.93
     },
     {
       "hospcode": "05786",
@@ -1431,15 +1640,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 19788,
+      "opAll": 6710,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3889,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 161,
-          "op": 161
+          "telemed": 246,
+          "op": 2821,
+          "type2": 0,
+          "type3": 0,
+          "type5": 246
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 6.33
     },
     {
       "hospcode": "05787",
@@ -1451,15 +1670,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 17804,
+      "opAll": 10022,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6148,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 11,
-          "op": 11
+          "telemed": 508,
+          "op": 3874,
+          "type2": 0,
+          "type3": 0,
+          "type5": 508
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 8.26
     },
     {
       "hospcode": "05788",
@@ -1501,15 +1730,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 21339,
+      "opAll": 8147,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4654,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 209,
-          "op": 209
+          "op": 3493,
+          "type2": 0,
+          "type3": 0,
+          "type5": 209
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 4.49
     },
     {
       "hospcode": "11115",
@@ -1521,15 +1760,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 147006,
+      "opAll": 88032,
       "byYear": {
+        "68": {
+          "telemed": 15819,
+          "op": 49505,
+          "type2": 12756,
+          "type3": 100,
+          "type5": 2963
+        },
         "69": {
-          "telemed": 2314,
-          "op": 5019
+          "telemed": 11197,
+          "op": 38527,
+          "type2": 8498,
+          "type3": 0,
+          "type5": 2699
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 5.45
     },
     {
       "hospcode": "05790",
@@ -1601,15 +1850,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 32771,
+      "opAll": 12549,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7474,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 2,
-          "op": 2
+          "op": 5075,
+          "type2": 0,
+          "type3": 0,
+          "type5": 2
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.03
     },
     {
       "hospcode": "05793",
@@ -1621,15 +1880,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 24343,
+      "opAll": 11004,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6408,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 26,
-          "op": 26
+          "op": 4596,
+          "type2": 0,
+          "type3": 0,
+          "type5": 26
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.41
     },
     {
       "hospcode": "05794",
@@ -1641,12 +1910,22 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 13813,
+      "opAll": 7067,
       "byYear": {
-        "69": {
+        "68": {
           "telemed": 0,
-          "op": 1
+          "op": 4107,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
+        "69": {
+          "telemed": 1,
+          "op": 2960,
+          "type2": 0,
+          "type3": 1,
+          "type5": 0
         }
       },
       "percentTelemed69PerOP68": 0
@@ -1751,15 +2030,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 19061,
+      "opAll": 10640,
       "byYear": {
+        "68": {
+          "telemed": 3,
+          "op": 6413,
+          "type2": 3,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 1,
-          "op": 81
+          "telemed": 81,
+          "op": 4227,
+          "type2": 80,
+          "type3": 0,
+          "type5": 1
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.02
     },
     {
       "hospcode": "05799",
@@ -1771,15 +2060,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 11690,
+      "opAll": 6230,
       "byYear": {
+        "68": {
+          "telemed": 4,
+          "op": 3763,
+          "type2": 0,
+          "type3": 0,
+          "type5": 4
+        },
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 4,
+          "op": 2467,
+          "type2": 0,
+          "type3": 0,
+          "type5": 4
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.11
     },
     {
       "hospcode": "11116",
@@ -1791,15 +2090,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 186046,
+      "opAll": 144176,
       "byYear": {
+        "68": {
+          "telemed": 36010,
+          "op": 82684,
+          "type2": 34039,
+          "type3": 2,
+          "type5": 1969
+        },
         "69": {
-          "telemed": 592,
-          "op": 9302
+          "telemed": 28368,
+          "op": 61492,
+          "type2": 26366,
+          "type3": 1,
+          "type5": 2001
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 2.42
     },
     {
       "hospcode": "13984",
@@ -1841,15 +2150,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 12562,
+      "opAll": 7121,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4395,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 34,
-          "op": 34
+          "telemed": 45,
+          "op": 2726,
+          "type2": 0,
+          "type3": 0,
+          "type5": 45
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.02
     },
     {
       "hospcode": "05800",
@@ -1861,15 +2180,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 10396,
+      "opAll": 6186,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3555,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 27,
-          "op": 27
+          "telemed": 92,
+          "op": 2631,
+          "type2": 0,
+          "type3": 0,
+          "type5": 92
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 2.59
     },
     {
       "hospcode": "05801",
@@ -1911,15 +2240,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 11850,
+      "opAll": 6721,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4076,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 1,
-          "op": 1
+          "op": 2645,
+          "type2": 0,
+          "type3": 0,
+          "type5": 1
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.02
     },
     {
       "hospcode": "05803",
@@ -1931,15 +2270,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 16227,
+      "opAll": 8842,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4953,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 61,
-          "op": 61
+          "telemed": 76,
+          "op": 3889,
+          "type2": 0,
+          "type3": 0,
+          "type5": 76
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.53
     },
     {
       "hospcode": "05804",
@@ -1951,15 +2300,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 17015,
+      "opAll": 8007,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4773,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 52,
-          "op": 53
+          "telemed": 53,
+          "op": 3234,
+          "type2": 1,
+          "type3": 0,
+          "type5": 52
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.09
     },
     {
       "hospcode": "05805",
@@ -1971,15 +2330,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 11377,
+      "opAll": 7172,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4213,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 42,
-          "op": 42
+          "telemed": 221,
+          "op": 2959,
+          "type2": 0,
+          "type3": 0,
+          "type5": 221
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 5.25
     },
     {
       "hospcode": "11117",
@@ -1991,15 +2360,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 136980,
+      "opAll": 111601,
       "byYear": {
+        "68": {
+          "telemed": 21293,
+          "op": 78347,
+          "type2": 19896,
+          "type3": 2,
+          "type5": 1395
+        },
         "69": {
-          "telemed": 1173,
-          "op": 2918
+          "telemed": 7438,
+          "op": 33254,
+          "type2": 5712,
+          "type3": 0,
+          "type5": 1726
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 2.2
     },
     {
       "hospcode": "05806",
@@ -2011,15 +2390,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 16629,
+      "opAll": 6703,
       "byYear": {
+        "68": {
+          "telemed": 10,
+          "op": 3648,
+          "type2": 0,
+          "type3": 10,
+          "type5": 0
+        },
         "69": {
-          "telemed": 77,
-          "op": 78
+          "telemed": 78,
+          "op": 3055,
+          "type2": 0,
+          "type3": 1,
+          "type5": 77
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 2.11
     },
     {
       "hospcode": "05807",
@@ -2031,15 +2420,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 8167,
+      "opAll": 4486,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 2572,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 26,
+          "op": 1914,
+          "type2": 0,
+          "type3": 0,
+          "type5": 26
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 1.01
     },
     {
       "hospcode": "05808",
@@ -2051,15 +2450,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 12863,
+      "opAll": 6453,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3992,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 1,
-          "op": 1
+          "op": 2461,
+          "type2": 0,
+          "type3": 0,
+          "type5": 1
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.03
     },
     {
       "hospcode": "05809",
@@ -2071,12 +2480,22 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 22464,
+      "opAll": 11108,
       "byYear": {
+        "68": {
+          "telemed": 165,
+          "op": 6044,
+          "type2": 165,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
-          "telemed": 0,
-          "op": 1
+          "telemed": 1,
+          "op": 5064,
+          "type2": 1,
+          "type3": 0,
+          "type5": 0
         }
       },
       "percentTelemed69PerOP68": 0
@@ -2091,15 +2510,25 @@
       "mcode": "75000",
       "mName": "องค์กรปกครองส่วนท้องถิ่น",
       "depName": null,
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 20820,
+      "opAll": 11884,
       "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6631,
+          "type2": 0,
+          "type3": 0,
+          "type5": 0
+        },
         "69": {
           "telemed": 1,
-          "op": 1
+          "op": 5253,
+          "type2": 0,
+          "type3": 0,
+          "type5": 1
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 0.02
     },
     {
       "hospcode": "11118",
@@ -2111,15 +2540,25 @@
       "mcode": "21000",
       "mName": "กระทรวงสาธารณสุข",
       "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 0,
-      "opAll": 0,
+      "serviceAll": 124963,
+      "opAll": 104213,
       "byYear": {
+        "68": {
+          "telemed": 20552,
+          "op": 58150,
+          "type2": 19532,
+          "type3": 49,
+          "type5": 971
+        },
         "69": {
-          "telemed": 746,
-          "op": 5947
+          "telemed": 16682,
+          "op": 46063,
+          "type2": 15058,
+          "type3": 54,
+          "type5": 1570
         }
       },
-      "percentTelemed69PerOP68": 0
+      "percentTelemed69PerOP68": 2.7
     },
     {
       "hospcode": "15009",

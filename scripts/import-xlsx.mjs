@@ -51,12 +51,18 @@ const PROVINCE_NAMES = {
 // Keep in sync with FISCAL_YEARS in src/types/hdc.ts
 const FISCAL_YEARS = ['68', '69'];
 
-// Keep in sync with ReportCategory in src/types/hdc.ts
-const NEW_CATEGORIES = ['all', 'person', 'ncd', 'mch', 'ltc_pal', 'followup'];
+// Keep in sync with ReportCategory in src/types/hdc.ts. "typein" is kept
+// separate from "base" (not merged in) because it's computed from a
+// different notebook/formula (q_telemed_hosp-235.ipynb: Service69 as the OP
+// fallback, year 69 only) than the master notebook's own base/_NNN files —
+// mixing the two into one merged table would silently combine numbers from
+// two different calculation methods row-by-row.
+const NEW_CATEGORIES = ['all', 'person', 'ncd', 'mch', 'ltc_pal', 'followup', 'typein'];
 
 /**
  * Detect the report category from a Hippo export filename.
- *  - no suffix, or "_NNN" (running number), or "_typeinNNN" -> "base"
+ *  - no suffix, or "_NNN" (running number) -> "base"
+ *  - "_typeinNNN" -> "typein" (own report, different formula — not merged into base)
  *  - "_all" / "_person" / "_ncd" / "_mch" / "_ltc_pal" / "_followup" -> that category
  *  - anything else unrecognized -> null (caller should skip the file)
  * Returns null (rather than throwing) if the filename doesn't even match the
@@ -69,7 +75,7 @@ function detectCategory(filename) {
 
   if (!suffix) return 'base';
   if (/^_\d+$/.test(suffix)) return 'base';
-  if (/^_typein\d+$/.test(suffix)) return 'base';
+  if (/^_typein\d+$/.test(suffix)) return 'typein';
 
   const tag = suffix.slice(1); // drop leading underscore
   if (NEW_CATEGORIES.includes(tag)) return tag;
@@ -384,8 +390,13 @@ function parseFile(filename) {
   const worksheet = workbook.Sheets[sheetName];
   const rows = XLSX.utils.sheet_to_json(worksheet, { defval: null, raw: true });
 
+  // "typein" shares base's full identity columns (incl. MCODE/M_NAME/DEP_NAME) and its
+  // Service69/Telemed69-only shape is already handled by resolveYearStats' "Format C"
+  // branch, so it reuses transformRow rather than the slim transformRowForCategory path.
   const facilities =
-    category === 'base' ? rows.map(transformRow) : rows.map((row) => transformRowForCategory(row, category));
+    category === 'base' || category === 'typein'
+      ? rows.map(transformRow)
+      : rows.map((row) => transformRowForCategory(row, category));
 
   const provinceName = PROVINCE_NAMES[provinceCode] ?? null;
   if (!provinceName) {

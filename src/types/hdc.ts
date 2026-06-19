@@ -86,7 +86,7 @@ export interface FacilityIdentity {
   hostypeName: string
 }
 
-export type ReportCategory = 'all' | 'person' | 'ncd' | 'mch' | 'ltc_pal' | 'followup'
+export type ReportCategory = 'all' | 'person' | 'ncd' | 'mch' | 'ltc_pal' | 'followup' | 'typein'
 
 export interface TypeYearStats {
   service: number
