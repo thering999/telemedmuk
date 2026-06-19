@@ -17,7 +17,7 @@ import type { Facility, FiscalYear, Snapshot, SnapshotIndexEntry } from '../type
 import { FISCAL_YEARS, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import type { ExportColumn } from '../lib/exportTable'
-import { CHART_COLORS, COLORS } from '../lib/designSystem'
+import { CHART_COLORS } from '../lib/designSystem'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 
