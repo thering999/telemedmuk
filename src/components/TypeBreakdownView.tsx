@@ -6,8 +6,6 @@ import ExportToolbar from './ExportToolbar'
 
 export interface TypeBreakdownViewProps {
   snapshot: TypeBreakdownSnapshot
-  /** Word used for the value unit, e.g. "ครั้ง" (visits) or "คน" (persons). */
-  valueLabel: string
   /** Section title, e.g. "แยกประเภทบริการ" or "รายคน". */
   title: string
   /** Per-instance documentation content (differs between "all" and "person"). */
@@ -16,7 +14,7 @@ export interface TypeBreakdownViewProps {
 
 const ALL_HOSTYPES = '__all__'
 
-function TypeBreakdownView({ snapshot, valueLabel, title, docs }: TypeBreakdownViewProps) {
+function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
 
