@@ -523,7 +523,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 p-5 shadow-md hover:shadow-lg transition-shadow">
           {selectedFacility ? (
             <>
               <h3 className="mb-4 text-base font-semibold text-slate-800">
@@ -589,7 +589,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           )}
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 p-5 shadow-md hover:shadow-lg transition-shadow">
           <h3 className="mb-4 text-base font-semibold text-slate-800">
             สัดส่วนผู้รับบริการ Telemedicine แยกตามประเภทบริการ (ปีงบ {fiscalYear})
           </h3>

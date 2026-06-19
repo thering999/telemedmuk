@@ -117,7 +117,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
   }, [isPersonReport])
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-blue-50 to-white min-h-screen p-6 rounded-3xl">
       <ReportInfoPanel {...docs} />
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
