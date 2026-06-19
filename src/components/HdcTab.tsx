@@ -352,7 +352,6 @@ function HdcTab() {
               {effectiveSubTab === 'all' && currentCategoryData.all && (
                 <TypeBreakdownView
                   snapshot={currentCategoryData.all}
-                  valueLabel="ครั้ง"
                   title="แยกประเภทบริการ"
                   docs={ALL_DOCS}
                 />
@@ -360,7 +359,6 @@ function HdcTab() {
               {effectiveSubTab === 'person' && currentCategoryData.person && (
                 <TypeBreakdownView
                   snapshot={currentCategoryData.person}
-                  valueLabel="คน"
                   title="รายคน"
                   docs={PERSON_DOCS}
                 />
