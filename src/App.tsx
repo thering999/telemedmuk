@@ -19,20 +19,20 @@ function App() {
   const [showAdmin, setShowAdmin] = useState(false)
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50">
+      <header className="border-b-2 border-cyan-300 bg-gradient-to-r from-white via-blue-50 to-cyan-50 shadow-md">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 flex justify-between items-start">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-800 sm:text-3xl">
-              Dashboard Telemedicine จังหวัดมุกดาหาร
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-teal-600 sm:text-4xl">
+              📊 Dashboard Telemedicine จังหวัดมุกดาหาร
             </h1>
-            <p className="mt-1 text-sm text-slate-500">
-              ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
+            <p className="mt-2 text-sm font-medium text-slate-600">
+              ✨ ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
             </p>
           </div>
           <button
             onClick={() => setShowAdmin(true)}
-            className="mt-2 text-slate-400 hover:text-slate-600 text-sm font-medium transition"
+            className="mt-2 text-slate-500 hover:text-cyan-600 text-2xl font-medium transition-all hover:scale-110"
             title="Admin Panel"
           >
             ⚙️
@@ -41,16 +41,16 @@ function App() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-        <div className="mb-6 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+        <div className="mb-6 inline-flex rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-white to-blue-50 p-1 shadow-md hover:shadow-lg transition-shadow">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors sm:text-base ${
+              className={`rounded-lg px-4 py-2 text-sm font-bold transition-all sm:text-base ${
                 activeTab === tab.key
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg scale-105'
+                  : 'text-slate-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100'
               }`}
             >
               {tab.label}
