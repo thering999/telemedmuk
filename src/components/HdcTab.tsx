@@ -13,6 +13,7 @@ import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
 import FollowupView from './FollowupView'
 import StrategicAnalysisView from './StrategicAnalysisView'
+import CoverageView from './CoverageView'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DOCS: ReportInfoPanelProps = {
@@ -69,7 +70,7 @@ const TYPEIN_DOCS: ReportInfoPanelProps = {
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
-type SubTabKey = 'base' | ReportCategory | 'strategic'
+type SubTabKey = 'base' | ReportCategory | 'strategic' | 'coverage'
 
 // Sub-tabs whose visibility is gated by a NEW report category (beyond "base"),
 // keyed by the tab's own key so 'strategic' can depend on the 'all' category
@@ -87,6 +88,7 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
 
 const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'base', label: 'ภาพรวม' },
+  { key: 'coverage', label: 'ความครอบคลุม' },
   { key: 'typein', label: 'ข้อมูลกรอกมือ' },
   { key: 'all', label: 'แยกประเภทบริการ' },
   { key: 'person', label: 'รายคน' },
@@ -216,7 +218,11 @@ function HdcTab() {
   // 'strategic' tab has no JSON file of its own — it reuses the 'all'
   // category's cache slot (same data the "แยกประเภทบริการ" tab uses).
   const categoryToFetch: ReportCategory | null =
-    effectiveSubTab === 'base' ? null : effectiveSubTab === 'strategic' ? 'all' : (effectiveSubTab as ReportCategory)
+    effectiveSubTab === 'base' || effectiveSubTab === 'coverage'
+      ? null
+      : effectiveSubTab === 'strategic'
+        ? 'all'
+        : (effectiveSubTab as ReportCategory)
 
   useEffect(() => {
     if (!categoryToFetch) return
@@ -333,7 +339,9 @@ function HdcTab() {
         <SnapshotView snapshot={snapshot} snapshotIndex={index} />
       )}
 
-      {snapshot && !isStale && effectiveSubTab !== 'base' && (
+      {snapshot && !isStale && effectiveSubTab === 'coverage' && <CoverageView snapshot={snapshot} />}
+
+      {snapshot && !isStale && effectiveSubTab !== 'base' && effectiveSubTab !== 'coverage' && (
         <>
           {!activeCategoryReady && !activeCategoryError && (
             <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
