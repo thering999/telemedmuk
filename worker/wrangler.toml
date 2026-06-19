@@ -1,0 +1,11 @@
+name = "telemedmuk-save-snapshot"
+main = "src/index.ts"
+compatibility_date = "2026-06-18"
+
+# This Worker only uses standard Web APIs (fetch, crypto, atob/btoa-equivalent
+# via Uint8Array, etc.) to talk to the GitHub REST API, so Node.js
+# compatibility (`nodejs_compat`) is intentionally NOT enabled — keeping the
+# bundle minimal and avoiding the Node compat surface entirely.
+
+[observability]
+enabled = true

@@ -1,0 +1,18 @@
+# Copy this file to ".dev.vars" (same folder) for LOCAL development only
+# (`npm run dev` / `wrangler dev`). Never commit the real ".dev.vars" file —
+# it is gitignored on purpose. Real production secrets are set separately
+# via `npx wrangler secret put <NAME>` (see worker/README.md) and are NOT
+# read from this file when deployed.
+
+# A fine-grained GitHub Personal Access Token scoped to ONLY the
+# thering999/telemedmuk repository, with repository permission
+# "Contents: Read and write" (and nothing else). This is the real secret —
+# it never reaches the browser, only this Worker uses it server-side.
+GITHUB_TOKEN=
+
+# Any random string you choose yourself (e.g. run `crypto.randomUUID()` once
+# in a browser console, or any password generator). This is NOT a real
+# secret boundary — it ships inside the public frontend JS bundle and only
+# serves as a basic deterrent against random bots hitting the endpoint. The
+# same value must also be set in the frontend's VITE_APP_SHARED_KEY.
+APP_SHARED_KEY=

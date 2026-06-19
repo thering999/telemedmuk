@@ -13,6 +13,13 @@ dist-ssr
 *.local
 .claude/settings.local.json
 
+# Environment variables (may contain the real VITE_APP_SHARED_KEY once set)
+.env
+.env.local
+
+# Cloudflare Worker local secrets (real GitHub token / app key for local dev)
+worker/.dev.vars
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

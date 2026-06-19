@@ -1,0 +1,15 @@
+{
+  "name": "telemedmuk-save-snapshot-worker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260617.1",
+    "typescript": "~6.0.2",
+    "wrangler": "^4.102.0"
+  }
+}
