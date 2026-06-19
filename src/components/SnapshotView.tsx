@@ -391,6 +391,57 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         <KpiCard label="ร้อยละ Telemedicine ต่อ OP" value={`${kpis.percent.toFixed(1)}%`} accent />
       </div>
 
+      <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 px-5 py-4 shadow-sm">
+        <h3 className="mb-4 text-sm font-semibold text-slate-800">📊 เป้าหมายและความก้าวหน้า</h3>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {(() => {
+            const primaryCare = filteredFacilities.filter(f => f.hostypeName.includes('ส่งเสริมสุขภาพตำบล'));
+            const primaryCareOP = primaryCare.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0);
+            const primaryCareTelemed = primaryCare.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0);
+            const primaryCarePercent = primaryCareOP > 0 ? (primaryCareTelemed / primaryCareOP) * 100 : 0;
+            const primaryCareGoal = 10;
+            const primaryCareStatus = primaryCarePercent >= primaryCareGoal ? '✅' : '⚠️';
+
+            return (
+              <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2">
+                <p className="text-xs font-medium text-blue-900">รพสต. (Primary Care)</p>
+                <p className="mt-1 text-lg font-bold text-blue-700">{primaryCarePercent.toFixed(1)}%</p>
+                <p className="text-xs text-blue-600">เป้าหมาย: {primaryCareGoal}% {primaryCareStatus}</p>
+              </div>
+            );
+          })()}
+
+          {(() => {
+            const districtGoal = 30;
+            const currentPercent = kpis.percent;
+            const status = currentPercent >= districtGoal ? '✅' : '⚠️';
+
+            return (
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2">
+                <p className="text-xs font-medium text-emerald-900">อำเภอ (District Avg)</p>
+                <p className="mt-1 text-lg font-bold text-emerald-700">{currentPercent.toFixed(1)}%</p>
+                <p className="text-xs text-emerald-600">เป้าหมาย: {districtGoal}% {status}</p>
+              </div>
+            );
+          })()}
+
+          {(() => {
+            const allFacilities = snapshot.facilities;
+            const allOP = allFacilities.reduce((sum, f) => sum + (f.byYear[fiscalYear]?.op ?? 0), 0);
+            const allTelemed = allFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[fiscalYear]), 0);
+            const allPercent = allOP > 0 ? (allTelemed / allOP) * 100 : 0;
+
+            return (
+              <div className="rounded-lg border border-slate-300 bg-slate-100 px-3 py-2">
+                <p className="text-xs font-medium text-slate-700">จังหวัดรวม (Province)</p>
+                <p className="mt-1 text-lg font-bold text-slate-800">{allPercent.toFixed(1)}%</p>
+                <p className="text-xs text-slate-600">{allFacilities.length} สถานบริการ</p>
+              </div>
+            );
+          })()}
+        </div>
+      </div>
+
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -594,7 +645,17 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                     <td className="px-3 py-2 text-slate-600">{f.hospcode}</td>
                     <td className="px-3 py-2 text-slate-800">{f.hospname}</td>
                     <td className="px-3 py-2 text-slate-600">{f.ampName}</td>
-                    <td className="px-3 py-2 text-slate-600">{f.hostypeName}</td>
+                    <td className="px-3 py-2 text-slate-600">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs">
+                          {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
+                            <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
+                          ) : (
+                            <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
+                          )}
+                        </span>
+                      </div>
+                    </td>
                     <td className="px-3 py-2 text-right text-slate-700">{op.toLocaleString('th-TH')}</td>
                     <td className="px-3 py-2 text-right text-slate-700">
                       {(stats?.type2 ?? 0).toLocaleString('th-TH')}
