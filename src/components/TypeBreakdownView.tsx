@@ -236,7 +236,12 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                         <td className="px-3 py-2 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right text-slate-700">{type4.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
-                        <td className="px-3 py-2 text-right text-brand-700">{f.percentTelemed69PerOP68.toFixed(2)}%</td>
+                        <td className="px-3 py-2 text-right text-brand-700">
+                          {(() => {
+                            const percent = op68 > 0 ? (type5 / op68) * 100 : 0
+                            return `${percent.toFixed(2)}%`
+                          })()}
+                        </td>
                       </>
                     ) : (
                       <>
