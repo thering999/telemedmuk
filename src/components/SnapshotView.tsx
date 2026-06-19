@@ -132,6 +132,19 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     [snapshot, effectiveFacilityCode],
   )
 
+  // Base metric: OP68 เทียบ Telemed69 (FIXED years, not affected by toggle)
+  const baseMetricKpis = useMemo(() => {
+    let totalOp68 = 0
+    let totalTelemed69 = 0
+    for (const f of filteredFacilities) {
+      totalOp68 += f.byYear['68']?.op ?? 0
+      totalTelemed69 += telemedVisits(f.byYear['69'])
+    }
+    const percent = totalOp68 > 0 ? (totalTelemed69 / totalOp68) * 100 : 0
+    return { totalOp: totalOp68, totalTelemed: totalTelemed69, percent }
+  }, [filteredFacilities])
+
+  // Supplementary metric: Year-flexible comparison (affected by fiscal year toggle)
   const kpis = useMemo(() => {
     let totalOp = 0
     let totalTelemed = 0
@@ -399,12 +412,36 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KpiCard label={`OP รวม (ปีงบ ${fiscalYear})`} value={kpis.totalOp.toLocaleString('th-TH')} />
         <KpiCard
-          label={`ผู้รับบริการ Telemedicine รวม (ปีงบ ${fiscalYear})`}
-          value={kpis.totalTelemed.toLocaleString('th-TH')}
+          label="OP รวม (ปีงบ 68)"
+          value={baseMetricKpis.totalOp.toLocaleString('th-TH')}
+          description="เกณฑ์หลัก"
         />
-        <KpiCard label="ร้อยละ Telemedicine ต่อ OP" value={`${kpis.percent.toFixed(1)}%`} accent />
+        <KpiCard
+          label="ผู้รับบริการ Telemedicine รวม (ปีงบ 69)"
+          value={baseMetricKpis.totalTelemed.toLocaleString('th-TH')}
+          description="เกณฑ์หลัก"
+        />
+        <KpiCard
+          label="เกณฑ์ OP68 เทียบ Telemed69"
+          value={`${baseMetricKpis.percent.toFixed(1)}%`}
+          accent
+          description="หลัก"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <KpiCard label={`OP รวม (ปีงบ ${fiscalYear})`} value={kpis.totalOp.toLocaleString('th-TH')} description="เสริม" />
+        <KpiCard
+          label={`Telemedicine รวม (ปีงบ ${fiscalYear})`}
+          value={kpis.totalTelemed.toLocaleString('th-TH')}
+          description="เสริม"
+        />
+        <KpiCard
+          label={`ร้อยละ (ปีงบ ${fiscalYear})`}
+          value={`${kpis.percent.toFixed(1)}%`}
+          description="เสริม"
+        />
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 px-5 py-4 shadow-sm">
@@ -833,10 +870,27 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
   )
 }
 
-function KpiCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function KpiCard({
+  label,
+  value,
+  accent,
+  description,
+}: {
+  label: string
+  value: string
+  accent?: boolean
+  description?: string
+}) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-sm text-slate-500">{label}</p>
+    <div className={`rounded-2xl border p-5 shadow-sm ${accent ? 'border-brand-200 bg-brand-50' : 'border-slate-200 bg-white'}`}>
+      <div className="flex items-start justify-between">
+        <p className="text-sm text-slate-500">{label}</p>
+        {description && (
+          <span className={`text-xs font-medium ${description === 'หลัก' ? 'text-brand-600' : 'text-slate-400'}`}>
+            {description}
+          </span>
+        )}
+      </div>
       <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800'}`}>{value}</p>
     </div>
   )
