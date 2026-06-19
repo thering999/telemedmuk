@@ -30,9 +30,9 @@ const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${p
 
 const DEFAULT_DOCS: ReportInfoPanelProps = {
   objective:
-    'ภาพรวมจำนวนผู้รับบริการ (OP) และสัดส่วนการใช้บริการรูปแบบทางไกล/นัดหมาย/เชิงรุก ของแต่ละสถานบริการในจังหวัดมุกดาหาร เทียบ 2 ปีงบประมาณ',
+    "เกณฑ์หลักของรายงานนี้คือ 'OP68 เทียบ Telemed69' — เทียบจำนวนผู้รับบริการ OP ทั้งหมดในปีงบ 68 (ฐานงานเดิม) กับจำนวนผู้ใช้บริการโทรเวชกรรมในปีงบ 69 (ปีปัจจุบัน) ของแต่ละสถานบริการในจังหวัดมุกดาหาร นอกจากนี้ยังมีมุมมองเสริมที่เทียบ OP และ Telemedicine ในปีงบเดียวกัน (สลับดูได้ทั้งปีงบ 68/69 ด้วยปุ่มด้านบน) สำหรับติดตามแนวโน้มปีต่อปี",
   methodology:
-    "รองรับไฟล์ส่งออก 2 รูปแบบที่ใช้ร่วมกันได้จากสูตรเดียวกัน (q_telemed_hosp_muk.ipynb): ไฟล์ที่แยกย่อย Type2 (นัดหมาย/ส่งต่อ) + Type3 (เชิงรุก/ชุมชน) + Type5 (โทรเวชกรรม) เป็น 'Telemed', และไฟล์ที่มีผลรวม Telemed สำเร็จรูปอยู่แล้ว — ระบบรวมเป็นค่าเดียวต่อสถานบริการให้อัตโนมัติ ตัวหารหลักคือ OP ข้อมูลกรอกมือ (typein) แยกไว้เป็นรายงานต่างหาก (ดูแท็บ 'ข้อมูลกรอกมือ') เนื่องจากใช้สูตรคำนวณคนละแบบ (จากสมุดบันทึก q_telemed_hosp-235.ipynb) เพื่อไม่ให้ตัวเลขสองสูตรปนกันในตารางเดียว",
+    "เกณฑ์หลัก OP68→Telemed69 มาจากสูตรดั้งเดิมในข้อมูลต้นทาง (คอลัมน์ PercentTelemed69PerOP68) คำนวณแบบรวมก่อนหารเสมอ (sum(Telemed69) ÷ sum(OP68)) ไม่ใช่ค่าเฉลี่ยของร้อยละรายสถานบริการ — ส่วนมุมมองเสริม (ปีงบเดียวกัน) รองรับไฟล์ส่งออก 2 รูปแบบที่ใช้ร่วมกันได้จากสูตรเดียวกัน (q_telemed_hosp_muk.ipynb): ไฟล์ที่แยกย่อย Type2 (นัดหมาย/ส่งต่อ) + Type3 (เชิงรุก/ชุมชน) + Type5 (โทรเวชกรรม) เป็น 'Telemed', และไฟล์ที่มีผลรวม Telemed สำเร็จรูปอยู่แล้ว ข้อมูลกรอกมือ (typein) แยกไว้เป็นรายงานต่างหาก (ดูแท็บ 'ข้อมูลเกณฑ์จาก PH-EOC') เนื่องจากใช้สูตรคำนวณคนละแบบ (จากสมุดบันทึก q_telemed_hosp-235.ipynb) เพื่อไม่ให้ตัวเลขสองสูตรปนกันในตารางเดียว",
   source: 'ตาราง service (ระบบ Hippo) ร่วมกับตารางอ้างอิงระดับประเทศ icd10_chk_op เพื่อกรองเฉพาะการรับบริการที่นับเป็น OP ที่ถูกต้อง (valid=\'T\' และ OP_PP=\'OP\')',
   template: 'q_telemed_hosp_muk.ipynb',
 }
@@ -143,6 +143,24 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     const percent = totalOp > 0 ? (totalTelemed / totalOp) * 100 : 0
     return { totalOp, totalTelemed, percent }
   }, [filteredFacilities, fiscalYear])
+
+  // เกณฑ์ OP68 เทียบ Telemed69: a fixed cross-fiscal-year comparison (OP from
+  // FY68 as the denominator, Telemedicine from FY69 as the numerator) — the
+  // original metric named directly in the source data's own
+  // PercentTelemed69PerOP68 column. This is intentionally NOT affected by the
+  // ปีงบประมาณ toggle above, since it's defined as exactly these two fixed
+  // years, not "whichever year is selected." Aggregated correctly as
+  // sum(telemed69)/sum(op68), not an average of each facility's own percent.
+  const op68Telemed69Kpi = useMemo(() => {
+    let sumOp68 = 0
+    let sumTelemed69 = 0
+    for (const f of filteredFacilities) {
+      sumOp68 += f.byYear['68']?.op ?? 0
+      sumTelemed69 += telemedVisits(f.byYear['69'])
+    }
+    const percent = sumOp68 > 0 ? (sumTelemed69 / sumOp68) * 100 : null
+    return { sumOp68, sumTelemed69, percent }
+  }, [filteredFacilities])
 
   const districtChartData = useMemo(() => {
     const byDistrict = new Map<string, number>()
@@ -389,6 +407,19 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           value={kpis.totalTelemed.toLocaleString('th-TH')}
         />
         <KpiCard label="ร้อยละ Telemedicine ต่อ OP" value={`${kpis.percent.toFixed(1)}%`} accent />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <KpiCard label="OP รวม (ปีงบ 68)" value={op68Telemed69Kpi.sumOp68.toLocaleString('th-TH')} />
+        <KpiCard
+          label="ผู้รับบริการ Telemedicine รวม (ปีงบ 69)"
+          value={op68Telemed69Kpi.sumTelemed69.toLocaleString('th-TH')}
+        />
+        <KpiCard
+          label="เกณฑ์ OP68 เทียบ Telemed69"
+          value={op68Telemed69Kpi.percent === null ? 'ไม่มีข้อมูล' : `${op68Telemed69Kpi.percent.toFixed(1)}%`}
+          accent
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

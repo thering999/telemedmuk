@@ -13,14 +13,13 @@ import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
 import FollowupView from './FollowupView'
 import StrategicAnalysisView from './StrategicAnalysisView'
-import CoverageView from './CoverageView'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DOCS: ReportInfoPanelProps = {
   objective:
     'ดูว่าผู้รับบริการมาในรูปแบบใดบ้างจากทั้ง 5 รูปแบบ เพื่อเข้าใจ \'ส่วนผสม\' ของวิธีให้บริการ ไม่ใช่แค่ตัวเลขรวม',
   methodology:
-    'นับจากฟิลด์ typein ในระบบ Hippo ตามนิยามต้นฉบับ — Type 1: มารับบริการเอง (Walk-in), Type 2: มีนัดหมายไว้หรือถูกส่งต่อมา (Appointment/Refer), Type 3: บริการเชิงรุก เช่น หน่วยแพทย์เคลื่อนที่หรือคัดกรองในชุมชน (Community outreach), Type 4: ให้บริการที่บ้าน (Home Visit), Type 5: การแพทย์ทางไกล (Telemedicine) มุมมองนี้แสดง Type 5 เป็นค่า \'Telemedicine\' ตรงตามนิยาม ไม่ได้รวมกับ Type 2/3 แบบที่ใช้ในมุมมองภาพรวม',
+    'นับจากฟิลด์ typein ในระบบ Hippo ตามนิยามต้นฉบับ — Type 1: มารับบริการเอง (Walk-in), Type 2: มีนัดหมายไว้หรือถูกส่งต่อมา (Appointment/Refer), Type 3: บริการเชิงรุก เช่น หน่วยแพทย์เคลื่อนที่หรือคัดกรองในชุมชน (Community outreach), Type 4: ให้บริการที่บ้าน (Home Visit), Type 5: การแพทย์ทางไกล (Telemedicine) มุมมองนี้แสดง Type 5 เป็นค่า \'Telemedicine\' ตรงตามนิยาม ไม่ได้รวมกับ Type 2/3 แบบที่ใช้ในแท็บ \'เกณฑ์ OP68 เทียบ Telemed69\'',
   source: 'ตาราง service ร่วมกับ icd10_chk_op',
   template: 'q_telemed_hosp_muk.ipynb',
 }
@@ -61,16 +60,16 @@ const LTC_PAL_DOCS: ReportInfoPanelProps = {
 
 const TYPEIN_DOCS: ReportInfoPanelProps = {
   objective:
-    'ข้อมูลเฉพาะปีงบประมาณ 69 ตามเกณฑ์ที่ PH-EOC (ศูนย์ปฏิบัติการฉุกเฉินด้านการแพทย์และสาธารณสุข) กำหนดให้สถานบริการกรอกข้อมูลเข้าระบบเอง (manual entry) ไม่ได้ดึงตรงจากระบบ Hippo เหมือนรายงานภาพรวม — แยกไว้เป็นรายงานต่างหากเพื่อไม่ให้ปนกับตัวเลขที่คำนวณด้วยสูตรอื่น',
+    'ข้อมูลเฉพาะปีงบประมาณ 69 ตามเกณฑ์ที่ PH-EOC (ศูนย์ปฏิบัติการฉุกเฉินด้านการแพทย์และสาธารณสุข) กำหนดให้สถานบริการกรอกข้อมูลเข้าระบบเอง (manual entry) ไม่ได้ดึงตรงจากระบบ Hippo เหมือนแท็บ \'เกณฑ์ OP68 เทียบ Telemed69\' — แยกไว้เป็นรายงานต่างหากเพื่อไม่ให้ปนกับตัวเลขที่คำนวณด้วยสูตรอื่น',
   methodology:
-    'ใช้ Service69 เป็นตัวหาร (แทน OP เนื่องจากไฟล์นี้ไม่มีคอลัมน์ OP) และ Telemed69 เป็นยอดโทรเวชกรรม — มีข้อมูลเฉพาะปีงบ 69 เท่านั้น ไม่มีปีงบ 68 ให้เทียบ สูตรนี้มาจากสมุดบันทึกคนละเล่มกับรายงานภาพรวม จึงไม่ควรนำตัวเลขทั้งสองรายงานมารวม/เทียบกันตรงๆ',
-  source: 'ไฟล์กรอกมือตามเกณฑ์ PH-EOC ที่ส่งออกจากระบบ Hippo เฉพาะส่วน (ไม่ใช่ตาราง service ทั้งหมดเหมือนภาพรวม)',
+    'ใช้ Service69 เป็นตัวหาร (แทน OP เนื่องจากไฟล์นี้ไม่มีคอลัมน์ OP) และ Telemed69 เป็นยอดโทรเวชกรรม — มีข้อมูลเฉพาะปีงบ 69 เท่านั้น ไม่มีปีงบ 68 ให้เทียบ สูตรนี้มาจากสมุดบันทึกคนละเล่มกับแท็บ \'เกณฑ์ OP68 เทียบ Telemed69\' จึงไม่ควรนำตัวเลขทั้งสองรายงานมารวม/เทียบกันตรงๆ',
+  source: 'ไฟล์กรอกมือตามเกณฑ์ PH-EOC ที่ส่งออกจากระบบ Hippo เฉพาะส่วน (ไม่ใช่ตาราง service ทั้งหมดเหมือนแท็บ \'เกณฑ์ OP68 เทียบ Telemed69\')',
   template: 'q_telemed_hosp-235.ipynb',
 }
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
-type SubTabKey = 'base' | ReportCategory | 'strategic' | 'coverage'
+type SubTabKey = 'base' | ReportCategory | 'strategic'
 
 // Sub-tabs whose visibility is gated by a NEW report category (beyond "base"),
 // keyed by the tab's own key so 'strategic' can depend on the 'all' category
@@ -87,8 +86,7 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
 }
 
 const SUB_TABS: { key: SubTabKey; label: string }[] = [
-  { key: 'base', label: 'ภาพรวม' },
-  { key: 'coverage', label: 'ความครอบคลุม' },
+  { key: 'base', label: 'เกณฑ์ OP68 เทียบ Telemed69' },
   { key: 'typein', label: 'ข้อมูลเกณฑ์จาก PH-EOC' },
   { key: 'all', label: 'แยกประเภทบริการ' },
   { key: 'person', label: 'รายคน' },
@@ -218,7 +216,7 @@ function HdcTab() {
   // 'strategic' tab has no JSON file of its own — it reuses the 'all'
   // category's cache slot (same data the "แยกประเภทบริการ" tab uses).
   const categoryToFetch: ReportCategory | null =
-    effectiveSubTab === 'base' || effectiveSubTab === 'coverage'
+    effectiveSubTab === 'base'
       ? null
       : effectiveSubTab === 'strategic'
         ? 'all'
@@ -339,9 +337,7 @@ function HdcTab() {
         <SnapshotView snapshot={snapshot} snapshotIndex={index} />
       )}
 
-      {snapshot && !isStale && effectiveSubTab === 'coverage' && <CoverageView snapshot={snapshot} />}
-
-      {snapshot && !isStale && effectiveSubTab !== 'base' && effectiveSubTab !== 'coverage' && (
+      {snapshot && !isStale && effectiveSubTab !== 'base' && (
         <>
           {!activeCategoryReady && !activeCategoryError && (
             <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
