@@ -191,7 +191,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                     <th className="px-3 py-2 text-right font-medium">Person Type3 (69)</th>
                     <th className="px-3 py-2 text-right font-medium">Person Type4 (69)</th>
                     <th className="px-3 py-2 text-right font-medium">Person Type5 (69)</th>
-                    <th className="px-3 py-2 text-right font-medium">Type5 %</th>
+                    <th className="px-3 py-2 text-right font-medium">Telemedicine %</th>
                     <th className="px-3 py-2 text-right font-medium">All Types Sum</th>
                   </>
                 ) : (
