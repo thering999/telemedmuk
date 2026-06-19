@@ -137,7 +137,18 @@ function ImportExcelTab() {
   const handleFiles = async (fileList: FileList) => {
     setBatchSummary(null)
     const newEntries = await Promise.all(Array.from(fileList).map(readFileAsEntry))
-    setFiles((prev) => [...prev, ...newEntries])
+
+    // Check for duplicates
+    const duplicates = newEntries.filter((entry) => hasDuplicateFilename(entry.filename))
+    if (duplicates.length > 0) {
+      const dupNames = duplicates.map((d) => d.filename).join(', ')
+      setBatchSummary(`⚠️ ไฟล์ซ้ำ: ${dupNames} — จะไม่เพิ่มไฟล์เหล่านี้`)
+      // Only add non-duplicate files
+      const nonDuplicates = newEntries.filter((entry) => !hasDuplicateFilename(entry.filename))
+      setFiles((prev) => [...prev, ...nonDuplicates])
+    } else {
+      setFiles((prev) => [...prev, ...newEntries])
+    }
   }
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,6 +161,10 @@ function ImportExcelTab() {
   }
 
   const reset = () => {
+    if (files.length === 0) return
+    if (!confirm(`ต้องการล้างข้อมูลนำเข้า ${files.length} ไฟล์ หรือไม่?\n\n⚠️ การกระทำนี้ไม่สามารถย้อนกลับได้`)) {
+      return
+    }
     setFiles([])
     setBatchSummary(null)
     if (inputRef.current) inputRef.current.value = ''
@@ -159,6 +174,10 @@ function ImportExcelTab() {
     setFiles((prev) =>
       prev.map((f) => (f.id === id && f.category !== null ? { ...f, selected: !f.selected } : f)),
     )
+  }
+
+  const hasDuplicateFilename = (filename: string): boolean => {
+    return files.some((f) => f.filename === filename)
   }
 
   const updateFileSaveState = (id: string, saveState: FileSaveState) => {
@@ -280,8 +299,8 @@ function ImportExcelTab() {
             <button
               type="button"
               onClick={reset}
-              className="ml-auto rounded-lg border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-100"
-              title="ล้างข้อมูลนำเข้าทั้งหมด"
+              className="ml-auto rounded-lg border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-100 transition"
+              title={`ล้างข้อมูลนำเข้า ${files.length} ไฟล์ — จำเป็นต้องยืนยัน`}
             >
               🗑️ ล้างข้อมูล
             </button>
