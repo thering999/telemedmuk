@@ -186,12 +186,12 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                 <th className="px-3 py-2 text-right font-medium">OP68</th>
                 {isPersonReport ? (
                   <>
-                    <th className="px-3 py-2 text-right font-medium">Type1</th>
-                    <th className="px-3 py-2 text-right font-medium">Type2</th>
-                    <th className="px-3 py-2 text-right font-medium">Type3</th>
-                    <th className="px-3 py-2 text-right font-medium">Type4</th>
-                    <th className="px-3 py-2 text-right font-medium">Type5</th>
-                    <th className="px-3 py-2 text-right font-medium">รวม</th>
+                    <th className="px-3 py-2 text-right font-medium">Person Type1 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Person Type2 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Person Type3 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Person Type4 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Person Type5 (69)</th>
+                    <th className="px-3 py-2 text-right font-medium">Type5 %</th>
                   </>
                 ) : (
                   <>
@@ -236,6 +236,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                         <td className="px-3 py-2 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right text-slate-700">{type4.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-brand-700">{f.percentTelemed69PerOP68.toFixed(2)}%</td>
                       </>
                     ) : (
                       <>
@@ -250,7 +251,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={isPersonReport ? 11 : 9} className="px-3 py-6 text-center text-slate-400">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -279,6 +280,14 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       <td className="px-3 py-3 text-right text-brand-700">
                         {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
+                      <td className="px-3 py-3 text-right text-brand-700">
+                        {(() => {
+                          const totalType5 = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0)
+                          const totalOp = filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0)
+                          const percent = totalOp > 0 ? (totalType5 / totalOp) * 100 : 0
+                          return `${percent.toFixed(2)}%`
+                        })()}
+                      </td>
                     </>
                   ) : (
                     <>
@@ -291,9 +300,9 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       <td className="px-3 py-3 text-right text-brand-700">
                         {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
+                      <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypes69.toLocaleString('th-TH')}</td>
                     </>
                   )}
-                  <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypes69.toLocaleString('th-TH')}</td>
                 </tr>
               )}
             </tbody>
