@@ -6,7 +6,9 @@
       "Bash(rtk grep *)",
       "PowerShell(rtk npm run build)",
       "PowerShell(rtk npm run lint)",
-      "PowerShell(rtk ls \"D:\\\\www\\\\telemedmuk\\\\data\\\\raw\")"
+      "PowerShell(rtk ls \"D:\\\\www\\\\telemedmuk\\\\data\\\\raw\")",
+      "PowerShell(winget --version 2>&1)",
+      "PowerShell(Test-Path \"$env:LOCALAPPDATA\\\\Programs\\\\Tesseract-OCR\\\\tesseract.exe\"; Test-Path \"C:\\\\Program Files\\\\Tesseract-OCR\\\\tesseract.exe\")"
     ],
     "deny": [
       "Bash(ls *)",

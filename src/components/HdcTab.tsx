@@ -12,6 +12,7 @@ import SnapshotView from './SnapshotView'
 import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
 import FollowupView from './FollowupView'
+import StrategicAnalysisView from './StrategicAnalysisView'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DOCS: ReportInfoPanelProps = {
@@ -59,7 +60,20 @@ const LTC_PAL_DOCS: ReportInfoPanelProps = {
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
-type SubTabKey = 'base' | ReportCategory
+type SubTabKey = 'base' | ReportCategory | 'strategic'
+
+// Sub-tabs whose visibility is gated by a NEW report category (beyond "base"),
+// keyed by the tab's own key so 'strategic' can depend on the 'all' category
+// data without being literally the 'all' tab.
+const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
+  all: 'all',
+  person: 'person',
+  ncd: 'ncd',
+  mch: 'mch',
+  ltc_pal: 'ltc_pal',
+  followup: 'followup',
+  strategic: 'all',
+}
 
 const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'base', label: 'ภาพรวม' },
@@ -69,6 +83,7 @@ const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'mch', label: 'MCH' },
   { key: 'ltc_pal', label: 'LTC/Palliative' },
   { key: 'followup', label: 'ติดตามต่อเนื่อง' },
+  { key: 'strategic', label: 'วิเคราะห์เชิงกลยุทธ์' },
 ]
 
 type LoadState =
@@ -165,7 +180,10 @@ function HdcTab() {
   const availableCategories = useMemo(() => currentEntry?.categories ?? [], [currentEntry])
 
   const visibleSubTabs = useMemo(() => {
-    return SUB_TABS.filter((tab) => tab.key === 'base' || availableCategories.includes(tab.key as ReportCategory))
+    return SUB_TABS.filter((tab) => {
+      const gatingCategory = SUB_TAB_GATING_CATEGORY[tab.key]
+      return !gatingCategory || availableCategories.includes(gatingCategory)
+    })
   }, [availableCategories])
 
   // If the active sub-tab isn't available for the currently-selected date
@@ -174,17 +192,22 @@ function HdcTab() {
   // same derive-during-render approach SnapshotView uses for its facility
   // selection cascade. The underlying activeSubTab state is left alone so
   // it's remembered if the user switches back to a date that has it.
-  const effectiveSubTab: SubTabKey =
-    activeSubTab === 'base' || availableCategories.includes(activeSubTab as ReportCategory)
-      ? activeSubTab
-      : 'base'
+  const effectiveSubTab: SubTabKey = (() => {
+    const gatingCategory = SUB_TAB_GATING_CATEGORY[activeSubTab]
+    return !gatingCategory || availableCategories.includes(gatingCategory) ? activeSubTab : 'base'
+  })()
 
   // Lazy-fetch the active sub-tab's category data, only when needed, and
-  // cache it per-date so flipping between sub-tabs doesn't re-fetch.
+  // cache it per-date so flipping between sub-tabs doesn't re-fetch. The
+  // 'strategic' tab has no JSON file of its own — it reuses the 'all'
+  // category's cache slot (same data the "แยกประเภทบริการ" tab uses).
+  const categoryToFetch: ReportCategory | null =
+    effectiveSubTab === 'base' ? null : effectiveSubTab === 'strategic' ? 'all' : (effectiveSubTab as ReportCategory)
+
   useEffect(() => {
-    if (effectiveSubTab === 'base') return
+    if (!categoryToFetch) return
     if (!selectedDate) return
-    const category = effectiveSubTab as ReportCategory
+    const category = categoryToFetch
     if (categoryCache[selectedDate]?.[category]) return
 
     let cancelled = false
@@ -210,7 +233,7 @@ function HdcTab() {
     return () => {
       cancelled = true
     }
-  }, [effectiveSubTab, selectedDate, categoryCache])
+  }, [categoryToFetch, selectedDate, categoryCache])
 
   if (indexState.status === 'loading') {
     return <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
@@ -234,14 +257,11 @@ function HdcTab() {
 
   const { index } = indexState
   const currentCategoryData = selectedDate ? categoryCache[selectedDate] : undefined
-  const activeCategoryKey =
-    effectiveSubTab !== 'base' && selectedDate ? `${selectedDate}/${effectiveSubTab}` : null
+  const activeCategoryKey = categoryToFetch && selectedDate ? `${selectedDate}/${categoryToFetch}` : null
   const activeCategoryError =
     categoryError && categoryError.key === activeCategoryKey ? categoryError.message : null
   const activeCategoryReady =
-    effectiveSubTab !== 'base' && currentCategoryData
-      ? Boolean(currentCategoryData[effectiveSubTab as ReportCategory])
-      : false
+    categoryToFetch && currentCategoryData ? Boolean(currentCategoryData[categoryToFetch]) : false
 
   return (
     <div className="flex flex-col gap-6">
@@ -342,6 +362,9 @@ function HdcTab() {
               )}
               {effectiveSubTab === 'followup' && currentCategoryData.followup && (
                 <FollowupView snapshot={currentCategoryData.followup} />
+              )}
+              {effectiveSubTab === 'strategic' && currentCategoryData.all && (
+                <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
               )}
             </>
           )}
