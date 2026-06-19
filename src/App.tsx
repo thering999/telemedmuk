@@ -3,6 +3,7 @@ import PowerBiTab from './components/PowerBiTab'
 import LookerStudioTab from './components/LookerStudioTab'
 import HdcTab from './components/HdcTab'
 import ImportExcelTab from './components/ImportExcelTab'
+import AdminPanel from './components/AdminPanel'
 
 type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import'
 
@@ -15,17 +16,27 @@ const TABS: { key: TabKey; label: string }[] = [
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('powerbi')
+  const [showAdmin, setShowAdmin] = useState(false)
 
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-          <h1 className="text-2xl font-semibold text-slate-800 sm:text-3xl">
-            Dashboard Telemedicine จังหวัดมุกดาหาร
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
-          </p>
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 flex justify-between items-start">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-800 sm:text-3xl">
+              Dashboard Telemedicine จังหวัดมุกดาหาร
+            </h1>
+            <p className="mt-1 text-sm text-slate-500">
+              ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
+            </p>
+          </div>
+          <button
+            onClick={() => setShowAdmin(true)}
+            className="mt-2 text-slate-400 hover:text-slate-600 text-sm font-medium transition"
+            title="Admin Panel"
+          >
+            ⚙️
+          </button>
         </div>
       </header>
 
@@ -52,6 +63,8 @@ function App() {
         {activeTab === 'hdc' && <HdcTab />}
         {activeTab === 'import' && <ImportExcelTab />}
       </main>
+
+      {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
     </div>
   )
 }
