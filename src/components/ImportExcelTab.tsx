@@ -96,10 +96,10 @@ function ImportExcelTab() {
         // to catch mislabeled files (e.g., _235 suffix with 'all' columns)
         if (category === 'base' || category === null) {
           try {
-            const wb = XLSX.read(buffer, { defval: '' })
+            const wb = XLSX.read(buffer)
             const ws = wb.Sheets[wb.SheetNames?.[0]]
             if (ws) {
-              const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, { defval: '' })
+              const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws)
               if (rows.length > 0) {
                 const detectedByColumns = detectCategoryByColumns(rows[0])
                 if (detectedByColumns) {
