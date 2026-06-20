@@ -1,8 +1,5 @@
 import { useState } from 'react'
-
-// Admin password (plain text for internal tool)
-// In production, use proper authentication backend
-const ADMIN_PASSWORD = 'Ssj4900036!@#'
+import { ADMIN_PASSWORD } from '../lib/adminAuth'
 
 interface AdminPanelProps {
   onClose?: () => void

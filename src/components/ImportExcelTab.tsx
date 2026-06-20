@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import type { ReportCategory, Snapshot } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { ParseHippoExcelError, detectCategory, detectCategoryByColumns, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
+import { ADMIN_PASSWORD } from '../lib/adminAuth'
 import SnapshotView from './SnapshotView'
 import * as XLSX from 'xlsx'
 
@@ -81,7 +82,20 @@ function ImportExcelTab() {
   const [files, setFiles] = useState<SelectedFile[]>([])
   const [batchSummary, setBatchSummary] = useState<string | null>(null)
   const [isSavingBatch, setIsSavingBatch] = useState(false)
+  const [isUnlocked, setIsUnlocked] = useState(false)
+  const [pinInput, setPinInput] = useState('')
+  const [pinError, setPinError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleUnlock = () => {
+    if (pinInput === ADMIN_PASSWORD) {
+      setIsUnlocked(true)
+      setPinError('')
+      setPinInput('')
+    } else {
+      setPinError('รหัสไม่ถูกต้อง')
+    }
+  }
 
   const readFileAsEntry = (file: File): Promise<SelectedFile> => {
     return new Promise((resolve) => {
@@ -390,21 +404,50 @@ function ImportExcelTab() {
               </p>
             </div>
 
-            <div>
-              <button
-                type="button"
-                onClick={saveSelectedToGitHub}
-                disabled={!SAVE_WORKER_URL || selectedCount === 0 || isSavingBatch}
-                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300"
-              >
-                {isSavingBatch ? 'กำลังบันทึก...' : 'บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร'}
-              </button>
-              {!SAVE_WORKER_URL && (
-                <p className="mt-2 text-xs text-rose-600">
-                  ยังไม่ได้ตั้งค่าระบบบันทึกถาวร (ติดต่อผู้ดูแลระบบ)
-                </p>
-              )}
-            </div>
+            {isUnlocked ? (
+              <div>
+                <button
+                  type="button"
+                  onClick={saveSelectedToGitHub}
+                  disabled={!SAVE_WORKER_URL || selectedCount === 0 || isSavingBatch}
+                  className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                >
+                  {isSavingBatch ? 'กำลังบันทึก...' : 'บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร'}
+                </button>
+                {!SAVE_WORKER_URL && (
+                  <p className="mt-2 text-xs text-rose-600">
+                    ยังไม่ได้ตั้งค่าระบบบันทึกถาวร (ติดต่อผู้ดูแลระบบ)
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-wrap items-end gap-2">
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-slate-600">รหัสผู้ดูแลระบบ</label>
+                  <input
+                    type="password"
+                    value={pinInput}
+                    onChange={(e) => {
+                      setPinInput(e.target.value)
+                      setPinError('')
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleUnlock()
+                    }}
+                    placeholder="กรอกรหัสก่อนบันทึกแบบถาวร"
+                    className="w-56 rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleUnlock}
+                  className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100"
+                >
+                  ปลดล็อก
+                </button>
+                {pinError && <p className="text-xs text-rose-600">{pinError}</p>}
+              </div>
+            )}
 
             {batchSummary && (
               <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm text-emerald-800">
