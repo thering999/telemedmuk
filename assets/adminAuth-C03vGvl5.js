@@ -1,0 +1,1 @@
+var e=`telemedmuk`;export{e as t};
