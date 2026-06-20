@@ -285,16 +285,16 @@ function ImportExcelTab() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-3 sm:px-5 sm:py-4 text-xs sm:text-sm leading-relaxed text-amber-900 shadow-sm">
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-3 sm:px-5 sm:py-4 text-xs sm:text-sm leading-relaxed text-amber-900 shadow-sm dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
         <p className="font-medium">ℹ️ หมายเหตุ</p>
-        <div className="mt-2 space-y-2 text-slate-700">
+        <div className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
           <p>
             ข้อมูลที่อัปโหลดจะแสดงผลเฉพาะในเบราว์เซอร์ของท่าน{' '}
             <span className="font-semibold">ไม่ถูกบันทึก</span> และจะหายไปเมื่อรีเฟรช
           </p>
           <p>
             หากต้องการให้ข้อมูลแสดงผลแบบถาวร สามารถบันทึกไปยัง GitHub ได้ (ไม่ต้องใช้ token) ระบบจะนำไฟล์ไปวางไว้ที่{' '}
-            <code className="rounded bg-amber-100 px-1">data/raw/</code>
+            <code className="rounded bg-amber-100 px-1 dark:bg-amber-900/40 dark:text-amber-300">data/raw/</code>
           </p>
           <p>
             <strong>สำคัญ:</strong> ตรวจสอบไฟล์ให้แน่ใจว่ามีคอลัมน์ที่ถูกต้อง (hospcode, hospname, OP68, Telemed69 ฯลฯ) ก่อนบันทึก
@@ -303,11 +303,11 @@ function ImportExcelTab() {
       </div>
 
       <div
-        className="rounded-2xl border-2 border-dashed border-slate-300 bg-white px-3 py-6 sm:px-5 sm:py-8 text-center shadow-sm"
+        className="rounded-2xl border-2 border-dashed border-slate-300 bg-white px-3 py-6 sm:px-5 sm:py-8 text-center shadow-sm dark:border-slate-600 dark:bg-slate-800"
         onDragOver={(e) => e.preventDefault()}
         onDrop={onDrop}
       >
-        <p className="mb-3 text-xs sm:text-sm text-slate-600">
+        <p className="mb-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
           เลือกไฟล์ Excel (.xlsx) ที่ส่งออกจาก Hippo ได้ครั้งละหลายไฟล์ เพื่อดูตัวอย่างหรือบันทึกพร้อมกัน หรือลากไฟล์มาวางที่นี่
         </p>
         <input
@@ -316,29 +316,29 @@ function ImportExcelTab() {
           accept=".xlsx"
           multiple
           onChange={onInputChange}
-          className="mx-auto block w-full px-2 text-xs sm:text-sm text-slate-600 file:mr-2 sm:file:mr-3 file:rounded-lg file:border-0 file:bg-brand-600 file:px-2 sm:file:px-4 file:py-1.5 sm:file:py-2 file:text-xs sm:file:text-sm file:font-medium file:text-white file:shadow-sm hover:file:bg-brand-700"
+          className="mx-auto block w-full px-2 text-xs sm:text-sm text-slate-600 file:mr-2 sm:file:mr-3 file:rounded-lg file:border-0 file:bg-brand-600 file:px-2 sm:file:px-4 file:py-1.5 sm:file:py-2 file:text-xs sm:file:text-sm file:font-medium file:text-white file:shadow-sm hover:file:bg-brand-700 dark:text-slate-300"
         />
       </div>
 
       {files.length > 0 && (
         <>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm">
-            <p className="text-xs sm:text-sm text-slate-600">
-              เลือกไว้ <span className="font-medium text-slate-800">{files.length}</span> | บันทึก <span className="font-medium text-slate-800">{selectedCount}</span>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+              เลือกไว้ <span className="font-medium text-slate-800 dark:text-slate-100">{files.length}</span> | บันทึก <span className="font-medium text-slate-800 dark:text-slate-100">{selectedCount}</span>
             </p>
             <button
               type="button"
               onClick={reset}
-              className="sm:ml-auto rounded-lg border border-rose-300 bg-rose-50 px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-rose-600 hover:bg-rose-100 transition w-full sm:w-auto"
+              className="sm:ml-auto rounded-lg border border-rose-300 bg-rose-50 px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-rose-600 hover:bg-rose-100 transition w-full sm:w-auto dark:border-rose-700 dark:bg-rose-900/40 dark:text-rose-300 dark:hover:bg-rose-900/60"
               title={`ล้างข้อมูลนำเข้า ${files.length} ไฟล์ — จำเป็นต้องยืนยัน`}
             >
               🗑️ ล้างข้อมูล
             </button>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50 text-slate-500">
+              <thead className="bg-slate-50 text-slate-500 dark:bg-slate-700 dark:text-slate-200">
                 <tr>
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">เลือก</th>
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm">ไฟล์</th>
@@ -346,39 +346,39 @@ function ImportExcelTab() {
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">สถานะ</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {files.map((f) => {
                   const isUnknown = f.category === null
                   return (
-                    <tr key={f.id} className={isUnknown ? 'bg-rose-50' : undefined}>
+                    <tr key={f.id} className={isUnknown ? 'bg-rose-50 dark:bg-rose-950/30' : undefined}>
                       <td className="px-2 sm:px-4 py-2">
                         <input
                           type="checkbox"
                           checked={f.selected}
                           disabled={isUnknown}
                           onChange={() => toggleSelected(f.id)}
-                          className="h-4 w-4 rounded border-slate-300 text-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="h-4 w-4 rounded border-slate-300 text-brand-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600"
                         />
                       </td>
-                      <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm max-w-xs ${isUnknown ? 'text-rose-700' : 'text-slate-700'}`}>
+                      <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm max-w-xs ${isUnknown ? 'text-rose-700 dark:text-rose-300' : 'text-slate-700 dark:text-slate-300'}`}>
                         <span className="truncate block">{f.filename}</span>
                         {f.previewError && (
-                          <p className="mt-0.5 text-xs text-rose-600">{f.previewError}</p>
+                          <p className="mt-0.5 text-xs text-rose-600 dark:text-rose-400">{f.previewError}</p>
                         )}
                       </td>
-                      <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap ${isUnknown ? 'font-medium text-rose-700' : 'text-slate-600'}`}>
+                      <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap ${isUnknown ? 'font-medium text-rose-700 dark:text-rose-300' : 'text-slate-600 dark:text-slate-300'}`}>
                         {categoryLabel(f.category)}
                       </td>
                       <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap">
-                        {f.saveState.status === 'idle' && <span className="text-slate-400">—</span>}
+                        {f.saveState.status === 'idle' && <span className="text-slate-400 dark:text-slate-500">—</span>}
                         {f.saveState.status === 'saving' && (
-                          <span className="text-slate-500 text-xs">บันทึก...</span>
+                          <span className="text-slate-500 text-xs dark:text-slate-400">บันทึก...</span>
                         )}
                         {f.saveState.status === 'success' && (
-                          <span className="text-emerald-700">✓</span>
+                          <span className="text-emerald-700 dark:text-emerald-400">✓</span>
                         )}
                         {f.saveState.status === 'error' && (
-                          <span className="text-rose-700 text-xs">ผิดพลาด</span>
+                          <span className="text-rose-700 text-xs dark:text-rose-400">ผิดพลาด</span>
                         )}
                       </td>
                     </tr>
@@ -388,11 +388,11 @@ function ImportExcelTab() {
             </table>
           </div>
 
-          <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm">
+          <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/30">
             <div>
-              <p className="font-medium text-emerald-900 text-xs sm:text-sm">บันทึกไปยัง GitHub (ผู้ดูแลระบบ)</p>
-              <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-700">
-                ส่งไฟล์ไปบันทึกที่ <code className="rounded bg-emerald-100 px-1">data/raw/</code> โดยอัตโนมัติ — ไม่ต้องใช้ token
+              <p className="font-medium text-emerald-900 text-xs sm:text-sm dark:text-emerald-300">บันทึกไปยัง GitHub (ผู้ดูแลระบบ)</p>
+              <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                ส่งไฟล์ไปบันทึกที่ <code className="rounded bg-emerald-100 px-1 dark:bg-emerald-900/40 dark:text-emerald-300">data/raw/</code> โดยอัตโนมัติ — ไม่ต้องใช้ token
               </p>
             </div>
 
@@ -402,12 +402,12 @@ function ImportExcelTab() {
                   type="button"
                   onClick={saveSelectedToGitHub}
                   disabled={!SAVE_WORKER_URL || selectedCount === 0 || isSavingBatch}
-                  className="w-full rounded-lg bg-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300 transition"
+                  className="w-full rounded-lg bg-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300 transition dark:disabled:bg-slate-700"
                 >
                   {isSavingBatch ? 'กำลังบันทึก...' : 'บันทึกไปยัง GitHub'}
                 </button>
                 {!SAVE_WORKER_URL && (
-                  <p className="mt-2 text-xs text-rose-600">
+                  <p className="mt-2 text-xs text-rose-600 dark:text-rose-400">
                     ยังไม่ได้ตั้งค่าระบบบันทึกถาวร
                   </p>
                 )}
@@ -415,7 +415,7 @@ function ImportExcelTab() {
             ) : (
               <div className="flex flex-col gap-2">
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-slate-600">รหัสผู้ดูแลระบบ</label>
+                  <label className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-300">รหัสผู้ดูแลระบบ</label>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <input
                       type="password"
@@ -428,29 +428,29 @@ function ImportExcelTab() {
                         if (e.key === 'Enter') handleUnlock()
                       }}
                       placeholder="กรอกรหัส"
-                      className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-xs sm:text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                      className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-xs sm:text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
                     />
                     <button
                       type="button"
                       onClick={handleUnlock}
-                      className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm font-medium text-emerald-700 hover:bg-emerald-100 transition w-full sm:w-auto"
+                      className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm font-medium text-emerald-700 hover:bg-emerald-100 transition w-full sm:w-auto dark:border-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 dark:hover:bg-emerald-900/60"
                     >
                       ปลดล็อก
                     </button>
                   </div>
                 </div>
-                {pinError && <p className="text-xs text-rose-600">{pinError}</p>}
+                {pinError && <p className="text-xs text-rose-600 dark:text-rose-400">{pinError}</p>}
               </div>
             )}
 
             {batchSummary && (
-              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm text-emerald-800">
+              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm text-emerald-800 dark:border-emerald-700 dark:bg-slate-800 dark:text-emerald-300">
                 {batchSummary}
               </div>
             )}
 
             {anySaveSucceeded && (
-              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm text-emerald-800">
+              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm text-emerald-800 dark:border-emerald-700 dark:bg-slate-800 dark:text-emerald-300">
                 <p className="mb-1">บันทึกสำเร็จ ✓</p>
                 <p className="text-xs mb-2">GitHub Actions จะ build โดยอัตโนมัติ สามารถติดตามที่:</p>
                 <a
@@ -459,7 +459,7 @@ function ImportExcelTab() {
                   }
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="font-medium text-brand-700 underline hover:text-brand-800 text-xs sm:text-sm break-all"
+                  className="font-medium text-brand-700 underline hover:text-brand-800 text-xs sm:text-sm break-all dark:text-brand-400 dark:hover:text-brand-300"
                 >
                   GitHub Actions
                 </a>
@@ -469,8 +469,8 @@ function ImportExcelTab() {
 
           {singlePreview && singlePreview.previewSnapshot && (
             <>
-              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm">
-                <p className="text-xs sm:text-sm text-blue-900">
+              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm dark:border-blue-800 dark:bg-blue-950/30">
+                <p className="text-xs sm:text-sm text-blue-900 dark:text-blue-300">
                   <span className="font-semibold">ตัวอย่าง:</span> {singlePreview.filename}
                   {' — '}
                   {singlePreview.dateWasGuessed ? (

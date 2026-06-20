@@ -258,9 +258,9 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-        <h2 className="font-semibold text-slate-800">ปีงบประมาณ</h2>
-        <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1">
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">ปีงบประมาณ</h2>
+        <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1 dark:border-slate-600 dark:bg-slate-700">
           {FISCAL_YEARS.map((year) => (
             <button
               key={year}
@@ -268,7 +268,7 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
               className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                 fiscalYear === year
                   ? 'bg-brand-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:bg-slate-200'
+                  : 'text-slate-600 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-600'
               }`}
             >
               {year}
@@ -278,8 +278,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 1: Usage by Affiliation */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">ปริมาณการใช้ Telemedicine แยกตามสังกัด</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">ปริมาณการใช้ Telemedicine แยกตามสังกัด</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart
@@ -298,8 +298,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 2: Market Share % */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">สัดส่วนการบินเชื่อม (Market Share) รายอำเภอ (%)</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">สัดส่วนการบินเชื่อม (Market Share) รายอำเภอ (%)</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart
@@ -318,8 +318,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 3: Progress by Year */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">ความก้าวหน้า Telemedicine ปี 68 vs 69 (รพ.สต.)</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">ความก้าวหน้า Telemedicine ปี 68 vs 69 (รพ.สต.)</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart
@@ -340,8 +340,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 4: Adoption Status */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">สถานะการเข้าถึง Telemedicine (รพ.สต.)</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">สถานะการเข้าถึง Telemedicine (รพ.สต.)</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart
@@ -362,8 +362,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 5: Forecast Success */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">พยากรณ์ความสำเร็จ 2570: ค่าตาจริงยอดบริการ vs เป้าหมาย 5%</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">พยากรณ์ความสำเร็จ 2570: ค่าตาจริงยอดบริการ vs เป้าหมาย 5%</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart
@@ -384,8 +384,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 6: MOPH vs LGO */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">เปรียบเทียบยอดการใช้ Telemedicine: สธ. vs อบท.</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">เปรียบเทียบยอดการใช้ Telemedicine: สธ. vs อบท.</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart
@@ -406,8 +406,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 7: Continuity Status */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">สรุปสถานความต่อเนื่อง Telemedicine</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">สรุปสถานความต่อเนื่อง Telemedicine</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <PieChart>
@@ -432,8 +432,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 8: Hospital Distribution */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">สัดส่วนการใช้ Telemedicine แบ่งตามโรงพยาบาล</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">สัดส่วนการใช้ Telemedicine แบ่งตามโรงพยาบาล</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <PieChart>
@@ -458,8 +458,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 9: Efficiency Matrix */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">Efficiency Matrix: OP vs Utilization %</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Efficiency Matrix: OP vs Utilization %</h3>
         <div style={{ width: '100%', height: 400 }}>
           <ResponsiveContainer>
             <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
@@ -491,8 +491,8 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 10: Affiliation Distribution */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">สัดส่วนบริการ: สธ. vs อบท. รายอำเภอ</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">สัดส่วนบริการ: สธ. vs อบท. รายอำเภอ</h3>
         <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <BarChart data={affiliationDistribution} layout="vertical" margin={{ left: 120, right: 20 }}>
@@ -510,12 +510,12 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
       </div>
 
       {/* Chart 11: Lollipop (2570 Forecast) */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-slate-800">Lollipop: พยากรณ์ 2570 vs เป้าหมาย 5%</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h3 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Lollipop: พยากรณ์ 2570 vs เป้าหมาย 5%</h3>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[400px] text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
+              <tr className="border-b border-slate-200 text-slate-500 dark:border-slate-700 dark:text-slate-400">
                 <th className="px-3 py-2 text-left font-medium">อำเภอ</th>
                 <th className="px-3 py-2 text-right font-medium">เป้าหมาย 5%</th>
                 <th className="px-3 py-2 text-right font-medium">พยากรณ์ 2570</th>
@@ -524,11 +524,11 @@ function ComprehensiveDashboardView({ baseSnapshot, allSnapshot }: Comprehensive
             </thead>
             <tbody>
               {lollipopData.map((row) => (
-                <tr key={row.ampName} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="px-3 py-2">{row.ampName}</td>
-                  <td className="px-3 py-2 text-right text-rose-600">{row.target.toFixed(0)}</td>
-                  <td className="px-3 py-2 text-right text-emerald-600 font-medium">{row.forecast.toFixed(0)}</td>
-                  <td className="px-3 py-2">
+                <tr key={row.ampName} className="border-b border-slate-100 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-700/50">
+                  <td className="px-3 py-2 dark:text-slate-100">{row.ampName}</td>
+                  <td className="px-3 py-2 text-right text-rose-600 dark:text-rose-400">{row.target.toFixed(0)}</td>
+                  <td className="px-3 py-2 text-right text-emerald-600 font-medium dark:text-emerald-400">{row.forecast.toFixed(0)}</td>
+                  <td className="px-3 py-2 dark:text-slate-300">
                     {row.forecast >= row.target ? '✓ ถึงเป้า' : '⚠️ ขาด'}
                   </td>
                 </tr>

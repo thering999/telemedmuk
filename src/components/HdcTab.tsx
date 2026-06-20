@@ -283,12 +283,12 @@ function HdcTab() {
   }, [categoryToFetch, selectedDate, categoryCache])
 
   if (indexState.status === 'loading') {
-    return <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
+    return <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
   }
 
   if (indexState.status === 'error') {
     return (
-      <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700">
+      <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300">
         เกิดข้อผิดพลาดในการโหลดข้อมูล: {indexState.message}
       </p>
     )
@@ -296,7 +296,7 @@ function HdcTab() {
 
   if (indexState.status === 'empty') {
     return (
-      <p className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-slate-500 shadow-sm">
+      <p className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
         ยังไม่มีข้อมูลที่นำเข้า กรุณาอัปโหลดไฟล์ Excel เพื่อสร้างสแนปช็อตข้อมูล
       </p>
     )
@@ -312,13 +312,13 @@ function HdcTab() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-        <label htmlFor="snapshot-select" className="text-sm font-medium text-slate-600">
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <label htmlFor="snapshot-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
           ข้อมูล ณ วันที่
         </label>
         <select
           id="snapshot-select"
-          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
           value={selectedDate ?? ''}
           onChange={(e) => setSelectedDate(e.target.value)}
         >
@@ -330,12 +330,12 @@ function HdcTab() {
         </select>
       </div>
 
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-500 dark:text-slate-400">
         ปีงบประมาณ 68 = 1 ต.ค. 2567 – 30 ก.ย. 2568 · ปีงบประมาณ 69 = 1 ต.ค. 2568 – 30 ก.ย. 2569
         (ข้อมูลเฉพาะจังหวัดมุกดาหาร รหัส 49)
       </p>
 
-      <div className="inline-flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+      <div className="inline-flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         {visibleSubTabs.map((tab) => (
           <button
             key={tab.key}
@@ -344,7 +344,7 @@ function HdcTab() {
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               effectiveSubTab === tab.key
                 ? 'bg-brand-600 text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-100'
+                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700/50'
             }`}
           >
             {tab.label}
@@ -353,13 +353,13 @@ function HdcTab() {
       </div>
 
       {currentError && (
-        <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700">
+        <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300">
           เกิดข้อผิดพลาดในการโหลดสแนปช็อต: {currentError}
         </p>
       )}
 
       {(!snapshot || isStale) && !currentError && (
-        <p className="text-center text-slate-500">กำลังโหลดข้อมูลสแนปช็อต...</p>
+        <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูลสแนปช็อต...</p>
       )}
 
       {snapshot && !isStale && (effectiveSubTab === 'base' || effectiveSubTab === 'typein') && (
@@ -380,10 +380,10 @@ function HdcTab() {
       {snapshot && !isStale && effectiveSubTab !== 'base' && (
         <>
           {!activeCategoryReady && !activeCategoryError && (
-            <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
+            <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
           )}
           {activeCategoryError && (
-            <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700">
+            <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300">
               เกิดข้อผิดพลาดในการโหลดข้อมูล: {activeCategoryError}
             </p>
           )}

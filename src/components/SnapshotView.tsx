@@ -328,7 +328,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     <div className="flex flex-col gap-6">
       <ReportInfoPanel {...docs} />
 
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-2 text-xs text-slate-600 dark:text-slate-300">
         <span>📊 ข้อมูล: {filteredFacilities.length} สถานบริการ</span>
         <span>•</span>
         <span>📅 ปีงบ {fiscalYear}</span>
@@ -344,14 +344,14 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         </span>
       </div>
 
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 px-5 py-4 shadow-md hover:shadow-lg transition-shadow">
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-800 px-5 py-4 shadow-md hover:shadow-lg transition-shadow">
         <div className="flex flex-col gap-1">
-          <label htmlFor="district-select" className="text-sm font-medium text-slate-600">
+          <label htmlFor="district-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             อำเภอ
           </label>
           <select
             id="district-select"
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             value={district}
             onChange={(e) => setDistrict(e.target.value)}
           >
@@ -365,12 +365,12 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
+          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             ประเภทสถานบริการ
           </label>
           <select
             id="hostype-select"
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             value={hostype}
             onChange={(e) => setHostype(e.target.value)}
           >
@@ -384,12 +384,12 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="facility-select" className="text-sm font-medium text-slate-600">
+          <label htmlFor="facility-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             หน่วยบริการ / รหัสสถาน
           </label>
           <select
             id="facility-select"
-            className="max-w-[20rem] rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="max-w-[20rem] rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             value={effectiveFacilityCode}
             onChange={(e) => setFacilityCode(e.target.value)}
           >
@@ -403,8 +403,8 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600">ปีงบประมาณ</span>
-          <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1">
+          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
+          <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
             {FISCAL_YEARS.map((year) => (
               <button
                 key={year}
@@ -413,7 +413,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                   fiscalYear === year
                     ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-200'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                 }`}
               >
                 {year}
@@ -443,8 +443,8 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
       </div>
 
 
-      <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 px-5 py-4 shadow-sm">
-        <h3 className="mb-4 text-sm font-semibold text-slate-800">📊 เป้าหมายและความก้าวหน้า</h3>
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800 px-5 py-4 shadow-sm">
+        <h3 className="mb-4 text-sm font-semibold text-slate-800 dark:text-slate-100">📊 เป้าหมายและความก้าวหน้า</h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {(() => {
             const primaryCare = filteredFacilities.filter(f => f.hostypeName.includes('ส่งเสริมสุขภาพตำบล'));
@@ -456,12 +456,12 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
             const primaryCareProgress = Math.min(100, (primaryCarePercent / primaryCareGoal) * 100);
 
             return (
-              <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
+              <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 px-4 py-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-medium text-blue-900">รพสต. (Primary Care)</p>
-                  <p className="text-sm font-bold text-blue-700">{primaryCarePercent.toFixed(1)}%</p>
+                  <p className="text-xs font-medium text-blue-900 dark:text-blue-300">รพสต. (Primary Care)</p>
+                  <p className="text-sm font-bold text-blue-700 dark:text-blue-400">{primaryCarePercent.toFixed(1)}%</p>
                 </div>
-                <div className="mt-2 h-2 w-full rounded-full bg-blue-200">
+                <div className="mt-2 h-2 w-full rounded-full bg-blue-200 dark:bg-blue-900/50">
                   <div
                     className={`h-full rounded-full transition-all ${
                       primaryCareStatus ? 'bg-emerald-500' : 'bg-blue-500'
@@ -469,7 +469,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                     style={{ width: `${primaryCareProgress}%` }}
                   />
                 </div>
-                <p className="mt-1 text-xs text-blue-600">เป้าหมาย: {primaryCareGoal}% {primaryCareStatus ? '✅' : '⚠️'}</p>
+                <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">เป้าหมาย: {primaryCareGoal}% {primaryCareStatus ? '✅' : '⚠️'}</p>
               </div>
             );
           })()}
@@ -481,12 +481,12 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
             const districtProgress = Math.min(100, (currentPercent / districtGoal) * 100);
 
             return (
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3">
+              <div className="rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 px-4 py-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-medium text-emerald-900">อำเภอ (District Avg)</p>
-                  <p className="text-sm font-bold text-emerald-700">{currentPercent.toFixed(1)}%</p>
+                  <p className="text-xs font-medium text-emerald-900 dark:text-emerald-300">อำเภอ (District Avg)</p>
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">{currentPercent.toFixed(1)}%</p>
                 </div>
-                <div className="mt-2 h-2 w-full rounded-full bg-emerald-200">
+                <div className="mt-2 h-2 w-full rounded-full bg-emerald-200 dark:bg-emerald-900/50">
                   <div
                     className={`h-full rounded-full transition-all ${
                       districtStatus ? 'bg-emerald-600' : 'bg-emerald-500'
@@ -494,7 +494,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                     style={{ width: `${districtProgress}%` }}
                   />
                 </div>
-                <p className="mt-1 text-xs text-emerald-600">เป้าหมาย: {districtGoal}% {districtStatus ? '✅' : '⚠️'}</p>
+                <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">เป้าหมาย: {districtGoal}% {districtStatus ? '✅' : '⚠️'}</p>
               </div>
             );
           })()}
@@ -507,18 +507,18 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
             const provinceProgress = Math.min(100, (allPercent / 20) * 100); // Assume 20% is aspirational for province
 
             return (
-              <div className="rounded-lg border border-slate-300 bg-slate-100 px-4 py-3">
+              <div className="rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 px-4 py-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-medium text-slate-700">จังหวัดรวม (Province)</p>
-                  <p className="text-sm font-bold text-slate-800">{allPercent.toFixed(1)}%</p>
+                  <p className="text-xs font-medium text-slate-700 dark:text-slate-300">จังหวัดรวม (Province)</p>
+                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{allPercent.toFixed(1)}%</p>
                 </div>
-                <div className="mt-2 h-2 w-full rounded-full bg-slate-300">
+                <div className="mt-2 h-2 w-full rounded-full bg-slate-300 dark:bg-slate-600">
                   <div
-                    className="h-full rounded-full bg-slate-600 transition-all"
+                    className="h-full rounded-full bg-slate-600 dark:bg-slate-400 transition-all"
                     style={{ width: `${provinceProgress}%` }}
                   />
                 </div>
-                <p className="mt-1 text-xs text-slate-600">{allFacilities.length} สถานบริการ</p>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">{allFacilities.length} สถานบริการ</p>
               </div>
             );
           })()}
@@ -527,10 +527,10 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 p-5 shadow-md hover:shadow-lg transition-shadow">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-800 p-5 shadow-md hover:shadow-lg transition-shadow">
           {selectedFacility ? (
             <>
-              <h3 className="mb-4 text-base font-semibold text-slate-800">
+              <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
                 จำนวนผู้รับบริการ Telemedicine แยกตามประเภทบริการ — {selectedFacility.hospname} (ปีงบ{' '}
                 {fiscalYear})
               </h3>
@@ -553,14 +553,14 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="flex h-[360px] items-center justify-center text-center text-slate-400">
+                <p className="flex h-[360px] items-center justify-center text-center text-slate-400 dark:text-slate-500">
                   ไม่มีข้อมูลแยกประเภทบริการสำหรับชุดข้อมูลนี้
                 </p>
               )}
             </>
           ) : (
             <>
-              <h3 className="mb-4 text-base font-semibold text-slate-800">
+              <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
                 จำนวนผู้รับบริการ Telemedicine แยกตามอำเภอ (ปีงบ {fiscalYear})
               </h3>
               <div style={{ width: '100%', height: 360 }}>
@@ -593,12 +593,12 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           )}
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 p-5 shadow-md hover:shadow-lg transition-shadow">
-          <h3 className="mb-4 text-base font-semibold text-slate-800">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-800 p-5 shadow-md hover:shadow-lg transition-shadow">
+          <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
             สัดส่วนผู้รับบริการ Telemedicine แยกตามประเภทบริการ (ปีงบ {fiscalYear})
           </h3>
           {!hasTypeBreakdownData ? (
-            <p className="flex h-[360px] items-center justify-center text-center text-slate-400">
+            <p className="flex h-[360px] items-center justify-center text-center text-slate-400 dark:text-slate-500">
               ไม่มีข้อมูลแยกประเภทบริการสำหรับชุดข้อมูลนี้
             </p>
           ) : pieChartData.length > 0 ? (
@@ -625,29 +625,29 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
               </ResponsiveContainer>
             </div>
           ) : (
-            <p className="flex h-[360px] items-center justify-center text-center text-slate-400">
+            <p className="flex h-[360px] items-center justify-center text-center text-slate-400 dark:text-slate-500">
               ไม่มีข้อมูล Telemedicine สำหรับเงื่อนไขที่เลือก
             </p>
           )}
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-slate-800">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           แนวโน้มผู้รับบริการ Telemedicine ตามช่วงเวลา (ปีงบ {fiscalYear})
         </h3>
         {!showTrendChart && (
-          <p className="flex h-[200px] items-center justify-center text-center text-slate-400">
+          <p className="flex h-[200px] items-center justify-center text-center text-slate-400 dark:text-slate-500">
             ต้องมีข้อมูลมากกว่า 1 ช่วงเวลาเพื่อแสดงกราฟนี้
           </p>
         )}
         {showTrendChart && trendState.status === 'loading' && (
-          <p className="flex h-[200px] items-center justify-center text-center text-slate-400">
+          <p className="flex h-[200px] items-center justify-center text-center text-slate-400 dark:text-slate-500">
             กำลังโหลดข้อมูลแนวโน้ม...
           </p>
         )}
         {showTrendChart && trendState.status === 'error' && (
-          <p className="flex h-[200px] items-center justify-center text-center text-rose-600">
+          <p className="flex h-[200px] items-center justify-center text-center text-rose-600 dark:text-rose-400">
             เกิดข้อผิดพลาดในการโหลดข้อมูลแนวโน้ม: {trendState.message}
           </p>
         )}
@@ -681,15 +681,15 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         )}
       </div>
 
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-amber-900">🎯 สถานบริการที่มีผลกระทบสูงต่อเป้าหมาย</h3>
-        <p className="mb-3 text-xs text-amber-800">
+      <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-amber-900 dark:text-amber-300">🎯 สถานบริการที่มีผลกระทบสูงต่อเป้าหมาย</h3>
+        <p className="mb-3 text-xs text-amber-800 dark:text-amber-300">
           สถานบริการที่มีปริมาณผู้รับบริการ (OP) มากที่สุด เพื่อเป้าหมายการเพิ่มการใช้ Telemedicine ของจังหวัด
         </p>
         <div className="overflow-hidden rounded-lg">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-amber-200 bg-amber-100 text-amber-900">
+              <tr className="border-b border-amber-200 dark:border-amber-800 bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-300">
                 <th className="px-3 py-2 font-medium">ลำดับ</th>
                 <th className="px-3 py-2 font-medium">รหัสสถาน</th>
                 <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
@@ -699,7 +699,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                 <th className="px-3 py-2 text-right font-medium">ต้องเพิ่มถึง 5%</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-amber-100 bg-white">
+            <tbody className="divide-y divide-amber-100 dark:divide-amber-900/50 bg-white dark:bg-slate-800">
               {(() => {
                 const highImpact = filteredFacilities
                   .map((f) => {
@@ -714,7 +714,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   .slice(0, 10);
 
                 return highImpact.map((item, idx) => (
-                  <tr key={item.f.hospcode} className={idx % 2 === 0 ? 'bg-white' : 'bg-amber-50'}>
+                  <tr key={item.f.hospcode} className={`${idx % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-amber-50 dark:bg-amber-950/20'} text-slate-800 dark:text-slate-100`}>
                     <td className="px-3 py-2 font-medium">{idx + 1}</td>
                     <td className="px-3 py-2">{item.f.hospcode}</td>
                     <td className="px-3 py-2">{item.f.hospname}</td>
@@ -722,7 +722,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                     <td className="px-3 py-2 text-right font-medium">{item.op.toLocaleString('th-TH')}</td>
                     <td className="px-3 py-2 text-right">{item.percent.toFixed(1)}%</td>
                     <td className="px-3 py-2 text-right">
-                      <span className={item.needed > 0 ? 'text-amber-700 font-medium' : 'text-emerald-700'}>
+                      <span className={item.needed > 0 ? 'text-amber-700 dark:text-amber-400 font-medium' : 'text-emerald-700 dark:text-emerald-400'}>
                         {item.needed > 0 ? `+${Math.ceil(item.needed)}` : '✓'}
                       </span>
                     </td>
@@ -734,9 +734,9 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
+          <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100">รายละเอียดสถานพยาบาล</h3>
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`ภาพรวม_${snapshot.snapshotDate}`}
@@ -749,7 +749,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
               placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+              className="w-full max-w-xs rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
             />
           </div>
         </div>
@@ -757,7 +757,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         <div className="overflow-x-auto">
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
-              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
+              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-700 border-b-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200">
                 <SortableTh
                   label="รหัสสถาน"
                   active={sortKey === 'hospcode'}
@@ -821,36 +821,36 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
               {sortedFacilities.map((f) => {
                 const percent = isTypeinReport ? f.percentTelemed69PerOP68 : f.percentTelemed69PerOP68
                 return (
-                  <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
-                    <td className="px-4 py-3 text-slate-600 text-sm font-mono">{f.hospcode}</td>
-                    <td className="px-4 py-3 text-slate-800 font-medium">{f.hospname}</td>
-                    <td className="px-4 py-3 text-slate-600 text-sm">{f.ampName}</td>
-                    <td className="px-4 py-3 text-slate-600">
+                  <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
+                    <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
                       <span className="text-xs">
                         {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
-                          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
+                          <span className="rounded-full bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 text-blue-700 dark:text-blue-300 font-medium">รพสต.</span>
                         ) : (
-                          <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
+                          <span className="rounded-full bg-slate-200 dark:bg-slate-700 px-2 py-0.5 text-slate-700 dark:text-slate-300 font-medium">รพ.</span>
                         )}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right text-slate-700">
+                    <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">
                       {isTypeinReport
                         ? (f.byYear['69']?.op ?? 0).toLocaleString('th-TH')
                         : (f.byYear['68']?.op ?? 0).toLocaleString('th-TH')
                       }
                     </td>
-                    <td className="px-4 py-3 text-right font-medium text-slate-800">
+                    <td className="px-4 py-3 text-right font-medium text-slate-800 dark:text-slate-100">
                       {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
                     </td>
-                    <td className="px-3 py-2 text-right text-brand-700">{percent.toFixed(1)}%</td>
+                    <td className="px-3 py-2 text-right text-brand-700 dark:text-brand-400">{percent.toFixed(1)}%</td>
                     <td className="px-3 py-2">
                       {percent >= 5 ? (
-                        <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">✓ ดี</span>
+                        <span className="inline-block rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">✓ ดี</span>
                       ) : percent >= 2 ? (
-                        <span className="inline-block rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">≈ ปานกลาง</span>
+                        <span className="inline-block rounded-full bg-amber-100 dark:bg-amber-900/40 px-2 py-1 text-xs font-medium text-amber-700 dark:text-amber-300">≈ ปานกลาง</span>
                       ) : (
-                        <span className="inline-block rounded-full bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">! ต้องปรับปรุง</span>
+                        <span className="inline-block rounded-full bg-rose-100 dark:bg-rose-900/40 px-2 py-1 text-xs font-medium text-rose-700 dark:text-rose-300">! ต้องปรับปรุง</span>
                       )}
                     </td>
                   </tr>
@@ -858,13 +858,13 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={8} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
               )}
               {filteredFacilities.length > 0 && (
-                <tr className="border-t-2 border-slate-300 bg-slate-50 font-semibold text-slate-800">
+                <tr className="border-t-2 border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 font-semibold text-slate-800 dark:text-slate-100">
                   <td className="px-3 py-3">รวม</td>
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3"></td>
@@ -882,7 +882,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   <td className="px-3 py-3 text-right">
                     {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0).toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-3 text-right text-brand-700">
+                  <td className="px-3 py-3 text-right text-brand-700 dark:text-brand-400">
                     {(() => {
                       const totalOp = filteredFacilities.reduce(
                         (sum, f) =>
@@ -918,16 +918,16 @@ function KpiCard({
   description?: string
 }) {
   return (
-    <div className={`rounded-xl border-2 p-6 shadow-md transition-all hover:shadow-xl hover:scale-105 ${accent ? 'border-cyan-400 bg-gradient-to-br from-cyan-50 via-teal-50 to-emerald-50' : 'border-slate-200 bg-gradient-to-br from-white to-slate-50 hover:border-slate-400'}`}>
+    <div className={`rounded-xl border-2 p-6 shadow-md transition-all hover:shadow-xl hover:scale-105 ${accent ? 'border-cyan-400 dark:border-cyan-600 bg-gradient-to-br from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/30 dark:via-teal-950/30 dark:to-emerald-950/30' : 'border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 hover:border-slate-400 dark:hover:border-slate-500'}`}>
       <div className="flex items-start justify-between">
-        <p className="text-xs font-bold uppercase tracking-widest text-slate-700">{label}</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">{label}</p>
         {description && (
-          <span className={`text-xs font-bold px-3 py-1 rounded-full ${description === 'หลัก' ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md' : 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-800 font-semibold'}`}>
+          <span className={`text-xs font-bold px-3 py-1 rounded-full ${description === 'หลัก' ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md' : 'bg-gradient-to-r from-slate-200 to-slate-300 dark:from-slate-600 dark:to-slate-700 text-slate-800 dark:text-slate-100 font-semibold'}`}>
             {description}
           </span>
         )}
       </div>
-      <p className={`mt-3 text-4xl font-bold bg-clip-text ${accent ? 'text-transparent bg-gradient-to-r from-cyan-600 to-teal-600' : 'text-slate-900'}`}>{value}</p>
+      <p className={`mt-3 text-4xl font-bold bg-clip-text ${accent ? 'text-transparent bg-gradient-to-r from-cyan-600 to-teal-600' : 'text-slate-900 dark:text-slate-100'}`}>{value}</p>
     </div>
   )
 }

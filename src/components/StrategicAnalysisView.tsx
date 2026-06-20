@@ -335,11 +335,11 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         template="ร่าง SOP ขับเคลื่อน Telemedicine, MOPH Telemedicine 2569 (นพ.วรเวทย์ โรจน์จรัสไพศาล, รองผู้อำนวยการสำนักสุขภาพดิจิทัล, 11 พ.ค. 2569) — เกณฑ์เป้าหมาย 30% อ้างอิงจากเอกสารนี้; กรอบวิเคราะห์ 4 ส่วน (quadrant) และการพยากรณ์ดัดแปลงจากการวิเคราะห์ส่วนตัวใน q_telemed_hosp_muk.ipynb"
       />
 
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-800">วิเคราะห์เชิงกลยุทธ์</h2>
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-4 shadow-sm">
+        <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">วิเคราะห์เชิงกลยุทธ์</h2>
         <div className="ml-auto flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600">ปีงบประมาณ</span>
-          <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1">
+          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
+          <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
             {FISCAL_YEARS.map((year) => (
               <button
                 key={year}
@@ -348,7 +348,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                   fiscalYear === year
                     ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-200'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                 }`}
               >
                 {year}
@@ -360,38 +360,38 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
 
       {/* KPI summary cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">อัตรา Telemedicine ต่อ OP (ทั้งจังหวัด)</p>
-          <p className="mt-2 text-3xl font-semibold text-slate-800">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <p className="text-sm text-slate-500 dark:text-slate-400">อัตรา Telemedicine ต่อ OP (ทั้งจังหวัด)</p>
+          <p className="mt-2 text-3xl font-semibold text-slate-800 dark:text-slate-100">
             {provinceKpis.aggregateRate === null ? 'ไม่มีข้อมูล' : `${provinceKpis.aggregateRate.toFixed(2)}%`}
           </p>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             ตัวเลขรวมทั้งจังหวัด — ดูเทียบเป้าหมายรายอำเภอ/รพ.สต. ด้านล่าง
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">อัตราการเริ่มใช้งาน (Activation Rate)</p>
-          <p className="mt-2 text-3xl font-semibold text-brand-600">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <p className="text-sm text-slate-500 dark:text-slate-400">อัตราการเริ่มใช้งาน (Activation Rate)</p>
+          <p className="mt-2 text-3xl font-semibold text-brand-600 dark:text-brand-400">
             {provinceKpis.activationRate === null ? '—' : `${provinceKpis.activationRate.toFixed(1)}%`}
           </p>
-          <p className="mt-1 text-sm text-slate-500">สัดส่วนสถานบริการที่มี Type5 &gt; 0</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">สัดส่วนสถานบริการที่มี Type5 &gt; 0</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">จำนวนสถานบริการที่ควรตรวจสอบ</p>
-          <p className="mt-2 text-3xl font-semibold text-rose-600">{provinceKpis.anomalyCount}</p>
-          <p className="mt-1 text-sm text-slate-500">อัตราเกิน 50% (ควรตรวจสอบใน HDC)</p>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <p className="text-sm text-slate-500 dark:text-slate-400">จำนวนสถานบริการที่ควรตรวจสอบ</p>
+          <p className="mt-2 text-3xl font-semibold text-rose-600 dark:text-rose-400">{provinceKpis.anomalyCount}</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">อัตราเกิน 50% (ควรตรวจสอบใน HDC)</p>
         </div>
       </div>
 
       {forecast && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-1">
-            <p className="text-sm text-slate-500">คาดการณ์ปีงบ 70 (ค่าประมาณ)</p>
-            <p className="mt-2 text-3xl font-semibold text-brand-600">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm sm:col-span-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400">คาดการณ์ปีงบ 70 (ค่าประมาณ)</p>
+            <p className="mt-2 text-3xl font-semibold text-brand-600 dark:text-brand-400">
               {forecast.projected.toLocaleString('th-TH')}
-              <span className="ml-1 text-sm font-normal text-slate-400">ครั้ง</span>
+              <span className="ml-1 text-sm font-normal text-slate-400 dark:text-slate-500">ครั้ง</span>
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               ประมาณการแบบเส้นตรงจาก Type5: ปีงบ 68 = {forecast.total68.toLocaleString('th-TH')}, ปีงบ 69 ={' '}
               {forecast.total69.toLocaleString('th-TH')}
             </p>
@@ -400,24 +400,24 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       )}
 
       {/* Tiered targets: รพ.สต. ≥10%, district (รวม รพ.+รพ.สต.) ≥30% */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-1 text-base font-semibold text-slate-800">เป้าหมายตามระดับ (ปีงบ {fiscalYear})</h3>
-        <p className="mb-4 text-sm text-slate-500">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-1 text-base font-semibold text-slate-800 dark:text-slate-100">เป้าหมายตามระดับ (ปีงบ {fiscalYear})</h3>
+        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
           เป้าหมาย รพ.สต. ไม่น้อยกว่าร้อยละ {RPST_TARGET_RATE} · เป้าหมายรวมรายอำเภอ (รพ.+รพ.สต.) ไม่น้อยกว่าร้อยละ{' '}
           {DISTRICT_TARGET_RATE}
         </p>
 
-        <div className="mb-5 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:max-w-sm">
-          <p className="text-sm text-slate-500">รพ.สต. ทั้งจังหวัด ({rpstSummary.count.toLocaleString('th-TH')} แห่ง)</p>
-          <p className="mt-2 text-2xl font-semibold text-slate-800">
+        <div className="mb-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 p-4 sm:max-w-sm">
+          <p className="text-sm text-slate-500 dark:text-slate-400">รพ.สต. ทั้งจังหวัด ({rpstSummary.count.toLocaleString('th-TH')} แห่ง)</p>
+          <p className="mt-2 text-2xl font-semibold text-slate-800 dark:text-slate-100">
             {rpstSummary.rate === null ? 'ไม่มีข้อมูล' : `${rpstSummary.rate.toFixed(2)}%`}
           </p>
           {rpstSummary.rate !== null && (
             <span
               className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
                 rpstSummary.rate >= RPST_TARGET_RATE
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-rose-100 text-rose-700'
+                  ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                  : 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300'
               }`}
             >
               {rpstSummary.rate >= RPST_TARGET_RATE
@@ -430,7 +430,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
+              <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <th className="px-3 py-2 font-medium">อำเภอ</th>
                 <th className="px-3 py-2 text-right font-medium">จำนวนหน่วย</th>
                 <th className="px-3 py-2 text-right font-medium">OP รวม</th>
@@ -441,14 +441,14 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             </thead>
             <tbody>
               {districtTargets.map((row) => (
-                <tr key={row.ampName} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="px-3 py-2 text-slate-800">{row.ampName}</td>
-                  <td className="px-3 py-2 text-right text-slate-700">{row.count.toLocaleString('th-TH')}</td>
-                  <td className="px-3 py-2 text-right text-slate-700">{row.totalOp.toLocaleString('th-TH')}</td>
-                  <td className="px-3 py-2 text-right font-medium text-brand-700">
+                <tr key={row.ampName} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.ampName}</td>
+                  <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.count.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.totalOp.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-2 text-right font-medium text-brand-700 dark:text-brand-400">
                     {row.totalType5.toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-2 text-right text-slate-700">
+                  <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                     {row.rate === null ? 'ไม่มีข้อมูล' : `${row.rate.toFixed(2)}%`}
                   </td>
                   <td className="px-3 py-2">
@@ -458,8 +458,8 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                       <span
                         className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
                           row.rate >= DISTRICT_TARGET_RATE
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : 'bg-rose-100 text-rose-700'
+                            ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                            : 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300'
                         }`}
                       >
                         {row.rate >= DISTRICT_TARGET_RATE
@@ -472,7 +472,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               ))}
               {districtTargets.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={6} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่มีข้อมูล
                   </td>
                 </tr>
@@ -483,14 +483,14 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* MOPH vs LGO comparison */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-slate-800">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           เปรียบเทียบตามสังกัด (ปีงบ {fiscalYear})
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
+              <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <th className="px-3 py-2 font-medium">สังกัด</th>
                 <th className="px-3 py-2 text-right font-medium">จำนวนหน่วย</th>
                 <th className="px-3 py-2 text-right font-medium">OP รวม</th>
@@ -500,23 +500,23 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             </thead>
             <tbody>
               {affiliationComparison.map((row) => (
-                <tr key={row.mName} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="px-3 py-2 text-slate-800">{row.mName}</td>
-                  <td className="px-3 py-2 text-right text-slate-700">{row.count.toLocaleString('th-TH')}</td>
-                  <td className="px-3 py-2 text-right text-slate-700">
+                <tr key={row.mName} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.mName}</td>
+                  <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.count.toLocaleString('th-TH')}</td>
+                  <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                     {row.totalOp.toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-2 text-right font-medium text-brand-700">
+                  <td className="px-3 py-2 text-right font-medium text-brand-700 dark:text-brand-400">
                     {row.totalType5.toLocaleString('th-TH')}
                   </td>
-                  <td className="px-3 py-2 text-right text-slate-700">
+                  <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                     {row.rate === null ? '—' : `${row.rate.toFixed(2)}%`}
                   </td>
                 </tr>
               ))}
               {affiliationComparison.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={5} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่มีข้อมูล
                   </td>
                 </tr>
@@ -552,11 +552,11 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* 4-quadrant strategic segmentation */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-slate-800">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           การจัดกลุ่มเชิงกลยุทธ์ 4 ส่วน (ปีงบ {fiscalYear})
         </h3>
-        <p className="mb-4 text-sm text-slate-500">
+        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
           แบ่งตามค่ามัธยฐาน OP ({quadrantData.medianOp.toLocaleString('th-TH')}) และอัตราตามเกณฑ์ สธ. (
           {quadrantData.medianRate.toFixed(2)}%) เฉพาะสถานบริการที่มีข้อมูลอัตรา (ไม่รวมสถานบริการที่ไม่มีข้อมูล)
         </p>
@@ -600,19 +600,19 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           {(Object.keys(QUADRANT_META) as Quadrant[]).map((quadrant) => {
             const rows = quadrantData.groups[quadrant]
             return (
-              <div key={quadrant} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div key={quadrant} className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 p-4">
                 <p className="text-sm font-semibold" style={{ color: QUADRANT_META[quadrant].color }}>
                   {QUADRANT_META[quadrant].label}
                 </p>
-                <p className="mt-1 text-2xl font-semibold text-slate-800">{rows.length}</p>
-                <p className="text-xs text-slate-500">สถานบริการ</p>
-                <ul className="mt-2 max-h-32 overflow-y-auto text-xs text-slate-600">
+                <p className="mt-1 text-2xl font-semibold text-slate-800 dark:text-slate-100">{rows.length}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">สถานบริการ</p>
+                <ul className="mt-2 max-h-32 overflow-y-auto text-xs text-slate-600 dark:text-slate-300">
                   {rows.map((row) => (
                     <li key={row.facility.hospcode} className="truncate py-0.5">
                       {row.facility.hospname}
                     </li>
                   ))}
-                  {rows.length === 0 && <li className="py-0.5 text-slate-400">ไม่มี</li>}
+                  {rows.length === 0 && <li className="py-0.5 text-slate-400 dark:text-slate-500">ไม่มี</li>}
                 </ul>
               </div>
             )
@@ -621,17 +621,17 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* Anomaly review table */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-slate-800">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           สถานบริการที่ควรตรวจสอบ (อัตราเกิน 50%, ปีงบ {fiscalYear})
         </h3>
         {anomalyRows.length === 0 ? (
-          <p className="text-center text-slate-400">ไม่พบสถานบริการที่ควรตรวจสอบ</p>
+          <p className="text-center text-slate-400 dark:text-slate-500">ไม่พบสถานบริการที่ควรตรวจสอบ</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[800px] text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200 text-slate-500">
+                <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                   <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
                   <th className="px-3 py-2 font-medium">อำเภอ</th>
                   <th className="px-3 py-2 font-medium">สังกัด</th>
@@ -643,18 +643,18 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               </thead>
               <tbody>
                 {anomalyRows.map((row) => (
-                  <tr key={row.facility.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
-                    <td className="px-3 py-2 text-slate-800">{row.facility.hospname}</td>
-                    <td className="px-3 py-2 text-slate-600">{row.facility.ampName}</td>
-                    <td className="px-3 py-2 text-slate-600">{row.facility.mName}</td>
-                    <td className="px-3 py-2 text-right text-slate-700">{row.type5.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right text-slate-700">
+                  <tr key={row.facility.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                    <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.facility.hospname}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.ampName}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.mName}</td>
+                    <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.type5.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                       {row.denominator.toLocaleString('th-TH')}
                     </td>
-                    <td className="px-3 py-2 text-right font-medium text-rose-600">
+                    <td className="px-3 py-2 text-right font-medium text-rose-600 dark:text-rose-400">
                       {(row.rate ?? 0).toFixed(1)}%
                     </td>
-                    <td className="px-3 py-2 text-rose-600">ควรตรวจสอบใน HDC</td>
+                    <td className="px-3 py-2 text-rose-600 dark:text-rose-400">ควรตรวจสอบใน HDC</td>
                   </tr>
                 ))}
               </tbody>

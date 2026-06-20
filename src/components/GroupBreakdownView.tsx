@@ -108,18 +108,18 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
   return (
-    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-cyan-50 to-white min-h-screen p-6 rounded-3xl">
+    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-cyan-50 to-white dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 min-h-screen p-6 rounded-3xl">
       <ReportInfoPanel {...docs} />
 
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-800">{title}</h2>
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-4 shadow-sm">
+        <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{title}</h2>
         <div className="flex flex-col gap-1">
-          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
+          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             ประเภทสถานบริการ
           </label>
           <select
             id="hostype-select"
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             value={hostype}
             onChange={(e) => setHostype(e.target.value)}
           >
@@ -132,8 +132,8 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
           </select>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600">ปีงบประมาณ</span>
-          <div className="inline-flex rounded-lg border border-slate-300 bg-slate-100 p-1">
+          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
+          <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
             {FISCAL_YEARS.map((year) => (
               <button
                 key={year}
@@ -142,7 +142,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                   fiscalYear === year
                     ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-200'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                 }`}
               >
                 {year}
@@ -163,9 +163,9 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {groupKpis.map((g) => (
-          <div key={g.key} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">{g.label}</p>
-            <p className="mt-2 text-2xl font-semibold text-slate-800">
+          <div key={g.key} className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+            <p className="text-sm text-slate-500 dark:text-slate-400">{g.label}</p>
+            <p className="mt-2 text-2xl font-semibold text-slate-800 dark:text-slate-100">
               {g.visit.toLocaleString('th-TH')}
               <span className="ml-1 text-sm font-normal text-slate-400">visit</span>
             </p>
@@ -173,15 +173,15 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
               {g.tele.toLocaleString('th-TH')}
               <span className="ml-1 text-sm font-normal text-slate-400">tele</span>
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               ร้อยละ Telemedicine: {g.percent === null ? '—' : `${g.percent.toFixed(1)}%`}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 text-base font-semibold text-slate-800">เปรียบเทียบ Visit / Telemedicine แยกตามกลุ่ม</h3>
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">เปรียบเทียบ Visit / Telemedicine แยกตามกลุ่ม</h3>
         <div style={{ width: '100%', height: 360 }}>
           <ResponsiveContainer>
             <BarChart data={groupChartData} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
@@ -200,9 +200,9 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
+          <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100">รายละเอียดสถานพยาบาล</h3>
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`${title}_${snapshot.snapshotDate}`}
@@ -215,7 +215,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
               placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+              className="w-full max-w-xs rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
             />
           </div>
         </div>
@@ -223,7 +223,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead>
-              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
+              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-700 border-b-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200">
                 <SortableTh
                   label="รหัสสถาน"
                   active={sortKey === 'hospcode'}
@@ -258,7 +258,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                   </th>
                 ))}
               </tr>
-              <tr className="border-b border-slate-200 bg-slate-50">
+              <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
                 <th className="px-4 py-2" />
                 <th className="px-4 py-2" />
                 <th className="px-4 py-2" />
@@ -271,7 +271,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                       active={sortKey === `${def.key}_visit`}
                       direction={sortDir}
                       onClick={() => toggleSort(`${def.key}_visit`, (f) => f.groups[def.key]?.visit ?? 0)}
-                      className="px-4 py-2 text-right text-xs font-semibold text-slate-600"
+                      className="px-4 py-2 text-right text-xs font-semibold text-slate-600 dark:text-slate-300"
                     />
                     <SortableTh
                       label="tele"
@@ -279,7 +279,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                       active={sortKey === `${def.key}_tele`}
                       direction={sortDir}
                       onClick={() => toggleSort(`${def.key}_tele`, (f) => f.groups[def.key]?.tele ?? 0)}
-                      className="px-4 py-2 text-right text-xs font-semibold text-slate-600"
+                      className="px-4 py-2 text-right text-xs font-semibold text-slate-600 dark:text-slate-300"
                     />
                   </Fragment>
                 ))}
@@ -287,16 +287,16 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
             </thead>
             <tbody>
               {sortedFacilities.map((f) => (
-                <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
-                  <td className="px-4 py-3 text-slate-600 text-sm font-mono">{f.hospcode}</td>
-                  <td className="px-4 py-3 text-slate-800 font-medium">{f.hospname}</td>
-                  <td className="px-4 py-3 text-slate-600 text-sm">{f.ampName}</td>
-                  <td className="px-4 py-3 text-slate-600">
+                <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
+                  <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
+                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
+                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
                     <span className="text-xs">
                       {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
-                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
+                        <span className="rounded-full bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 text-blue-700 dark:text-blue-300 font-medium">รพสต.</span>
                       ) : (
-                        <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
+                        <span className="rounded-full bg-slate-200 dark:bg-slate-700 px-2 py-0.5 text-slate-700 dark:text-slate-200 font-medium">รพ.</span>
                       )}
                     </span>
                   </td>
@@ -304,7 +304,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                     const stats = f.groups[def.key]
                     return (
                       <Fragment key={def.key}>
-                        <td className="px-4 py-3 text-right text-slate-700">
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">
                           {(stats?.visit ?? 0).toLocaleString('th-TH')}
                         </td>
                         <td className="px-4 py-3 text-right font-medium text-brand-700">
@@ -317,13 +317,13 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
               ))}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={4 + snapshot.groupDefs.length * 2} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={4 + snapshot.groupDefs.length * 2} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
               )}
               {filteredFacilities.length > 0 && (
-                <tr className="border-t-2 border-slate-400 bg-gradient-to-r from-slate-100 to-slate-50 font-bold text-slate-800">
+                <tr className="border-t-2 border-slate-400 dark:border-slate-600 bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-700 font-bold text-slate-800 dark:text-slate-100">
                   <td className="px-4 py-3">รวม</td>
                   <td className="px-4 py-3"></td>
                   <td className="px-4 py-3"></td>
@@ -350,9 +350,9 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
 
 function KpiCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-sm text-slate-500">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800'}`}>{value}</p>
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
+      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800 dark:text-slate-100'}`}>{value}</p>
     </div>
   )
 }

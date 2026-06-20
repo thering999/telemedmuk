@@ -19,11 +19,11 @@ function SortableTh({ label, active, direction, onClick, align = 'left', classNa
       onClick={onClick}
       colSpan={colSpan}
       title="คลิกเพื่อเรียงลำดับ"
-      className={`cursor-pointer select-none hover:bg-black/5 ${className}`}
+      className={`cursor-pointer select-none hover:bg-black/5 dark:hover:bg-white/10 ${className}`}
     >
       <span className={`inline-flex items-center gap-1 ${align === 'right' ? 'flex-row-reverse' : ''}`}>
         {label}
-        <span className="text-[10px] opacity-60">{active ? (direction === 'asc' ? '▲' : '▼') : '⇅'}</span>
+        <span className="text-[10px] opacity-60 dark:opacity-70">{active ? (direction === 'asc' ? '▲' : '▼') : '⇅'}</span>
       </span>
     </th>
   )

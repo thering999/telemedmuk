@@ -94,12 +94,12 @@ function formatValue(key: string, value: number): string {
 
 function TrendBadge({ abs }: { abs: number }) {
   if (abs === 0) {
-    return <span className="text-slate-400">•</span>
+    return <span className="text-slate-400 dark:text-slate-500">•</span>
   }
   if (abs > 0) {
-    return <span className="font-medium text-emerald-600">↑ เพิ่มขึ้น</span>
+    return <span className="font-medium text-emerald-600 dark:text-emerald-400">↑ เพิ่มขึ้น</span>
   }
-  return <span className="font-medium text-rose-600">↓ ลดลง</span>
+  return <span className="font-medium text-rose-600 dark:text-rose-400">↓ ลดลง</span>
 }
 
 export interface ComparisonViewProps {
@@ -143,7 +143,7 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
 
   if (sortedDates.length < 2) {
     return (
-      <p className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-slate-500 shadow-sm">
+      <p className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
         ต้องมีข้อมูลอย่างน้อย 2 ช่วงเวลาเพื่อเปรียบเทียบ
       </p>
     )
@@ -151,14 +151,14 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 px-5 py-4 shadow-md">
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-blue-50 px-5 py-4 shadow-md dark:border-slate-700 dark:from-slate-800 dark:to-slate-800">
         <div className="flex flex-col gap-1">
-          <label htmlFor="period-a" className="text-sm font-medium text-slate-600">
+          <label htmlFor="period-a" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             ช่วงเวลา A
           </label>
           <select
             id="period-a"
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             value={dateA}
             onChange={(e) => setDateA(e.target.value)}
           >
@@ -171,12 +171,12 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="period-b" className="text-sm font-medium text-slate-600">
+          <label htmlFor="period-b" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             ช่วงเวลา B
           </label>
           <select
             id="period-b"
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             value={dateB}
             onChange={(e) => setDateB(e.target.value)}
           >
@@ -190,7 +190,7 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
 
         <button
           type="button"
-          className="ml-auto rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="ml-auto rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
           disabled={rows.length === 0}
           onClick={() => exportToCsv(`เปรียบเทียบ_${dateA}_vs_${dateB}`, exportColumns, rows)}
         >
@@ -199,28 +199,28 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
       </div>
 
       {(stateA.status === 'loading' || stateB.status === 'loading') && (
-        <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
+        <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
       )}
       {stateA.status === 'error' && (
-        <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700">
+        <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-300">
           เกิดข้อผิดพลาดในการโหลดช่วง A: {stateA.message}
         </p>
       )}
       {stateB.status === 'error' && (
-        <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700">
+        <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-300">
           เกิดข้อผิดพลาดในการโหลดช่วง B: {stateB.message}
         </p>
       )}
 
       {rows.length > 0 && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-4 text-base font-semibold text-slate-800">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
             เปรียบเทียบ {formatThaiDate(dateA)} กับ {formatThaiDate(dateB)}
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-sm">
               <thead>
-                <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
+                <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700 dark:border-slate-600 dark:from-slate-700 dark:to-slate-700 dark:text-slate-200">
                   <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">ตัวชี้วัด</th>
                   <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ช่วง A</th>
                   <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ช่วง B</th>
@@ -232,12 +232,20 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
               <tbody>
                 {rows.map((row) => {
                   const { abs, pct } = delta(row)
-                  const colorClass = abs > 0 ? 'text-emerald-600' : abs < 0 ? 'text-rose-600' : 'text-slate-500'
+                  const colorClass =
+                    abs > 0
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : abs < 0
+                        ? 'text-rose-600 dark:text-rose-400'
+                        : 'text-slate-500 dark:text-slate-400'
                   return (
-                    <tr key={row.key} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
-                      <td className="px-4 py-3 text-slate-800 font-medium">{row.label}</td>
-                      <td className="px-4 py-3 text-right text-slate-700">{formatValue(row.key, row.a)}</td>
-                      <td className="px-4 py-3 text-right text-slate-700">{formatValue(row.key, row.b)}</td>
+                    <tr
+                      key={row.key}
+                      className="border-b border-slate-100 hover:bg-blue-50 transition-colors dark:border-slate-700 dark:hover:bg-slate-700/50"
+                    >
+                      <td className="px-4 py-3 text-slate-800 font-medium dark:text-slate-100">{row.label}</td>
+                      <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{formatValue(row.key, row.a)}</td>
+                      <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{formatValue(row.key, row.b)}</td>
                       <td className={`px-4 py-3 text-right font-medium ${colorClass}`}>
                         {abs > 0 ? '+' : ''}
                         {formatValue(row.key, abs)}

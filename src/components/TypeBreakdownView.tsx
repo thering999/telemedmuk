@@ -121,18 +121,18 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
   return (
-    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-blue-50 to-white min-h-screen p-6 rounded-3xl">
+    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-blue-50 to-white dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 min-h-screen p-6 rounded-3xl">
       <ReportInfoPanel {...docs} />
 
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-800">{title}</h2>
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-4 shadow-sm">
+        <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{title}</h2>
         <div className="ml-auto flex flex-col gap-1">
-          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600">
+          <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             ประเภทสถานบริการ
           </label>
           <select
             id="hostype-select"
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
             value={hostype}
             onChange={(e) => setHostype(e.target.value)}
           >
@@ -197,9 +197,9 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
       </div>
 
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
+          <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100">รายละเอียดสถานพยาบาล</h3>
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`${title}_${snapshot.snapshotDate}`}
@@ -212,7 +212,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
               placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+              className="w-full max-w-xs rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
             />
           </div>
         </div>
@@ -220,7 +220,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
-              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
+              <tr className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-700 border-b-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200">
                 <SortableTh
                   label="รหัสสถาน"
                   active={sortKey === 'hospcode'}
@@ -382,26 +382,26 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   ? type1 + type2 + type3 + type4 + type5
                   : type2 + type3 + type5
                 return (
-                  <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
-                    <td className="px-4 py-3 text-slate-600 text-sm font-mono">{f.hospcode}</td>
-                    <td className="px-4 py-3 text-slate-800 font-medium">{f.hospname}</td>
-                    <td className="px-4 py-3 text-slate-600 text-sm">{f.ampName}</td>
-                    <td className="px-4 py-3 text-slate-600">
+                  <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
+                    <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
                       <span className="text-xs">
                         {f.hostypeName.includes('ส่งเสริมสุขภาพตำบล') ? (
-                          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">รพสต.</span>
+                          <span className="rounded-full bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 text-blue-700 dark:text-blue-300 font-medium">รพสต.</span>
                         ) : (
-                          <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-700 font-medium">รพ.</span>
+                          <span className="rounded-full bg-slate-200 dark:bg-slate-700 px-2 py-0.5 text-slate-700 dark:text-slate-200 font-medium">รพ.</span>
                         )}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right text-slate-700">{op68.toLocaleString('th-TH')}</td>
+                    <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{op68.toLocaleString('th-TH')}</td>
                     {isPersonReport ? (
                       <>
-                        <td className="px-4 py-3 text-right text-slate-700">{type1.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700">{type2.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700">{type4.toLocaleString('th-TH')}</td>
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type1.toLocaleString('th-TH')}</td>
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type2.toLocaleString('th-TH')}</td>
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type3.toLocaleString('th-TH')}</td>
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type4.toLocaleString('th-TH')}</td>
                         <td className="px-4 py-3 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right text-brand-700">
                           {(() => {
@@ -409,28 +409,28 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                             return `${percent.toFixed(2)}%`
                           })()}
                         </td>
-                        <td className="px-3 py-2 text-right text-slate-600 text-sm">{typeSum.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-slate-600 dark:text-slate-300 text-sm">{typeSum.toLocaleString('th-TH')}</td>
                       </>
                     ) : (
                       <>
-                        <td className="px-4 py-3 text-right text-slate-700">{type2.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700">{type3.toLocaleString('th-TH')}</td>
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type2.toLocaleString('th-TH')}</td>
+                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type3.toLocaleString('th-TH')}</td>
                         <td className="px-4 py-3 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
                       </>
                     )}
-                    <td className="px-3 py-2 text-right font-semibold text-slate-800">{typeSum.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right font-semibold text-slate-800 dark:text-slate-100">{typeSum.toLocaleString('th-TH')}</td>
                   </tr>
                 )
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
               )}
               {filteredFacilities.length > 0 && (
-                <tr className="border-t-2 border-slate-400 bg-gradient-to-r from-slate-100 to-slate-50 font-bold text-slate-800">
+                <tr className="border-t-2 border-slate-400 dark:border-slate-600 bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-700 font-bold text-slate-800 dark:text-slate-100">
                   <td className="px-4 py-3">รวม</td>
                   <td className="px-4 py-3"></td>
                   <td className="px-4 py-3"></td>
@@ -498,9 +498,9 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
 
 function KpiCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-sm text-slate-500">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800'}`}>{value}</p>
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
+      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800 dark:text-slate-100'}`}>{value}</p>
     </div>
   )
 }
