@@ -4,8 +4,9 @@
 
 // Primary brand colors
 export const COLORS = {
-  // Brand colors
-  brand: {
+  // Secondary accent colors (blue) - NOTE: distinct from the CSS --color-brand-* (teal)
+  // theme defined in src/index.css. Named "secondary" here to avoid collision.
+  secondary: {
     50: '#f0f9ff',
     100: '#e0f2fe',
     200: '#bae6fd',
@@ -106,8 +107,8 @@ export const COLORS = {
 
 // Chart colors - modern, accessible palette
 export const CHART_COLORS = {
-  primary: COLORS.telemed[600], // #0d9488 - Telemedicine main
-  secondary: COLORS.brand[600], // #0284c7 - Blue
+  primary: COLORS.telemed[600], // #0d9488 - Telemedicine main (matches CSS --color-brand-600)
+  secondary: COLORS.secondary[600], // #0284c7 - Blue
   tertiary: COLORS.warning[500], // #f59e0b - Amber
   success: COLORS.success[600], // #16a34a
   danger: COLORS.danger[600], // #dc2626
@@ -115,18 +116,18 @@ export const CHART_COLORS = {
   // Multi-series charts
   series: [
     COLORS.telemed[600], // Teal
-    COLORS.brand[600], // Blue
+    COLORS.secondary[600], // Blue
     COLORS.warning[500], // Amber
     COLORS.success[600], // Green
     COLORS.danger[500], // Red
-    COLORS.brand[400], // Light Blue
+    COLORS.secondary[400], // Light Blue
     COLORS.telemed[500], // Light Teal
   ],
 
   // Pie chart colors
   pie: [
     COLORS.telemed[600],
-    COLORS.brand[600],
+    COLORS.secondary[600],
     COLORS.warning[500],
     COLORS.success[600],
     COLORS.danger[500],
@@ -142,8 +143,8 @@ export const STATUS = {
     threshold: 5,
   },
   good: {
-    color: COLORS.brand[600],
-    lightColor: COLORS.brand[50],
+    color: COLORS.secondary[600],
+    lightColor: COLORS.secondary[50],
     label: '≈ ปานกลาง',
     threshold: 2,
   },
