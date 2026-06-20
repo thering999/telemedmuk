@@ -18,6 +18,8 @@ import { FISCAL_YEARS } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
+import { useSortableTable } from '../lib/useSortableTable'
+import SortableTh from './SortableTh'
 
 export interface StrategicAnalysisViewProps {
   baseSnapshot: Snapshot
@@ -316,6 +318,13 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
     const rate = totalOp > 0 ? (totalType5 / totalOp) * 100 : null
     return { count, totalOp, totalType5, rate }
   }, [yearRows])
+
+  const {
+    sortedRows: sortedTableRows,
+    sortKey,
+    sortDir,
+    toggleSort,
+  } = useSortableTable(tableRows)
 
   return (
     <div className="flex flex-col gap-6">
@@ -691,19 +700,81 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           <table className="w-full min-w-[1000px] text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-slate-500">
-                <th className="px-3 py-2 font-medium">รหัสสถาน</th>
-                <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
-                <th className="px-3 py-2 font-medium">อำเภอ</th>
-                <th className="px-3 py-2 font-medium">สังกัด</th>
-                <th className="px-3 py-2 font-medium">ประเภท</th>
-                <th className="px-3 py-2 text-right font-medium">OP</th>
-                <th className="px-3 py-2 text-right font-medium">Type5 (Telemedicine)</th>
-                <th className="px-3 py-2 text-right font-medium">อัตราตามเกณฑ์ สธ. %</th>
-                <th className="px-3 py-2 font-medium">กลุ่มเชิงกลยุทธ์</th>
+                <SortableTh
+                  label="รหัสสถาน"
+                  active={sortKey === 'hospcode'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospcode', (row) => row.facility.hospcode)}
+                  className="px-3 py-2 font-medium"
+                />
+                <SortableTh
+                  label="สถานพยาบาล"
+                  active={sortKey === 'hospname'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospname', (row) => row.facility.hospname)}
+                  className="px-3 py-2 font-medium"
+                />
+                <SortableTh
+                  label="อำเภอ"
+                  active={sortKey === 'ampName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('ampName', (row) => row.facility.ampName)}
+                  className="px-3 py-2 font-medium"
+                />
+                <SortableTh
+                  label="สังกัด"
+                  active={sortKey === 'mName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('mName', (row) => row.facility.mName)}
+                  className="px-3 py-2 font-medium"
+                />
+                <SortableTh
+                  label="ประเภท"
+                  active={sortKey === 'hostypeName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hostypeName', (row) => row.facility.hostypeName)}
+                  className="px-3 py-2 font-medium"
+                />
+                <SortableTh
+                  label="OP"
+                  align="right"
+                  active={sortKey === 'op'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('op', (row) => row.op)}
+                  className="px-3 py-2 text-right font-medium"
+                />
+                <SortableTh
+                  label="Type5 (Telemedicine)"
+                  align="right"
+                  active={sortKey === 'type5'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('type5', (row) => row.type5)}
+                  className="px-3 py-2 text-right font-medium"
+                />
+                <SortableTh
+                  label="อัตราตามเกณฑ์ สธ. %"
+                  align="right"
+                  active={sortKey === 'rate'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('rate', (row) => row.rate ?? -1)}
+                  className="px-3 py-2 text-right font-medium"
+                />
+                <SortableTh
+                  label="กลุ่มเชิงกลยุทธ์"
+                  active={sortKey === 'quadrant'}
+                  direction={sortDir}
+                  onClick={() =>
+                    toggleSort('quadrant', (row) => {
+                      const quadrant = quadrantData.lookup.get(row.facility.hospcode)
+                      return quadrant ? QUADRANT_META[quadrant].label : 'ไม่มีข้อมูล'
+                    })
+                  }
+                  className="px-3 py-2 font-medium"
+                />
               </tr>
             </thead>
             <tbody>
-              {tableRows.map((row) => {
+              {sortedTableRows.map((row) => {
                 const quadrant = quadrantData.lookup.get(row.facility.hospcode)
                 return (
                   <tr key={row.facility.hospcode} className="border-b border-slate-100 hover:bg-slate-50">

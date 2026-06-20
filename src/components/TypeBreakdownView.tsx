@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import type { TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
+import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
+import SortableTh from './SortableTh'
 
 export interface TypeBreakdownViewProps {
   snapshot: TypeBreakdownSnapshot
@@ -116,6 +118,8 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
     ]
   }, [isPersonReport])
 
+  const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
+
   return (
     <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-blue-50 to-white min-h-screen p-6 rounded-3xl">
       <ReportInfoPanel {...docs} />
@@ -217,33 +221,157 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
               <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">รหัสสถาน</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">สถานพยาบาล</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">อำเภอ</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">ประเภท</th>
-                <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">OP68</th>
+                <SortableTh
+                  label="รหัสสถาน"
+                  active={sortKey === 'hospcode'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospcode', (f) => f.hospcode)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="สถานพยาบาล"
+                  active={sortKey === 'hospname'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospname', (f) => f.hospname)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="อำเภอ"
+                  active={sortKey === 'ampName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('ampName', (f) => f.ampName)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="ประเภท"
+                  active={sortKey === 'hostypeName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hostypeName', (f) => f.hostypeName)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="OP68"
+                  align="right"
+                  active={sortKey === 'op68'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('op68', (f) => f.byYear['68']?.op ?? 0)}
+                  className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                />
                 {isPersonReport ? (
                   <>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Person Type1 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Person Type2 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Person Type3 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Person Type4 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Person Type5 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Telemedicine %</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">All Types Sum</th>
+                    <SortableTh
+                      label="Person Type1 (69)"
+                      align="right"
+                      active={sortKey === 'type1'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type1', (f) => f.byYear['69']?.type1 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Person Type2 (69)"
+                      align="right"
+                      active={sortKey === 'type2'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type2', (f) => f.byYear['69']?.type2 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Person Type3 (69)"
+                      align="right"
+                      active={sortKey === 'type3'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type3', (f) => f.byYear['69']?.type3 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Person Type4 (69)"
+                      align="right"
+                      active={sortKey === 'type4'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type4', (f) => f.byYear['69']?.type4 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Person Type5 (69)"
+                      align="right"
+                      active={sortKey === 'type5'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type5', (f) => f.byYear['69']?.type5 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Telemedicine %"
+                      align="right"
+                      active={sortKey === 'telemedPercent'}
+                      direction={sortDir}
+                      onClick={() =>
+                        toggleSort('telemedPercent', (f) => {
+                          const op68 = f.byYear['68']?.op ?? 0
+                          const type5 = f.byYear['69']?.type5 ?? 0
+                          return op68 > 0 ? (type5 / op68) * 100 : 0
+                        })
+                      }
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="All Types Sum"
+                      align="right"
+                      active={sortKey === 'typeSum'}
+                      direction={sortDir}
+                      onClick={() =>
+                        toggleSort('typeSum', (f) => {
+                          const s = f.byYear['69']
+                          return (s?.type1 ?? 0) + (s?.type2 ?? 0) + (s?.type3 ?? 0) + (s?.type4 ?? 0) + (s?.type5 ?? 0)
+                        })
+                      }
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
                   </>
                 ) : (
                   <>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Type2 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Type3 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Type5 (69)</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">รวม</th>
+                    <SortableTh
+                      label="Type2 (69)"
+                      align="right"
+                      active={sortKey === 'type2'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type2', (f) => f.byYear['69']?.type2 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Type3 (69)"
+                      align="right"
+                      active={sortKey === 'type3'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type3', (f) => f.byYear['69']?.type3 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="Type5 (69)"
+                      align="right"
+                      active={sortKey === 'type5'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type5', (f) => f.byYear['69']?.type5 ?? 0)}
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
+                    <SortableTh
+                      label="รวม"
+                      align="right"
+                      active={sortKey === 'typeSum'}
+                      direction={sortDir}
+                      onClick={() =>
+                        toggleSort(
+                          'typeSum',
+                          (f) => (f.byYear['69']?.type2 ?? 0) + (f.byYear['69']?.type3 ?? 0) + (f.byYear['69']?.type5 ?? 0),
+                        )
+                      }
+                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                    />
                   </>
                 )}
               </tr>
             </thead>
             <tbody>
-              {filteredFacilities.map((f) => {
+              {sortedFacilities.map((f) => {
                 const op68 = f.byYear['68']?.op ?? 0
                 const type1 = f.byYear['69']?.type1 ?? 0
                 const type2 = f.byYear['69']?.type2 ?? 0

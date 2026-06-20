@@ -13,8 +13,10 @@ import type { FiscalYear, GroupBreakdownFacility, GroupBreakdownSnapshot } from 
 import { FISCAL_YEARS } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
+import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
+import SortableTh from './SortableTh'
 
 export interface GroupBreakdownViewProps {
   snapshot: GroupBreakdownSnapshot
@@ -102,6 +104,8 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
     ]
     return [...base, ...groupCols, ...tail]
   }, [snapshot.groupDefs, fiscalYear])
+
+  const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
   return (
     <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-cyan-50 to-white min-h-screen p-6 rounded-3xl">
@@ -220,10 +224,34 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead>
               <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">รหัสสถาน</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">สถานพยาบาล</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">อำเภอ</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">ประเภท</th>
+                <SortableTh
+                  label="รหัสสถาน"
+                  active={sortKey === 'hospcode'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospcode', (f) => f.hospcode)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="สถานพยาบาล"
+                  active={sortKey === 'hospname'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospname', (f) => f.hospname)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="อำเภอ"
+                  active={sortKey === 'ampName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('ampName', (f) => f.ampName)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="ประเภท"
+                  active={sortKey === 'hostypeName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hostypeName', (f) => f.hostypeName)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
                 {snapshot.groupDefs.map((def) => (
                   <th key={def.key} className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide" colSpan={2}>
                     {def.label}
@@ -237,14 +265,28 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
                 <th className="px-4 py-2" />
                 {snapshot.groupDefs.map((def) => (
                   <Fragment key={def.key}>
-                    <th className="px-4 py-2 text-right text-xs font-semibold text-slate-600">visit</th>
-                    <th className="px-4 py-2 text-right text-xs font-semibold text-slate-600">tele</th>
+                    <SortableTh
+                      label="visit"
+                      align="right"
+                      active={sortKey === `${def.key}_visit`}
+                      direction={sortDir}
+                      onClick={() => toggleSort(`${def.key}_visit`, (f) => f.groups[def.key]?.visit ?? 0)}
+                      className="px-4 py-2 text-right text-xs font-semibold text-slate-600"
+                    />
+                    <SortableTh
+                      label="tele"
+                      align="right"
+                      active={sortKey === `${def.key}_tele`}
+                      direction={sortDir}
+                      onClick={() => toggleSort(`${def.key}_tele`, (f) => f.groups[def.key]?.tele ?? 0)}
+                      className="px-4 py-2 text-right text-xs font-semibold text-slate-600"
+                    />
                   </Fragment>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {filteredFacilities.map((f) => (
+              {sortedFacilities.map((f) => (
                 <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
                   <td className="px-4 py-3 text-slate-600 text-sm font-mono">{f.hospcode}</td>
                   <td className="px-4 py-3 text-slate-800 font-medium">{f.hospname}</td>

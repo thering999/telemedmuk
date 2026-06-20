@@ -18,8 +18,10 @@ import { FISCAL_YEARS, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
+import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
+import SortableTh from './SortableTh'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
@@ -133,6 +135,8 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         : snapshot.facilities.find((f) => f.hospcode === effectiveFacilityCode) ?? null,
     [snapshot, effectiveFacilityCode],
   )
+
+  const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
   // Base metric: OP68 เทียบ Telemed69 (for base report) or OP69 เทียบ Telemed69 (for typein)
   const baseMetricKpis = useMemo(() => {
@@ -754,28 +758,67 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead>
               <tr className="bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-300 text-slate-700">
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">รหัสสถาน</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">สถานพยาบาล</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">อำเภอ</th>
-                <th className="px-4 py-3 font-bold text-xs uppercase tracking-wide">ประเภท</th>
-                {isTypeinReport ? (
-                  <>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">OP69</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Telemed69</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ร้อยละ</th>
-                  </>
-                ) : (
-                  <>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">OP68</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">Telemed69</th>
-                    <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">ร้อยละ</th>
-                  </>
-                )}
+                <SortableTh
+                  label="รหัสสถาน"
+                  active={sortKey === 'hospcode'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospcode', (f) => f.hospcode)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="สถานพยาบาล"
+                  active={sortKey === 'hospname'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hospname', (f) => f.hospname)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="อำเภอ"
+                  active={sortKey === 'ampName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('ampName', (f) => f.ampName)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="ประเภท"
+                  active={sortKey === 'hostypeName'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('hostypeName', (f) => f.hostypeName)}
+                  className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label={isTypeinReport ? 'OP69' : 'OP68'}
+                  align="right"
+                  active={sortKey === 'op'}
+                  direction={sortDir}
+                  onClick={() =>
+                    toggleSort('op', (f) =>
+                      isTypeinReport ? f.byYear['69']?.op ?? 0 : f.byYear['68']?.op ?? 0,
+                    )
+                  }
+                  className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="Telemed69"
+                  align="right"
+                  active={sortKey === 'telemed'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('telemed', (f) => telemedVisits(f.byYear['69']))}
+                  className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                />
+                <SortableTh
+                  label="ร้อยละ"
+                  align="right"
+                  active={sortKey === 'percent'}
+                  direction={sortDir}
+                  onClick={() => toggleSort('percent', (f) => f.percentTelemed69PerOP68)}
+                  className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                />
                 <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">สถานะ</th>
               </tr>
             </thead>
             <tbody>
-              {filteredFacilities.map((f) => {
+              {sortedFacilities.map((f) => {
                 const percent = isTypeinReport ? f.percentTelemed69PerOP68 : f.percentTelemed69PerOP68
                 return (
                   <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors">
