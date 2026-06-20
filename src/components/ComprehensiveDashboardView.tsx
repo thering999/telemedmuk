@@ -14,9 +14,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceLine,
-  ComposedChart,
-  Line,
 } from 'recharts'
 import type { Snapshot, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
 import { FISCAL_YEARS } from '../types/hdc'
