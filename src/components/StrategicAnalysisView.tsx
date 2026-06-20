@@ -809,23 +809,23 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* Strategic Insights & Recommendations */}
-      <div className="rounded-2xl border-2 border-cyan-300 bg-gradient-to-br from-cyan-50 to-blue-50 p-6 shadow-md">
-        <h3 className="mb-6 text-lg font-bold text-cyan-700">🎯 การวิเคราะห์เชิงกลยุทธ์ & ข้อเสนอแนะ</h3>
+      <div className="rounded-2xl border-2 border-cyan-300 dark:border-cyan-700 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-950/30 dark:to-blue-950/30 p-6 shadow-md">
+        <h3 className="mb-6 text-lg font-bold text-cyan-700 dark:text-cyan-400">🎯 การวิเคราะห์เชิงกลยุทธ์ & ข้อเสนอแนะ</h3>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Goals Summary */}
-          <div className="rounded-xl bg-white/70 p-5 border-l-4 border-cyan-500">
-            <h4 className="font-bold text-cyan-700 mb-4">📊 สรุปเป้าหมาย</h4>
+          <div className="rounded-xl bg-white/70 dark:bg-slate-800/70 p-5 border-l-4 border-cyan-500 dark:border-cyan-600">
+            <h4 className="font-bold text-cyan-700 dark:text-cyan-400 mb-4">📊 สรุปเป้าหมาย</h4>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between items-center">
-                <span className="text-slate-700">เป้าหมายจังหวัด (≥30%):</span>
-                <span className="font-bold text-lg">
+                <span className="text-slate-700 dark:text-slate-300">เป้าหมายจังหวัด (≥30%):</span>
+                <span className="font-bold text-lg text-slate-800 dark:text-slate-100">
                   {((districtTargets.filter(d => d.rate !== null && d.rate >= DISTRICT_TARGET_RATE).length / Math.max(districtTargets.length, 1)) * 100).toFixed(0)}%
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-700">เป้าหมายรพสต. (≥10%):</span>
-                <span className="font-bold text-lg">
+                <span className="text-slate-700 dark:text-slate-300">เป้าหมายรพสต. (≥10%):</span>
+                <span className="font-bold text-lg text-slate-800 dark:text-slate-100">
                   {((filteredFacilities.filter(f => {
                     if (!f.hostypeName.includes(RPST_HOSTYPE_MATCH)) return false
                     const rate = officialRate(f.byYear[fiscalYear])
@@ -834,16 +834,16 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-700">Champions:</span>
-                <span className="font-bold text-teal-600">{quadrantData.groups.champions.length} หน่วย</span>
+                <span className="text-slate-700 dark:text-slate-300">Champions:</span>
+                <span className="font-bold text-teal-600 dark:text-teal-400">{quadrantData.groups.champions.length} หน่วย</span>
               </div>
             </div>
           </div>
 
           {/* Quick Insights */}
-          <div className="rounded-xl bg-white/70 p-5 border-l-4 border-emerald-500">
-            <h4 className="font-bold text-emerald-700 mb-4">💡 ข้อสังเกต</h4>
-            <div className="space-y-2 text-sm text-slate-700">
+          <div className="rounded-xl bg-white/70 dark:bg-slate-800/70 p-5 border-l-4 border-emerald-500 dark:border-emerald-600">
+            <h4 className="font-bold text-emerald-700 dark:text-emerald-400 mb-4">💡 ข้อสังเกต</h4>
+            <div className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
               <p>✓ {quadrantData.groups.champions.length} สถานบริการดำเนินงานได้เก่ง (Champions)</p>
               <p>⚠️ {quadrantData.groups.sleepingGiants.length} สถานบริการมีศักยภาพสูง (Sleeping Giants)</p>
               <p>💪 {quadrantData.groups.activeSmall.length} สถานบริการจิ๋วแต่แจ๋ว (Active Small)</p>
@@ -854,21 +854,21 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
 
         {/* Strategic Recommendations */}
         <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-4">
-          <div className="rounded-lg bg-gradient-to-br from-emerald-50 to-green-50 p-4 border-l-4 border-emerald-500">
-            <p className="font-bold text-emerald-700">🏆 Champions</p>
-            <p className="text-xs text-slate-600 mt-2">ให้เป็นต้นแบบในการสอนงาน ขยายสถาบันและเครือข่าย</p>
+          <div className="rounded-lg bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/30 dark:to-green-950/30 p-4 border-l-4 border-emerald-500 dark:border-emerald-600">
+            <p className="font-bold text-emerald-700 dark:text-emerald-400">🏆 Champions</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-2">ให้เป็นต้นแบบในการสอนงาน ขยายสถาบันและเครือข่าย</p>
           </div>
-          <div className="rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 p-4 border-l-4 border-amber-500">
-            <p className="font-bold text-amber-700">📈 Giants</p>
-            <p className="text-xs text-slate-600 mt-2">กระตุ้นด้วยเทคโนโลยี ป้องกัน HR ลงลึก</p>
+          <div className="rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 p-4 border-l-4 border-amber-500 dark:border-amber-600">
+            <p className="font-bold text-amber-700 dark:text-amber-400">📈 Giants</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-2">กระตุ้นด้วยเทคโนโลยี ป้องกัน HR ลงลึก</p>
           </div>
-          <div className="rounded-lg bg-gradient-to-br from-blue-50 to-cyan-50 p-4 border-l-4 border-blue-500">
-            <p className="font-bold text-blue-700">⚡ Active</p>
-            <p className="text-xs text-slate-600 mt-2">เพิ่มปริมาณ OP ขยายภูมิศาสตร์</p>
+          <div className="rounded-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30 p-4 border-l-4 border-blue-500 dark:border-blue-600">
+            <p className="font-bold text-blue-700 dark:text-blue-400">⚡ Active</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-2">เพิ่มปริมาณ OP ขยายภูมิศาสตร์</p>
           </div>
-          <div className="rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 p-4 border-l-4 border-slate-500">
-            <p className="font-bold text-slate-700">🤝 Support</p>
-            <p className="text-xs text-slate-600 mt-2">ฝึกอบรม ระบบ สื่อสาร HR</p>
+          <div className="rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-700 p-4 border-l-4 border-slate-500 dark:border-slate-600">
+            <p className="font-bold text-slate-700 dark:text-slate-200">🤝 Support</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-2">ฝึกอบรม ระบบ สื่อสาร HR</p>
           </div>
         </div>
       </div>
