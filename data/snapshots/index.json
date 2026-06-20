@@ -1,0 +1,47 @@
+[
+  {
+    "date": "2026-06-20",
+    "sourceFile": [
+      "20260620_49_telemed_hosp.xlsx",
+      "20260620_49_telemed_hosp_235.xlsx"
+    ],
+    "facilityCount": 86,
+    "categories": [
+      "all",
+      "followup",
+      "ltc_pal",
+      "mch",
+      "ncd",
+      "person",
+      "typein"
+    ]
+  },
+  {
+    "date": "2026-06-19",
+    "sourceFile": [
+      "20260619_49_telemed_hosp.xlsx",
+      "20260619_49_telemed_hosp_235.xlsx"
+    ],
+    "facilityCount": 86,
+    "categories": [
+      "all",
+      "followup",
+      "ltc_pal",
+      "mch",
+      "ncd",
+      "person",
+      "typein"
+    ]
+  },
+  {
+    "date": "2026-06-18",
+    "sourceFile": [
+      "20260618_49_telemed_hosp.xlsx",
+      "20260618_49_telemed_hosp_235.xlsx"
+    ],
+    "facilityCount": 86,
+    "categories": [
+      "typein"
+    ]
+  }
+]
