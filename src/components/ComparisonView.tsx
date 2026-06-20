@@ -3,7 +3,7 @@ import type { Snapshot, SnapshotIndexEntry } from '../types/hdc'
 import { telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { exportToCsv, type ExportColumn } from '../lib/exportTable'
-import { trendFromDelta } from '../lib/exportPdf'
+import { trendFromDelta } from '../lib/trend'
 import { daysBetween, summarizeAnalytics } from '../lib/analytics'
 import { useAutoRefresh } from '../hooks/useAutoRefresh'
 import AnalyticsCard from './AnalyticsCard'
@@ -176,6 +176,7 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
   const handleExportPdf = useCallback(async () => {
     setPdfPending(true)
     try {
+      const { exportToPdf } = await import('../lib/exportPdf')
       await exportToPdf({
         filenameBase: `เปรียบเทียบ_${dateA}_vs_${dateB}`,
         title: 'รายงานเปรียบเทียบ Telemedicine จ.มุกดาหาร',
