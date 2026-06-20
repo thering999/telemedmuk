@@ -221,7 +221,7 @@ function HdcTab() {
   const categoryToFetch: ReportCategory | null =
     effectiveSubTab === 'base'
       ? null
-      : effectiveSubTab === 'strategic'
+      : effectiveSubTab === 'strategic' || effectiveSubTab === 'comprehensive'
         ? 'all'
         : (effectiveSubTab as ReportCategory)
 
