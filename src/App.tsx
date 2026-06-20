@@ -1,14 +1,21 @@
-import { useEffect, useState } from 'react'
-import PowerBiTab from './components/PowerBiTab'
-import LookerStudioTab from './components/LookerStudioTab'
-import HdcTab from './components/HdcTab'
-import ImportExcelTab from './components/ImportExcelTab'
-import AdminPanel from './components/AdminPanel'
-import ComparisonView from './components/ComparisonView'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import DarkModeToggle from './components/DarkModeToggle'
 import ErrorBoundary from './components/ErrorBoundary'
 import { useDarkMode } from './hooks/useDarkMode'
 import type { SnapshotIndexEntry } from './types/hdc'
+
+// Each tab (and the admin panel) is its own chunk -- they pull in heavy deps
+// (recharts, xlsx) that shouldn't block the initial paint of the shell/tab bar.
+const PowerBiTab = lazy(() => import('./components/PowerBiTab'))
+const LookerStudioTab = lazy(() => import('./components/LookerStudioTab'))
+const HdcTab = lazy(() => import('./components/HdcTab'))
+const ImportExcelTab = lazy(() => import('./components/ImportExcelTab'))
+const AdminPanel = lazy(() => import('./components/AdminPanel'))
+const ComparisonView = lazy(() => import('./components/ComparisonView'))
+
+function TabFallback() {
+  return <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลด...</p>
+}
 
 type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import' | 'compare'
 
@@ -91,22 +98,30 @@ function App() {
 
           {activeTab === 'powerbi' && (
             <ErrorBoundary key="powerbi" label="แท็บ Power BI">
-              <PowerBiTab />
+              <Suspense fallback={<TabFallback />}>
+                <PowerBiTab />
+              </Suspense>
             </ErrorBoundary>
           )}
           {activeTab === 'looker' && (
             <ErrorBoundary key="looker" label="แท็บ Looker Studio">
-              <LookerStudioTab />
+              <Suspense fallback={<TabFallback />}>
+                <LookerStudioTab />
+              </Suspense>
             </ErrorBoundary>
           )}
           {activeTab === 'hdc' && (
             <ErrorBoundary key="hdc" label="แท็บ HDC">
-              <HdcTab />
+              <Suspense fallback={<TabFallback />}>
+                <HdcTab />
+              </Suspense>
             </ErrorBoundary>
           )}
           {activeTab === 'import' && (
             <ErrorBoundary key="import" label="แท็บนำเข้า Excel">
-              <ImportExcelTab />
+              <Suspense fallback={<TabFallback />}>
+                <ImportExcelTab />
+              </Suspense>
             </ErrorBoundary>
           )}
           {activeTab === 'compare' && snapshotIndex === null && (
@@ -114,13 +129,19 @@ function App() {
           )}
           {activeTab === 'compare' && snapshotIndex !== null && (
             <ErrorBoundary key="compare" label="แท็บเปรียบเทียบ">
-              <ComparisonView snapshotIndex={snapshotIndex} />
+              <Suspense fallback={<TabFallback />}>
+                <ComparisonView snapshotIndex={snapshotIndex} />
+              </Suspense>
             </ErrorBoundary>
           )}
         </ErrorBoundary>
       </main>
 
-      {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
+      {showAdmin && (
+        <Suspense fallback={null}>
+          <AdminPanel onClose={() => setShowAdmin(false)} />
+        </Suspense>
+      )}
     </div>
   )
 }

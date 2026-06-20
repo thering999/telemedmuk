@@ -1,5 +1,3 @@
-import * as XLSX from 'xlsx'
-
 export interface ExportColumn<T> {
   key: string
   /** Thai column header shown in every export format. */
@@ -16,7 +14,10 @@ function buildRows<T>(columns: ExportColumn<T>[], rows: T[]): Record<string, str
   })
 }
 
-export function exportToExcel<T>(filenameBase: string, columns: ExportColumn<T>[], rows: T[]): void {
+export async function exportToExcel<T>(filenameBase: string, columns: ExportColumn<T>[], rows: T[]): Promise<void> {
+  // Loaded on demand -- xlsx is a heavy dependency only needed when the user
+  // actually requests an Excel export, so it gets its own chunk.
+  const XLSX = await import('xlsx')
   const sheetRows = buildRows(columns, rows)
   const worksheet = XLSX.utils.json_to_sheet(sheetRows, { header: columns.map((c) => c.label) })
   const workbook = XLSX.utils.book_new()
