@@ -8,6 +8,8 @@ import type {
   TypeBreakdownSnapshot,
 } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
+import { EMPTY_FILTERS, useFilteredData, type FilterState } from '../lib/useFilteredData'
+import FilterBar from './FilterBar'
 import SnapshotView from './SnapshotView'
 import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
@@ -126,6 +128,7 @@ function HdcTab() {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null)
   const [snapshotError, setSnapshotError] = useState<{ date: string; message: string } | null>(null)
   const [activeSubTab, setActiveSubTab] = useState<SubTabKey>('base')
+  const [filters, setFilters] = useState<FilterState>(EMPTY_FILTERS)
 
   // Cache of fetched category snapshots, scoped to the currently-selected
   // date. Keyed by date so switching dates and back doesn't lose anything
@@ -195,6 +198,29 @@ function HdcTab() {
   }, [indexState, selectedDate])
 
   const availableCategories = useMemo(() => currentEntry?.categories ?? [], [currentEntry])
+
+  const filteredFacilities = useFilteredData(
+    snapshot?.facilities ?? [],
+    snapshot?.snapshotDate ?? null,
+    availableCategories,
+    filters,
+  )
+  const filteredSnapshot = useMemo(
+    () => (snapshot ? { ...snapshot, facilities: filteredFacilities } : null),
+    [snapshot, filteredFacilities],
+  )
+
+  const typeinSnapshot = selectedDate ? categoryCache[selectedDate]?.typein : undefined
+  const filteredTypeinFacilities = useFilteredData(
+    typeinSnapshot?.facilities ?? [],
+    typeinSnapshot?.snapshotDate ?? null,
+    availableCategories,
+    filters,
+  )
+  const filteredTypeinSnapshot = useMemo(
+    () => (typeinSnapshot ? { ...typeinSnapshot, facilities: filteredTypeinFacilities } : null),
+    [typeinSnapshot, filteredTypeinFacilities],
+  )
 
   const visibleSubTabs = useMemo(() => {
     return SUB_TABS.filter((tab) => {
@@ -336,8 +362,19 @@ function HdcTab() {
         <p className="text-center text-slate-500">กำลังโหลดข้อมูลสแนปช็อต...</p>
       )}
 
-      {snapshot && !isStale && effectiveSubTab === 'base' && (
-        <SnapshotView snapshot={snapshot} snapshotIndex={index} />
+      {snapshot && !isStale && (effectiveSubTab === 'base' || effectiveSubTab === 'typein') && (
+        <FilterBar
+          filters={filters}
+          onChange={setFilters}
+          availableTypes={availableCategories}
+          resultCount={
+            effectiveSubTab === 'typein' ? filteredTypeinFacilities.length : filteredFacilities.length
+          }
+        />
+      )}
+
+      {snapshot && !isStale && effectiveSubTab === 'base' && filteredSnapshot && (
+        <SnapshotView snapshot={filteredSnapshot} snapshotIndex={index} />
       )}
 
       {snapshot && !isStale && effectiveSubTab !== 'base' && (
@@ -388,8 +425,8 @@ function HdcTab() {
               {effectiveSubTab === 'comprehensive' && currentCategoryData.all && (
                 <ComprehensiveDashboardView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
               )}
-              {effectiveSubTab === 'typein' && currentCategoryData.typein && (
-                <SnapshotView snapshot={currentCategoryData.typein} docs={TYPEIN_DOCS} />
+              {effectiveSubTab === 'typein' && filteredTypeinSnapshot && (
+                <SnapshotView snapshot={filteredTypeinSnapshot} docs={TYPEIN_DOCS} />
               )}
             </>
           )}
