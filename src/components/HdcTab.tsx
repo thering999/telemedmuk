@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type {
   FollowupSnapshot,
   GroupBreakdownSnapshot,
@@ -9,7 +9,9 @@ import type {
 } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { EMPTY_FILTERS, useFilteredData, type FilterState } from '../lib/useFilteredData'
+import { useAutoRefresh } from '../hooks/useAutoRefresh'
 import FilterBar from './FilterBar'
+import RefreshControl from './RefreshControl'
 import SnapshotView from './SnapshotView'
 import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
@@ -136,57 +138,73 @@ function HdcTab() {
   const [categoryCache, setCategoryCache] = useState<Record<string, CategoryDataMap>>({})
   const [categoryError, setCategoryError] = useState<{ key: string; message: string } | null>(null)
 
-  useEffect(() => {
-    let cancelled = false
-    fetch(dataUrl('index.json'))
+  const fetchIndex = useCallback(() => {
+    return fetch(dataUrl('index.json'))
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json() as Promise<SnapshotIndexEntry[]>
       })
       .then((index) => {
-        if (cancelled) return
         if (!index || index.length === 0) {
           setIndexState({ status: 'empty' })
           return
         }
+        // Keep the user's current date selection across a manual/auto
+        // refresh instead of snapping back to the newest snapshot.
         setIndexState({ status: 'ready', index })
-        setSelectedDate(index[0].date)
+        setSelectedDate((prev) => prev ?? index[0].date)
       })
       .catch((err: unknown) => {
-        if (cancelled) return
         setIndexState({
           status: 'error',
           message: err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลได้',
         })
+        throw err
       })
-    return () => {
-      cancelled = true
-    }
   }, [])
 
-  useEffect(() => {
-    if (!selectedDate) return
-    let cancelled = false
-    fetch(dataUrl(`${selectedDate}.json`))
+  const fetchSnapshot = useCallback((date: string) => {
+    return fetch(dataUrl(`${date}.json`))
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json() as Promise<Snapshot>
       })
       .then((data) => {
-        if (cancelled) return
         setSnapshot(data)
       })
       .catch((err: unknown) => {
-        if (cancelled) return
         setSnapshotError({
-          date: selectedDate,
+          date,
           message: err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลสแนปช็อตได้',
         })
+        throw err
       })
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchIndex().catch(() => {
+      // surfaced via indexState; swallow here so this isn't an unhandled rejection
+    })
     return () => {
       cancelled = true
+      void cancelled
     }
-  }, [selectedDate])
+    // Only run once on mount — refreshes go through refreshNow() instead.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (!selectedDate) return
+    let cancelled = false
+    fetchSnapshot(selectedDate).catch(() => {
+      // surfaced via snapshotError; swallow here so this isn't an unhandled rejection
+    })
+    return () => {
+      cancelled = true
+      void cancelled
+    }
+  }, [selectedDate, fetchSnapshot])
 
   const isStale = snapshot !== null && snapshot.snapshotDate !== selectedDate
   const currentError =
@@ -251,36 +269,57 @@ function HdcTab() {
         ? 'all'
         : (effectiveSubTab as ReportCategory)
 
-  useEffect(() => {
-    if (!categoryToFetch) return
-    if (!selectedDate) return
-    const category = categoryToFetch
-    if (categoryCache[selectedDate]?.[category]) return
-
-    let cancelled = false
-    fetch(dataUrl(`${selectedDate}/${category}.json`))
+  const fetchCategory = useCallback((date: string, category: ReportCategory) => {
+    return fetch(dataUrl(`${date}/${category}.json`))
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })
       .then((data) => {
-        if (cancelled) return
         setCategoryCache((prev) => ({
           ...prev,
-          [selectedDate]: { ...prev[selectedDate], [category]: data },
+          [date]: { ...prev[date], [category]: data },
         }))
       })
       .catch((err: unknown) => {
-        if (cancelled) return
         setCategoryError({
-          key: `${selectedDate}/${category}`,
+          key: `${date}/${category}`,
           message: err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลได้',
         })
+        throw err
       })
+  }, [])
+
+  useEffect(() => {
+    if (!categoryToFetch) return
+    if (!selectedDate) return
+    if (categoryCache[selectedDate]?.[categoryToFetch]) return
+
+    let cancelled = false
+    fetchCategory(selectedDate, categoryToFetch).catch(() => {
+      // surfaced via categoryError; swallow here so this isn't an unhandled rejection
+    })
     return () => {
       cancelled = true
+      void cancelled
     }
-  }, [categoryToFetch, selectedDate, categoryCache])
+  }, [categoryToFetch, selectedDate, categoryCache, fetchCategory])
+
+  // Drives the auto-refresh control. Re-fetches the lightweight index plus
+  // whatever the user is currently looking at (the base snapshot, and the
+  // active category if one is loaded) — never every category, so a refresh
+  // tick doesn't fan out into a burst of requests.
+  const refreshDashboard = useCallback(async () => {
+    await fetchIndex()
+    if (selectedDate) {
+      await fetchSnapshot(selectedDate)
+      if (categoryToFetch) {
+        await fetchCategory(selectedDate, categoryToFetch)
+      }
+    }
+  }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, categoryToFetch])
+
+  const autoRefresh = useAutoRefresh({ onRefresh: refreshDashboard })
 
   if (indexState.status === 'loading') {
     return <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
@@ -329,6 +368,8 @@ function HdcTab() {
           ))}
         </select>
       </div>
+
+      <RefreshControl state={autoRefresh} />
 
       <p className="text-xs text-slate-500 dark:text-slate-400">
         ปีงบประมาณ 68 = 1 ต.ค. 2567 – 30 ก.ย. 2568 · ปีงบประมาณ 69 = 1 ต.ค. 2568 – 30 ก.ย. 2569

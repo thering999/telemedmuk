@@ -3,7 +3,7 @@ import type { Snapshot, SnapshotIndexEntry } from '../types/hdc'
 import { telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { exportToCsv, type ExportColumn } from '../lib/exportTable'
-import { exportToPdf, trendFromDelta } from '../lib/exportPdf'
+import { trendFromDelta } from '../lib/exportPdf'
 import { daysBetween, summarizeAnalytics } from '../lib/analytics'
 import { useAutoRefresh } from '../hooks/useAutoRefresh'
 import AnalyticsCard from './AnalyticsCard'
@@ -173,6 +173,22 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
     [dateA, dateB],
   )
 
+  const handleExportPdf = useCallback(async () => {
+    setPdfPending(true)
+    try {
+      await exportToPdf({
+        filenameBase: `เปรียบเทียบ_${dateA}_vs_${dateB}`,
+        title: 'รายงานเปรียบเทียบ Telemedicine จ.มุกดาหาร',
+        subtitle: `ช่วง A: ${formatThaiDate(dateA)}  ·  ช่วง B: ${formatThaiDate(dateB)}`,
+        columns: exportColumns,
+        rows,
+        trend: (row) => trendFromDelta(delta(row).abs),
+      })
+    } finally {
+      setPdfPending(false)
+    }
+  }, [dateA, dateB, exportColumns, rows])
+
   if (sortedDates.length < 2) {
     return (
       <p className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
@@ -220,14 +236,24 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
           </select>
         </div>
 
-        <button
-          type="button"
-          className="ml-auto rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-          disabled={rows.length === 0}
-          onClick={() => exportToCsv(`เปรียบเทียบ_${dateA}_vs_${dateB}`, exportColumns, rows)}
-        >
-          ส่งออก CSV
-        </button>
+        <div className="ml-auto flex flex-wrap gap-2">
+          <button
+            type="button"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+            disabled={rows.length === 0}
+            onClick={() => exportToCsv(`เปรียบเทียบ_${dateA}_vs_${dateB}`, exportColumns, rows)}
+          >
+            ส่งออก CSV
+          </button>
+          <button
+            type="button"
+            className="min-h-[36px] rounded-lg border border-brand-300 bg-brand-50 px-3 py-1.5 text-xs font-medium text-brand-700 shadow-sm hover:bg-brand-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-brand-700 dark:bg-brand-900/30 dark:text-brand-300 dark:hover:bg-brand-900/50"
+            disabled={rows.length === 0 || pdfPending}
+            onClick={handleExportPdf}
+          >
+            {pdfPending ? 'กำลังสร้าง PDF...' : '📥 Export as PDF'}
+          </button>
+        </div>
       </div>
 
       <RefreshControl state={autoRefresh} />
