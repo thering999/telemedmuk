@@ -27,9 +27,9 @@ function FilterBar({ filters, onChange, availableTypes, resultCount }: FilterBar
   const hasFilters = Boolean(filters.search || filters.dateFrom || filters.dateTo || filters.type)
 
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:flex-wrap sm:items-end sm:gap-3">
+    <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:flex-row sm:flex-wrap sm:items-end sm:gap-3">
       <div className="flex flex-col gap-1">
-        <label htmlFor="filter-search" className="text-xs font-medium text-slate-600">
+        <label htmlFor="filter-search" className="text-xs font-medium text-slate-600 dark:text-slate-300">
           ค้นหา (รหัสสถาน / ชื่อสถานพยาบาล)
         </label>
         <input
@@ -38,12 +38,12 @@ function FilterBar({ filters, onChange, availableTypes, resultCount }: FilterBar
           placeholder="พิมพ์เพื่อค้นหา..."
           value={filters.search}
           onChange={(e) => set({ search: e.target.value })}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-56"
+          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 sm:w-56"
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="filter-date-from" className="text-xs font-medium text-slate-600">
+        <label htmlFor="filter-date-from" className="text-xs font-medium text-slate-600 dark:text-slate-300">
           ตั้งแต่วันที่
         </label>
         <input
@@ -51,7 +51,7 @@ function FilterBar({ filters, onChange, availableTypes, resultCount }: FilterBar
           type="date"
           value={filters.dateFrom}
           onChange={(e) => set({ dateFrom: e.target.value })}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-40"
+          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:w-40"
         />
       </div>
 
@@ -64,7 +64,7 @@ function FilterBar({ filters, onChange, availableTypes, resultCount }: FilterBar
           type="date"
           value={filters.dateTo}
           onChange={(e) => set({ dateTo: e.target.value })}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-40"
+          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:w-40"
         />
       </div>
 
