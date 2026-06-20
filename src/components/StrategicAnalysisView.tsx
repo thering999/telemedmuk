@@ -664,9 +664,9 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* Filterable facility table */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-base font-semibold text-slate-800">รายละเอียดสถานพยาบาล</h3>
+          <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100">รายละเอียดสถานพยาบาล</h3>
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`วิเคราะห์เชิงกลยุทธ์_${allSnapshot.snapshotDate}`}
@@ -675,7 +675,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               rows={tableRows}
             />
             <select
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
               value={hostype}
               onChange={(e) => setHostype(e.target.value)}
             >
@@ -691,7 +691,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               placeholder="ค้นหาชื่อสถานพยาบาล รหัสสถาน หรืออำเภอ..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
+              className="w-full max-w-xs rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 sm:w-64"
             />
           </div>
         </div>
@@ -699,7 +699,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1000px] text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500">
+              <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <SortableTh
                   label="รหัสสถาน"
                   active={sortKey === 'hospcode'}
@@ -777,20 +777,20 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               {sortedTableRows.map((row) => {
                 const quadrant = quadrantData.lookup.get(row.facility.hospcode)
                 return (
-                  <tr key={row.facility.hospcode} className="border-b border-slate-100 hover:bg-slate-50">
-                    <td className="px-3 py-2 text-slate-600">{row.facility.hospcode}</td>
-                    <td className="px-3 py-2 text-slate-800">{row.facility.hospname}</td>
-                    <td className="px-3 py-2 text-slate-600">{row.facility.ampName}</td>
-                    <td className="px-3 py-2 text-slate-600">{row.facility.mName}</td>
-                    <td className="px-3 py-2 text-slate-600">{row.facility.hostypeName}</td>
-                    <td className="px-3 py-2 text-right text-slate-700">{row.op.toLocaleString('th-TH')}</td>
-                    <td className="px-3 py-2 text-right font-medium text-brand-700">
+                  <tr key={row.facility.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.hospcode}</td>
+                    <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.facility.hospname}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.ampName}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.mName}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.hostypeName}</td>
+                    <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.op.toLocaleString('th-TH')}</td>
+                    <td className="px-3 py-2 text-right font-medium text-brand-700 dark:text-brand-400">
                       {row.type5.toLocaleString('th-TH')}
                     </td>
-                    <td className="px-3 py-2 text-right text-slate-700">
+                    <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
                       {row.rate === null ? 'ไม่มีข้อมูล' : `${row.rate.toFixed(1)}%`}
                     </td>
-                    <td className="px-3 py-2 text-slate-600">
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">
                       {quadrant ? QUADRANT_META[quadrant].label : 'ไม่มีข้อมูล'}
                     </td>
                   </tr>
@@ -798,7 +798,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               })}
               {tableRows.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="px-3 py-6 text-center text-slate-400">
+                  <td colSpan={9} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
