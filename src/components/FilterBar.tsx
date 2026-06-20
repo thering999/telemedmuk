@@ -100,16 +100,16 @@ function FilterBar({ filters, onChange, availableTypes, resultCount }: FilterBar
       </div>
 
       <div className="flex items-center gap-3 sm:ml-auto">
-        <span className="whitespace-nowrap text-xs text-slate-500">
-          พบ {resultCount.toLocaleString('th-TH')} รายการ
-        </span>
+        <div className="whitespace-nowrap rounded-lg bg-gradient-to-r from-brand-50 to-teal-50 px-4 py-2.5 text-xs font-semibold text-brand-700 shadow-sm dark:from-brand-900/30 dark:to-teal-900/30 dark:text-brand-300">
+          📊 พบ {resultCount.toLocaleString('th-TH')} รายการ
+        </div>
         {hasFilters && (
           <button
             type="button"
             onClick={clearAll}
-            className="whitespace-nowrap rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-100"
+            className="whitespace-nowrap rounded-lg border-2 border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-rose-300 hover:bg-rose-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-rose-500 dark:hover:bg-rose-900/20"
           >
-            ล้างตัวกรอง
+            ❌ ล้างตัวกรอง
           </button>
         )}
       </div>
