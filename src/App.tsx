@@ -5,6 +5,9 @@ import HdcTab from './components/HdcTab'
 import ImportExcelTab from './components/ImportExcelTab'
 import AdminPanel from './components/AdminPanel'
 import ComparisonView from './components/ComparisonView'
+import DarkModeToggle from './components/DarkModeToggle'
+import ErrorBoundary from './components/ErrorBoundary'
+import { useDarkMode } from './hooks/useDarkMode'
 import type { SnapshotIndexEntry } from './types/hdc'
 
 type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import' | 'compare'
@@ -23,6 +26,7 @@ function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('hdc')
   const [showAdmin, setShowAdmin] = useState(false)
   const [snapshotIndex, setSnapshotIndex] = useState<SnapshotIndexEntry[] | null>(null)
+  const { isDark, toggleDarkMode } = useDarkMode()
 
   useEffect(() => {
     if (activeTab !== 'compare' || snapshotIndex) return
@@ -44,20 +48,21 @@ function App() {
   }, [activeTab, snapshotIndex])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50">
-      <header className="border-b-2 border-cyan-300 bg-gradient-to-r from-white via-blue-50 to-cyan-50 shadow-md">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-950">
+      <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
+      <header className="relative border-b-2 border-cyan-300 bg-gradient-to-r from-white via-blue-50 to-cyan-50 shadow-md dark:border-slate-700 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-teal-600 sm:text-4xl">
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-teal-600 sm:text-4xl dark:from-cyan-400 dark:to-teal-400">
               📊 Dashboard Telemedicine จังหวัดมุกดาหาร
             </h1>
-            <p className="mt-2 text-sm font-medium text-slate-600">
+            <p className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">
               ✨ ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
             </p>
           </div>
           <button
             onClick={() => setShowAdmin(true)}
-            className="mt-2 text-slate-500 hover:text-cyan-600 text-2xl font-medium transition-all hover:scale-110"
+            className="mt-2 mr-12 text-slate-500 hover:text-cyan-600 text-2xl font-medium transition-all hover:scale-110 dark:text-slate-400 dark:hover:text-cyan-400 sm:mr-0"
             title="Admin Panel"
           >
             ⚙️
@@ -66,33 +71,53 @@ function App() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-        <div className="mb-6 inline-flex rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-white to-blue-50 p-1 shadow-md hover:shadow-lg transition-shadow">
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={`rounded-lg px-4 py-2 text-sm font-bold transition-all sm:text-base ${
-                activeTab === tab.key
-                  ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg scale-105'
-                  : 'text-slate-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <ErrorBoundary label="หน้าหลัก">
+          <div className="mb-6 inline-flex rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-white to-blue-50 p-1 shadow-md hover:shadow-lg transition-shadow dark:border-slate-600 dark:from-slate-800 dark:to-slate-800">
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveTab(tab.key)}
+                className={`rounded-lg px-4 py-2 text-sm font-bold transition-all sm:text-base ${
+                  activeTab === tab.key
+                    ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg scale-105'
+                    : 'text-slate-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:text-slate-200 dark:hover:from-slate-700 dark:hover:to-slate-700'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-        {activeTab === 'powerbi' && <PowerBiTab />}
-        {activeTab === 'looker' && <LookerStudioTab />}
-        {activeTab === 'hdc' && <HdcTab />}
-        {activeTab === 'import' && <ImportExcelTab />}
-        {activeTab === 'compare' && snapshotIndex === null && (
-          <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
-        )}
-        {activeTab === 'compare' && snapshotIndex !== null && (
-          <ComparisonView snapshotIndex={snapshotIndex} />
-        )}
+          {activeTab === 'powerbi' && (
+            <ErrorBoundary key="powerbi" label="แท็บ Power BI">
+              <PowerBiTab />
+            </ErrorBoundary>
+          )}
+          {activeTab === 'looker' && (
+            <ErrorBoundary key="looker" label="แท็บ Looker Studio">
+              <LookerStudioTab />
+            </ErrorBoundary>
+          )}
+          {activeTab === 'hdc' && (
+            <ErrorBoundary key="hdc" label="แท็บ HDC">
+              <HdcTab />
+            </ErrorBoundary>
+          )}
+          {activeTab === 'import' && (
+            <ErrorBoundary key="import" label="แท็บนำเข้า Excel">
+              <ImportExcelTab />
+            </ErrorBoundary>
+          )}
+          {activeTab === 'compare' && snapshotIndex === null && (
+            <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
+          )}
+          {activeTab === 'compare' && snapshotIndex !== null && (
+            <ErrorBoundary key="compare" label="แท็บเปรียบเทียบ">
+              <ComparisonView snapshotIndex={snapshotIndex} />
+            </ErrorBoundary>
+          )}
+        </ErrorBoundary>
       </main>
 
       {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
