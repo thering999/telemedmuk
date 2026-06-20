@@ -18,15 +18,20 @@ function LookerStudioTab() {
         </p>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-16 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <p className="text-slate-600 dark:text-slate-300">รายงาน Telemedicine (Looker Studio)</p>
+      <div className="flex flex-col items-center justify-center gap-6 rounded-2xl border-2 border-dashed border-slate-300 bg-gradient-to-b from-slate-50 to-white px-5 py-16 text-center shadow-sm dark:border-slate-600 dark:from-slate-800 dark:to-slate-800">
+        <div>
+          <p className="mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100">📊 รายงาน Telemedicine</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">(Looker Studio)</p>
+        </div>
         <a
           href={LOOKER_STUDIO_VIEW_URL}
           target="_blank"
           rel="noreferrer noopener"
-          className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
+          className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-brand-600 to-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:from-brand-700 hover:to-teal-700 active:scale-95 dark:from-brand-600 dark:to-teal-600"
         >
-          เปิดรายงานในแท็บใหม่
+          <span>🔗</span>
+          <span>เปิดรายงานในแท็บใหม่</span>
+          <span>→</span>
         </a>
       </div>
     </div>
