@@ -1,8 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Snapshot, SnapshotIndexEntry } from '../types/hdc'
 import { telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { exportToCsv, type ExportColumn } from '../lib/exportTable'
+import { exportToPdf, trendFromDelta } from '../lib/exportPdf'
+import { daysBetween, summarizeAnalytics } from '../lib/analytics'
+import { useAutoRefresh } from '../hooks/useAutoRefresh'
+import AnalyticsCard from './AnalyticsCard'
+import RefreshControl from './RefreshControl'
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
@@ -19,40 +24,53 @@ type FetchState =
   | { status: 'error'; message: string }
   | { status: 'ready'; snapshot: Snapshot }
 
-function useSnapshotByDate(date: string | null): FetchState {
+function useSnapshotByDate(date: string | null): [FetchState, () => Promise<void>] {
   const [state, setState] = useState<FetchState>({ status: 'idle' })
 
-  useEffect(() => {
-    if (!date) return
-    let cancelled = false
-    // Defer the "loading" transition to a microtask so it's not a
-    // synchronous setState call in the effect body (mirrors the same
-    // pattern used by SnapshotView's trend-chart effect).
-    Promise.resolve().then(() => {
-      if (!cancelled) setState({ status: 'loading' })
-    })
-    fetch(dataUrl(`${date}.json`))
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json() as Promise<Snapshot>
-      })
-      .then((snapshot) => {
-        if (!cancelled) setState({ status: 'ready', snapshot })
-      })
-      .catch((err: unknown) => {
-        if (!cancelled) {
+  const load = useCallback(
+    (showLoading: boolean) => {
+      if (!date) return Promise.resolve()
+      if (showLoading) {
+        // Defer the "loading" transition to a microtask so it's not a
+        // synchronous setState call in the effect body (mirrors the same
+        // pattern used by SnapshotView's trend-chart effect).
+        void Promise.resolve().then(() => setState({ status: 'loading' }))
+      }
+      return fetch(dataUrl(`${date}.json`))
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`)
+          return res.json() as Promise<Snapshot>
+        })
+        .then((snapshot) => {
+          setState({ status: 'ready', snapshot })
+        })
+        .catch((err: unknown) => {
           setState({
             status: 'error',
             message: err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลได้',
           })
-        }
-      })
+          throw err
+        })
+    },
+    [date],
+  )
+
+  useEffect(() => {
+    let cancelled = false
+    load(true).catch(() => {
+      // surfaced via state; swallow here so this isn't an unhandled rejection
+    })
     return () => {
       cancelled = true
+      void cancelled
     }
-  }, [date])
+  }, [load])
 
-  return state
+  // Refetch without resetting back to the "loading" placeholder, so a
+  // background auto-refresh doesn't blank out the currently-displayed table.
+  const refetch = useCallback(() => load(false), [load])
+
+  return [state, refetch]
 }
 
 function buildRows(a: Snapshot, b: Snapshot): MetricRow[] {
@@ -114,14 +132,28 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
 
   const [dateA, setDateA] = useState<string>(sortedDates[0] ?? '')
   const [dateB, setDateB] = useState<string>(sortedDates[sortedDates.length - 1] ?? '')
+  const [pdfPending, setPdfPending] = useState(false)
 
-  const stateA = useSnapshotByDate(dateA || null)
-  const stateB = useSnapshotByDate(dateB || null)
+  const [stateA, refetchA] = useSnapshotByDate(dateA || null)
+  const [stateB, refetchB] = useSnapshotByDate(dateB || null)
+
+  const refreshBoth = useCallback(async () => {
+    await Promise.all([refetchA(), refetchB()])
+  }, [refetchA, refetchB])
+
+  const autoRefresh = useAutoRefresh({ onRefresh: refreshBoth })
 
   const rows = useMemo(() => {
     if (stateA.status !== 'ready' || stateB.status !== 'ready') return []
     return buildRows(stateA.snapshot, stateB.snapshot)
   }, [stateA, stateB])
+
+  const periodDays = useMemo(() => daysBetween(dateA, dateB), [dateA, dateB])
+
+  const analyticsSummary = useMemo(() => {
+    if (rows.length === 0) return null
+    return summarizeAnalytics(rows, periodDays)
+  }, [rows, periodDays])
 
   const exportColumns = useMemo<ExportColumn<MetricRow>[]>(
     () => [
@@ -198,6 +230,8 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
         </button>
       </div>
 
+      <RefreshControl state={autoRefresh} />
+
       {(stateA.status === 'loading' || stateB.status === 'loading') && (
         <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
       )}
@@ -264,6 +298,8 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
           </div>
         </div>
       )}
+
+      {analyticsSummary && <AnalyticsCard summary={analyticsSummary} periodDays={periodDays} />}
     </div>
   )
 }
