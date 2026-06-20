@@ -1,22 +1,47 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PowerBiTab from './components/PowerBiTab'
 import LookerStudioTab from './components/LookerStudioTab'
 import HdcTab from './components/HdcTab'
 import ImportExcelTab from './components/ImportExcelTab'
 import AdminPanel from './components/AdminPanel'
+import ComparisonView from './components/ComparisonView'
+import type { SnapshotIndexEntry } from './types/hdc'
 
-type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import'
+type TabKey = 'powerbi' | 'looker' | 'hdc' | 'import' | 'compare'
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'hdc', label: 'ข้อมูล HDC (Hippo)' },
   { key: 'powerbi', label: 'ข้อมูล Telemedicine (Power BI)' },
   { key: 'looker', label: 'ข้อมูล Telemedicine (Looker Studio)' },
   { key: 'import', label: 'นำเข้า Excel' },
+  { key: 'compare', label: 'เปรียบเทียบ' },
 ]
+
+const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('hdc')
   const [showAdmin, setShowAdmin] = useState(false)
+  const [snapshotIndex, setSnapshotIndex] = useState<SnapshotIndexEntry[] | null>(null)
+
+  useEffect(() => {
+    if (activeTab !== 'compare' || snapshotIndex) return
+    let cancelled = false
+    fetch(dataUrl('index.json'))
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json() as Promise<SnapshotIndexEntry[]>
+      })
+      .then((index) => {
+        if (!cancelled) setSnapshotIndex(index)
+      })
+      .catch(() => {
+        if (!cancelled) setSnapshotIndex([])
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [activeTab, snapshotIndex])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50">
@@ -62,6 +87,12 @@ function App() {
         {activeTab === 'looker' && <LookerStudioTab />}
         {activeTab === 'hdc' && <HdcTab />}
         {activeTab === 'import' && <ImportExcelTab />}
+        {activeTab === 'compare' && snapshotIndex === null && (
+          <p className="text-center text-slate-500">กำลังโหลดข้อมูล...</p>
+        )}
+        {activeTab === 'compare' && snapshotIndex !== null && (
+          <ComparisonView snapshotIndex={snapshotIndex} />
+        )}
       </main>
 
       {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
