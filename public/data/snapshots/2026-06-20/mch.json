@@ -1,9 +1,6 @@
 {
-  "snapshotDate": "2026-06-18",
-  "sourceFile": [
-    "20260618_49_telemed_hosp.xlsx",
-    "20260618_49_telemed_hosp_235.xlsx"
-  ],
+  "snapshotDate": "2026-06-20",
+  "sourceFile": "20260620_49_telemed_hosp_mch.xlsx",
   "province": {
     "code": "49",
     "name": "มุกดาหาร"
@@ -16,28 +13,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19833,
-      "opAll": 11078,
+      "groups": {
+        "ANC": {
+          "visit": 213,
+          "tele": 1
+        },
+        "PNC": {
+          "visit": 39,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 2092,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 332,
+          "tele": 2
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6503,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 107,
-          "op": 4575,
-          "type2": 0,
-          "type3": 0,
-          "type5": 107
+          "telemed": 2,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.65
+      }
     },
     {
       "hospcode": "05741",
@@ -46,28 +49,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13331,
-      "opAll": 5957,
+      "groups": {
+        "ANC": {
+          "visit": 34,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 20,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 333,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 322,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3625,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 2332,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 9
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05742",
@@ -76,28 +85,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22359,
-      "opAll": 15405,
+      "groups": {
+        "ANC": {
+          "visit": 115,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 51,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 983,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 419,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7837,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 7568,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05743",
@@ -106,28 +121,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 45845,
-      "opAll": 23135,
+      "groups": {
+        "ANC": {
+          "visit": 176,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 19,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1843,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 343,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 16139,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 6996,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05744",
@@ -136,28 +157,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15272,
-      "opAll": 7365,
+      "groups": {
+        "ANC": {
+          "visit": 378,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 144,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 681,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 330,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4409,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 2956,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05745",
@@ -166,28 +193,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16542,
-      "opAll": 9804,
+      "groups": {
+        "ANC": {
+          "visit": 328,
+          "tele": 7
+        },
+        "PNC": {
+          "visit": 42,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 629,
+          "tele": 2
+        },
+        "FP": {
+          "visit": 310,
+          "tele": 2
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5754,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 129,
-          "op": 4050,
-          "type2": 0,
-          "type3": 0,
-          "type5": 129
+          "telemed": 10,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 2.24
+      }
     },
     {
       "hospcode": "05746",
@@ -196,28 +229,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12591,
-      "opAll": 7298,
+      "groups": {
+        "ANC": {
+          "visit": 42,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 5,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 49,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 178,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4485,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 2813,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05747",
@@ -226,28 +265,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 42236,
-      "opAll": 18814,
+      "groups": {
+        "ANC": {
+          "visit": 538,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 114,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1713,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 836,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 10632,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 9,
-          "op": 8182,
-          "type2": 0,
-          "type3": 0,
-          "type5": 9
+          "telemed": 0,
+          "op": 3
         }
-      },
-      "percentTelemed69PerOP68": 0.08
+      }
     },
     {
       "hospcode": "05748",
@@ -256,28 +301,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17255,
-      "opAll": 9642,
+      "groups": {
+        "ANC": {
+          "visit": 209,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 34,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 611,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 195,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6156,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 3486,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05749",
@@ -286,28 +337,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16486,
-      "opAll": 8645,
+      "groups": {
+        "ANC": {
+          "visit": 88,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 7,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 755,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 185,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4959,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 1,
-          "op": 3686,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05750",
@@ -316,28 +373,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13109,
-      "opAll": 8018,
+      "groups": {
+        "ANC": {
+          "visit": 66,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 27,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1053,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 66,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4772,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         },
         "69": {
           "telemed": 0,
-          "op": 3246,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05751",
@@ -346,28 +409,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 28150,
-      "opAll": 12517,
+      "groups": {
+        "ANC": {
+          "visit": 157,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 56,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 303,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 589,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7004,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 20,
-          "op": 5513,
-          "type2": 0,
-          "type3": 0,
-          "type5": 20
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.29
+      }
     },
     {
       "hospcode": "05752",
@@ -376,28 +445,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23799,
-      "opAll": 14252,
+      "groups": {
+        "ANC": {
+          "visit": 369,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 52,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 689,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 360,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 9002,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 5250,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 7
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05753",
@@ -406,28 +481,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 9795,
-      "opAll": 5617,
+      "groups": {
+        "ANC": {
+          "visit": 59,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 17,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 851,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 310,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3480,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 7,
-          "op": 2137,
-          "type2": 0,
-          "type3": 0,
-          "type5": 7
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.2
+      }
     },
     {
       "hospcode": "05754",
@@ -436,28 +517,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 28330,
-      "opAll": 15068,
+      "groups": {
+        "ANC": {
+          "visit": 243,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 188,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 2899,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 419,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 8813,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
           "telemed": 0,
-          "op": 6255,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 10
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05755",
@@ -466,28 +553,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22979,
-      "opAll": 9118,
+      "groups": {
+        "ANC": {
+          "visit": 105,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 31,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1353,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 255,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5774,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3344,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05756",
@@ -496,28 +589,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 30431,
-      "opAll": 19408,
+      "groups": {
+        "ANC": {
+          "visit": 1160,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 118,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1064,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 825,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 9585,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 3,
-          "op": 9823,
-          "type2": 0,
-          "type3": 1,
-          "type5": 2
+          "telemed": 0,
+          "op": 23
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05757",
@@ -526,28 +625,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13490,
-      "opAll": 8287,
+      "groups": {
+        "ANC": {
+          "visit": 188,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 7,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 42,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 450,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5004,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3283,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05758",
@@ -556,28 +661,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23659,
-      "opAll": 10942,
+      "groups": {
+        "ANC": {
+          "visit": 285,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 112,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1252,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 164,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6393,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 4549,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05759",
@@ -586,28 +697,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23416,
-      "opAll": 9391,
+      "groups": {
+        "ANC": {
+          "visit": 103,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 129,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1910,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 433,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5337,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 4054,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "10712",
@@ -616,28 +733,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "06",
       "hostypeName": "โรงพยาบาลทั่วไป",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 690950,
-      "opAll": 511874,
-      "byYear": {
-        "68": {
-          "telemed": 204263,
-          "op": 293134,
-          "type2": 192208,
-          "type3": 7765,
-          "type5": 4290
+      "groups": {
+        "ANC": {
+          "visit": 12222,
+          "tele": 33
         },
-        "69": {
-          "telemed": 161441,
-          "op": 218740,
-          "type2": 145087,
-          "type3": 5755,
-          "type5": 10599
+        "PNC": {
+          "visit": 951,
+          "tele": 4
+        },
+        "WCC": {
+          "visit": 6642,
+          "tele": 5
+        },
+        "FP": {
+          "visit": 879,
+          "tele": 2
         }
       },
-      "percentTelemed69PerOP68": 3.62
+      "byYear": {
+        "68": {
+          "telemed": 2,
+          "op": 4516
+        },
+        "69": {
+          "telemed": 41,
+          "op": 2720
+        }
+      }
     },
     {
       "hospcode": "14879",
@@ -646,28 +769,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 14159,
-      "opAll": 9030,
+      "groups": {
+        "ANC": {
+          "visit": 439,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 38,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 210,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 408,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5391,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         },
         "69": {
-          "telemed": 46,
-          "op": 3639,
-          "type2": 0,
-          "type3": 0,
-          "type5": 46
+          "telemed": 0,
+          "op": 1
         }
-      },
-      "percentTelemed69PerOP68": 0.85
+      }
     },
     {
       "hospcode": "14893",
@@ -676,28 +805,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20077,
-      "opAll": 8217,
+      "groups": {
+        "ANC": {
+          "visit": 493,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 50,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1961,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 414,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4552,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3665,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "22799",
@@ -706,28 +841,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "13",
       "hostypeName": "ศูนย์บริการสาธารณสุข",
-      "mcode": "16000",
-      "mName": "กระทรวงยุติธรรม",
-      "depName": "-",
-      "serviceAll": 34193,
-      "opAll": 30017,
+      "groups": {
+        "ANC": {
+          "visit": 1,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 0,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 0,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 18701,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
           "telemed": 0,
-          "op": 11316,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05760",
@@ -736,28 +877,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10347,
-      "opAll": 5805,
+      "groups": {
+        "ANC": {
+          "visit": 38,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 21,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 480,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 352,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3335,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 2,
-          "op": 2470,
-          "type2": 0,
-          "type3": 0,
-          "type5": 2
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.06
+      }
     },
     {
       "hospcode": "05761",
@@ -766,28 +913,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10401,
-      "opAll": 5486,
+      "groups": {
+        "ANC": {
+          "visit": 47,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 3,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 467,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 67,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3417,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 40,
-          "op": 2069,
-          "type2": 0,
-          "type3": 0,
-          "type5": 40
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.17
+      }
     },
     {
       "hospcode": "05762",
@@ -796,28 +949,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15573,
-      "opAll": 9445,
+      "groups": {
+        "ANC": {
+          "visit": 62,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 35,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1044,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 140,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5580,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 3865,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05763",
@@ -826,28 +985,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20592,
-      "opAll": 10371,
+      "groups": {
+        "ANC": {
+          "visit": 118,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 40,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1962,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 259,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6203,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 15,
-          "op": 4168,
-          "type2": 0,
-          "type3": 0,
-          "type5": 15
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.24
+      }
     },
     {
       "hospcode": "05764",
@@ -856,28 +1021,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19853,
-      "opAll": 13603,
+      "groups": {
+        "ANC": {
+          "visit": 140,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 97,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1152,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 449,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7888,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 2,
-          "op": 5715,
-          "type2": 0,
-          "type3": 0,
-          "type5": 2
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.03
+      }
     },
     {
       "hospcode": "05765",
@@ -886,28 +1057,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22548,
-      "opAll": 11409,
+      "groups": {
+        "ANC": {
+          "visit": 177,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 98,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 2125,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 199,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6492,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 4,
-          "op": 4917,
-          "type2": 3,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05766",
@@ -916,28 +1093,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12320,
-      "opAll": 8189,
+      "groups": {
+        "ANC": {
+          "visit": 63,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 14,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 728,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 369,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4976,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 7,
-          "op": 3213,
-          "type2": 0,
-          "type3": 0,
-          "type5": 7
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.14
+      }
     },
     {
       "hospcode": "05767",
@@ -946,28 +1129,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 18916,
-      "opAll": 9879,
+      "groups": {
+        "ANC": {
+          "visit": 124,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 64,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 3085,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 161,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5985,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 3894,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05768",
@@ -976,28 +1165,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12393,
-      "opAll": 7193,
+      "groups": {
+        "ANC": {
+          "visit": 12,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 31,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 334,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 323,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3801,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 15,
-          "op": 3392,
-          "type2": 0,
-          "type3": 0,
-          "type5": 15
+          "telemed": 0,
+          "op": 1
         }
-      },
-      "percentTelemed69PerOP68": 0.39
+      }
     },
     {
       "hospcode": "11113",
@@ -1006,28 +1201,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 175059,
-      "opAll": 132933,
-      "byYear": {
-        "68": {
-          "telemed": 40601,
-          "op": 77842,
-          "type2": 39094,
-          "type3": 0,
-          "type5": 1507
+      "groups": {
+        "ANC": {
+          "visit": 2061,
+          "tele": 0
         },
-        "69": {
-          "telemed": 28886,
-          "op": 55091,
-          "type2": 28277,
-          "type3": 2,
-          "type5": 607
+        "PNC": {
+          "visit": 166,
+          "tele": 20
+        },
+        "WCC": {
+          "visit": 1241,
+          "tele": 49
+        },
+        "FP": {
+          "visit": 535,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0.78
+      "byYear": {
+        "68": {
+          "telemed": 69,
+          "op": 311
+        },
+        "69": {
+          "telemed": 0,
+          "op": 262
+        }
+      }
     },
     {
       "hospcode": "11759",
@@ -1036,28 +1237,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 14740,
-      "opAll": 8543,
+      "groups": {
+        "ANC": {
+          "visit": 53,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 6,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 705,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 441,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5293,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 25,
-          "op": 3250,
-          "type2": 1,
-          "type3": 0,
-          "type5": 24
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.45
+      }
     },
     {
       "hospcode": "05769",
@@ -1066,28 +1273,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 9803,
-      "opAll": 3804,
+      "groups": {
+        "ANC": {
+          "visit": 28,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 18,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 584,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 56,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2195,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 1609,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05770",
@@ -1096,28 +1309,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17836,
-      "opAll": 9412,
+      "groups": {
+        "ANC": {
+          "visit": 141,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 58,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 485,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 182,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5059,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         },
         "69": {
           "telemed": 0,
-          "op": 4353,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05771",
@@ -1126,28 +1345,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 29843,
-      "opAll": 13690,
+      "groups": {
+        "ANC": {
+          "visit": 212,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 135,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1885,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 686,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 8019,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 5671,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.01
+      }
     },
     {
       "hospcode": "05772",
@@ -1156,28 +1381,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12089,
-      "opAll": 7198,
+      "groups": {
+        "ANC": {
+          "visit": 129,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 37,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 638,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 331,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4159,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3039,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05774",
@@ -1186,28 +1417,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17549,
-      "opAll": 11361,
+      "groups": {
+        "ANC": {
+          "visit": 100,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 6,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 357,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 550,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6168,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 5193,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05775",
@@ -1216,28 +1453,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 33551,
-      "opAll": 13149,
+      "groups": {
+        "ANC": {
+          "visit": 216,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 55,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 672,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 194,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7261,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 5
         },
         "69": {
-          "telemed": 6,
-          "op": 5888,
-          "type2": 0,
-          "type3": 2,
-          "type5": 4
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.06
+      }
     },
     {
       "hospcode": "05776",
@@ -1246,28 +1489,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11763,
-      "opAll": 7115,
+      "groups": {
+        "ANC": {
+          "visit": 301,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 69,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 460,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 477,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3943,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3172,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05777",
@@ -1276,28 +1525,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15505,
-      "opAll": 7946,
+      "groups": {
+        "ANC": {
+          "visit": 449,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 103,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 38,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 263,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4465,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 67,
-          "op": 3481,
-          "type2": 0,
-          "type3": 0,
-          "type5": 67
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.5
+      }
     },
     {
       "hospcode": "05778",
@@ -1306,28 +1561,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 21129,
-      "opAll": 9219,
+      "groups": {
+        "ANC": {
+          "visit": 404,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 79,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 905,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 339,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5132,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 6
         },
         "69": {
           "telemed": 0,
-          "op": 4087,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 3
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05779",
@@ -1336,28 +1597,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20395,
-      "opAll": 8539,
+      "groups": {
+        "ANC": {
+          "visit": 267,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 52,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1147,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 253,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3942,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 4597,
-          "type2": 0,
-          "type3": 1,
-          "type5": 0
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05780",
@@ -1366,28 +1633,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10443,
-      "opAll": 4028,
+      "groups": {
+        "ANC": {
+          "visit": 84,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 34,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 668,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 160,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2349,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 1679,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "10247",
@@ -1396,28 +1669,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12930,
-      "opAll": 6810,
+      "groups": {
+        "ANC": {
+          "visit": 318,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 67,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 228,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 370,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3837,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 85,
-          "op": 2973,
-          "type2": 0,
-          "type3": 0,
-          "type5": 85
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 2.22
+      }
     },
     {
       "hospcode": "10248",
@@ -1426,28 +1705,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 7088,
-      "opAll": 4185,
+      "groups": {
+        "ANC": {
+          "visit": 284,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 29,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 64,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 361,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2175,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 3,
-          "op": 2010,
-          "type2": 3,
-          "type3": 0,
-          "type5": 0
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "11114",
@@ -1456,28 +1741,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 175193,
-      "opAll": 112938,
-      "byYear": {
-        "68": {
-          "telemed": 19344,
-          "op": 63742,
-          "type2": 18238,
-          "type3": 18,
-          "type5": 1088
+      "groups": {
+        "ANC": {
+          "visit": 1797,
+          "tele": 27
         },
-        "69": {
-          "telemed": 20779,
-          "op": 49196,
-          "type2": 18775,
-          "type3": 37,
-          "type5": 1967
+        "PNC": {
+          "visit": 151,
+          "tele": 1
+        },
+        "WCC": {
+          "visit": 841,
+          "tele": 1
+        },
+        "FP": {
+          "visit": 229,
+          "tele": 9
         }
       },
-      "percentTelemed69PerOP68": 3.09
+      "byYear": {
+        "68": {
+          "telemed": 1,
+          "op": 260
+        },
+        "69": {
+          "telemed": 36,
+          "op": 118
+        }
+      }
     },
     {
       "hospcode": "05781",
@@ -1486,28 +1777,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23191,
-      "opAll": 9009,
+      "groups": {
+        "ANC": {
+          "visit": 89,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 55,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1008,
+          "tele": 4
+        },
+        "FP": {
+          "visit": 385,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4755,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 217,
-          "op": 4254,
-          "type2": 1,
-          "type3": 1,
-          "type5": 215
+          "telemed": 4,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 4.52
+      }
     },
     {
       "hospcode": "05782",
@@ -1516,28 +1813,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8313,
-      "opAll": 5950,
+      "groups": {
+        "ANC": {
+          "visit": 7,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 7,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 378,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 427,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3332,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 83,
-          "op": 2618,
-          "type2": 0,
-          "type3": 0,
-          "type5": 83
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 2.49
+      }
     },
     {
       "hospcode": "05783",
@@ -1546,28 +1849,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 18534,
-      "opAll": 10445,
+      "groups": {
+        "ANC": {
+          "visit": 25,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 132,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 974,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 651,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5887,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 40,
-          "op": 4558,
-          "type2": 40,
-          "type3": 0,
-          "type5": 0
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05784",
@@ -1576,28 +1885,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 5947,
-      "opAll": 3060,
+      "groups": {
+        "ANC": {
+          "visit": 3,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 9,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 14,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 185,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 1912,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 81,
-          "op": 1148,
-          "type2": 0,
-          "type3": 0,
-          "type5": 81
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 4.24
+      }
     },
     {
       "hospcode": "05785",
@@ -1606,28 +1921,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23258,
-      "opAll": 11334,
+      "groups": {
+        "ANC": {
+          "visit": 32,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 6,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1697,
+          "tele": 10
+        },
+        "FP": {
+          "visit": 389,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6978,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         },
         "69": {
-          "telemed": 135,
-          "op": 4356,
-          "type2": 0,
-          "type3": 0,
-          "type5": 135
+          "telemed": 10,
+          "op": 1
         }
-      },
-      "percentTelemed69PerOP68": 1.93
+      }
     },
     {
       "hospcode": "05786",
@@ -1636,28 +1957,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19788,
-      "opAll": 6710,
+      "groups": {
+        "ANC": {
+          "visit": 245,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 93,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1414,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 418,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3889,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 246,
-          "op": 2821,
-          "type2": 0,
-          "type3": 0,
-          "type5": 246
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 6.33
+      }
     },
     {
       "hospcode": "05787",
@@ -1666,28 +1993,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17804,
-      "opAll": 10022,
+      "groups": {
+        "ANC": {
+          "visit": 140,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 29,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 252,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 362,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6148,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 508,
-          "op": 3874,
-          "type2": 0,
-          "type3": 0,
-          "type5": 508
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 8.26
+      }
     },
     {
       "hospcode": "05788",
@@ -1696,28 +2029,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12158,
-      "opAll": 6385,
+      "groups": {
+        "ANC": {
+          "visit": 411,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 95,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 777,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 705,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3934,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         },
         "69": {
           "telemed": 0,
-          "op": 2451,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05789",
@@ -1726,28 +2065,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 21339,
-      "opAll": 8147,
+      "groups": {
+        "ANC": {
+          "visit": 321,
+          "tele": 10
+        },
+        "PNC": {
+          "visit": 101,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1144,
+          "tele": 6
+        },
+        "FP": {
+          "visit": 1159,
+          "tele": 39
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4654,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 209,
-          "op": 3493,
-          "type2": 0,
-          "type3": 0,
-          "type5": 209
+          "telemed": 50,
+          "op": 3
         }
-      },
-      "percentTelemed69PerOP68": 4.49
+      }
     },
     {
       "hospcode": "11115",
@@ -1756,28 +2101,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 147006,
-      "opAll": 88032,
-      "byYear": {
-        "68": {
-          "telemed": 15819,
-          "op": 49505,
-          "type2": 12756,
-          "type3": 100,
-          "type5": 2963
+      "groups": {
+        "ANC": {
+          "visit": 2369,
+          "tele": 24
         },
-        "69": {
-          "telemed": 11197,
-          "op": 38527,
-          "type2": 8498,
-          "type3": 0,
-          "type5": 2699
+        "PNC": {
+          "visit": 996,
+          "tele": 33
+        },
+        "WCC": {
+          "visit": 3580,
+          "tele": 2
+        },
+        "FP": {
+          "visit": 837,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 5.45
+      "byYear": {
+        "68": {
+          "telemed": 57,
+          "op": 438
+        },
+        "69": {
+          "telemed": 2,
+          "op": 276
+        }
+      }
     },
     {
       "hospcode": "05790",
@@ -1786,28 +2137,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 29134,
-      "opAll": 10524,
+      "groups": {
+        "ANC": {
+          "visit": 127,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 63,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 3803,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 271,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6433,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 4091,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05791",
@@ -1816,28 +2173,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20716,
-      "opAll": 8354,
+      "groups": {
+        "ANC": {
+          "visit": 259,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 66,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 963,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 202,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5087,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
           "telemed": 0,
-          "op": 3267,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05792",
@@ -1846,28 +2209,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 32771,
-      "opAll": 12549,
+      "groups": {
+        "ANC": {
+          "visit": 260,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 65,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 4109,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 274,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7474,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         },
         "69": {
-          "telemed": 2,
-          "op": 5075,
-          "type2": 0,
-          "type3": 0,
-          "type5": 2
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.03
+      }
     },
     {
       "hospcode": "05793",
@@ -1876,28 +2245,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 24343,
-      "opAll": 11004,
+      "groups": {
+        "ANC": {
+          "visit": 193,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 36,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 824,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 196,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6408,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 26,
-          "op": 4596,
-          "type2": 0,
-          "type3": 0,
-          "type5": 26
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.41
+      }
     },
     {
       "hospcode": "05794",
@@ -1906,28 +2281,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13813,
-      "opAll": 7067,
+      "groups": {
+        "ANC": {
+          "visit": 152,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 18,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 798,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 190,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4107,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 2960,
-          "type2": 0,
-          "type3": 1,
-          "type5": 0
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05795",
@@ -1936,28 +2317,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 14912,
-      "opAll": 8751,
+      "groups": {
+        "ANC": {
+          "visit": 177,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 69,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 678,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 175,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5429,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3322,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05796",
@@ -1966,28 +2353,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15982,
-      "opAll": 8784,
+      "groups": {
+        "ANC": {
+          "visit": 148,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 16,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 930,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 148,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5630,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3154,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05797",
@@ -1996,28 +2389,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10756,
-      "opAll": 7256,
+      "groups": {
+        "ANC": {
+          "visit": 175,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 45,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 472,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 197,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4094,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 17
         },
         "69": {
           "telemed": 0,
-          "op": 3162,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 7
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05798",
@@ -2026,28 +2425,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19061,
-      "opAll": 10640,
-      "byYear": {
-        "68": {
-          "telemed": 3,
-          "op": 6413,
-          "type2": 3,
-          "type3": 0,
-          "type5": 0
+      "groups": {
+        "ANC": {
+          "visit": 240,
+          "tele": 0
         },
-        "69": {
-          "telemed": 81,
-          "op": 4227,
-          "type2": 80,
-          "type3": 0,
-          "type5": 1
+        "PNC": {
+          "visit": 33,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 341,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 233,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0.02
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 0
+        },
+        "69": {
+          "telemed": 0,
+          "op": 0
+        }
+      }
     },
     {
       "hospcode": "05799",
@@ -2056,28 +2461,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11690,
-      "opAll": 6230,
-      "byYear": {
-        "68": {
-          "telemed": 4,
-          "op": 3763,
-          "type2": 0,
-          "type3": 0,
-          "type5": 4
+      "groups": {
+        "ANC": {
+          "visit": 161,
+          "tele": 0
         },
-        "69": {
-          "telemed": 4,
-          "op": 2467,
-          "type2": 0,
-          "type3": 0,
-          "type5": 4
+        "PNC": {
+          "visit": 13,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 214,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 161,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0.11
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 0
+        },
+        "69": {
+          "telemed": 0,
+          "op": 2
+        }
+      }
     },
     {
       "hospcode": "11116",
@@ -2086,28 +2497,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 186046,
-      "opAll": 144176,
-      "byYear": {
-        "68": {
-          "telemed": 36010,
-          "op": 82684,
-          "type2": 34039,
-          "type3": 2,
-          "type5": 1969
+      "groups": {
+        "ANC": {
+          "visit": 1736,
+          "tele": 14
         },
-        "69": {
-          "telemed": 28368,
-          "op": 61492,
-          "type2": 26366,
-          "type3": 1,
-          "type5": 2001
+        "PNC": {
+          "visit": 158,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1262,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 267,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.42
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 411
+        },
+        "69": {
+          "telemed": 14,
+          "op": 238
+        }
+      }
     },
     {
       "hospcode": "13984",
@@ -2116,28 +2533,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8192,
-      "opAll": 5304,
+      "groups": {
+        "ANC": {
+          "visit": 111,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 14,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 152,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 103,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3210,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 3
         },
         "69": {
           "telemed": 0,
-          "op": 2094,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "13985",
@@ -2146,28 +2569,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12562,
-      "opAll": 7121,
+      "groups": {
+        "ANC": {
+          "visit": 89,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 37,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 665,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 282,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4395,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 45,
-          "op": 2726,
-          "type2": 0,
-          "type3": 0,
-          "type5": 45
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.02
+      }
     },
     {
       "hospcode": "05800",
@@ -2176,28 +2605,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10396,
-      "opAll": 6186,
+      "groups": {
+        "ANC": {
+          "visit": 10,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 4,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1982,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 120,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3555,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 92,
-          "op": 2631,
-          "type2": 0,
-          "type3": 0,
-          "type5": 92
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 2.59
+      }
     },
     {
       "hospcode": "05801",
@@ -2206,28 +2641,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17946,
-      "opAll": 7505,
+      "groups": {
+        "ANC": {
+          "visit": 24,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 21,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1490,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 333,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4432,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 3073,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05802",
@@ -2236,28 +2677,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11850,
-      "opAll": 6721,
+      "groups": {
+        "ANC": {
+          "visit": 54,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 15,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 454,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 307,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4076,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 2645,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05803",
@@ -2266,28 +2713,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16227,
-      "opAll": 8842,
+      "groups": {
+        "ANC": {
+          "visit": 18,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 32,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 661,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 279,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4953,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 76,
-          "op": 3889,
-          "type2": 0,
-          "type3": 0,
-          "type5": 76
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.53
+      }
     },
     {
       "hospcode": "05804",
@@ -2296,28 +2749,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17015,
-      "opAll": 8007,
+      "groups": {
+        "ANC": {
+          "visit": 22,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 38,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 706,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 421,
+          "tele": 2
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4773,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 53,
-          "op": 3234,
-          "type2": 1,
-          "type3": 0,
-          "type5": 52
+          "telemed": 2,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.09
+      }
     },
     {
       "hospcode": "05805",
@@ -2326,28 +2785,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11377,
-      "opAll": 7172,
+      "groups": {
+        "ANC": {
+          "visit": 21,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 1,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 443,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 155,
+          "tele": 1
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4213,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1
         },
         "69": {
-          "telemed": 221,
-          "op": 2959,
-          "type2": 0,
-          "type3": 0,
-          "type5": 221
+          "telemed": 1,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 5.25
+      }
     },
     {
       "hospcode": "11117",
@@ -2356,28 +2821,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 136980,
-      "opAll": 111601,
-      "byYear": {
-        "68": {
-          "telemed": 21293,
-          "op": 78347,
-          "type2": 19896,
-          "type3": 2,
-          "type5": 1395
+      "groups": {
+        "ANC": {
+          "visit": 2041,
+          "tele": 6
         },
-        "69": {
-          "telemed": 7438,
-          "op": 33254,
-          "type2": 5712,
-          "type3": 0,
-          "type5": 1726
+        "PNC": {
+          "visit": 141,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 2390,
+          "tele": 1
+        },
+        "FP": {
+          "visit": 539,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.2
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 206
+        },
+        "69": {
+          "telemed": 7,
+          "op": 78
+        }
+      }
     },
     {
       "hospcode": "05806",
@@ -2386,28 +2857,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16629,
-      "opAll": 6703,
-      "byYear": {
-        "68": {
-          "telemed": 10,
-          "op": 3648,
-          "type2": 0,
-          "type3": 10,
-          "type5": 0
+      "groups": {
+        "ANC": {
+          "visit": 49,
+          "tele": 0
         },
-        "69": {
-          "telemed": 78,
-          "op": 3055,
-          "type2": 0,
-          "type3": 1,
-          "type5": 77
+        "PNC": {
+          "visit": 59,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 706,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 280,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.11
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 25
+        },
+        "69": {
+          "telemed": 0,
+          "op": 0
+        }
+      }
     },
     {
       "hospcode": "05807",
@@ -2416,28 +2893,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8167,
-      "opAll": 4486,
+      "groups": {
+        "ANC": {
+          "visit": 12,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 14,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 335,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 285,
+          "tele": 1
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2572,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 26,
-          "op": 1914,
-          "type2": 0,
-          "type3": 0,
-          "type5": 26
+          "telemed": 1,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 1.01
+      }
     },
     {
       "hospcode": "05808",
@@ -2446,28 +2929,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12863,
-      "opAll": 6453,
+      "groups": {
+        "ANC": {
+          "visit": 80,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 44,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 791,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 274,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3992,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 2461,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 1
         }
-      },
-      "percentTelemed69PerOP68": 0.03
+      }
     },
     {
       "hospcode": "05809",
@@ -2476,28 +2965,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22464,
-      "opAll": 11108,
-      "byYear": {
-        "68": {
-          "telemed": 165,
-          "op": 6044,
-          "type2": 165,
-          "type3": 0,
-          "type5": 0
+      "groups": {
+        "ANC": {
+          "visit": 32,
+          "tele": 0
         },
-        "69": {
-          "telemed": 1,
-          "op": 5064,
-          "type2": 1,
-          "type3": 0,
-          "type5": 0
+        "PNC": {
+          "visit": 22,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 760,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 127,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 0
+        },
+        "69": {
+          "telemed": 0,
+          "op": 0
+        }
+      }
     },
     {
       "hospcode": "05810",
@@ -2506,28 +3001,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20820,
-      "opAll": 11884,
+      "groups": {
+        "ANC": {
+          "visit": 338,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 52,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 1091,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 418,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6631,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         },
         "69": {
-          "telemed": 1,
-          "op": 5253,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "11118",
@@ -2536,28 +3037,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 124963,
-      "opAll": 104213,
-      "byYear": {
-        "68": {
-          "telemed": 20552,
-          "op": 58150,
-          "type2": 19532,
-          "type3": 49,
-          "type5": 971
+      "groups": {
+        "ANC": {
+          "visit": 932,
+          "tele": 0
         },
-        "69": {
-          "telemed": 16682,
-          "op": 46063,
-          "type2": 15058,
-          "type3": 54,
-          "type5": 1570
+        "PNC": {
+          "visit": 164,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 2191,
+          "tele": 1
+        },
+        "FP": {
+          "visit": 188,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.7
+      "byYear": {
+        "68": {
+          "telemed": 1,
+          "op": 91
+        },
+        "69": {
+          "telemed": 0,
+          "op": 57
+        }
+      }
     },
     {
       "hospcode": "15009",
@@ -2566,28 +3073,53 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8093,
-      "opAll": 2627,
+      "groups": {
+        "ANC": {
+          "visit": 15,
+          "tele": 0
+        },
+        "PNC": {
+          "visit": 4,
+          "tele": 0
+        },
+        "WCC": {
+          "visit": 980,
+          "tele": 0
+        },
+        "FP": {
+          "visit": 37,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
-          "telemed": 12,
-          "op": 1389,
-          "type2": 12,
-          "type3": 0,
-          "type5": 0
+          "telemed": 0,
+          "op": 0
         },
         "69": {
           "telemed": 0,
-          "op": 1238,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 0
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
+    }
+  ],
+  "category": "mch",
+  "groupDefs": [
+    {
+      "key": "ANC",
+      "label": "ฝากครรภ์ (ANC)"
+    },
+    {
+      "key": "PNC",
+      "label": "หลังคลอด (PNC)"
+    },
+    {
+      "key": "WCC",
+      "label": "เด็กดี (WCC)"
+    },
+    {
+      "key": "FP",
+      "label": "วางแผนครอบครัว (FP)"
     }
   ]
 }

@@ -1,9 +1,6 @@
 {
-  "snapshotDate": "2026-06-18",
-  "sourceFile": [
-    "20260618_49_telemed_hosp.xlsx",
-    "20260618_49_telemed_hosp_235.xlsx"
-  ],
+  "snapshotDate": "2026-06-20",
+  "sourceFile": "20260620_49_telemed_hosp_ncd.xlsx",
   "province": {
     "code": "49",
     "name": "มุกดาหาร"
@@ -16,28 +13,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19833,
-      "opAll": 11078,
+      "groups": {
+        "DM": {
+          "visit": 2572,
+          "tele": 63
+        },
+        "HT": {
+          "visit": 3284,
+          "tele": 63
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6503,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2338
         },
         "69": {
-          "telemed": 107,
-          "op": 4575,
-          "type2": 0,
-          "type3": 0,
-          "type5": 107
+          "telemed": 98,
+          "op": 1431
         }
-      },
-      "percentTelemed69PerOP68": 1.65
+      }
     },
     {
       "hospcode": "05741",
@@ -46,28 +49,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13331,
-      "opAll": 5957,
+      "groups": {
+        "DM": {
+          "visit": 2167,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1890,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3625,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1122
         },
         "69": {
           "telemed": 0,
-          "op": 2332,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 611
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05742",
@@ -76,28 +85,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22359,
-      "opAll": 15405,
+      "groups": {
+        "DM": {
+          "visit": 4303,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 4266,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 20,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7837,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2767
         },
         "69": {
           "telemed": 0,
-          "op": 7568,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2718
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05743",
@@ -106,28 +121,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 45845,
-      "opAll": 23135,
+      "groups": {
+        "DM": {
+          "visit": 6454,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 7426,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 10,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 16139,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 4956
         },
         "69": {
           "telemed": 0,
-          "op": 6996,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2757
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05744",
@@ -136,28 +157,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15272,
-      "opAll": 7365,
+      "groups": {
+        "DM": {
+          "visit": 2499,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3039,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 10,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4409,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1679
         },
         "69": {
           "telemed": 0,
-          "op": 2956,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1043
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05745",
@@ -166,28 +193,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16542,
-      "opAll": 9804,
+      "groups": {
+        "DM": {
+          "visit": 4162,
+          "tele": 41
+        },
+        "HT": {
+          "visit": 4028,
+          "tele": 45
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5754,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2993
         },
         "69": {
-          "telemed": 129,
-          "op": 4050,
-          "type2": 0,
-          "type3": 0,
-          "type5": 129
+          "telemed": 62,
+          "op": 2085
         }
-      },
-      "percentTelemed69PerOP68": 2.24
+      }
     },
     {
       "hospcode": "05746",
@@ -196,28 +229,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12591,
-      "opAll": 7298,
+      "groups": {
+        "DM": {
+          "visit": 1372,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1808,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4485,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1088
         },
         "69": {
           "telemed": 0,
-          "op": 2813,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 676
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05747",
@@ -226,28 +265,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 42236,
-      "opAll": 18814,
+      "groups": {
+        "DM": {
+          "visit": 5870,
+          "tele": 4
+        },
+        "HT": {
+          "visit": 7151,
+          "tele": 2
+        },
+        "Cancer": {
+          "visit": 29,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 10632,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 3015
         },
         "69": {
-          "telemed": 9,
-          "op": 8182,
-          "type2": 0,
-          "type3": 0,
-          "type5": 9
+          "telemed": 5,
+          "op": 2152
         }
-      },
-      "percentTelemed69PerOP68": 0.08
+      }
     },
     {
       "hospcode": "05748",
@@ -256,28 +301,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17255,
-      "opAll": 9642,
+      "groups": {
+        "DM": {
+          "visit": 2835,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2924,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6156,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2352
         },
         "69": {
-          "telemed": 1,
-          "op": 3486,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 1419
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05749",
@@ -286,28 +337,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16486,
-      "opAll": 8645,
+      "groups": {
+        "DM": {
+          "visit": 3052,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2737,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 17,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4959,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2138
         },
         "69": {
-          "telemed": 1,
-          "op": 3686,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 1557
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05750",
@@ -316,28 +373,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13109,
-      "opAll": 8018,
+      "groups": {
+        "DM": {
+          "visit": 2509,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2964,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4772,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1992
         },
         "69": {
           "telemed": 0,
-          "op": 3246,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1329
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05751",
@@ -346,28 +409,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 28150,
-      "opAll": 12517,
+      "groups": {
+        "DM": {
+          "visit": 6730,
+          "tele": 9
+        },
+        "HT": {
+          "visit": 9145,
+          "tele": 17
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7004,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 3969
         },
         "69": {
           "telemed": 20,
-          "op": 5513,
-          "type2": 0,
-          "type3": 0,
-          "type5": 20
+          "op": 3515
         }
-      },
-      "percentTelemed69PerOP68": 0.29
+      }
     },
     {
       "hospcode": "05752",
@@ -376,28 +445,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23799,
-      "opAll": 14252,
+      "groups": {
+        "DM": {
+          "visit": 2308,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2535,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 9002,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1967
         },
         "69": {
           "telemed": 0,
-          "op": 5250,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1171
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05753",
@@ -406,28 +481,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 9795,
-      "opAll": 5617,
+      "groups": {
+        "DM": {
+          "visit": 1516,
+          "tele": 2
+        },
+        "HT": {
+          "visit": 2127,
+          "tele": 6
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3480,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1287
         },
         "69": {
           "telemed": 7,
-          "op": 2137,
-          "type2": 0,
-          "type3": 0,
-          "type5": 7
+          "op": 885
         }
-      },
-      "percentTelemed69PerOP68": 0.2
+      }
     },
     {
       "hospcode": "05754",
@@ -436,28 +517,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 28330,
-      "opAll": 15068,
+      "groups": {
+        "DM": {
+          "visit": 3894,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3490,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 2,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 8813,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2587
         },
         "69": {
           "telemed": 0,
-          "op": 6255,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1786
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05755",
@@ -466,28 +553,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22979,
-      "opAll": 9118,
+      "groups": {
+        "DM": {
+          "visit": 2381,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3186,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 43,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5774,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1954
         },
         "69": {
           "telemed": 0,
-          "op": 3344,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1172
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05756",
@@ -496,28 +589,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 30431,
-      "opAll": 19408,
+      "groups": {
+        "DM": {
+          "visit": 4496,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 4249,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 9585,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 3222
         },
         "69": {
-          "telemed": 3,
-          "op": 9823,
-          "type2": 0,
-          "type3": 1,
-          "type5": 2
+          "telemed": 1,
+          "op": 2751
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05757",
@@ -526,28 +625,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13490,
-      "opAll": 8287,
+      "groups": {
+        "DM": {
+          "visit": 1335,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1478,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5004,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1100
         },
         "69": {
           "telemed": 0,
-          "op": 3283,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 843
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05758",
@@ -556,28 +661,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23659,
-      "opAll": 10942,
+      "groups": {
+        "DM": {
+          "visit": 4192,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3167,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 19,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6393,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2907
         },
         "69": {
           "telemed": 0,
-          "op": 4549,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2160
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05759",
@@ -586,28 +697,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23416,
-      "opAll": 9391,
+      "groups": {
+        "DM": {
+          "visit": 3170,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3622,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 18,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5337,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2350
         },
         "69": {
           "telemed": 0,
-          "op": 4054,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1985
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "10712",
@@ -616,28 +733,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "06",
       "hostypeName": "โรงพยาบาลทั่วไป",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 690950,
-      "opAll": 511874,
-      "byYear": {
-        "68": {
-          "telemed": 204263,
-          "op": 293134,
-          "type2": 192208,
-          "type3": 7765,
-          "type5": 4290
+      "groups": {
+        "DM": {
+          "visit": 99482,
+          "tele": 2384
         },
-        "69": {
-          "telemed": 161441,
-          "op": 218740,
-          "type2": 145087,
-          "type3": 5755,
-          "type5": 10599
+        "HT": {
+          "visit": 67036,
+          "tele": 2161
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 3.62
+      "byYear": {
+        "68": {
+          "telemed": 783,
+          "op": 59947
+        },
+        "69": {
+          "telemed": 2808,
+          "op": 47154
+        }
+      }
     },
     {
       "hospcode": "14879",
@@ -646,28 +769,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 14159,
-      "opAll": 9030,
+      "groups": {
+        "DM": {
+          "visit": 2010,
+          "tele": 4
+        },
+        "HT": {
+          "visit": 2767,
+          "tele": 10
+        },
+        "Cancer": {
+          "visit": 47,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5391,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1726
         },
         "69": {
-          "telemed": 46,
-          "op": 3639,
-          "type2": 0,
-          "type3": 0,
-          "type5": 46
+          "telemed": 13,
+          "op": 982
         }
-      },
-      "percentTelemed69PerOP68": 0.85
+      }
     },
     {
       "hospcode": "14893",
@@ -676,28 +805,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20077,
-      "opAll": 8217,
+      "groups": {
+        "DM": {
+          "visit": 4037,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 4104,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4552,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2123
         },
         "69": {
           "telemed": 0,
-          "op": 3665,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1729
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "22799",
@@ -706,28 +841,34 @@
       "ampName": "เมืองมุกดาหาร",
       "hostypeCode": "13",
       "hostypeName": "ศูนย์บริการสาธารณสุข",
-      "mcode": "16000",
-      "mName": "กระทรวงยุติธรรม",
-      "depName": "-",
-      "serviceAll": 34193,
-      "opAll": 30017,
+      "groups": {
+        "DM": {
+          "visit": 14,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 23,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 18701,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 25
         },
         "69": {
           "telemed": 0,
-          "op": 11316,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 6
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05760",
@@ -736,28 +877,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10347,
-      "opAll": 5805,
+      "groups": {
+        "DM": {
+          "visit": 974,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1106,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3335,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 749
         },
         "69": {
-          "telemed": 2,
-          "op": 2470,
-          "type2": 0,
-          "type3": 0,
-          "type5": 2
+          "telemed": 1,
+          "op": 527
         }
-      },
-      "percentTelemed69PerOP68": 0.06
+      }
     },
     {
       "hospcode": "05761",
@@ -766,28 +913,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10401,
-      "opAll": 5486,
+      "groups": {
+        "DM": {
+          "visit": 1834,
+          "tele": 24
+        },
+        "HT": {
+          "visit": 1598,
+          "tele": 24
+        },
+        "Cancer": {
+          "visit": 25,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3417,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1247
         },
         "69": {
-          "telemed": 40,
-          "op": 2069,
-          "type2": 0,
-          "type3": 0,
-          "type5": 40
+          "telemed": 39,
+          "op": 726
         }
-      },
-      "percentTelemed69PerOP68": 1.17
+      }
     },
     {
       "hospcode": "05762",
@@ -796,28 +949,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15573,
-      "opAll": 9445,
+      "groups": {
+        "DM": {
+          "visit": 1728,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3185,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 2,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5580,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1712
         },
         "69": {
-          "telemed": 1,
-          "op": 3865,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 1079
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05763",
@@ -826,28 +985,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20592,
-      "opAll": 10371,
+      "groups": {
+        "DM": {
+          "visit": 3727,
+          "tele": 11
+        },
+        "HT": {
+          "visit": 4052,
+          "tele": 11
+        },
+        "Cancer": {
+          "visit": 1,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6203,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2306
         },
         "69": {
           "telemed": 15,
-          "op": 4168,
-          "type2": 0,
-          "type3": 0,
-          "type5": 15
+          "op": 1642
         }
-      },
-      "percentTelemed69PerOP68": 0.24
+      }
     },
     {
       "hospcode": "05764",
@@ -856,28 +1021,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19853,
-      "opAll": 13603,
+      "groups": {
+        "DM": {
+          "visit": 1972,
+          "tele": 1
+        },
+        "HT": {
+          "visit": 1845,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7888,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1510
         },
         "69": {
-          "telemed": 2,
-          "op": 5715,
-          "type2": 0,
-          "type3": 0,
-          "type5": 2
+          "telemed": 1,
+          "op": 905
         }
-      },
-      "percentTelemed69PerOP68": 0.03
+      }
     },
     {
       "hospcode": "05765",
@@ -886,28 +1057,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22548,
-      "opAll": 11409,
+      "groups": {
+        "DM": {
+          "visit": 3262,
+          "tele": 31
+        },
+        "HT": {
+          "visit": 3810,
+          "tele": 42
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6492,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2329
         },
         "69": {
-          "telemed": 4,
-          "op": 4917,
-          "type2": 3,
-          "type3": 0,
-          "type5": 1
+          "telemed": 57,
+          "op": 1635
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05766",
@@ -916,28 +1093,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12320,
-      "opAll": 8189,
+      "groups": {
+        "DM": {
+          "visit": 2823,
+          "tele": 5
+        },
+        "HT": {
+          "visit": 2813,
+          "tele": 3
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4976,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2188
         },
         "69": {
-          "telemed": 7,
-          "op": 3213,
-          "type2": 0,
-          "type3": 0,
-          "type5": 7
+          "telemed": 5,
+          "op": 1282
         }
-      },
-      "percentTelemed69PerOP68": 0.14
+      }
     },
     {
       "hospcode": "05767",
@@ -946,28 +1129,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 18916,
-      "opAll": 9879,
+      "groups": {
+        "DM": {
+          "visit": 2309,
+          "tele": 40
+        },
+        "HT": {
+          "visit": 2912,
+          "tele": 51
+        },
+        "Cancer": {
+          "visit": 37,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5985,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1902
         },
         "69": {
-          "telemed": 1,
-          "op": 3894,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 63,
+          "op": 1177
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05768",
@@ -976,28 +1165,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12393,
-      "opAll": 7193,
+      "groups": {
+        "DM": {
+          "visit": 1159,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1196,
+          "tele": 5
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3801,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 815
         },
         "69": {
-          "telemed": 15,
-          "op": 3392,
-          "type2": 0,
-          "type3": 0,
-          "type5": 15
+          "telemed": 5,
+          "op": 630
         }
-      },
-      "percentTelemed69PerOP68": 0.39
+      }
     },
     {
       "hospcode": "11113",
@@ -1006,28 +1201,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 175059,
-      "opAll": 132933,
-      "byYear": {
-        "68": {
-          "telemed": 40601,
-          "op": 77842,
-          "type2": 39094,
-          "type3": 0,
-          "type5": 1507
+      "groups": {
+        "DM": {
+          "visit": 40317,
+          "tele": 991
         },
-        "69": {
-          "telemed": 28886,
-          "op": 55091,
-          "type2": 28277,
-          "type3": 2,
-          "type5": 607
+        "HT": {
+          "visit": 43810,
+          "tele": 1444
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 9497,
+          "tele": 110
         }
       },
-      "percentTelemed69PerOP68": 0.78
+      "byYear": {
+        "68": {
+          "telemed": 1322,
+          "op": 35246
+        },
+        "69": {
+          "telemed": 736,
+          "op": 25342
+        }
+      }
     },
     {
       "hospcode": "11759",
@@ -1036,28 +1237,34 @@
       "ampName": "นิคมคำสร้อย",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 14740,
-      "opAll": 8543,
+      "groups": {
+        "DM": {
+          "visit": 2215,
+          "tele": 11
+        },
+        "HT": {
+          "visit": 2919,
+          "tele": 19
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5293,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1581
         },
         "69": {
-          "telemed": 25,
-          "op": 3250,
-          "type2": 1,
-          "type3": 0,
-          "type5": 24
+          "telemed": 22,
+          "op": 1067
         }
-      },
-      "percentTelemed69PerOP68": 0.45
+      }
     },
     {
       "hospcode": "05769",
@@ -1066,28 +1273,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 9803,
-      "opAll": 3804,
+      "groups": {
+        "DM": {
+          "visit": 1339,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2215,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2195,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 944
         },
         "69": {
           "telemed": 0,
-          "op": 1609,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 575
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05770",
@@ -1096,28 +1309,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17836,
-      "opAll": 9412,
+      "groups": {
+        "DM": {
+          "visit": 2995,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1743,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 26,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5059,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1881
         },
         "69": {
           "telemed": 0,
-          "op": 4353,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1350
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05771",
@@ -1126,28 +1345,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 29843,
-      "opAll": 13690,
+      "groups": {
+        "DM": {
+          "visit": 5194,
+          "tele": 1
+        },
+        "HT": {
+          "visit": 5760,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 8019,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2995
         },
         "69": {
           "telemed": 1,
-          "op": 5671,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "op": 2492
         }
-      },
-      "percentTelemed69PerOP68": 0.01
+      }
     },
     {
       "hospcode": "05772",
@@ -1156,28 +1381,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12089,
-      "opAll": 7198,
+      "groups": {
+        "DM": {
+          "visit": 1906,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2062,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 44,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4159,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1414
         },
         "69": {
           "telemed": 0,
-          "op": 3039,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 858
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05774",
@@ -1186,28 +1417,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17549,
-      "opAll": 11361,
+      "groups": {
+        "DM": {
+          "visit": 2388,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1746,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6168,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1718
         },
         "69": {
           "telemed": 0,
-          "op": 5193,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1250
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05775",
@@ -1216,28 +1453,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 33551,
-      "opAll": 13149,
+      "groups": {
+        "DM": {
+          "visit": 2993,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3632,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7261,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1546
         },
         "69": {
-          "telemed": 6,
-          "op": 5888,
-          "type2": 0,
-          "type3": 2,
-          "type5": 4
+          "telemed": 0,
+          "op": 1125
         }
-      },
-      "percentTelemed69PerOP68": 0.06
+      }
     },
     {
       "hospcode": "05776",
@@ -1246,28 +1489,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11763,
-      "opAll": 7115,
+      "groups": {
+        "DM": {
+          "visit": 1261,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1107,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3943,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 873
         },
         "69": {
           "telemed": 0,
-          "op": 3172,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 707
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05777",
@@ -1276,28 +1525,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15505,
-      "opAll": 7946,
+      "groups": {
+        "DM": {
+          "visit": 2231,
+          "tele": 44
+        },
+        "HT": {
+          "visit": 2055,
+          "tele": 27
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4465,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1289
         },
         "69": {
-          "telemed": 67,
-          "op": 3481,
-          "type2": 0,
-          "type3": 0,
-          "type5": 67
+          "telemed": 58,
+          "op": 880
         }
-      },
-      "percentTelemed69PerOP68": 1.5
+      }
     },
     {
       "hospcode": "05778",
@@ -1306,28 +1561,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 21129,
-      "opAll": 9219,
+      "groups": {
+        "DM": {
+          "visit": 3029,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1552,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 13,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5132,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1431
         },
         "69": {
           "telemed": 0,
-          "op": 4087,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1165
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05779",
@@ -1336,28 +1597,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20395,
-      "opAll": 8539,
+      "groups": {
+        "DM": {
+          "visit": 2312,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2526,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 30,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3942,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 998
         },
         "69": {
-          "telemed": 1,
-          "op": 4597,
-          "type2": 0,
-          "type3": 1,
-          "type5": 0
+          "telemed": 0,
+          "op": 867
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05780",
@@ -1366,28 +1633,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10443,
-      "opAll": 4028,
+      "groups": {
+        "DM": {
+          "visit": 1285,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1700,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2349,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 888
         },
         "69": {
           "telemed": 0,
-          "op": 1679,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 599
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "10247",
@@ -1396,28 +1669,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12930,
-      "opAll": 6810,
+      "groups": {
+        "DM": {
+          "visit": 1919,
+          "tele": 62
+        },
+        "HT": {
+          "visit": 944,
+          "tele": 23
+        },
+        "Cancer": {
+          "visit": 7,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3837,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 952
         },
         "69": {
-          "telemed": 85,
-          "op": 2973,
-          "type2": 0,
-          "type3": 0,
-          "type5": 85
+          "telemed": 68,
+          "op": 751
         }
-      },
-      "percentTelemed69PerOP68": 2.22
+      }
     },
     {
       "hospcode": "10248",
@@ -1426,28 +1705,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 7088,
-      "opAll": 4185,
+      "groups": {
+        "DM": {
+          "visit": 855,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 559,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2175,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 402
         },
         "69": {
-          "telemed": 3,
-          "op": 2010,
-          "type2": 3,
-          "type3": 0,
-          "type5": 0
+          "telemed": 0,
+          "op": 318
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "11114",
@@ -1456,28 +1741,34 @@
       "ampName": "ดอนตาล",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 175193,
-      "opAll": 112938,
-      "byYear": {
-        "68": {
-          "telemed": 19344,
-          "op": 63742,
-          "type2": 18238,
-          "type3": 18,
-          "type5": 1088
+      "groups": {
+        "DM": {
+          "visit": 36098,
+          "tele": 1086
         },
-        "69": {
-          "telemed": 20779,
-          "op": 49196,
-          "type2": 18775,
-          "type3": 37,
-          "type5": 1967
+        "HT": {
+          "visit": 35564,
+          "tele": 888
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 3.09
+      "byYear": {
+        "68": {
+          "telemed": 622,
+          "op": 21047
+        },
+        "69": {
+          "telemed": 958,
+          "op": 17106
+        }
+      }
     },
     {
       "hospcode": "05781",
@@ -1486,28 +1777,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23191,
-      "opAll": 9009,
+      "groups": {
+        "DM": {
+          "visit": 3465,
+          "tele": 80
+        },
+        "HT": {
+          "visit": 4947,
+          "tele": 91
+        },
+        "Cancer": {
+          "visit": 2,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4755,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2248
         },
         "69": {
-          "telemed": 217,
-          "op": 4254,
-          "type2": 1,
-          "type3": 1,
-          "type5": 215
+          "telemed": 133,
+          "op": 1773
         }
-      },
-      "percentTelemed69PerOP68": 4.52
+      }
     },
     {
       "hospcode": "05782",
@@ -1516,28 +1813,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8313,
-      "opAll": 5950,
+      "groups": {
+        "DM": {
+          "visit": 1111,
+          "tele": 36
+        },
+        "HT": {
+          "visit": 1231,
+          "tele": 60
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3332,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 988
         },
         "69": {
-          "telemed": 83,
-          "op": 2618,
-          "type2": 0,
-          "type3": 0,
-          "type5": 83
+          "telemed": 81,
+          "op": 859
         }
-      },
-      "percentTelemed69PerOP68": 2.49
+      }
     },
     {
       "hospcode": "05783",
@@ -1546,28 +1849,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 18534,
-      "opAll": 10445,
+      "groups": {
+        "DM": {
+          "visit": 2764,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2163,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 3,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5887,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1683
         },
         "69": {
-          "telemed": 40,
-          "op": 4558,
-          "type2": 40,
-          "type3": 0,
-          "type5": 0
+          "telemed": 1,
+          "op": 1474
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05784",
@@ -1576,28 +1885,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 5947,
-      "opAll": 3060,
+      "groups": {
+        "DM": {
+          "visit": 1051,
+          "tele": 35
+        },
+        "HT": {
+          "visit": 1244,
+          "tele": 59
+        },
+        "Cancer": {
+          "visit": 26,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 1912,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 669
         },
         "69": {
-          "telemed": 81,
-          "op": 1148,
-          "type2": 0,
-          "type3": 0,
-          "type5": 81
+          "telemed": 75,
+          "op": 497
         }
-      },
-      "percentTelemed69PerOP68": 4.24
+      }
     },
     {
       "hospcode": "05785",
@@ -1606,28 +1921,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 23258,
-      "opAll": 11334,
+      "groups": {
+        "DM": {
+          "visit": 3317,
+          "tele": 44
+        },
+        "HT": {
+          "visit": 4164,
+          "tele": 68
+        },
+        "Cancer": {
+          "visit": 8,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6978,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2402
         },
         "69": {
-          "telemed": 135,
-          "op": 4356,
-          "type2": 0,
-          "type3": 0,
-          "type5": 135
+          "telemed": 82,
+          "op": 1710
         }
-      },
-      "percentTelemed69PerOP68": 1.93
+      }
     },
     {
       "hospcode": "05786",
@@ -1636,28 +1957,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19788,
-      "opAll": 6710,
+      "groups": {
+        "DM": {
+          "visit": 2259,
+          "tele": 94
+        },
+        "HT": {
+          "visit": 2727,
+          "tele": 114
+        },
+        "Cancer": {
+          "visit": 6,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3889,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1690
         },
         "69": {
-          "telemed": 246,
-          "op": 2821,
-          "type2": 0,
-          "type3": 0,
-          "type5": 246
+          "telemed": 176,
+          "op": 1145
         }
-      },
-      "percentTelemed69PerOP68": 6.33
+      }
     },
     {
       "hospcode": "05787",
@@ -1666,28 +1993,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17804,
-      "opAll": 10022,
+      "groups": {
+        "DM": {
+          "visit": 3168,
+          "tele": 12
+        },
+        "HT": {
+          "visit": 4135,
+          "tele": 44
+        },
+        "Cancer": {
+          "visit": 5,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6148,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2512
         },
         "69": {
-          "telemed": 508,
-          "op": 3874,
-          "type2": 0,
-          "type3": 0,
-          "type5": 508
+          "telemed": 51,
+          "op": 1521
         }
-      },
-      "percentTelemed69PerOP68": 8.26
+      }
     },
     {
       "hospcode": "05788",
@@ -1696,28 +2029,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12158,
-      "opAll": 6385,
+      "groups": {
+        "DM": {
+          "visit": 1348,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 1218,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 8,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3934,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1242
         },
         "69": {
           "telemed": 0,
-          "op": 2451,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 714
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05789",
@@ -1726,28 +2065,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 21339,
-      "opAll": 8147,
+      "groups": {
+        "DM": {
+          "visit": 1587,
+          "tele": 58
+        },
+        "HT": {
+          "visit": 1676,
+          "tele": 21
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4654,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1228
         },
         "69": {
-          "telemed": 209,
-          "op": 3493,
-          "type2": 0,
-          "type3": 0,
-          "type5": 209
+          "telemed": 64,
+          "op": 1036
         }
-      },
-      "percentTelemed69PerOP68": 4.49
+      }
     },
     {
       "hospcode": "11115",
@@ -1756,28 +2101,34 @@
       "ampName": "ดงหลวง",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 147006,
-      "opAll": 88032,
-      "byYear": {
-        "68": {
-          "telemed": 15819,
-          "op": 49505,
-          "type2": 12756,
-          "type3": 100,
-          "type5": 2963
+      "groups": {
+        "DM": {
+          "visit": 23357,
+          "tele": 1508
         },
-        "69": {
-          "telemed": 11197,
-          "op": 38527,
-          "type2": 8498,
-          "type3": 0,
-          "type5": 2699
+        "HT": {
+          "visit": 22825,
+          "tele": 1335
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 11,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 5.45
+      "byYear": {
+        "68": {
+          "telemed": 1082,
+          "op": 12646
+        },
+        "69": {
+          "telemed": 1105,
+          "op": 9179
+        }
+      }
     },
     {
       "hospcode": "05790",
@@ -1786,28 +2137,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 29134,
-      "opAll": 10524,
+      "groups": {
+        "DM": {
+          "visit": 2304,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3436,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6433,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1785
         },
         "69": {
           "telemed": 0,
-          "op": 4091,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1044
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05791",
@@ -1816,28 +2173,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20716,
-      "opAll": 8354,
+      "groups": {
+        "DM": {
+          "visit": 843,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 795,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5087,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 332
         },
         "69": {
           "telemed": 0,
-          "op": 3267,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 239
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05792",
@@ -1846,28 +2209,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 32771,
-      "opAll": 12549,
+      "groups": {
+        "DM": {
+          "visit": 734,
+          "tele": 1
+        },
+        "HT": {
+          "visit": 1678,
+          "tele": 5
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 7474,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 770
         },
         "69": {
-          "telemed": 2,
-          "op": 5075,
-          "type2": 0,
-          "type3": 0,
-          "type5": 2
+          "telemed": 5,
+          "op": 481
         }
-      },
-      "percentTelemed69PerOP68": 0.03
+      }
     },
     {
       "hospcode": "05793",
@@ -1876,28 +2245,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 24343,
-      "opAll": 11004,
+      "groups": {
+        "DM": {
+          "visit": 2951,
+          "tele": 5
+        },
+        "HT": {
+          "visit": 4167,
+          "tele": 11
+        },
+        "Cancer": {
+          "visit": 293,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6408,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2543
         },
         "69": {
-          "telemed": 26,
-          "op": 4596,
-          "type2": 0,
-          "type3": 0,
-          "type5": 26
+          "telemed": 14,
+          "op": 1842
         }
-      },
-      "percentTelemed69PerOP68": 0.41
+      }
     },
     {
       "hospcode": "05794",
@@ -1906,28 +2281,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 13813,
-      "opAll": 7067,
+      "groups": {
+        "DM": {
+          "visit": 2492,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2868,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4107,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1445
         },
         "69": {
-          "telemed": 1,
-          "op": 2960,
-          "type2": 0,
-          "type3": 1,
-          "type5": 0
+          "telemed": 0,
+          "op": 1003
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05795",
@@ -1936,28 +2317,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 14912,
-      "opAll": 8751,
+      "groups": {
+        "DM": {
+          "visit": 2142,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3242,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 13,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5429,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1869
         },
         "69": {
           "telemed": 0,
-          "op": 3322,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1081
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05796",
@@ -1966,28 +2353,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 15982,
-      "opAll": 8784,
+      "groups": {
+        "DM": {
+          "visit": 1318,
+          "tele": 9
+        },
+        "HT": {
+          "visit": 1471,
+          "tele": 5
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 5630,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1238
         },
         "69": {
-          "telemed": 0,
-          "op": 3154,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "telemed": 10,
+          "op": 699
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05797",
@@ -1996,28 +2389,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10756,
-      "opAll": 7256,
+      "groups": {
+        "DM": {
+          "visit": 1870,
+          "tele": 3
+        },
+        "HT": {
+          "visit": 3132,
+          "tele": 3
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4094,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1542
         },
         "69": {
-          "telemed": 0,
-          "op": 3162,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "telemed": 3,
+          "op": 1474
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05798",
@@ -2026,28 +2425,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 19061,
-      "opAll": 10640,
-      "byYear": {
-        "68": {
-          "telemed": 3,
-          "op": 6413,
-          "type2": 3,
-          "type3": 0,
-          "type5": 0
+      "groups": {
+        "DM": {
+          "visit": 330,
+          "tele": 0
         },
-        "69": {
-          "telemed": 81,
-          "op": 4227,
-          "type2": 80,
-          "type3": 0,
-          "type5": 1
+        "HT": {
+          "visit": 1976,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0.02
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 1101
+        },
+        "69": {
+          "telemed": 1,
+          "op": 605
+        }
+      }
     },
     {
       "hospcode": "05799",
@@ -2056,28 +2461,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11690,
-      "opAll": 6230,
-      "byYear": {
-        "68": {
-          "telemed": 4,
-          "op": 3763,
-          "type2": 0,
-          "type3": 0,
-          "type5": 4
+      "groups": {
+        "DM": {
+          "visit": 907,
+          "tele": 3
         },
-        "69": {
-          "telemed": 4,
-          "op": 2467,
-          "type2": 0,
-          "type3": 0,
-          "type5": 4
+        "HT": {
+          "visit": 2093,
+          "tele": 9
+        },
+        "Cancer": {
+          "visit": 3,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0.11
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 1241
+        },
+        "69": {
+          "telemed": 12,
+          "op": 799
+        }
+      }
     },
     {
       "hospcode": "11116",
@@ -2086,28 +2497,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 186046,
-      "opAll": 144176,
-      "byYear": {
-        "68": {
-          "telemed": 36010,
-          "op": 82684,
-          "type2": 34039,
-          "type3": 2,
-          "type5": 1969
+      "groups": {
+        "DM": {
+          "visit": 40204,
+          "tele": 247
         },
-        "69": {
-          "telemed": 28368,
-          "op": 61492,
-          "type2": 26366,
-          "type3": 1,
-          "type5": 2001
+        "HT": {
+          "visit": 49861,
+          "tele": 376
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.42
+      "byYear": {
+        "68": {
+          "telemed": 243,
+          "op": 33066
+        },
+        "69": {
+          "telemed": 262,
+          "op": 24206
+        }
+      }
     },
     {
       "hospcode": "13984",
@@ -2116,28 +2533,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8192,
-      "opAll": 5304,
+      "groups": {
+        "DM": {
+          "visit": 911,
+          "tele": 2
+        },
+        "HT": {
+          "visit": 835,
+          "tele": 3
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3210,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 877
         },
         "69": {
-          "telemed": 0,
-          "op": 2094,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "telemed": 4,
+          "op": 538
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "13985",
@@ -2146,28 +2569,34 @@
       "ampName": "คำชะอี",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12562,
-      "opAll": 7121,
+      "groups": {
+        "DM": {
+          "visit": 1470,
+          "tele": 20
+        },
+        "HT": {
+          "visit": 2311,
+          "tele": 30
+        },
+        "Cancer": {
+          "visit": 22,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4395,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1391
         },
         "69": {
-          "telemed": 45,
-          "op": 2726,
-          "type2": 0,
-          "type3": 0,
-          "type5": 45
+          "telemed": 38,
+          "op": 919
         }
-      },
-      "percentTelemed69PerOP68": 1.02
+      }
     },
     {
       "hospcode": "05800",
@@ -2176,28 +2605,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 10396,
-      "opAll": 6186,
+      "groups": {
+        "DM": {
+          "visit": 1632,
+          "tele": 50
+        },
+        "HT": {
+          "visit": 1396,
+          "tele": 40
+        },
+        "Cancer": {
+          "visit": 38,
+          "tele": 2
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3555,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1083
         },
         "69": {
-          "telemed": 92,
-          "op": 2631,
-          "type2": 0,
-          "type3": 0,
-          "type5": 92
+          "telemed": 71,
+          "op": 679
         }
-      },
-      "percentTelemed69PerOP68": 2.59
+      }
     },
     {
       "hospcode": "05801",
@@ -2206,28 +2641,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17946,
-      "opAll": 7505,
+      "groups": {
+        "DM": {
+          "visit": 1546,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2681,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 23,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4432,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1130
         },
         "69": {
           "telemed": 0,
-          "op": 3073,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 889
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
     },
     {
       "hospcode": "05802",
@@ -2236,28 +2677,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11850,
-      "opAll": 6721,
+      "groups": {
+        "DM": {
+          "visit": 2028,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 2237,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4076,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1365
         },
         "69": {
-          "telemed": 1,
-          "op": 2645,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "telemed": 0,
+          "op": 1077
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "05803",
@@ -2266,28 +2713,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16227,
-      "opAll": 8842,
+      "groups": {
+        "DM": {
+          "visit": 3045,
+          "tele": 69
+        },
+        "HT": {
+          "visit": 4760,
+          "tele": 163
+        },
+        "Cancer": {
+          "visit": 89,
+          "tele": 4
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4953,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 2261
         },
         "69": {
-          "telemed": 76,
-          "op": 3889,
-          "type2": 0,
-          "type3": 0,
-          "type5": 76
+          "telemed": 183,
+          "op": 1875
         }
-      },
-      "percentTelemed69PerOP68": 1.53
+      }
     },
     {
       "hospcode": "05804",
@@ -2296,28 +2749,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 17015,
-      "opAll": 8007,
+      "groups": {
+        "DM": {
+          "visit": 2535,
+          "tele": 15
+        },
+        "HT": {
+          "visit": 4333,
+          "tele": 23
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4773,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1942
         },
         "69": {
-          "telemed": 53,
-          "op": 3234,
-          "type2": 1,
-          "type3": 0,
-          "type5": 52
+          "telemed": 25,
+          "op": 1374
         }
-      },
-      "percentTelemed69PerOP68": 1.09
+      }
     },
     {
       "hospcode": "05805",
@@ -2326,28 +2785,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 11377,
-      "opAll": 7172,
+      "groups": {
+        "DM": {
+          "visit": 2164,
+          "tele": 103
+        },
+        "HT": {
+          "visit": 3172,
+          "tele": 126
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 4213,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1740
         },
         "69": {
-          "telemed": 221,
-          "op": 2959,
-          "type2": 0,
-          "type3": 0,
-          "type5": 221
+          "telemed": 160,
+          "op": 1300
         }
-      },
-      "percentTelemed69PerOP68": 5.25
+      }
     },
     {
       "hospcode": "11117",
@@ -2356,28 +2821,34 @@
       "ampName": "หว้านใหญ่",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 136980,
-      "opAll": 111601,
-      "byYear": {
-        "68": {
-          "telemed": 21293,
-          "op": 78347,
-          "type2": 19896,
-          "type3": 2,
-          "type5": 1395
+      "groups": {
+        "DM": {
+          "visit": 19939,
+          "tele": 1200
         },
-        "69": {
-          "telemed": 7438,
-          "op": 33254,
-          "type2": 5712,
-          "type3": 0,
-          "type5": 1726
+        "HT": {
+          "visit": 26312,
+          "tele": 1402
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.2
+      "byYear": {
+        "68": {
+          "telemed": 1027,
+          "op": 23501
+        },
+        "69": {
+          "telemed": 942,
+          "op": 10073
+        }
+      }
     },
     {
       "hospcode": "05806",
@@ -2386,28 +2857,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 16629,
-      "opAll": 6703,
-      "byYear": {
-        "68": {
-          "telemed": 10,
-          "op": 3648,
-          "type2": 0,
-          "type3": 10,
-          "type5": 0
+      "groups": {
+        "DM": {
+          "visit": 2017,
+          "tele": 20
         },
-        "69": {
-          "telemed": 78,
-          "op": 3055,
-          "type2": 0,
-          "type3": 1,
-          "type5": 77
+        "HT": {
+          "visit": 3304,
+          "tele": 38
+        },
+        "Cancer": {
+          "visit": 4,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.11
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 1245
+        },
+        "69": {
+          "telemed": 47,
+          "op": 978
+        }
+      }
     },
     {
       "hospcode": "05807",
@@ -2416,28 +2893,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8167,
-      "opAll": 4486,
+      "groups": {
+        "DM": {
+          "visit": 1644,
+          "tele": 10
+        },
+        "HT": {
+          "visit": 2509,
+          "tele": 12
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 2572,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1384
         },
         "69": {
-          "telemed": 26,
-          "op": 1914,
-          "type2": 0,
-          "type3": 0,
-          "type5": 26
+          "telemed": 19,
+          "op": 1121
         }
-      },
-      "percentTelemed69PerOP68": 1.01
+      }
     },
     {
       "hospcode": "05808",
@@ -2446,28 +2929,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 12863,
-      "opAll": 6453,
+      "groups": {
+        "DM": {
+          "visit": 2405,
+          "tele": 1
+        },
+        "HT": {
+          "visit": 2403,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 49,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 3992,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 1695
         },
         "69": {
           "telemed": 1,
-          "op": 2461,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "op": 1116
         }
-      },
-      "percentTelemed69PerOP68": 0.03
+      }
     },
     {
       "hospcode": "05809",
@@ -2476,28 +2965,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 22464,
-      "opAll": 11108,
-      "byYear": {
-        "68": {
-          "telemed": 165,
-          "op": 6044,
-          "type2": 165,
-          "type3": 0,
-          "type5": 0
+      "groups": {
+        "DM": {
+          "visit": 3825,
+          "tele": 0
         },
-        "69": {
-          "telemed": 1,
-          "op": 5064,
-          "type2": 1,
-          "type3": 0,
-          "type5": 0
+        "HT": {
+          "visit": 5067,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 0
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 2863
+        },
+        "69": {
+          "telemed": 0,
+          "op": 2346
+        }
+      }
     },
     {
       "hospcode": "05810",
@@ -2506,28 +3001,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 20820,
-      "opAll": 11884,
+      "groups": {
+        "DM": {
+          "visit": 3840,
+          "tele": 1
+        },
+        "HT": {
+          "visit": 6531,
+          "tele": 1
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
           "telemed": 0,
-          "op": 6631,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 3491
         },
         "69": {
           "telemed": 1,
-          "op": 5253,
-          "type2": 0,
-          "type3": 0,
-          "type5": 1
+          "op": 2853
         }
-      },
-      "percentTelemed69PerOP68": 0.02
+      }
     },
     {
       "hospcode": "11118",
@@ -2536,28 +3037,34 @@
       "ampName": "หนองสูง",
       "hostypeCode": "07",
       "hostypeName": "โรงพยาบาลชุมชน",
-      "mcode": "21000",
-      "mName": "กระทรวงสาธารณสุข",
-      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
-      "serviceAll": 124963,
-      "opAll": 104213,
-      "byYear": {
-        "68": {
-          "telemed": 20552,
-          "op": 58150,
-          "type2": 19532,
-          "type3": 49,
-          "type5": 971
+      "groups": {
+        "DM": {
+          "visit": 25803,
+          "tele": 747
         },
-        "69": {
-          "telemed": 16682,
-          "op": 46063,
-          "type2": 15058,
-          "type3": 54,
-          "type5": 1570
+        "HT": {
+          "visit": 39494,
+          "tele": 1164
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
         }
       },
-      "percentTelemed69PerOP68": 2.7
+      "byYear": {
+        "68": {
+          "telemed": 737,
+          "op": 24513
+        },
+        "69": {
+          "telemed": 691,
+          "op": 19247
+        }
+      }
     },
     {
       "hospcode": "15009",
@@ -2566,28 +3073,53 @@
       "ampName": "หนองสูง",
       "hostypeCode": "18",
       "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
-      "mcode": "75000",
-      "mName": "องค์กรปกครองส่วนท้องถิ่น",
-      "depName": null,
-      "serviceAll": 8093,
-      "opAll": 2627,
+      "groups": {
+        "DM": {
+          "visit": 1965,
+          "tele": 0
+        },
+        "HT": {
+          "visit": 3034,
+          "tele": 0
+        },
+        "Cancer": {
+          "visit": 0,
+          "tele": 0
+        },
+        "Psych": {
+          "visit": 0,
+          "tele": 0
+        }
+      },
       "byYear": {
         "68": {
-          "telemed": 12,
-          "op": 1389,
-          "type2": 12,
-          "type3": 0,
-          "type5": 0
+          "telemed": 0,
+          "op": 780
         },
         "69": {
           "telemed": 0,
-          "op": 1238,
-          "type2": 0,
-          "type3": 0,
-          "type5": 0
+          "op": 757
         }
-      },
-      "percentTelemed69PerOP68": 0
+      }
+    }
+  ],
+  "category": "ncd",
+  "groupDefs": [
+    {
+      "key": "DM",
+      "label": "เบาหวาน"
+    },
+    {
+      "key": "HT",
+      "label": "ความดันโลหิตสูง"
+    },
+    {
+      "key": "Cancer",
+      "label": "มะเร็ง"
+    },
+    {
+      "key": "Psych",
+      "label": "จิตเวช"
     }
   ]
 }
