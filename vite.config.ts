@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { copyFileSync, mkdirSync, readdirSync } from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
+import { fileURLToPath } from 'url'
 
-// https://vite.dev/config/
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+
 export default defineConfig({
   base: '/telemedmuk/',
   plugins: [
@@ -14,8 +16,8 @@ export default defineConfig({
       name: 'copy-snapshots',
       apply: 'build',
       writeBundle() {
-        const srcDir = 'public/data/snapshots'
-        const destDir = 'dist/data/snapshots'
+        const srcDir = resolve(__dirname, 'public/data/snapshots')
+        const destDir = resolve(__dirname, 'dist/data/snapshots')
         mkdirSync(destDir, { recursive: true })
         const copy = (src: string, dst: string) => {
           const files = readdirSync(src, { withFileTypes: true })
