@@ -1,7 +1,10 @@
 const POWER_BI_URL =
   'https://app.powerbi.com/view?r=eyJrIjoiYjE4NGNjNzItYmM2ZS00MjFmLTlmNDEtOWQ1M2JiODk4N2M0IiwidCI6ImI3NmEyM2QzLThjZGYtNDNjMC1hNTNiLTYwYmNkMjM3OTg5NSIsImMiOjEwfQ%3D%3D'
 
+import { useState } from 'react'
+
 function PowerBiTab() {
+  const [isLoaded, setIsLoaded] = useState(false)
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-2xl border border-brand-200 bg-brand-50 px-5 py-4 text-sm leading-relaxed text-brand-900 shadow-sm dark:border-brand-700 dark:bg-slate-800 dark:text-brand-300">
@@ -17,12 +20,17 @@ function PowerBiTab() {
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <div className="relative w-full" style={{ aspectRatio: '16 / 9', minHeight: '600px' }}>
+          {!isLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-100 dark:bg-slate-700 z-10">
+              <p className="text-sm text-slate-600 dark:text-slate-300">⏳ กำลังโหลด Power BI...</p>
+            </div>
+          )}
           <iframe
             title="รายงาน Telemedicine Power BI"
             src={POWER_BI_URL}
             className="absolute inset-0 h-full w-full"
             allowFullScreen
-            loading="lazy"
+            onLoad={() => setIsLoaded(true)}
           />
         </div>
       </div>
