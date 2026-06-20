@@ -13,6 +13,7 @@ import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
 import FollowupView from './FollowupView'
 import StrategicAnalysisView from './StrategicAnalysisView'
+import ComprehensiveDashboardView from './ComprehensiveDashboardView'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DOCS: ReportInfoPanelProps = {
@@ -69,7 +70,7 @@ const TYPEIN_DOCS: ReportInfoPanelProps = {
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
-type SubTabKey = 'base' | ReportCategory | 'strategic'
+type SubTabKey = 'base' | ReportCategory | 'strategic' | 'comprehensive'
 
 // Sub-tabs whose visibility is gated by a NEW report category (beyond "base"),
 // keyed by the tab's own key so 'strategic' can depend on the 'all' category
@@ -82,6 +83,7 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
   ltc_pal: 'ltc_pal',
   followup: 'followup',
   strategic: 'all',
+  comprehensive: 'all',
   typein: 'typein',
 }
 
@@ -95,6 +97,7 @@ const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'ltc_pal', label: 'LTC/Palliative' },
   { key: 'followup', label: 'ติดตามต่อเนื่อง' },
   { key: 'strategic', label: 'วิเคราะห์เชิงกลยุทธ์' },
+  { key: 'comprehensive', label: 'Dashboard ครบวงจร' },
 ]
 
 type LoadState =
@@ -381,6 +384,9 @@ function HdcTab() {
               )}
               {effectiveSubTab === 'strategic' && currentCategoryData.all && (
                 <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
+              )}
+              {effectiveSubTab === 'comprehensive' && currentCategoryData.all && (
+                <ComprehensiveDashboardView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
               )}
               {effectiveSubTab === 'typein' && currentCategoryData.typein && (
                 <SnapshotView snapshot={currentCategoryData.typein} docs={TYPEIN_DOCS} />
