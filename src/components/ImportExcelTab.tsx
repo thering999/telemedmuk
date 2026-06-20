@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import type { ReportCategory, Snapshot } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { ParseHippoExcelError, detectCategory, detectCategoryByColumns, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
+import { validateSnapshot, type ValidationReport } from '../lib/validateSnapshot'
 import { ADMIN_PASSWORD } from '../lib/adminAuth'
 import SnapshotView from './SnapshotView'
 import * as XLSX from 'xlsx'
@@ -25,6 +26,8 @@ interface SelectedFile {
   buffer: ArrayBuffer
   previewSnapshot?: Snapshot
   previewError?: string
+  /** Only computed when previewSnapshot exists (validation runs on the parsed "base" shape). */
+  validation?: ValidationReport
   dateWasGuessed: boolean
   selected: boolean
   saveState: FileSaveState
@@ -128,9 +131,11 @@ function ImportExcelTab() {
 
         let previewSnapshot: Snapshot | undefined
         let previewError: string | undefined
+        let validation: ValidationReport | undefined
         if (category === 'base') {
           try {
             previewSnapshot = parseHippoExcelFile(buffer, file.name)
+            validation = validateSnapshot(previewSnapshot)
           } catch (err) {
             previewError =
               err instanceof ParseHippoExcelError
@@ -148,8 +153,11 @@ function ImportExcelTab() {
           buffer,
           previewSnapshot,
           previewError,
+          validation,
           dateWasGuessed,
-          selected: category !== null,
+          // Critical validation errors block save-by-default too — user can still
+          // inspect the row, but must fix the file rather than ship bad data.
+          selected: category !== null && (validation?.ok ?? true),
           saveState: { status: 'idle' },
         })
       }
@@ -207,7 +215,9 @@ function ImportExcelTab() {
 
   const toggleSelected = (id: string) => {
     setFiles((prev) =>
-      prev.map((f) => (f.id === id && f.category !== null ? { ...f, selected: !f.selected } : f)),
+      prev.map((f) =>
+        f.id === id && f.category !== null && (f.validation?.ok ?? true) ? { ...f, selected: !f.selected } : f,
+      ),
     )
   }
 
@@ -343,20 +353,29 @@ function ImportExcelTab() {
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">เลือก</th>
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm">ไฟล์</th>
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">ประเภท</th>
+                  <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">ตรวจสอบข้อมูล</th>
                   <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">สถานะ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {files.map((f) => {
                   const isUnknown = f.category === null
+                  const hasValidationErrors = f.validation && !f.validation.ok
+                  const hasValidationWarnings = f.validation && f.validation.ok && f.validation.warnings.length > 0
+                  const rowHighlightClass = isUnknown || hasValidationErrors
+                    ? 'bg-rose-50 dark:bg-rose-950/30'
+                    : hasValidationWarnings
+                      ? 'bg-amber-50 dark:bg-amber-950/20'
+                      : undefined
                   return (
-                    <tr key={f.id} className={isUnknown ? 'bg-rose-50 dark:bg-rose-950/30' : undefined}>
+                    <tr key={f.id} className={rowHighlightClass}>
                       <td className="px-2 sm:px-4 py-2">
                         <input
                           type="checkbox"
                           checked={f.selected}
-                          disabled={isUnknown}
+                          disabled={isUnknown || hasValidationErrors}
                           onChange={() => toggleSelected(f.id)}
+                          title={hasValidationErrors ? 'ไม่สามารถบันทึกได้ — มีข้อผิดพลาดร้ายแรง กรุณาแก้ไขไฟล์ก่อน' : undefined}
                           className="h-4 w-4 rounded border-slate-300 text-brand-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600"
                         />
                       </td>
@@ -368,6 +387,9 @@ function ImportExcelTab() {
                       </td>
                       <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap ${isUnknown ? 'font-medium text-rose-700 dark:text-rose-300' : 'text-slate-600 dark:text-slate-300'}`}>
                         {categoryLabel(f.category)}
+                      </td>
+                      <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap">
+                        <ValidationBadge validation={f.validation} />
                       </td>
                       <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap">
                         {f.saveState.status === 'idle' && <span className="text-slate-400 dark:text-slate-500">—</span>}
@@ -387,6 +409,16 @@ function ImportExcelTab() {
               </tbody>
             </table>
           </div>
+
+          {files.some((f) => f.validation) && (
+            <div className="flex flex-col gap-3">
+              {files
+                .filter((f) => f.validation && (!f.validation.ok || f.validation.warnings.length > 0))
+                .map((f) => (
+                  <ValidationReportCard key={f.id} filename={f.filename} validation={f.validation as ValidationReport} />
+                ))}
+            </div>
+          )}
 
           <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/30">
             <div>
@@ -481,11 +513,89 @@ function ImportExcelTab() {
                     <>{formatThaiDate(singlePreview.previewSnapshot.snapshotDate)}</>
                   )}
                 </p>
+                {singlePreview.validation && (
+                  <p className="mt-1 text-xs sm:text-sm text-blue-900 dark:text-blue-300">
+                    <span className="font-semibold">คุณภาพข้อมูล:</span>{' '}
+                    {singlePreview.validation.stats.completenessPercent}% ครบถ้วน, {singlePreview.validation.stats.rowCount} แถว
+                    {singlePreview.validation.stats.dateRange && (
+                      <> (ปีงบ {singlePreview.validation.stats.dateRange.earliest}–{singlePreview.validation.stats.dateRange.latest})</>
+                    )}
+                  </p>
+                )}
               </div>
               <SnapshotView snapshot={singlePreview.previewSnapshot} />
             </>
           )}
         </>
+      )}
+    </div>
+  )
+}
+
+/** Compact per-file status chip shown in the file list table's "ตรวจสอบข้อมูล" column. */
+function ValidationBadge({ validation }: { validation?: ValidationReport }) {
+  if (!validation) return <span className="text-slate-400 dark:text-slate-500">—</span>
+  if (!validation.ok) {
+    return (
+      <span className="font-medium text-rose-700 dark:text-rose-300">
+        ❌ {validation.errors.length} ข้อผิดพลาด
+      </span>
+    )
+  }
+  if (validation.warnings.length > 0) {
+    return (
+      <span className="font-medium text-amber-700 dark:text-amber-400">
+        ⚠️ {validation.warnings.length} คำเตือน
+      </span>
+    )
+  }
+  return <span className="font-medium text-emerald-700 dark:text-emerald-400">✅ ผ่าน</span>
+}
+
+/** Full validation report card — lists every error/warning plus the completeness/date-range/row-count stats. Only rendered for files that have at least one issue (errors or warnings); clean files just show the ✅ badge above. */
+function ValidationReportCard({ filename, validation }: { filename: string; validation: ValidationReport }) {
+  const { stats } = validation
+  const borderColor = !validation.ok
+    ? 'border-rose-300 dark:border-rose-800'
+    : 'border-amber-300 dark:border-amber-800'
+  const bgColor = !validation.ok ? 'bg-rose-50 dark:bg-rose-950/30' : 'bg-amber-50 dark:bg-amber-950/30'
+
+  return (
+    <div className={`rounded-2xl border ${borderColor} ${bgColor} px-3 py-3 sm:px-5 sm:py-4 text-xs sm:text-sm shadow-sm`}>
+      <p className="font-medium text-slate-800 dark:text-slate-100">
+        {!validation.ok ? '❌' : '⚠️'} ผลตรวจสอบข้อมูล: {filename}
+      </p>
+      <p className="mt-1 text-slate-600 dark:text-slate-300">
+        {stats.rowCount} แถว · ครบถ้วน {stats.completenessPercent}%
+        {stats.dateRange && <> · ปีงบ {stats.dateRange.earliest}–{stats.dateRange.latest}</>}
+      </p>
+
+      {stats.missingColumns.length > 0 && (
+        <p className="mt-1 text-rose-700 dark:text-rose-300">
+          คอลัมน์ที่ขาดไป: {stats.missingColumns.join(', ')}
+        </p>
+      )}
+
+      {validation.errors.length > 0 && (
+        <div className="mt-2">
+          <p className="font-medium text-rose-700 dark:text-rose-300">ข้อผิดพลาด (ต้องแก้ก่อนบันทึก):</p>
+          <ul className="mt-1 list-inside list-disc space-y-0.5 text-rose-700 dark:text-rose-300">
+            {validation.errors.map((e) => (
+              <li key={e.code}>{e.message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {validation.warnings.length > 0 && (
+        <div className="mt-2">
+          <p className="font-medium text-amber-700 dark:text-amber-400">คำเตือน (บันทึกได้ แต่ควรตรวจสอบ):</p>
+          <ul className="mt-1 list-inside list-disc space-y-0.5 text-amber-700 dark:text-amber-400">
+            {validation.warnings.map((w) => (
+              <li key={w.code}>{w.message}</li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   )
