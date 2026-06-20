@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "dsznajder.es7-react-js-snippets",
+    "xabikos.ReactSnippets",
+    "formulahendry.auto-rename-tag",
+    "eamodio.gitlens",
+    "wayou.vscode-todo-highlight",
+    "ms-vscode.makefile-tools",
+    "redhat.vscode-yaml",
+    "charliermarsh.ruff"
+  ]
+}
