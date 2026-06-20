@@ -80,8 +80,8 @@ function AdminPanel({ onClose }: AdminPanelProps) {
 
   if (!isAuthenticated) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div className="rounded-2xl border border-slate-300 bg-white p-8 shadow-2xl max-w-sm w-full">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+        <div className="rounded-2xl border border-slate-300 bg-white p-6 sm:p-8 shadow-2xl max-w-sm w-full">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">🔐 Admin Login</h2>
           <p className="text-sm text-slate-600 mb-4">ระบบจัดการสำหรับผู้ดูแลระบบ</p>
 
@@ -127,8 +127,8 @@ function AdminPanel({ onClose }: AdminPanelProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="rounded-2xl border border-slate-300 bg-white shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-gradient-to-r from-brand-600 to-brand-700 text-white p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">⚙️ Admin Panel</h2>
+        <div className="sticky top-0 bg-gradient-to-r from-brand-600 to-brand-700 text-white p-4 sm:p-6 flex justify-between items-center">
+          <h2 className="text-lg sm:text-2xl font-bold">⚙️ Admin Panel</h2>
           <button
             onClick={() => {
               setIsAuthenticated(false)
@@ -140,95 +140,91 @@ function AdminPanel({ onClose }: AdminPanelProps) {
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
           {successMessage && (
-            <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-4 text-emerald-700">
+            <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3 sm:p-4 text-xs sm:text-sm text-emerald-700">
               ✅ {successMessage}
             </div>
           )}
 
           <section>
-            <h3 className="text-lg font-semibold text-slate-800 mb-3">📊 ข้อมูลระบบ</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-              <div className="rounded-lg bg-slate-50 p-3">
-                <p className="text-slate-600">เวลา:</p>
-                <p className="font-mono text-slate-800">{new Date().toLocaleString('th-TH')}</p>
+            <h3 className="text-base sm:text-lg font-semibold text-slate-800 mb-3">📊 ข้อมูลระบบ</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
+              <div className="rounded-lg bg-slate-50 p-2 sm:p-3">
+                <p className="text-slate-600 text-xs">เวลา:</p>
+                <p className="font-mono text-slate-800 text-xs truncate">{new Date().toLocaleString('th-TH')}</p>
               </div>
-              <div className="rounded-lg bg-slate-50 p-3">
-                <p className="text-slate-600">Local Storage:</p>
-                <p className="font-mono text-slate-800">{JSON.stringify(localStorage).length.toLocaleString('th-TH')} bytes</p>
+              <div className="rounded-lg bg-slate-50 p-2 sm:p-3">
+                <p className="text-slate-600 text-xs">Local Storage:</p>
+                <p className="font-mono text-slate-800 text-xs">{JSON.stringify(localStorage).length.toLocaleString('th-TH')} B</p>
               </div>
-              <div className="rounded-lg bg-slate-50 p-3">
-                <p className="text-slate-600">Session Storage:</p>
-                <p className="font-mono text-slate-800">{JSON.stringify(sessionStorage).length.toLocaleString('th-TH')} bytes</p>
+              <div className="rounded-lg bg-slate-50 p-2 sm:p-3">
+                <p className="text-slate-600 text-xs">Session Storage:</p>
+                <p className="font-mono text-slate-800 text-xs">{JSON.stringify(sessionStorage).length.toLocaleString('th-TH')} B</p>
               </div>
-              <div className="rounded-lg bg-slate-50 p-3">
-                <p className="text-slate-600">Base URL:</p>
-                <p className="font-mono text-slate-800 text-xs">{import.meta.env.BASE_URL || '/'}</p>
+              <div className="rounded-lg bg-slate-50 p-2 sm:p-3">
+                <p className="text-slate-600 text-xs">Base URL:</p>
+                <p className="font-mono text-slate-800 text-xs truncate">{import.meta.env.BASE_URL || '/'}</p>
               </div>
             </div>
           </section>
 
           <section>
-            <h3 className="text-lg font-semibold text-slate-800 mb-3">🗑️ จัดการข้อมูล</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-slate-800 mb-3">🗑️ จัดการข้อมูล</h3>
             <div className="space-y-3">
               <button
                 onClick={handleClearImportHistory}
-                className="w-full rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-3 font-medium border border-amber-300 transition"
+                className="w-full rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 sm:px-4 py-2 sm:py-3 text-sm font-medium border border-amber-300 transition"
               >
                 ล้างประวัติการนำเข้า
               </button>
-              <p className="text-xs text-slate-600">ลบข้อมูล import ที่ค้างอยู่ใน localStorage (session)</p>
+              <p className="text-xs text-slate-600">ลบข้อมูล import ที่ค้างอยู่</p>
 
-              <div className="mt-4 rounded-lg bg-blue-50 border border-blue-200 p-3">
-                <p className="text-xs font-semibold text-blue-900 mb-2">ℹ️ เกี่ยวกับข้อมูลที่แสดง</p>
+              <div className="mt-4 rounded-lg bg-blue-50 border border-blue-200 p-2 sm:p-3">
+                <p className="text-xs font-semibold text-blue-900 mb-1">ℹ️ เกี่ยวกับข้อมูล</p>
                 <p className="text-xs text-blue-800 leading-relaxed">
-                  ข้อมูล Dashboard (snapshots) มาจาก <code className="bg-blue-100 px-1 rounded">public/data/snapshots/</code> และเก็บใน <strong>Browser Cache</strong> ไม่ใช่ localStorage
-                  — หากต้องการลบข้อมูลทั้งหมด ให้ล้าง Browser Cache ตามด้านล่าง
+                  Dashboard ใช้ <code className="bg-blue-100 px-1 rounded">Browser Cache</code> ไม่ใช่ localStorage
                 </p>
               </div>
             </div>
           </section>
 
           <section>
-            <h3 className="text-lg font-semibold text-slate-800 mb-3">🔄 ตัวเลือกขั้นสูง</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-slate-800 mb-3">🔄 ตัวเลือกขั้นสูง</h3>
             <div className="space-y-3">
               <button
                 onClick={handleExportDiagnostics}
-                className="w-full rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-900 px-4 py-3 font-medium border border-blue-300 transition"
+                className="w-full rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-900 px-3 sm:px-4 py-2 sm:py-3 text-sm font-medium border border-blue-300 transition"
               >
                 📥 ดาวน์โหลด Diagnostics
               </button>
-              <p className="text-xs text-slate-600">ส่งออกข้อมูลระบบและการตั้งค่า</p>
+              <p className="text-xs text-slate-600">ส่งออกข้อมูลระบบ</p>
 
               <button
                 onClick={handleClearCache}
-                className="w-full rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-900 px-4 py-3 font-medium border border-rose-300 transition mt-4"
+                className="w-full rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-900 px-3 sm:px-4 py-2 sm:py-3 text-sm font-medium border border-rose-300 transition mt-3 sm:mt-4"
               >
-                ⚠️ ล้างข้อมูล Session
+                ⚠️ ล้าง Session
               </button>
-              <p className="text-xs text-slate-600 text-rose-700">⚠️ ลบ localStorage/sessionStorage เท่านั้น (ไม่ลบ Browser Cache)</p>
+              <p className="text-xs text-rose-700">⚠️ ลบ localStorage/sessionStorage เท่านั้น</p>
 
-              <div className="mt-4 rounded-lg bg-rose-50 border border-rose-200 p-3">
-                <p className="text-xs font-semibold text-rose-900 mb-2">📱 ล้างข้อมูล Dashboard ทั้งหมด</p>
-                <p className="text-xs text-rose-800 leading-relaxed mb-2">
-                  ล้าง Browser Cache โดยกด <strong>Ctrl+Shift+Delete</strong> (Windows/Linux) หรือ <strong>Cmd+Shift+Delete</strong> (Mac)
-                </p>
-                <p className="text-xs text-rose-700">
-                  → เลือก "Cached images and files" → ล้างข้อมูลตั้งแต่ "All time"
+              <div className="mt-3 sm:mt-4 rounded-lg bg-rose-50 border border-rose-200 p-2 sm:p-3">
+                <p className="text-xs font-semibold text-rose-900 mb-1">📱 ล้าง Browser Cache</p>
+                <p className="text-xs text-rose-800 leading-relaxed">
+                  กด <strong>Ctrl+Shift+Del</strong> (Windows) หรือ <strong>Cmd+Shift+Del</strong> (Mac)
                 </p>
               </div>
             </div>
           </section>
 
-          <section className="bg-slate-50 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-slate-700 mb-2">📝 Storage Keys</h3>
+          <section className="bg-slate-50 rounded-lg p-2 sm:p-4">
+            <h3 className="text-xs sm:text-sm font-semibold text-slate-700 mb-2">📝 Keys</h3>
             <div className="text-xs space-y-1 max-h-32 overflow-y-auto">
               {Object.keys(localStorage).length === 0 ? (
-                <p className="text-slate-500">ไม่มี local storage keys</p>
+                <p className="text-slate-500">ไม่มี keys</p>
               ) : (
                 Object.keys(localStorage).map((key) => (
-                  <p key={key} className="font-mono text-slate-600 break-all">
+                  <p key={key} className="font-mono text-slate-600 break-all text-xs">
                     • {key}
                   </p>
                 ))
@@ -236,8 +232,8 @@ function AdminPanel({ onClose }: AdminPanelProps) {
             </div>
           </section>
 
-          <div className="border-t border-slate-200 pt-4 text-center text-xs text-slate-500">
-            Admin Panel v1.0 | Last login: {new Date().toLocaleString('th-TH')}
+          <div className="border-t border-slate-200 pt-3 sm:pt-4 text-center text-xs text-slate-500">
+            v1.0 | {new Date().toLocaleDateString('th-TH')}
           </div>
         </div>
       </div>

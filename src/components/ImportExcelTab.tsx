@@ -285,32 +285,29 @@ function ImportExcelTab() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900 shadow-sm">
-        <p className="font-medium">ℹ️ หมายเหตุสำคัญ</p>
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-3 sm:px-5 sm:py-4 text-xs sm:text-sm leading-relaxed text-amber-900 shadow-sm">
+        <p className="font-medium">ℹ️ หมายเหตุ</p>
         <div className="mt-2 space-y-2 text-slate-700">
           <p>
-            ข้อมูลที่อัปโหลดในแท็บนี้จะแสดงผลเฉพาะในเบราว์เซอร์ของท่านเท่านั้น{' '}
-            <span className="font-semibold">ไม่ถูกบันทึกไว้ที่ใด</span> และจะหายไปเมื่อรีเฟรชหน้านี้
+            ข้อมูลที่อัปโหลดจะแสดงผลเฉพาะในเบราว์เซอร์ของท่าน{' '}
+            <span className="font-semibold">ไม่ถูกบันทึก</span> และจะหายไปเมื่อรีเฟรช
           </p>
           <p>
-            หากต้องการให้ข้อมูลนี้แสดงผลแบบถาวรสำหรับผู้เข้าชมทุกคนบนเว็บไซต์จริง สามารถกดปุ่ม
-            "บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร" ด้านล่างได้เลยหลังนำเข้าไฟล์สำเร็จ (ไม่ต้องใช้ token หรือความรู้ทางเทคนิคใด ๆ)
-            ระบบจะนำไฟล์ไปวางไว้ที่ <code className="rounded bg-amber-100 px-1">data/raw/</code> บน branch{' '}
-            <code className="rounded bg-amber-100 px-1">main</code> ของโปรเจกต์ให้อัตโนมัติ
+            หากต้องการให้ข้อมูลแสดงผลแบบถาวร สามารถบันทึกไปยัง GitHub ได้ (ไม่ต้องใช้ token) ระบบจะนำไฟล์ไปวางไว้ที่{' '}
+            <code className="rounded bg-amber-100 px-1">data/raw/</code>
           </p>
           <p>
-            <strong>สิ่งที่ต้องเช็ก:</strong> ข้อมูลคือสิ่งที่สำคัญที่สุด อย่าลืมตรวจสอบว่าไฟล์มีคอลัมน์ที่คาดหวัง (hospcode, hospname, OP68, Telemed69 เป็นต้น)
-            และจำนวนแถวว่าสมบูรณ์หรือไม่ ก่อนบันทึกข้อมูลให้ถาวรบน GitHub
+            <strong>สำคัญ:</strong> ตรวจสอบไฟล์ให้แน่ใจว่ามีคอลัมน์ที่ถูกต้อง (hospcode, hospname, OP68, Telemed69 ฯลฯ) ก่อนบันทึก
           </p>
         </div>
       </div>
 
       <div
-        className="rounded-2xl border-2 border-dashed border-slate-300 bg-white px-5 py-8 text-center shadow-sm"
+        className="rounded-2xl border-2 border-dashed border-slate-300 bg-white px-3 py-6 sm:px-5 sm:py-8 text-center shadow-sm"
         onDragOver={(e) => e.preventDefault()}
         onDrop={onDrop}
       >
-        <p className="mb-3 text-sm text-slate-600">
+        <p className="mb-3 text-xs sm:text-sm text-slate-600">
           เลือกไฟล์ Excel (.xlsx) ที่ส่งออกจาก Hippo ได้ครั้งละหลายไฟล์ เพื่อดูตัวอย่างหรือบันทึกพร้อมกัน หรือลากไฟล์มาวางที่นี่
         </p>
         <input
@@ -319,36 +316,34 @@ function ImportExcelTab() {
           accept=".xlsx"
           multiple
           onChange={onInputChange}
-          className="mx-auto block w-full max-w-sm text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white file:shadow-sm hover:file:bg-brand-700"
+          className="mx-auto block w-full px-2 text-xs sm:text-sm text-slate-600 file:mr-2 sm:file:mr-3 file:rounded-lg file:border-0 file:bg-brand-600 file:px-2 sm:file:px-4 file:py-1.5 sm:file:py-2 file:text-xs sm:file:text-sm file:font-medium file:text-white file:shadow-sm hover:file:bg-brand-700"
         />
       </div>
 
       {files.length > 0 && (
         <>
-          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-sm text-slate-600">
-              เลือกไฟล์ไว้ <span className="font-medium text-slate-800">{files.length}</span> ไฟล์
-              {' — '}
-              พร้อมบันทึก <span className="font-medium text-slate-800">{selectedCount}</span> ไฟล์
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm">
+            <p className="text-xs sm:text-sm text-slate-600">
+              เลือกไว้ <span className="font-medium text-slate-800">{files.length}</span> | บันทึก <span className="font-medium text-slate-800">{selectedCount}</span>
             </p>
             <button
               type="button"
               onClick={reset}
-              className="ml-auto rounded-lg border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-100 transition"
+              className="sm:ml-auto rounded-lg border border-rose-300 bg-rose-50 px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-rose-600 hover:bg-rose-100 transition w-full sm:w-auto"
               title={`ล้างข้อมูลนำเข้า ${files.length} ไฟล์ — จำเป็นต้องยืนยัน`}
             >
               🗑️ ล้างข้อมูล
             </button>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <table className="w-full text-left text-sm">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table className="w-full text-left text-xs sm:text-sm">
               <thead className="bg-slate-50 text-slate-500">
                 <tr>
-                  <th className="px-4 py-2 font-medium">เลือก</th>
-                  <th className="px-4 py-2 font-medium">ไฟล์</th>
-                  <th className="px-4 py-2 font-medium">ประเภทรายงาน</th>
-                  <th className="px-4 py-2 font-medium">สถานะการบันทึก</th>
+                  <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">เลือก</th>
+                  <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm">ไฟล์</th>
+                  <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">ประเภท</th>
+                  <th className="px-2 sm:px-4 py-2 font-medium text-xs sm:text-sm whitespace-nowrap">สถานะ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -356,7 +351,7 @@ function ImportExcelTab() {
                   const isUnknown = f.category === null
                   return (
                     <tr key={f.id} className={isUnknown ? 'bg-rose-50' : undefined}>
-                      <td className="px-4 py-2">
+                      <td className="px-2 sm:px-4 py-2">
                         <input
                           type="checkbox"
                           checked={f.selected}
@@ -365,25 +360,25 @@ function ImportExcelTab() {
                           className="h-4 w-4 rounded border-slate-300 text-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
                         />
                       </td>
-                      <td className={`px-4 py-2 ${isUnknown ? 'text-rose-700' : 'text-slate-700'}`}>
-                        {f.filename}
+                      <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm max-w-xs ${isUnknown ? 'text-rose-700' : 'text-slate-700'}`}>
+                        <span className="truncate block">{f.filename}</span>
                         {f.previewError && (
                           <p className="mt-0.5 text-xs text-rose-600">{f.previewError}</p>
                         )}
                       </td>
-                      <td className={isUnknown ? 'px-4 py-2 font-medium text-rose-700' : 'px-4 py-2 text-slate-600'}>
+                      <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap ${isUnknown ? 'font-medium text-rose-700' : 'text-slate-600'}`}>
                         {categoryLabel(f.category)}
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap">
                         {f.saveState.status === 'idle' && <span className="text-slate-400">—</span>}
                         {f.saveState.status === 'saving' && (
-                          <span className="text-slate-500">กำลังบันทึก...</span>
+                          <span className="text-slate-500 text-xs">บันทึก...</span>
                         )}
                         {f.saveState.status === 'success' && (
-                          <span className="text-emerald-700">บันทึกสำเร็จ ✓</span>
+                          <span className="text-emerald-700">✓</span>
                         )}
                         {f.saveState.status === 'error' && (
-                          <span className="text-rose-700">{f.saveState.message}</span>
+                          <span className="text-rose-700 text-xs">ผิดพลาด</span>
                         )}
                       </td>
                     </tr>
@@ -393,14 +388,11 @@ function ImportExcelTab() {
             </table>
           </div>
 
-          <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 shadow-sm">
+          <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm">
             <div>
-              <p className="font-medium text-emerald-900">บันทึกไฟล์ที่เลือกไปยัง GitHub แบบถาวร (สำหรับผู้ดูแลระบบ)</p>
-              <p className="mt-1 text-sm leading-relaxed text-slate-700">
-                กดปุ่มด้านล่างเพื่อส่งไฟล์ที่เลือกไว้ไปบันทึกที่ <code className="rounded bg-emerald-100 px-1">data/raw/</code>{' '}
-                บน branch <code className="rounded bg-emerald-100 px-1">main</code> ของ repository{' '}
-                <code className="rounded bg-emerald-100 px-1">thering999/telemedmuk</code> โดยอัตโนมัติ —
-                ไม่ต้องใช้ token หรือความรู้ด้าน GitHub ใด ๆ ระบบจะไปกระตุ้น GitHub Actions ที่มีอยู่แล้วให้ประมวลผลและเผยแพร่ข้อมูลให้เอง
+              <p className="font-medium text-emerald-900 text-xs sm:text-sm">บันทึกไปยัง GitHub (ผู้ดูแลระบบ)</p>
+              <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-700">
+                ส่งไฟล์ไปบันทึกที่ <code className="rounded bg-emerald-100 px-1">data/raw/</code> โดยอัตโนมัติ — ไม่ต้องใช้ token
               </p>
             </div>
 
@@ -410,62 +402,64 @@ function ImportExcelTab() {
                   type="button"
                   onClick={saveSelectedToGitHub}
                   disabled={!SAVE_WORKER_URL || selectedCount === 0 || isSavingBatch}
-                  className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                  className="w-full rounded-lg bg-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300 transition"
                 >
-                  {isSavingBatch ? 'กำลังบันทึก...' : 'บันทึกไฟล์ที่เลือกทั้งหมดไปยัง GitHub แบบถาวร'}
+                  {isSavingBatch ? 'กำลังบันทึก...' : 'บันทึกไปยัง GitHub'}
                 </button>
                 {!SAVE_WORKER_URL && (
                   <p className="mt-2 text-xs text-rose-600">
-                    ยังไม่ได้ตั้งค่าระบบบันทึกถาวร (ติดต่อผู้ดูแลระบบ)
+                    ยังไม่ได้ตั้งค่าระบบบันทึกถาวร
                   </p>
                 )}
               </div>
             ) : (
-              <div className="flex flex-wrap items-end gap-2">
+              <div className="flex flex-col gap-2">
                 <div>
                   <label className="mb-1 block text-xs font-medium text-slate-600">รหัสผู้ดูแลระบบ</label>
-                  <input
-                    type="password"
-                    value={pinInput}
-                    onChange={(e) => {
-                      setPinInput(e.target.value)
-                      setPinError('')
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleUnlock()
-                    }}
-                    placeholder="กรอกรหัสก่อนบันทึกแบบถาวร"
-                    className="w-56 rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
-                  />
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="password"
+                      value={pinInput}
+                      onChange={(e) => {
+                        setPinInput(e.target.value)
+                        setPinError('')
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleUnlock()
+                      }}
+                      placeholder="กรอกรหัส"
+                      className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-xs sm:text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleUnlock}
+                      className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm font-medium text-emerald-700 hover:bg-emerald-100 transition w-full sm:w-auto"
+                    >
+                      ปลดล็อก
+                    </button>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleUnlock}
-                  className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100"
-                >
-                  ปลดล็อก
-                </button>
                 {pinError && <p className="text-xs text-rose-600">{pinError}</p>}
               </div>
             )}
 
             {batchSummary && (
-              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm text-emerald-800">
+              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm text-emerald-800">
                 {batchSummary}
               </div>
             )}
 
             {anySaveSucceeded && (
-              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm text-emerald-800">
-                บันทึกไฟล์ขึ้น branch <code className="rounded bg-emerald-100 px-1">main</code> สำเร็จแล้ว
-                ระบบ GitHub Actions จะ build และเผยแพร่เว็บไซต์เวอร์ชันใหม่โดยอัตโนมัติภายในไม่กี่นาที สามารถติดตามสถานะได้ที่{' '}
+              <div className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs sm:text-sm text-emerald-800">
+                <p className="mb-1">บันทึกสำเร็จ ✓</p>
+                <p className="text-xs mb-2">GitHub Actions จะ build โดยอัตโนมัติ สามารถติดตามที่:</p>
                 <a
                   href={
                     lastSuccessActionsUrl?.status === 'success' ? lastSuccessActionsUrl.actionsUrl : DEFAULT_ACTIONS_URL
                   }
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="font-medium text-brand-700 underline hover:text-brand-800"
+                  className="font-medium text-brand-700 underline hover:text-brand-800 text-xs sm:text-sm break-all"
                 >
                   GitHub Actions
                 </a>
@@ -475,16 +469,16 @@ function ImportExcelTab() {
 
           {singlePreview && singlePreview.previewSnapshot && (
             <>
-              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4 shadow-sm">
-                <p className="text-sm text-blue-900">
-                  <span className="font-semibold">ตัวอย่างข้อมูล:</span> {singlePreview.filename}
+              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-3 py-3 sm:px-5 sm:py-4 shadow-sm">
+                <p className="text-xs sm:text-sm text-blue-900">
+                  <span className="font-semibold">ตัวอย่าง:</span> {singlePreview.filename}
                   {' — '}
                   {singlePreview.dateWasGuessed ? (
                     <>
-                      ไม่พบรูปแบบวันที่ในชื่อไฟล์ ({formatThaiDate(singlePreview.previewSnapshot.snapshotDate)})
+                      ไม่พบวันที่ ({formatThaiDate(singlePreview.previewSnapshot.snapshotDate)})
                     </>
                   ) : (
-                    <>ข้อมูล ณ {formatThaiDate(singlePreview.previewSnapshot.snapshotDate)}</>
+                    <>{formatThaiDate(singlePreview.previewSnapshot.snapshotDate)}</>
                   )}
                 </p>
               </div>
