@@ -260,38 +260,6 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                 {isPersonReport ? (
                   <>
                     <SortableTh
-                      label="Person Type1 (69)"
-                      align="right"
-                      active={sortKey === 'type1'}
-                      direction={sortDir}
-                      onClick={() => toggleSort('type1', (f) => f.byYear['69']?.type1 ?? 0)}
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
-                    />
-                    <SortableTh
-                      label="Person Type2 (69)"
-                      align="right"
-                      active={sortKey === 'type2'}
-                      direction={sortDir}
-                      onClick={() => toggleSort('type2', (f) => f.byYear['69']?.type2 ?? 0)}
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
-                    />
-                    <SortableTh
-                      label="Person Type3 (69)"
-                      align="right"
-                      active={sortKey === 'type3'}
-                      direction={sortDir}
-                      onClick={() => toggleSort('type3', (f) => f.byYear['69']?.type3 ?? 0)}
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
-                    />
-                    <SortableTh
-                      label="Person Type4 (69)"
-                      align="right"
-                      active={sortKey === 'type4'}
-                      direction={sortDir}
-                      onClick={() => toggleSort('type4', (f) => f.byYear['69']?.type4 ?? 0)}
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
-                    />
-                    <SortableTh
                       label="Person Type5 (69)"
                       align="right"
                       active={sortKey === 'type5'}
@@ -398,10 +366,6 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                     <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{op68.toLocaleString('th-TH')}</td>
                     {isPersonReport ? (
                       <>
-                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type1.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type2.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type3.toLocaleString('th-TH')}</td>
-                        <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{type4.toLocaleString('th-TH')}</td>
                         <td className="px-4 py-3 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right text-brand-700">
                           {(() => {
@@ -424,7 +388,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
+                  <td colSpan={isPersonReport ? 8 : 9} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -438,18 +402,6 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   <td className="px-4 py-3 text-right">{kpis.totalOp68.toLocaleString('th-TH')}</td>
                   {isPersonReport ? (
                     <>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0).toLocaleString('th-TH')}
-                      </td>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
-                      </td>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
-                      </td>
-                      <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0).toLocaleString('th-TH')}
-                      </td>
                       <td className="px-3 py-3 text-right text-brand-700">
                         {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
