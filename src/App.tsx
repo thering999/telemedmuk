@@ -81,21 +81,23 @@ function App() {
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <ErrorBoundary label="หน้าหลัก">
-          <div className="mb-6 inline-flex rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-white to-blue-50 p-1 shadow-md hover:shadow-lg transition-shadow dark:border-slate-600 dark:from-slate-800 dark:to-slate-800">
-            {TABS.map((tab) => (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setActiveTab(tab.key)}
-                className={`rounded-lg px-4 py-2 text-sm font-bold transition-all sm:text-base ${
-                  activeTab === tab.key
-                    ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg scale-105'
-                    : 'text-slate-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:text-slate-200 dark:hover:from-slate-700 dark:hover:to-slate-700'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+          <div className="mb-6 overflow-x-auto rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-white to-blue-50 p-1 shadow-md hover:shadow-lg transition-shadow dark:border-slate-600 dark:from-slate-800 dark:to-slate-800">
+            <div className="flex w-max gap-1">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`rounded-lg px-3 py-2 text-xs font-bold whitespace-nowrap transition-all sm:px-4 sm:py-2 sm:text-sm ${
+                    activeTab === tab.key
+                      ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg'
+                      : 'text-slate-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:text-slate-200 dark:hover:from-slate-700 dark:hover:to-slate-700'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {activeTab === 'powerbi' && (

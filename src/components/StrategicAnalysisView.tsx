@@ -345,7 +345,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                 key={year}
                 type="button"
                 onClick={() => setFiscalYear(year)}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-md px-2.5 py-1.5 text-xs sm:px-3 sm:text-sm font-medium transition-colors ${
                   fiscalYear === year
                     ? 'bg-brand-600 text-white shadow-sm'
                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
@@ -360,7 +360,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
 
       {/* KPI summary cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
           <p className="text-sm text-slate-500 dark:text-slate-400">อัตรา Telemedicine ต่อ OP (ทั้งจังหวัด)</p>
           <p className="mt-2 text-3xl font-semibold text-slate-800 dark:text-slate-100">
             {provinceKpis.aggregateRate === null ? 'ไม่มีข้อมูล' : `${provinceKpis.aggregateRate.toFixed(2)}%`}
@@ -369,14 +369,14 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             ตัวเลขรวมทั้งจังหวัด — ดูเทียบเป้าหมายรายอำเภอ/รพ.สต. ด้านล่าง
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
           <p className="text-sm text-slate-500 dark:text-slate-400">อัตราการเริ่มใช้งาน (Activation Rate)</p>
           <p className="mt-2 text-3xl font-semibold text-brand-600 dark:text-brand-400">
             {provinceKpis.activationRate === null ? '—' : `${provinceKpis.activationRate.toFixed(1)}%`}
           </p>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">สัดส่วนสถานบริการที่มี Type5 &gt; 0</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
           <p className="text-sm text-slate-500 dark:text-slate-400">จำนวนสถานบริการที่ควรตรวจสอบ</p>
           <p className="mt-2 text-3xl font-semibold text-rose-600 dark:text-rose-400">{provinceKpis.anomalyCount}</p>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">อัตราเกิน 50% (ควรตรวจสอบใน HDC)</p>
@@ -385,7 +385,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
 
       {forecast && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm sm:col-span-1">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm sm:col-span-1">
             <p className="text-sm text-slate-500 dark:text-slate-400">คาดการณ์ปีงบ 70 (ค่าประมาณ)</p>
             <p className="mt-2 text-3xl font-semibold text-brand-600 dark:text-brand-400">
               {forecast.projected.toLocaleString('th-TH')}
@@ -400,7 +400,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       )}
 
       {/* Tiered targets: รพ.สต. ≥10%, district (รวม รพ.+รพ.สต.) ≥30% */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <h3 className="mb-1 text-base font-semibold text-slate-800 dark:text-slate-100">เป้าหมายตามระดับ (ปีงบ {fiscalYear})</h3>
         <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
           เป้าหมาย รพ.สต. ไม่น้อยกว่าร้อยละ {RPST_TARGET_RATE} · เป้าหมายรวมรายอำเภอ (รพ.+รพ.สต.) ไม่น้อยกว่าร้อยละ{' '}
@@ -428,7 +428,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <th className="px-3 py-2 font-medium">อำเภอ</th>
@@ -483,7 +483,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* District performance comparison */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           เปรียบเทียบประสิทธิภาพรายอำเภอ (ปีงบ {fiscalYear})
         </h3>
@@ -508,12 +508,12 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* MOPH vs LGO comparison */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           เปรียบเทียบตามสังกัด (ปีงบ {fiscalYear})
         </h3>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <th className="px-3 py-2 font-medium">สังกัด</th>
@@ -577,12 +577,12 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* Facility type comparison */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           เปรียบเทียบตามประเภทสถานบริการ (ปีงบ {fiscalYear})
         </h3>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[500px] text-left text-sm">
+          <table className="w-full min-w-[500px] text-left text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <th className="px-3 py-2 font-medium">ประเภทสถานบริการ</th>
@@ -639,7 +639,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* 4-quadrant strategic segmentation */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           การจัดกลุ่มเชิงกลยุทธ์ 4 ส่วน (ปีงบ {fiscalYear})
         </h3>
@@ -708,7 +708,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* Anomaly review table */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
           สถานบริการที่ควรตรวจสอบ (อัตราเกิน 50%, ปีงบ {fiscalYear})
         </h3>
@@ -716,7 +716,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           <p className="text-center text-slate-400 dark:text-slate-500">ไม่พบสถานบริการที่ควรตรวจสอบ</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[800px] text-left text-sm">
+            <table className="w-full min-w-[800px] text-left text-xs sm:text-sm">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                   <th className="px-3 py-2 font-medium">สถานพยาบาล</th>
@@ -751,7 +751,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       </div>
 
       {/* Filterable facility table */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100">รายละเอียดสถานพยาบาล</h3>
           <div className="flex flex-wrap items-center gap-3">
@@ -784,7 +784,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1000px] text-left text-sm">
+          <table className="w-full min-w-[1000px] text-left text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                 <SortableTh

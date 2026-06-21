@@ -40,7 +40,7 @@ function RefreshControl({ state }: RefreshControlProps) {
   const isActive = REFRESH_INTERVALS[intervalKey] > 0
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:gap-3">
+    <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2 py-2 text-xs shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:gap-3 sm:px-3">
       <div className="flex flex-col gap-1">
         <label htmlFor="refresh-interval" className="font-medium text-slate-600 dark:text-slate-300">
           รีเฟรชอัตโนมัติ
