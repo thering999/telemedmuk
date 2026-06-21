@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import DarkModeToggle from './components/DarkModeToggle'
 import ErrorBoundary from './components/ErrorBoundary'
+import { ToastProvider } from './context/ToastContext'
 import { useDarkMode } from './hooks/useDarkMode'
 import type { SnapshotIndexEntry } from './types/hdc'
 
@@ -55,8 +56,9 @@ function App() {
   }, [activeTab, snapshotIndex])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-950">
-      <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
+    <ToastProvider>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-950">
+        <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
       <header className="relative border-b-2 border-cyan-300 bg-gradient-to-r from-white via-blue-50 to-cyan-50 shadow-md dark:border-slate-700 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 flex justify-between items-start">
           <div>
@@ -142,7 +144,8 @@ function App() {
           <AdminPanel onClose={() => setShowAdmin(false)} />
         </Suspense>
       )}
-    </div>
+      </div>
+    </ToastProvider>
   )
 }
 

@@ -482,6 +482,31 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         </div>
       </div>
 
+      {/* District performance comparison */}
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
+          เปรียบเทียบประสิทธิภาพรายอำเภอ (ปีงบ {fiscalYear})
+        </h3>
+        <div style={{ width: '100%', height: 320 }}>
+          <ResponsiveContainer>
+            <BarChart data={districtTargets} margin={{ top: 20, right: 20, bottom: 60, left: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis
+                dataKey="ampName"
+                angle={-45}
+                textAnchor="end"
+                height={100}
+                tick={{ fontSize: 11, fill: '#475569' }}
+              />
+              <YAxis label={{ value: 'อัตรา (%)', angle: -90, position: 'insideLeft' }} domain={[0, 100]} />
+              <Tooltip formatter={(v) => `${Number(v).toFixed(1)}%`} />
+              <ReferenceLine y={DISTRICT_TARGET_RATE} stroke="#ef4444" strokeDasharray="5 5" label={{ value: `เป้าหมาย ${DISTRICT_TARGET_RATE}%`, position: 'right' }} />
+              <Bar dataKey="rate" fill="#0d9488" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
       {/* MOPH vs LGO comparison */}
       <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
         <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
@@ -548,6 +573,68 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               <Bar dataKey="rate" name="อัตราตามเกณฑ์ สธ. %" fill="#0d9488" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Facility type comparison */}
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <h3 className="mb-4 text-base font-semibold text-slate-800 dark:text-slate-100">
+          เปรียบเทียบตามประเภทสถานบริการ (ปีงบ {fiscalYear})
+        </h3>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[500px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
+                <th className="px-3 py-2 font-medium">ประเภทสถานบริการ</th>
+                <th className="px-3 py-2 text-right font-medium">จำนวน</th>
+                <th className="px-3 py-2 text-right font-medium">OP รวม</th>
+                <th className="px-3 py-2 text-right font-medium">Type5 รวม</th>
+                <th className="px-3 py-2 text-right font-medium">อัตรา %</th>
+                <th className="px-3 py-2 font-medium">สถานะ</th>
+              </tr>
+            </thead>
+            <tbody>
+              {useMemo(() => {
+                const byHostype = new Map<string, { count: number; totalOp: number; totalType5: number }>()
+                for (const row of yearRows) {
+                  if (!row.stats) continue
+                  const key = row.facility.hostypeName
+                  const entry = byHostype.get(key) ?? { count: 0, totalOp: 0, totalType5: 0 }
+                  entry.count += 1
+                  entry.totalOp += row.op
+                  entry.totalType5 += row.type5
+                  byHostype.set(key, entry)
+                }
+                return Array.from(byHostype.values())
+                  .map((entry, idx) => {
+                    const key = Array.from(byHostype.keys())[idx]
+                    const rate = entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null
+                    return (
+                      <tr key={key} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{key}</td>
+                        <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{entry.count}</td>
+                        <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{entry.totalOp.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right font-medium text-brand-700 dark:text-brand-400">{entry.totalType5.toLocaleString('th-TH')}</td>
+                        <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{rate === null ? '—' : `${rate.toFixed(2)}%`}</td>
+                        <td className="px-3 py-2">
+                          {rate === null ? (
+                            <span className="text-slate-400">ไม่มีข้อมูล</span>
+                          ) : rate >= DISTRICT_TARGET_RATE ? (
+                            <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                              ✓ ถึงเป้า
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center rounded-full bg-rose-100 dark:bg-rose-900/40 px-2 py-0.5 text-xs font-medium text-rose-700 dark:text-rose-300">
+                              ขาด {(DISTRICT_TARGET_RATE - rate).toFixed(1)}%
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  })
+              }, [yearRows])}
+            </tbody>
+          </table>
         </div>
       </div>
 

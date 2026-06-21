@@ -20,6 +20,11 @@ dist-ssr
 # Cloudflare Worker local secrets (real GitHub token / app key for local dev)
 worker/.dev.vars
 
+# API environment
+api/.env
+api/.env.local
+api/dist
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

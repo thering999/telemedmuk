@@ -10,6 +10,7 @@ import type {
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { EMPTY_FILTERS, useFilteredData, type FilterState } from '../lib/useFilteredData'
 import { useAutoRefresh } from '../hooks/useAutoRefresh'
+import { useToast } from '../context/ToastContext'
 import FilterBar from './FilterBar'
 import RefreshControl from './RefreshControl'
 import SnapshotView from './SnapshotView'
@@ -17,7 +18,8 @@ import TypeBreakdownView from './TypeBreakdownView'
 import GroupBreakdownView from './GroupBreakdownView'
 import FollowupView from './FollowupView'
 import StrategicAnalysisView from './StrategicAnalysisView'
-import ComprehensiveDashboardView from './ComprehensiveDashboardView'
+import LoadingSkeleton from './LoadingSkeleton'
+import ErrorBoundary from './ErrorBoundary'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DOCS: ReportInfoPanelProps = {
@@ -74,7 +76,7 @@ const TYPEIN_DOCS: ReportInfoPanelProps = {
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
-type SubTabKey = 'base' | ReportCategory | 'strategic' | 'comprehensive'
+type SubTabKey = 'base' | ReportCategory | 'strategic'
 
 // Sub-tabs whose visibility is gated by a NEW report category (beyond "base"),
 // keyed by the tab's own key so 'strategic' can depend on the 'all' category
@@ -87,7 +89,6 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
   ltc_pal: 'ltc_pal',
   followup: 'followup',
   strategic: 'all',
-  comprehensive: 'all',
   typein: 'typein',
 }
 
@@ -101,7 +102,6 @@ const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'ltc_pal', label: 'LTC/Palliative' },
   { key: 'followup', label: 'ติดตามต่อเนื่อง' },
   { key: 'strategic', label: 'วิเคราะห์เชิงกลยุทธ์' },
-  { key: 'comprehensive', label: 'Dashboard ครบวงจร' },
 ]
 
 type LoadState =
@@ -125,6 +125,7 @@ interface CategoryDataMap {
 }
 
 function HdcTab() {
+  const toast = useToast()
   const [indexState, setIndexState] = useState<LoadState>({ status: 'loading' })
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null)
@@ -265,7 +266,7 @@ function HdcTab() {
   const categoryToFetch: ReportCategory | null =
     effectiveSubTab === 'base'
       ? null
-      : effectiveSubTab === 'strategic' || effectiveSubTab === 'comprehensive'
+      : effectiveSubTab === 'strategic'
         ? 'all'
         : (effectiveSubTab as ReportCategory)
 
@@ -310,34 +311,45 @@ function HdcTab() {
   // active category if one is loaded) — never every category, so a refresh
   // tick doesn't fan out into a burst of requests.
   const refreshDashboard = useCallback(async () => {
-    await fetchIndex()
-    if (selectedDate) {
-      await fetchSnapshot(selectedDate)
-      if (categoryToFetch) {
-        await fetchCategory(selectedDate, categoryToFetch)
+    try {
+      await fetchIndex()
+      if (selectedDate) {
+        await fetchSnapshot(selectedDate)
+        if (categoryToFetch) {
+          await fetchCategory(selectedDate, categoryToFetch)
+        }
       }
+      toast.show('ข้อมูลรีเฟรชสำเร็จ', 'success')
+    } catch (error) {
+      toast.show('รีเฟรชไม่สำเร็จ', 'error')
     }
-  }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, categoryToFetch])
+  }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, categoryToFetch, toast])
 
   const autoRefresh = useAutoRefresh({ onRefresh: refreshDashboard })
 
   if (indexState.status === 'loading') {
-    return <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
+    return <LoadingSkeleton />
   }
 
   if (indexState.status === 'error') {
     return (
-      <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300">
-        เกิดข้อผิดพลาดในการโหลดข้อมูล: {indexState.message}
-      </p>
+      <ErrorBoundary label="โหลดข้อมูล">
+        <div className="rounded-xl border-2 border-rose-300 bg-gradient-to-r from-rose-50 to-orange-50 p-6 text-center shadow-md dark:border-rose-700 dark:from-slate-800 dark:to-slate-800">
+          <p className="text-2xl">⚠️</p>
+          <h2 className="mt-2 text-lg font-bold text-rose-700 dark:text-rose-400">เกิดข้อผิดพลาด</h2>
+          <p className="mt-1 text-sm text-rose-600 dark:text-rose-300">{indexState.message}</p>
+        </div>
+      </ErrorBoundary>
     )
   }
 
   if (indexState.status === 'empty') {
     return (
-      <p className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
-        ยังไม่มีข้อมูลที่นำเข้า กรุณาอัปโหลดไฟล์ Excel เพื่อสร้างสแนปช็อตข้อมูล
-      </p>
+      <div className="rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-12 text-center dark:border-slate-600 dark:bg-slate-900">
+        <p className="text-4xl">📭</p>
+        <h2 className="mt-4 text-lg font-semibold text-slate-700 dark:text-slate-300">ยังไม่มีข้อมูล</h2>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">กรุณาอัปโหลดไฟล์ Excel เพื่อสร้างสแนปช็อตข้อมูล</p>
+      </div>
     )
   }
 
@@ -421,7 +433,7 @@ function HdcTab() {
       {snapshot && !isStale && effectiveSubTab !== 'base' && (
         <>
           {!activeCategoryReady && !activeCategoryError && (
-            <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
+            <LoadingSkeleton />
           )}
           {activeCategoryError && (
             <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300">
@@ -462,9 +474,6 @@ function HdcTab() {
               )}
               {effectiveSubTab === 'strategic' && currentCategoryData.all && (
                 <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
-              )}
-              {effectiveSubTab === 'comprehensive' && currentCategoryData.all && (
-                <ComprehensiveDashboardView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
               )}
               {effectiveSubTab === 'typein' && filteredTypeinSnapshot && (
                 <SnapshotView snapshot={filteredTypeinSnapshot} docs={TYPEIN_DOCS} />
