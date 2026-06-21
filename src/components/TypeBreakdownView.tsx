@@ -218,7 +218,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm">
+          <table className="w-full min-w-[700px] text-left text-xs sm:text-sm">
             <thead>
               <tr className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-700 border-b-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200">
                 <SortableTh
@@ -260,15 +260,47 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                 {isPersonReport ? (
                   <>
                     <SortableTh
-                      label="Person Type5 (69)"
+                      label="T1"
+                      align="right"
+                      active={sortKey === 'type1'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type1', (f) => f.byYear['69']?.type1 ?? 0)}
+                      className="px-1.5 py-2 text-right font-bold text-xs"
+                    />
+                    <SortableTh
+                      label="T2"
+                      align="right"
+                      active={sortKey === 'type2'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type2', (f) => f.byYear['69']?.type2 ?? 0)}
+                      className="px-1.5 py-2 text-right font-bold text-xs"
+                    />
+                    <SortableTh
+                      label="T3"
+                      align="right"
+                      active={sortKey === 'type3'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type3', (f) => f.byYear['69']?.type3 ?? 0)}
+                      className="px-1.5 py-2 text-right font-bold text-xs"
+                    />
+                    <SortableTh
+                      label="T4"
+                      align="right"
+                      active={sortKey === 'type4'}
+                      direction={sortDir}
+                      onClick={() => toggleSort('type4', (f) => f.byYear['69']?.type4 ?? 0)}
+                      className="px-1.5 py-2 text-right font-bold text-xs"
+                    />
+                    <SortableTh
+                      label="T5"
                       align="right"
                       active={sortKey === 'type5'}
                       direction={sortDir}
                       onClick={() => toggleSort('type5', (f) => f.byYear['69']?.type5 ?? 0)}
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                      className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
-                      label="Telemedicine %"
+                      label="TM%"
                       align="right"
                       active={sortKey === 'telemedPercent'}
                       direction={sortDir}
@@ -279,10 +311,10 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                           return op68 > 0 ? (type5 / op68) * 100 : 0
                         })
                       }
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                      className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
-                      label="All Types Sum"
+                      label="Sum"
                       align="right"
                       active={sortKey === 'typeSum'}
                       direction={sortDir}
@@ -292,7 +324,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                           return (s?.type1 ?? 0) + (s?.type2 ?? 0) + (s?.type3 ?? 0) + (s?.type4 ?? 0) + (s?.type5 ?? 0)
                         })
                       }
-                      className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
+                      className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                   </>
                 ) : (
@@ -366,7 +398,11 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                     <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{op68.toLocaleString('th-TH')}</td>
                     {isPersonReport ? (
                       <>
-                        <td className="px-4 py-3 text-right font-medium text-brand-700">{type5.toLocaleString('th-TH')}</td>
+                        <td className="px-1.5 py-2 text-right text-slate-700 dark:text-slate-300 text-xs">{type1.toLocaleString('th-TH')}</td>
+                        <td className="px-1.5 py-2 text-right text-slate-700 dark:text-slate-300 text-xs">{type2.toLocaleString('th-TH')}</td>
+                        <td className="px-1.5 py-2 text-right text-slate-700 dark:text-slate-300 text-xs">{type3.toLocaleString('th-TH')}</td>
+                        <td className="px-1.5 py-2 text-right text-slate-700 dark:text-slate-300 text-xs">{type4.toLocaleString('th-TH')}</td>
+                        <td className="px-1.5 py-2 text-right font-medium text-brand-700 text-xs">{type5.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right text-brand-700">
                           {(() => {
                             const percent = op68 > 0 ? (type5 / op68) * 100 : 0
@@ -388,7 +424,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
               })}
               {filteredFacilities.length === 0 && (
                 <tr>
-                  <td colSpan={isPersonReport ? 8 : 9} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
+                  <td colSpan={isPersonReport ? 12 : 9} className="px-3 py-6 text-center text-slate-400 dark:text-slate-500">
                     ไม่พบสถานพยาบาลที่ตรงกับคำค้นหา
                   </td>
                 </tr>
@@ -402,7 +438,19 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   <td className="px-4 py-3 text-right">{kpis.totalOp68.toLocaleString('th-TH')}</td>
                   {isPersonReport ? (
                     <>
-                      <td className="px-3 py-3 text-right text-brand-700">
+                      <td className="px-1.5 py-2 text-right text-xs">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-1.5 py-2 text-right text-xs">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-1.5 py-2 text-right text-xs">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-1.5 py-2 text-right text-xs">
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0).toLocaleString('th-TH')}
+                      </td>
+                      <td className="px-1.5 py-2 text-right text-brand-700 text-xs">
                         {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-3 py-3 text-right text-brand-700">
