@@ -18,6 +18,8 @@ import { FISCAL_YEARS } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
+import ReportGenerator from './ReportGenerator'
+import GeographicHeatmap from './GeographicHeatmap'
 import { useSortableTable } from '../lib/useSortableTable'
 import SortableTh from './SortableTh'
 
@@ -894,6 +896,12 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           </table>
         </div>
       </div>
+
+      {/* Report Generator */}
+      <ReportGenerator snapshot={allSnapshot} snapshotDate={allSnapshot.snapshotDate} />
+
+      {/* Geographic Heatmap */}
+      <GeographicHeatmap snapshot={allSnapshot} />
 
       {/* Strategic Insights & Recommendations */}
       <div className="rounded-2xl border-2 border-cyan-300 dark:border-cyan-700 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-950/30 dark:to-blue-950/30 p-6 shadow-md">
