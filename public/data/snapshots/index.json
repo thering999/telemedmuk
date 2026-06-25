@@ -1,5 +1,18 @@
 [
   {
+    "date": "2026-06-25",
+    "sourceFile": "20260625_49_telemed_hosp.xlsx",
+    "facilityCount": 86,
+    "categories": [
+      "all",
+      "followup",
+      "ltc_pal",
+      "mch",
+      "ncd",
+      "person"
+    ]
+  },
+  {
     "date": "2026-06-20",
     "sourceFile": [
       "20260620_49_telemed_hosp.xlsx",

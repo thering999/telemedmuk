@@ -1,0 +1,2074 @@
+{
+  "snapshotDate": "2026-06-25",
+  "sourceFile": "20260625_49_telemed_hosp.xlsx",
+  "province": {
+    "code": "49",
+    "name": "มุกดาหาร"
+  },
+  "facilities": [
+    {
+      "hospcode": "05740",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านกุดโง้ง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 19941,
+      "opAll": 11174,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6503
+        },
+        "69": {
+          "telemed": 551,
+          "op": 4671
+        }
+      },
+      "percentTelemed69PerOP68": 8.47
+    },
+    {
+      "hospcode": "05741",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโคก",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 13565,
+      "opAll": 6129,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3625
+        },
+        "69": {
+          "telemed": 0,
+          "op": 2504
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05742",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองแวง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 23019,
+      "opAll": 16003,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7837
+        },
+        "69": {
+          "telemed": 0,
+          "op": 8166
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05743",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโคกสูง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 45845,
+      "opAll": 23135,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 16139
+        },
+        "69": {
+          "telemed": 0,
+          "op": 6996
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05744",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านคำฮี",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 15533,
+      "opAll": 7502,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4409
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3093
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05745",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนตูม",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 16918,
+      "opAll": 10176,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5754
+        },
+        "69": {
+          "telemed": 966,
+          "op": 4422
+        }
+      },
+      "percentTelemed69PerOP68": 16.79
+    },
+    {
+      "hospcode": "05746",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองไผ่",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12591,
+      "opAll": 7298,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4485
+        },
+        "69": {
+          "telemed": 0,
+          "op": 2813
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05747",
+      "hospname": "สถานีอนามัยเฉลิมพระเกียรติ 60 พรรษา นวมินทราชินี บ้านนาโสก",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 42718,
+      "opAll": 19048,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 10632
+        },
+        "69": {
+          "telemed": 39,
+          "op": 8416
+        }
+      },
+      "percentTelemed69PerOP68": 0.37
+    },
+    {
+      "hospcode": "05748",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาโด่",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 17444,
+      "opAll": 9708,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6156
+        },
+        "69": {
+          "telemed": 1,
+          "op": 3552
+        }
+      },
+      "percentTelemed69PerOP68": 0.02
+    },
+    {
+      "hospcode": "05749",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาสีนวน",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 16618,
+      "opAll": 8702,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4959
+        },
+        "69": {
+          "telemed": 1,
+          "op": 3743
+        }
+      },
+      "percentTelemed69PerOP68": 0.02
+    },
+    {
+      "hospcode": "05750",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านท่าไค้-นาแล",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 13210,
+      "opAll": 8112,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4772
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3340
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05751",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านคำป่าหลาย",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 28524,
+      "opAll": 12631,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7004
+        },
+        "69": {
+          "telemed": 21,
+          "op": 5627
+        }
+      },
+      "percentTelemed69PerOP68": 0.3
+    },
+    {
+      "hospcode": "05752",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านสามขา",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 23862,
+      "opAll": 14341,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 9002
+        },
+        "69": {
+          "telemed": 0,
+          "op": 5339
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05753",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านแก้ง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 9823,
+      "opAll": 5636,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3480
+        },
+        "69": {
+          "telemed": 7,
+          "op": 2156
+        }
+      },
+      "percentTelemed69PerOP68": 0.2
+    },
+    {
+      "hospcode": "05754",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหมืองบ่า",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 28659,
+      "opAll": 15190,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 8813
+        },
+        "69": {
+          "telemed": 0,
+          "op": 6377
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05755",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนสะอาด",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 23062,
+      "opAll": 9185,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5774
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3411
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05756",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านดงเย็น ตำบลดงเย็น",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 30431,
+      "opAll": 19408,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 9585
+        },
+        "69": {
+          "telemed": 2,
+          "op": 9823
+        }
+      },
+      "percentTelemed69PerOP68": 0.02
+    },
+    {
+      "hospcode": "05757",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านป่งโพง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 13490,
+      "opAll": 8287,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5004
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3283
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05758",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านดงมอน",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 23877,
+      "opAll": 11142,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6393
+        },
+        "69": {
+          "telemed": 0,
+          "op": 4749
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05759",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านดงยาง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 24559,
+      "opAll": 9786,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5337
+        },
+        "69": {
+          "telemed": 0,
+          "op": 4449
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "10712",
+      "hospname": "โรงพยาบาลมุกดาหาร",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "06",
+      "hostypeName": "โรงพยาบาลทั่วไป",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 700135,
+      "opAll": 519124,
+      "byYear": {
+        "68": {
+          "telemed": 4290,
+          "op": 293134
+        },
+        "69": {
+          "telemed": 11587,
+          "op": 225990
+        }
+      },
+      "percentTelemed69PerOP68": 3.95
+    },
+    {
+      "hospcode": "14879",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโคกป่งเปือยนาโสก",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 14507,
+      "opAll": 9122,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5391
+        },
+        "69": {
+          "telemed": 151,
+          "op": 3731
+        }
+      },
+      "percentTelemed69PerOP68": 2.8
+    },
+    {
+      "hospcode": "14893",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโพนทราย  โพนทราย",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 20703,
+      "opAll": 8324,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4552
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3772
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "22799",
+      "hospname": "สถานพยาบาลเรือนจำจังหวัดมุกดาหาร",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "13",
+      "hostypeName": "ศูนย์บริการสาธารณสุข",
+      "mcode": "16000",
+      "mName": "กระทรวงยุติธรรม",
+      "depName": "-",
+      "serviceAll": 34193,
+      "opAll": 30017,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 18701
+        },
+        "69": {
+          "telemed": 0,
+          "op": 11316
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05760",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านภูแผงม้า ตำบลนิคมคำสร้อย",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 10486,
+      "opAll": 5897,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3335
+        },
+        "69": {
+          "telemed": 2,
+          "op": 2562
+        }
+      },
+      "percentTelemed69PerOP68": 0.06
+    },
+    {
+      "hospcode": "05761",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนากอก",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 10462,
+      "opAll": 5512,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3417
+        },
+        "69": {
+          "telemed": 40,
+          "op": 2095
+        }
+      },
+      "percentTelemed69PerOP68": 1.17
+    },
+    {
+      "hospcode": "05762",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองแวง",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 16030,
+      "opAll": 9689,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5580
+        },
+        "69": {
+          "telemed": 1,
+          "op": 4109
+        }
+      },
+      "percentTelemed69PerOP68": 0.02
+    },
+    {
+      "hospcode": "05763",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่าหลวง ตำบลหนองแวง",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 21052,
+      "opAll": 10521,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6203
+        },
+        "69": {
+          "telemed": 17,
+          "op": 4318
+        }
+      },
+      "percentTelemed69PerOP68": 0.27
+    },
+    {
+      "hospcode": "05764",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่ากลาง ตำบลกกแดง",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 20444,
+      "opAll": 13818,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7888
+        },
+        "69": {
+          "telemed": 31,
+          "op": 5930
+        }
+      },
+      "percentTelemed69PerOP68": 0.39
+    },
+    {
+      "hospcode": "05765",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาอุดม ตำบลนาอุดม",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 22969,
+      "opAll": 11710,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6492
+        },
+        "69": {
+          "telemed": 91,
+          "op": 5218
+        }
+      },
+      "percentTelemed69PerOP68": 1.4
+    },
+    {
+      "hospcode": "05766",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านทรายไหลแล้ง ตำบลนาอุดม",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12357,
+      "opAll": 8207,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4976
+        },
+        "69": {
+          "telemed": 7,
+          "op": 3231
+        }
+      },
+      "percentTelemed69PerOP68": 0.14
+    },
+    {
+      "hospcode": "05767",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองหลี่ ตำบลโชคชัย",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 19429,
+      "opAll": 10325,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5985
+        },
+        "69": {
+          "telemed": 94,
+          "op": 4340
+        }
+      },
+      "percentTelemed69PerOP68": 1.57
+    },
+    {
+      "hospcode": "05768",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านสุริโย ตำบลร่มเกล้า",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12626,
+      "opAll": 7385,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3801
+        },
+        "69": {
+          "telemed": 15,
+          "op": 3584
+        }
+      },
+      "percentTelemed69PerOP68": 0.39
+    },
+    {
+      "hospcode": "11113",
+      "hospname": "โรงพยาบาลนิคมคำสร้อย",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "07",
+      "hostypeName": "โรงพยาบาลชุมชน",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 179289,
+      "opAll": 136396,
+      "byYear": {
+        "68": {
+          "telemed": 1507,
+          "op": 77842
+        },
+        "69": {
+          "telemed": 773,
+          "op": 58554
+        }
+      },
+      "percentTelemed69PerOP68": 0.99
+    },
+    {
+      "hospcode": "11759",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนสวรรค์  ตำบลนากอก",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 15024,
+      "opAll": 8690,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5293
+        },
+        "69": {
+          "telemed": 142,
+          "op": 3397
+        }
+      },
+      "percentTelemed69PerOP68": 2.68
+    },
+    {
+      "hospcode": "05769",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองหล่ม ตำบลโพธิ์ไทร",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 9803,
+      "opAll": 3804,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 2195
+        },
+        "69": {
+          "telemed": 0,
+          "op": 1609
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05770",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโพธิ์ไทร ตำบลโพธิ์ไทร",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 18235,
+      "opAll": 9607,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5059
+        },
+        "69": {
+          "telemed": 2,
+          "op": 4548
+        }
+      },
+      "percentTelemed69PerOP68": 0.04
+    },
+    {
+      "hospcode": "05771",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านป่าชาด ตำบลป่าไร่",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 30499,
+      "opAll": 14182,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 8019
+        },
+        "69": {
+          "telemed": 80,
+          "op": 6163
+        }
+      },
+      "percentTelemed69PerOP68": 1
+    },
+    {
+      "hospcode": "05772",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองเม็ก  ตำบลป่าไร่",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12236,
+      "opAll": 7303,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4159
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3144
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05774",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาทาม ตำบลป่าไร่",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 17825,
+      "opAll": 11506,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6168
+        },
+        "69": {
+          "telemed": 0,
+          "op": 5338
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05775",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่าหมี ตำบลเหล่าหมี",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 33913,
+      "opAll": 13306,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7261
+        },
+        "69": {
+          "telemed": 4,
+          "op": 6045
+        }
+      },
+      "percentTelemed69PerOP68": 0.06
+    },
+    {
+      "hospcode": "05776",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาซิง  ตำบลเหล่าหมี",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 11988,
+      "opAll": 7294,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3943
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3351
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05777",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนายาง ตำบลบ้านบาก",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 15590,
+      "opAll": 7990,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4465
+        },
+        "69": {
+          "telemed": 67,
+          "op": 3525
+        }
+      },
+      "percentTelemed69PerOP68": 1.5
+    },
+    {
+      "hospcode": "05778",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาสะเม็ง ตำบลนาสะเม็ง",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 21279,
+      "opAll": 9341,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5132
+        },
+        "69": {
+          "telemed": 0,
+          "op": 4209
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05779",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองกระยัง ตำบลนาสะเม็ง",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 20758,
+      "opAll": 8657,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3942
+        },
+        "69": {
+          "telemed": 0,
+          "op": 4715
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05780",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านแก้ง ตำบลบ้านแก้ง",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 10752,
+      "opAll": 4142,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 2349
+        },
+        "69": {
+          "telemed": 0,
+          "op": 1793
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "10247",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านบาก  ตำบลบ้านบาก",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 13080,
+      "opAll": 6900,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3837
+        },
+        "69": {
+          "telemed": 85,
+          "op": 3063
+        }
+      },
+      "percentTelemed69PerOP68": 2.22
+    },
+    {
+      "hospcode": "10248",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านภูล้อม  บ้านบาก",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 7374,
+      "opAll": 4377,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 2175
+        },
+        "69": {
+          "telemed": 0,
+          "op": 2202
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "11114",
+      "hospname": "โรงพยาบาลดอนตาล",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "07",
+      "hostypeName": "โรงพยาบาลชุมชน",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 176630,
+      "opAll": 113895,
+      "byYear": {
+        "68": {
+          "telemed": 1088,
+          "op": 63742
+        },
+        "69": {
+          "telemed": 1968,
+          "op": 50153
+        }
+      },
+      "percentTelemed69PerOP68": 3.09
+    },
+    {
+      "hospcode": "05781",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่า ตำบลหนองบัว",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 23728,
+      "opAll": 9130,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4755
+        },
+        "69": {
+          "telemed": 215,
+          "op": 4375
+        }
+      },
+      "percentTelemed69PerOP68": 4.52
+    },
+    {
+      "hospcode": "05782",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านกกตูม ตำบลกกตูม",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 8367,
+      "opAll": 5981,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3332
+        },
+        "69": {
+          "telemed": 101,
+          "op": 2649
+        }
+      },
+      "percentTelemed69PerOP68": 3.03
+    },
+    {
+      "hospcode": "05783",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านสานแว้  ตำบลกกตูม",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 18902,
+      "opAll": 10762,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5887
+        },
+        "69": {
+          "telemed": 235,
+          "op": 4875
+        }
+      },
+      "percentTelemed69PerOP68": 3.99
+    },
+    {
+      "hospcode": "05784",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านขัวสูง ตำบลกกตูม",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 6016,
+      "opAll": 3098,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 1912
+        },
+        "69": {
+          "telemed": 93,
+          "op": 1186
+        }
+      },
+      "percentTelemed69PerOP68": 4.86
+    },
+    {
+      "hospcode": "05785",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านแก่งนาง ตำบลกกตูม",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 23708,
+      "opAll": 11445,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6978
+        },
+        "69": {
+          "telemed": 135,
+          "op": 4467
+        }
+      },
+      "percentTelemed69PerOP68": 1.93
+    },
+    {
+      "hospcode": "05786",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองแคน ตำบลหนองแคน",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 20207,
+      "opAll": 6832,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3889
+        },
+        "69": {
+          "telemed": 339,
+          "op": 2943
+        }
+      },
+      "percentTelemed69PerOP68": 8.72
+    },
+    {
+      "hospcode": "05787",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านชะโนดน้อย ตำบลชะโนดน้อย",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 18090,
+      "opAll": 10073,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6148
+        },
+        "69": {
+          "telemed": 682,
+          "op": 3925
+        }
+      },
+      "percentTelemed69PerOP68": 11.09
+    },
+    {
+      "hospcode": "05788",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านย้อมพัฒนา ตำบลชะโนดน้อย",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12278,
+      "opAll": 6442,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3934
+        },
+        "69": {
+          "telemed": 2,
+          "op": 2508
+        }
+      },
+      "percentTelemed69PerOP68": 0.05
+    },
+    {
+      "hospcode": "05789",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านพังแดง ตำบลพังแดง",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 21632,
+      "opAll": 8320,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4654
+        },
+        "69": {
+          "telemed": 337,
+          "op": 3666
+        }
+      },
+      "percentTelemed69PerOP68": 7.24
+    },
+    {
+      "hospcode": "11115",
+      "hospname": "โรงพยาบาลดงหลวง",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "07",
+      "hostypeName": "โรงพยาบาลชุมชน",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 148289,
+      "opAll": 88881,
+      "byYear": {
+        "68": {
+          "telemed": 2963,
+          "op": 49505
+        },
+        "69": {
+          "telemed": 3047,
+          "op": 39376
+        }
+      },
+      "percentTelemed69PerOP68": 6.15
+    },
+    {
+      "hospcode": "05790",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านคำชะอี ตำบลคำชะอี",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 29408,
+      "opAll": 10597,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6433
+        },
+        "69": {
+          "telemed": 0,
+          "op": 4164
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05791",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนสังข์ศรี  บ้านซ่ง",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 20938,
+      "opAll": 8470,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5087
+        },
+        "69": {
+          "telemed": 10,
+          "op": 3383
+        }
+      },
+      "percentTelemed69PerOP68": 0.2
+    },
+    {
+      "hospcode": "05792",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองเอี่ยน ตำบลหนองเอี่ยน",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 33459,
+      "opAll": 12787,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 7474
+        },
+        "69": {
+          "telemed": 29,
+          "op": 5313
+        }
+      },
+      "percentTelemed69PerOP68": 0.39
+    },
+    {
+      "hospcode": "05793",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านค้อ ตำบลบ้านค้อ",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 24575,
+      "opAll": 11117,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6408
+        },
+        "69": {
+          "telemed": 34,
+          "op": 4709
+        }
+      },
+      "percentTelemed69PerOP68": 0.53
+    },
+    {
+      "hospcode": "05794",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่า ตำบลบ้านเหล่า",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 14084,
+      "opAll": 7252,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4107
+        },
+        "69": {
+          "telemed": 11,
+          "op": 3145
+        }
+      },
+      "percentTelemed69PerOP68": 0.27
+    },
+    {
+      "hospcode": "05795",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองหญ้าปล้อง ตำบลบ้านเหล่า",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 15217,
+      "opAll": 8992,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5429
+        },
+        "69": {
+          "telemed": 10,
+          "op": 3563
+        }
+      },
+      "percentTelemed69PerOP68": 0.18
+    },
+    {
+      "hospcode": "05796",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโพนงาม ตำบลโพนงาม",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 16627,
+      "opAll": 8971,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 5630
+        },
+        "69": {
+          "telemed": 11,
+          "op": 3341
+        }
+      },
+      "percentTelemed69PerOP68": 0.2
+    },
+    {
+      "hospcode": "05797",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลโนนป่าแดง  ตำบลโพนงาม",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 10846,
+      "opAll": 7321,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4094
+        },
+        "69": {
+          "telemed": 37,
+          "op": 3227
+        }
+      },
+      "percentTelemed69PerOP68": 0.9
+    },
+    {
+      "hospcode": "05798",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่าสร้างถ่อ ตำบลเหล่าสร้างถ่อ",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 19222,
+      "opAll": 10742,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6413
+        },
+        "69": {
+          "telemed": 1,
+          "op": 4329
+        }
+      },
+      "percentTelemed69PerOP68": 0.02
+    },
+    {
+      "hospcode": "05799",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านคำบก ตำบลคำบก",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 11876,
+      "opAll": 6308,
+      "byYear": {
+        "68": {
+          "telemed": 4,
+          "op": 3763
+        },
+        "69": {
+          "telemed": 22,
+          "op": 2545
+        }
+      },
+      "percentTelemed69PerOP68": 0.58
+    },
+    {
+      "hospcode": "11116",
+      "hospname": "โรงพยาบาลคำชะอี",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "07",
+      "hostypeName": "โรงพยาบาลชุมชน",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 187965,
+      "opAll": 145719,
+      "byYear": {
+        "68": {
+          "telemed": 1969,
+          "op": 82684
+        },
+        "69": {
+          "telemed": 2011,
+          "op": 63035
+        }
+      },
+      "percentTelemed69PerOP68": 2.43
+    },
+    {
+      "hospcode": "13984",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนสว่าง ตำบลคำชะอี",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 8401,
+      "opAll": 5417,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3210
+        },
+        "69": {
+          "telemed": 15,
+          "op": 2207
+        }
+      },
+      "percentTelemed69PerOP68": 0.47
+    },
+    {
+      "hospcode": "13985",
+      "hospname": "สถานีอนามัยบ้านห้วยตาเปอะเฉลิมพระเกียรติ",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12786,
+      "opAll": 7259,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4395
+        },
+        "69": {
+          "telemed": 48,
+          "op": 2864
+        }
+      },
+      "percentTelemed69PerOP68": 1.09
+    },
+    {
+      "hospcode": "05800",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหว้านใหญ่   หว้านใหญ่",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 10628,
+      "opAll": 6247,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3555
+        },
+        "69": {
+          "telemed": 138,
+          "op": 2692
+        }
+      },
+      "percentTelemed69PerOP68": 3.88
+    },
+    {
+      "hospcode": "05801",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านป่งขาม ตำบลป่งขาม",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 18158,
+      "opAll": 7576,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4432
+        },
+        "69": {
+          "telemed": 0,
+          "op": 3144
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05802",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านดอน ตำบลบางทรายน้อย",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 12204,
+      "opAll": 6926,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4076
+        },
+        "69": {
+          "telemed": 194,
+          "op": 2850
+        }
+      },
+      "percentTelemed69PerOP68": 4.76
+    },
+    {
+      "hospcode": "05803",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านบางทราย ตำบลบางทรายน้อย",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 16629,
+      "opAll": 8984,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4953
+        },
+        "69": {
+          "telemed": 243,
+          "op": 4031
+        }
+      },
+      "percentTelemed69PerOP68": 4.91
+    },
+    {
+      "hospcode": "05804",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านชะโนด ตำบลชะโนด",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 17490,
+      "opAll": 8108,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4773
+        },
+        "69": {
+          "telemed": 52,
+          "op": 3335
+        }
+      },
+      "percentTelemed69PerOP68": 1.09
+    },
+    {
+      "hospcode": "05805",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนิคมเกษตรกรรมทหารผ่านศึก",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 11470,
+      "opAll": 7242,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 4213
+        },
+        "69": {
+          "telemed": 221,
+          "op": 3029
+        }
+      },
+      "percentTelemed69PerOP68": 5.25
+    },
+    {
+      "hospcode": "11117",
+      "hospname": "โรงพยาบาลหว้านใหญ่",
+      "ampCode": "4906",
+      "ampName": "หว้านใหญ่",
+      "hostypeCode": "07",
+      "hostypeName": "โรงพยาบาลชุมชน",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 138367,
+      "opAll": 112659,
+      "byYear": {
+        "68": {
+          "telemed": 1395,
+          "op": 78347
+        },
+        "69": {
+          "telemed": 1911,
+          "op": 34312
+        }
+      },
+      "percentTelemed69PerOP68": 2.44
+    },
+    {
+      "hospcode": "05806",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านงิ้ว ตำบลโนนยาง",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 17180,
+      "opAll": 6751,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3648
+        },
+        "69": {
+          "telemed": 77,
+          "op": 3103
+        }
+      },
+      "percentTelemed69PerOP68": 2.11
+    },
+    {
+      "hospcode": "05807",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านคำพอก  ตำบลโนนยาง",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 8207,
+      "opAll": 4521,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 2572
+        },
+        "69": {
+          "telemed": 26,
+          "op": 1949
+        }
+      },
+      "percentTelemed69PerOP68": 1.01
+    },
+    {
+      "hospcode": "05808",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านบุ่ง ตำบลภูวง",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 13086,
+      "opAll": 6570,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 3992
+        },
+        "69": {
+          "telemed": 8,
+          "op": 2578
+        }
+      },
+      "percentTelemed69PerOP68": 0.2
+    },
+    {
+      "hospcode": "05809",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเป้า ตำบลบ้านเป้า",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 22939,
+      "opAll": 11257,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6044
+        },
+        "69": {
+          "telemed": 0,
+          "op": 5213
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05810",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโคกกลาง  ตำบลหนองสูงใต้",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 21263,
+      "opAll": 12102,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 6631
+        },
+        "69": {
+          "telemed": 36,
+          "op": 5471
+        }
+      },
+      "percentTelemed69PerOP68": 0.54
+    },
+    {
+      "hospcode": "11118",
+      "hospname": "โรงพยาบาลหนองสูง",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "07",
+      "hostypeName": "โรงพยาบาลชุมชน",
+      "mcode": "21000",
+      "mName": "กระทรวงสาธารณสุข",
+      "depName": "สำนักงานปลัดกระทรวงสาธารณสุข",
+      "serviceAll": 126750,
+      "opAll": 105514,
+      "byYear": {
+        "68": {
+          "telemed": 971,
+          "op": 58150
+        },
+        "69": {
+          "telemed": 1581,
+          "op": 47364
+        }
+      },
+      "percentTelemed69PerOP68": 2.72
+    },
+    {
+      "hospcode": "15009",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองแต้  ตำบลหนองสูง",
+      "ampCode": "4907",
+      "ampName": "หนองสูง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 8426,
+      "opAll": 2708,
+      "byYear": {
+        "68": {
+          "telemed": 0,
+          "op": 1389
+        },
+        "69": {
+          "telemed": 0,
+          "op": 1319
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    }
+  ]
+}
