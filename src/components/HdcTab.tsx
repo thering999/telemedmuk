@@ -384,7 +384,7 @@ function HdcTab() {
 
       <RefreshControl state={autoRefresh} />
 
-      {snapshot && currentCategoryData?.all && (
+      {snapshot && effectiveSubTab === 'strategic' && currentCategoryData?.all && (
         <ErrorBoundary label="Executive KPI">
           <ExecutiveKPI allSnapshot={currentCategoryData.all} />
         </ErrorBoundary>
