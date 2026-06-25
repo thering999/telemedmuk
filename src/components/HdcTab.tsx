@@ -11,7 +11,6 @@ import { formatThaiDate } from '../lib/formatThaiDate'
 import { EMPTY_FILTERS, useFilteredData, type FilterState } from '../lib/useFilteredData'
 import { useAutoRefresh } from '../hooks/useAutoRefresh'
 import { useToast } from '../context/ToastContext'
-import FilterBar from './FilterBar'
 import RefreshControl from './RefreshControl'
 import SnapshotView from './SnapshotView'
 import TypeBreakdownView from './TypeBreakdownView'
@@ -132,7 +131,7 @@ function HdcTab() {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null)
   const [snapshotError, setSnapshotError] = useState<{ date: string; message: string } | null>(null)
   const [activeSubTab, setActiveSubTab] = useState<SubTabKey>('base')
-  const [filters, setFilters] = useState<FilterState>(EMPTY_FILTERS)
+  const [filters] = useState<FilterState>(EMPTY_FILTERS)
 
   // Cache of fetched category snapshots, scoped to the currently-selected
   // date. Keyed by date so switching dates and back doesn't lose anything
@@ -420,17 +419,6 @@ function HdcTab() {
 
       {(!snapshot || isStale) && !currentError && (
         <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูลสแนปช็อต...</p>
-      )}
-
-      {snapshot && !isStale && (effectiveSubTab === 'base' || effectiveSubTab === 'typein') && (
-        <FilterBar
-          filters={filters}
-          onChange={setFilters}
-          availableTypes={availableCategories}
-          resultCount={
-            effectiveSubTab === 'typein' ? filteredTypeinFacilities.length : filteredFacilities.length
-          }
-        />
       )}
 
       {snapshot && !isStale && effectiveSubTab === 'base' && filteredSnapshot && (
