@@ -203,6 +203,20 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     ]
   }, [selectedFacility, fiscalYear, selectedFacilityHasTypeBreakdown])
 
+  // Whether the "หลัก" Telemed69 KPI can honestly be described as
+  // "Type2+3+5 summed" -- only true for Format A files (real Type2_69/
+  // Type3_69/Type5_69 columns). Format B/C files have no breakdown columns
+  // at all; their Telemed69 is whatever the source file's Telemed69 column
+  // already says, decomposition unknown to this dashboard. Checked against
+  // FY69 specifically (not the fiscalYear toggle) since baseMetricKpis'
+  // Telemed sum is always FY69 regardless of the toggle.
+  const hasType69Breakdown = useMemo(() => {
+    return snapshot.facilities.some((f) => {
+      const stats = f.byYear['69']
+      return stats?.type2 !== undefined || stats?.type3 !== undefined || stats?.type5 !== undefined
+    })
+  }, [snapshot])
+
   // Only facilities whose selected-year stats actually carry a type-level
   // breakdown (Format A) can contribute to this chart — Format B/C facilities
   // have no type2/type3/type5 at all for that year.
@@ -431,10 +445,22 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           description="เกณฑ์หลัก"
         />
         <KpiCard
-          label={isTypeinReport ? "ผู้รับบริการ Telemedicine รวม (ปีงบ 69)" : "Type2+3+5 รวม (ปีงบ 69)"}
+          label={
+            isTypeinReport
+              ? "ผู้รับบริการ Telemedicine รวม (ปีงบ 69)"
+              : hasType69Breakdown
+                ? "Type2+3+5 รวม (ปีงบ 69)"
+                : "Telemed69 รวม (ปีงบ 69)"
+          }
           value={baseMetricKpis.totalTelemed.toLocaleString('th-TH')}
           description="เกณฑ์หลัก"
-          footnote={isTypeinReport ? undefined : "นัดหมาย/ส่งต่อ + เชิงรุกชุมชน + โทรเวชกรรม (ไม่ใช่ Type5 ล้วน)"}
+          footnote={
+            isTypeinReport
+              ? undefined
+              : hasType69Breakdown
+                ? "นัดหมาย/ส่งต่อ + เชิงรุกชุมชน + โทรเวชกรรม (ไม่ใช่ Type5 ล้วน)"
+                : "ดึงจากคอลัมน์ Telemed69 ของไฟล์ต้นฉบับตรง (ไฟล์นี้ไม่มีคอลัมน์แยก Type2/3/5 ให้แตกได้)"
+          }
         />
         <KpiCard
           label={isTypeinReport ? "เกณฑ์ OP69 เทียบ Telemed69" : "เกณฑ์ OP68 เทียบ Telemed69"}

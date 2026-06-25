@@ -72,6 +72,37 @@ interface GitHubContentsGetResponse {
   sha?: string
 }
 
+interface GitRefResponse {
+  object: { sha: string }
+}
+
+interface GitCommitResponse {
+  tree: { sha: string }
+}
+
+interface GitTreeEntry {
+  path: string
+  mode: string
+  type: string
+  sha?: string
+}
+
+interface GitTreeResponse {
+  tree: GitTreeEntry[]
+}
+
+interface GitNewTreeEntry {
+  path: string
+  mode: string
+  type: string
+  sha?: string | null
+  content?: string
+}
+
+interface GitShaResponse {
+  sha: string
+}
+
 function corsHeaders(origin: string | null): HeadersInit {
   const headers: Record<string, string> = {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -221,6 +252,154 @@ async function handleSaveSnapshot(
   }
 }
 
+const GIT_API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`
+
+/** Thin wrapper around fetch() for the GitHub Git Data API: returns the
+ * parsed JSON body on success, or a normalized {status, error} on failure,
+ * so handleClearAll's steps don't each repeat the same .ok/error-body dance. */
+async function githubApi<T>(
+  url: string,
+  githubHeaders: Record<string, string>,
+  init?: RequestInit,
+): Promise<{ ok: true; body: T } | { ok: false; status: number; error: string }> {
+  const response = await fetch(url, { ...init, headers: { ...githubHeaders, ...(init?.headers as Record<string, string> | undefined) } })
+  if (!response.ok) {
+    const errorBody = (await response.json().catch(() => ({}))) as GitHubContentsErrorBody
+    return { ok: false, status: response.status, error: errorBody.message ?? response.statusText }
+  }
+  const body = (await response.json()) as T
+  return { ok: true, body }
+}
+
+/**
+ * Wipes every dashboard-managed data file (data/raw/*.xlsx and everything
+ * under public/data/snapshots/) in a single atomic commit, using the Git
+ * Data API's "set an entry's sha to null to delete it" trick (rather than N
+ * separate Contents-API DELETE calls, which would create N commits and N
+ * separate Pages rebuilds). Re-creates an empty index.json in the same
+ * commit so the dashboard shows a clean empty-state instead of a 404 fetch.
+ * data/raw/*.ipynb notebooks are source material (not generated data) and
+ * are intentionally left alone.
+ */
+async function handleClearAll(
+  request: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  const appKey = request.headers.get('X-App-Key')
+  if (!appKey || appKey !== env.APP_SHARED_KEY) {
+    return jsonResponse(
+      { ok: false, error: 'Unauthorized: missing or invalid X-App-Key header' },
+      401,
+      origin,
+    )
+  }
+
+  const githubHeaders = {
+    Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+    Accept: 'application/vnd.github+json',
+    'User-Agent': 'telemedmuk-save-snapshot-worker',
+  }
+
+  try {
+    const refResult = await githubApi<GitRefResponse>(
+      `${GIT_API}/git/refs/heads/${GITHUB_BRANCH}`,
+      githubHeaders,
+    )
+    if (!refResult.ok) return jsonResponse({ ok: false, error: refResult.error }, refResult.status, origin)
+    const latestCommitSha = refResult.body.object.sha
+
+    const commitResult = await githubApi<GitCommitResponse>(
+      `${GIT_API}/git/commits/${latestCommitSha}`,
+      githubHeaders,
+    )
+    if (!commitResult.ok) return jsonResponse({ ok: false, error: commitResult.error }, commitResult.status, origin)
+    const baseTreeSha = commitResult.body.tree.sha
+
+    const treeResult = await githubApi<GitTreeResponse>(
+      `${GIT_API}/git/trees/${baseTreeSha}?recursive=1`,
+      githubHeaders,
+    )
+    if (!treeResult.ok) return jsonResponse({ ok: false, error: treeResult.error }, treeResult.status, origin)
+
+    const deletions = treeResult.body.tree.filter((entry) => {
+      if (entry.type !== 'blob') return false
+      if (entry.path.startsWith('data/raw/')) return !entry.path.endsWith('.ipynb')
+      return entry.path.startsWith('public/data/snapshots/')
+    })
+
+    if (deletions.length === 0) {
+      return jsonResponse(
+        { ok: true, deletedCount: 0, actionsUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions` },
+        200,
+        origin,
+      )
+    }
+
+    const newTreeEntries: GitNewTreeEntry[] = deletions.map((entry) => ({
+      path: entry.path,
+      mode: entry.mode,
+      type: entry.type,
+      sha: null,
+    }))
+    newTreeEntries.push({
+      path: 'public/data/snapshots/index.json',
+      mode: '100644',
+      type: 'blob',
+      content: '[]\n',
+    })
+
+    const newTreeResult = await githubApi<GitShaResponse>(`${GIT_API}/git/trees`, githubHeaders, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ base_tree: baseTreeSha, tree: newTreeEntries }),
+    })
+    if (!newTreeResult.ok) return jsonResponse({ ok: false, error: newTreeResult.error }, newTreeResult.status, origin)
+
+    const newCommitResult = await githubApi<GitShaResponse>(`${GIT_API}/git/commits`, githubHeaders, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Clear all imported data via Admin Panel',
+        tree: newTreeResult.body.sha,
+        parents: [latestCommitSha],
+      }),
+    })
+    if (!newCommitResult.ok) {
+      return jsonResponse({ ok: false, error: newCommitResult.error }, newCommitResult.status, origin)
+    }
+
+    const updateRefResult = await githubApi<GitRefResponse>(
+      `${GIT_API}/git/refs/heads/${GITHUB_BRANCH}`,
+      githubHeaders,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sha: newCommitResult.body.sha }),
+      },
+    )
+    if (!updateRefResult.ok) {
+      return jsonResponse({ ok: false, error: updateRefResult.error }, updateRefResult.status, origin)
+    }
+
+    return jsonResponse(
+      {
+        ok: true,
+        deletedCount: deletions.length,
+        actionsUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions`,
+      },
+      200,
+      origin,
+    )
+  } catch (err) {
+    return jsonResponse(
+      { ok: false, error: err instanceof Error ? err.message : 'Unexpected error' },
+      500,
+      origin,
+    )
+  }
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const origin = request.headers.get('Origin')
@@ -230,16 +409,18 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) })
     }
 
-    if (url.pathname !== '/save-snapshot') {
-      return jsonResponse({ ok: false, error: 'Not found' }, 404, origin)
-    }
-
     if (request.method !== 'POST') {
       return jsonResponse({ ok: false, error: 'Method not allowed' }, 405, origin)
     }
 
     try {
-      return await handleSaveSnapshot(request, env, origin)
+      if (url.pathname === '/save-snapshot') {
+        return await handleSaveSnapshot(request, env, origin)
+      }
+      if (url.pathname === '/clear-all') {
+        return await handleClearAll(request, env, origin)
+      }
+      return jsonResponse({ ok: false, error: 'Not found' }, 404, origin)
     } catch (err) {
       return jsonResponse(
         { ok: false, error: err instanceof Error ? err.message : 'Unexpected error' },

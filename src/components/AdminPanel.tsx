@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { ADMIN_PASSWORD } from '../lib/adminAuth'
 
+const SAVE_WORKER_URL = import.meta.env.VITE_SAVE_WORKER_URL ?? ''
+const APP_SHARED_KEY = import.meta.env.VITE_APP_SHARED_KEY ?? ''
+const CLEAR_ALL_URL = SAVE_WORKER_URL.replace(/\/save-snapshot$/, '/clear-all')
+
 interface AdminPanelProps {
   onClose?: () => void
 }
@@ -10,6 +14,8 @@ function AdminPanel({ onClose }: AdminPanelProps) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [isClearingAll, setIsClearingAll] = useState(false)
+  const [clearAllError, setClearAllError] = useState('')
 
   const handleLogin = () => {
     setError('')
@@ -48,6 +54,40 @@ function AdminPanel({ onClose }: AdminPanelProps) {
     sessionStorage.clear()
 
     setSuccessMessage(`ล้างประวัติการนำเข้า ${keysToDelete.length} รายการและ session storage สำเร็จ`)
+  }
+
+  const handleClearAllData = async () => {
+    setClearAllError('')
+    if (!CLEAR_ALL_URL) {
+      setClearAllError('ยังไม่ได้ตั้งค่าระบบบันทึกถาวร (VITE_SAVE_WORKER_URL)')
+      return
+    }
+    const confirmed = confirm(
+      'ต้องการล้างข้อมูลทั้งหมดในระบบ (ไฟล์ใน data/raw และ snapshot ทุกวันที่) ใช่หรือไม่?\n\n⚠️ การกระทำนี้ไม่สามารถย้อนกลับได้',
+    )
+    if (!confirmed) return
+
+    setIsClearingAll(true)
+    setSuccessMessage('')
+    try {
+      const response = await fetch(CLEAR_ALL_URL, {
+        method: 'POST',
+        headers: { 'X-App-Key': APP_SHARED_KEY },
+      })
+      const body = (await response.json().catch(() => ({}))) as {
+        ok?: boolean
+        error?: string
+        deletedCount?: number
+      }
+      if (!response.ok || !body.ok) {
+        throw new Error(body.error ?? `ล้างข้อมูลไม่สำเร็จ (HTTP ${response.status})`)
+      }
+      setSuccessMessage(`ล้างข้อมูลทั้งหมดสำเร็จ (ลบ ${body.deletedCount ?? 0} ไฟล์) — รอ GitHub Actions build เสร็จแล้วรีเฟรชหน้า`)
+    } catch (err) {
+      setClearAllError(`ล้างข้อมูลไม่สำเร็จ — ${err instanceof Error ? err.message : String(err)}`)
+    } finally {
+      setIsClearingAll(false)
+    }
   }
 
   const handleExportDiagnostics = () => {
@@ -186,6 +226,20 @@ function AdminPanel({ onClose }: AdminPanelProps) {
                   Dashboard ใช้ <code className="bg-blue-100 px-1 rounded dark:bg-blue-900/50">Browser Cache</code> ไม่ใช่ localStorage
                 </p>
               </div>
+
+              <button
+                onClick={handleClearAllData}
+                disabled={isClearingAll}
+                className="w-full mt-4 rounded-lg bg-rose-600 hover:bg-rose-700 disabled:cursor-not-allowed disabled:bg-rose-300 text-white px-3 sm:px-4 py-2 sm:py-3 text-sm font-bold border border-rose-700 transition dark:disabled:bg-rose-900"
+              >
+                {isClearingAll ? 'กำลังล้างข้อมูล...' : '🔥 ล้างข้อมูลทั้งหมดในระบบ (ลบจาก GitHub)'}
+              </button>
+              <p className="text-xs text-rose-700 dark:text-rose-400">
+                ⚠️ ลบไฟล์ทั้งหมดใน <code className="bg-rose-100 px-1 rounded dark:bg-rose-900/50">data/raw/</code> และ snapshot ทุกวันที่ออกจาก GitHub repo จริง — ย้อนกลับไม่ได้
+              </p>
+              {clearAllError && (
+                <p className="text-xs text-rose-700 dark:text-rose-400">❌ {clearAllError}</p>
+              )}
             </div>
           </section>
 
