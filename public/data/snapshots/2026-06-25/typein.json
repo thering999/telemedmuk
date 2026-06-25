@@ -1,6 +1,6 @@
 {
-  "snapshotDate": "2026-06-18",
-  "sourceFile": "20260618_49_telemed_hosp_typein235.xlsx",
+  "snapshotDate": "2026-06-25",
+  "sourceFile": "20260625_49_telemed_hosp_typein235.xlsx",
   "province": {
     "code": "49",
     "name": "มุกดาหาร"
@@ -20,8 +20,28 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 107,
-          "op": 107
+          "telemed": 551,
+          "op": 551
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05745",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนตูม",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 966,
+          "op": 966
         }
       },
       "percentTelemed69PerOP68": 0
@@ -40,8 +60,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 8,
-          "op": 8
+          "telemed": 39,
+          "op": 39
         }
       },
       "percentTelemed69PerOP68": 0
@@ -100,8 +120,48 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 20,
-          "op": 20
+          "telemed": 21,
+          "op": 21
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05753",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านแก้ง",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 7,
+          "op": 7
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05756",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านดงเย็น ตำบลดงเย็น",
+      "ampCode": "4901",
+      "ampName": "เมืองมุกดาหาร",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 2,
+          "op": 3
         }
       },
       "percentTelemed69PerOP68": 0
@@ -120,8 +180,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 8831,
-          "op": 50874
+          "telemed": 11587,
+          "op": 166487
         }
       },
       "percentTelemed69PerOP68": 0
@@ -140,8 +200,28 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 46,
-          "op": 46
+          "telemed": 151,
+          "op": 151
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05760",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านภูแผงม้า ตำบลนิคมคำสร้อย",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 2,
+          "op": 2
         }
       },
       "percentTelemed69PerOP68": 0
@@ -167,6 +247,26 @@
       "percentTelemed69PerOP68": 0
     },
     {
+      "hospcode": "05762",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองแวง",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 1,
+          "op": 1
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
       "hospcode": "05763",
       "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่าหลวง ตำบลหนองแวง",
       "ampCode": "4902",
@@ -180,8 +280,48 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 15,
-          "op": 15
+          "telemed": 17,
+          "op": 17
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05764",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านเหล่ากลาง ตำบลกกแดง",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 31,
+          "op": 31
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05765",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาอุดม ตำบลนาอุดม",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 91,
+          "op": 94
         }
       },
       "percentTelemed69PerOP68": 0
@@ -200,8 +340,28 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 4,
-          "op": 4
+          "telemed": 7,
+          "op": 7
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05767",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองหลี่ ตำบลโชคชัย",
+      "ampCode": "4902",
+      "ampName": "นิคมคำสร้อย",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 94,
+          "op": 94
         }
       },
       "percentTelemed69PerOP68": 0
@@ -240,8 +400,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 273,
-          "op": 8411
+          "telemed": 773,
+          "op": 30703
         }
       },
       "percentTelemed69PerOP68": 0
@@ -260,8 +420,48 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 23,
-          "op": 23
+          "telemed": 142,
+          "op": 143
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05770",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโพธิ์ไทร ตำบลโพธิ์ไทร",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 2,
+          "op": 2
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05771",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านป่าชาด ตำบลป่าไร่",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 80,
+          "op": 80
         }
       },
       "percentTelemed69PerOP68": 0
@@ -281,7 +481,67 @@
       "byYear": {
         "69": {
           "telemed": 4,
-          "op": 5
+          "op": 6
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05777",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนายาง ตำบลบ้านบาก",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 67,
+          "op": 67
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05779",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองกระยัง ตำบลนาสะเม็ง",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 0,
+          "op": 1
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "10247",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านบาก  ตำบลบ้านบาก",
+      "ampCode": "4903",
+      "ampName": "ดอนตาล",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 85,
+          "op": 85
         }
       },
       "percentTelemed69PerOP68": 0
@@ -301,7 +561,7 @@
       "byYear": {
         "69": {
           "telemed": 0,
-          "op": 1
+          "op": 3
         }
       },
       "percentTelemed69PerOP68": 0
@@ -320,8 +580,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1294,
-          "op": 7979
+          "telemed": 1968,
+          "op": 21222
         }
       },
       "percentTelemed69PerOP68": 0
@@ -340,8 +600,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 0,
-          "op": 2
+          "telemed": 215,
+          "op": 217
         }
       },
       "percentTelemed69PerOP68": 0
@@ -360,8 +620,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 83,
-          "op": 83
+          "telemed": 101,
+          "op": 101
         }
       },
       "percentTelemed69PerOP68": 0
@@ -380,8 +640,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 0,
-          "op": 40
+          "telemed": 235,
+          "op": 278
         }
       },
       "percentTelemed69PerOP68": 0
@@ -400,8 +660,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 81,
-          "op": 81
+          "telemed": 93,
+          "op": 93
         }
       },
       "percentTelemed69PerOP68": 0
@@ -420,8 +680,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 30,
-          "op": 30
+          "telemed": 135,
+          "op": 135
         }
       },
       "percentTelemed69PerOP68": 0
@@ -440,8 +700,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 161,
-          "op": 161
+          "telemed": 339,
+          "op": 339
         }
       },
       "percentTelemed69PerOP68": 0
@@ -460,8 +720,28 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 11,
-          "op": 11
+          "telemed": 682,
+          "op": 682
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05788",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านย้อมพัฒนา ตำบลชะโนดน้อย",
+      "ampCode": "4904",
+      "ampName": "ดงหลวง",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 2,
+          "op": 2
         }
       },
       "percentTelemed69PerOP68": 0
@@ -480,8 +760,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 209,
-          "op": 209
+          "telemed": 337,
+          "op": 337
         }
       },
       "percentTelemed69PerOP68": 0
@@ -500,8 +780,28 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 2314,
-          "op": 5019
+          "telemed": 3047,
+          "op": 11708
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05791",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนสังข์ศรี  บ้านซ่ง",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 10,
+          "op": 12
         }
       },
       "percentTelemed69PerOP68": 0
@@ -520,8 +820,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 2,
-          "op": 2
+          "telemed": 29,
+          "op": 29
         }
       },
       "percentTelemed69PerOP68": 0
@@ -540,8 +840,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 26,
-          "op": 26
+          "telemed": 34,
+          "op": 34
         }
       },
       "percentTelemed69PerOP68": 0
@@ -560,8 +860,68 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 0,
-          "op": 1
+          "telemed": 11,
+          "op": 12
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05795",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านหนองหญ้าปล้อง ตำบลบ้านเหล่า",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 10,
+          "op": 10
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05796",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโพนงาม ตำบลโพนงาม",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 11,
+          "op": 11
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "05797",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลโนนป่าแดง  ตำบลโพนงาม",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 37,
+          "op": 37
         }
       },
       "percentTelemed69PerOP68": 0
@@ -600,8 +960,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 22,
+          "op": 22
         }
       },
       "percentTelemed69PerOP68": 0
@@ -620,8 +980,28 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 592,
-          "op": 9302
+          "telemed": 2011,
+          "op": 28872
+        }
+      },
+      "percentTelemed69PerOP68": 0
+    },
+    {
+      "hospcode": "13984",
+      "hospname": "โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านโนนสว่าง ตำบลคำชะอี",
+      "ampCode": "4905",
+      "ampName": "คำชะอี",
+      "hostypeCode": "18",
+      "hostypeName": "โรงพยาบาลส่งเสริมสุขภาพตำบล",
+      "mcode": "75000",
+      "mName": "องค์กรปกครองส่วนท้องถิ่น",
+      "depName": null,
+      "serviceAll": 0,
+      "opAll": 0,
+      "byYear": {
+        "69": {
+          "telemed": 15,
+          "op": 15
         }
       },
       "percentTelemed69PerOP68": 0
@@ -640,8 +1020,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 34,
-          "op": 34
+          "telemed": 48,
+          "op": 48
         }
       },
       "percentTelemed69PerOP68": 0
@@ -660,8 +1040,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 27,
-          "op": 27
+          "telemed": 138,
+          "op": 138
         }
       },
       "percentTelemed69PerOP68": 0
@@ -680,8 +1060,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 194,
+          "op": 194
         }
       },
       "percentTelemed69PerOP68": 0
@@ -700,8 +1080,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 61,
-          "op": 61
+          "telemed": 243,
+          "op": 243
         }
       },
       "percentTelemed69PerOP68": 0
@@ -740,8 +1120,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 42,
-          "op": 42
+          "telemed": 221,
+          "op": 221
         }
       },
       "percentTelemed69PerOP68": 0
@@ -760,8 +1140,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1173,
-          "op": 2918
+          "telemed": 1911,
+          "op": 7773
         }
       },
       "percentTelemed69PerOP68": 0
@@ -781,7 +1161,7 @@
       "byYear": {
         "69": {
           "telemed": 77,
-          "op": 78
+          "op": 77
         }
       },
       "percentTelemed69PerOP68": 0
@@ -800,8 +1180,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 26,
+          "op": 26
         }
       },
       "percentTelemed69PerOP68": 0
@@ -820,8 +1200,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 8,
+          "op": 8
         }
       },
       "percentTelemed69PerOP68": 0
@@ -860,8 +1240,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 1,
-          "op": 1
+          "telemed": 36,
+          "op": 36
         }
       },
       "percentTelemed69PerOP68": 0
@@ -880,8 +1260,8 @@
       "opAll": 0,
       "byYear": {
         "69": {
-          "telemed": 746,
-          "op": 5947
+          "telemed": 1581,
+          "op": 17099
         }
       },
       "percentTelemed69PerOP68": 0
