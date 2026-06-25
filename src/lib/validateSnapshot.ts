@@ -284,3 +284,80 @@ export function validateSnapshot(snapshot: Snapshot): ValidationReport {
     },
   }
 }
+
+/** Facility-identity columns shared by every "new" category export (all/person/ncd/mch/ltc_pal/followup/typein). */
+const IDENTITY_COLUMNS = ['hospcode', 'hospname', 'AMP_CODE', 'AMP_NAME', 'HOSTYPECODE', 'HOSTYPENAME']
+
+/**
+ * Lightweight validation for the 6 "new" category exports, run directly on
+ * the raw parsed Excel rows. The in-browser parser only has a full
+ * row-transform for the "base" category (scripts/import-xlsx.mjs does the
+ * per-category transform at commit time) — this checks only the
+ * facility-identity columns every category shares, not category-specific
+ * value columns, so it can't catch every issue validateSnapshot() can for
+ * "base", but it's enough to flag a genuinely wrong/corrupt file.
+ */
+export function validateGenericCategoryFile(rows: Record<string, unknown>[]): ValidationReport {
+  const issues: ValidationIssue[] = []
+  const missingColumns: string[] = []
+
+  if (rows.length === 0) {
+    issues.push({ severity: 'error', code: 'no_rows', message: 'ไฟล์นี้ไม่มีข้อมูลแถวใด ๆ' })
+  } else {
+    for (const col of IDENTITY_COLUMNS) {
+      if (rows.every((r) => isBlankString(r[col]))) {
+        missingColumns.push(col)
+        issues.push({
+          severity: 'error',
+          code: `missing_column_${col}`,
+          message: `ไม่พบคอลัมน์ "${col}" ในไฟล์นี้ (ทุกแถวว่าง)`,
+        })
+      }
+    }
+  }
+
+  let filledFieldCount = 0
+  let missingHospcodeRows = 0
+  if (missingColumns.length === 0 && rows.length > 0) {
+    for (const row of rows) {
+      if (isBlankString(row.hospcode)) missingHospcodeRows += 1
+      for (const col of IDENTITY_COLUMNS) {
+        if (!isBlankString(row[col])) filledFieldCount += 1
+      }
+    }
+    if (missingHospcodeRows > 0) {
+      issues.push({
+        severity: 'error',
+        code: 'missing_hospcode_rows',
+        message: `hospcode ว่าง: พบ ${missingHospcodeRows} แถว`,
+      })
+    }
+  }
+
+  const completenessPercent =
+    rows.length > 0 ? Math.round((filledFieldCount / (rows.length * IDENTITY_COLUMNS.length)) * 100) : 0
+
+  if (rows.length > 0 && completenessPercent < 80) {
+    issues.push({
+      severity: 'warning',
+      code: 'low_completeness',
+      message: `ข้อมูลครบถ้วนเพียง ${completenessPercent}% (น้อยกว่า 80%) กรุณาตรวจสอบไฟล์ต้นทาง`,
+    })
+  }
+
+  const errors = issues.filter((i) => i.severity === 'error')
+  const warnings = issues.filter((i) => i.severity === 'warning')
+
+  return {
+    ok: errors.length === 0,
+    errors,
+    warnings,
+    stats: {
+      rowCount: rows.length,
+      dateRange: null,
+      completenessPercent,
+      missingColumns,
+      typeMismatches: [],
+    },
+  }
+}

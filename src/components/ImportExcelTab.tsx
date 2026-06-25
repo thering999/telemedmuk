@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import type { ReportCategory, Snapshot } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { ParseHippoExcelError, detectCategory, detectCategoryByColumns, parseFilenameMeta, parseHippoExcelFile } from '../lib/parseHippoExcel'
-import { validateSnapshot, type ValidationReport } from '../lib/validateSnapshot'
+import { validateSnapshot, validateGenericCategoryFile, type ValidationReport } from '../lib/validateSnapshot'
 import { ADMIN_PASSWORD } from '../lib/adminAuth'
 import SnapshotView from './SnapshotView'
 import * as XLSX from 'xlsx'
@@ -109,23 +109,28 @@ function ImportExcelTab() {
         let category = detectCategory(file.name)
         const dateWasGuessed = parseFilenameMeta(file.name) === null
 
+        // Parsed once up front: feeds column-based category detection below
+        // (for 'base'/unknown filenames) and the generic per-row validator
+        // for every "new" category, which has no in-browser transform of its
+        // own (see validateGenericCategoryFile's doc comment).
+        let rows: Record<string, unknown>[] = []
+        try {
+          const wb = XLSX.read(buffer)
+          const ws = wb.Sheets[wb.SheetNames?.[0]]
+          if (ws) {
+            rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws)
+          }
+        } catch {
+          // Silently ignore; category stays filename-detected, validation
+          // below degrades gracefully to a "no rows" error for this file.
+        }
+
         // Try column-based detection if filename suggests 'base'
         // to catch mislabeled files (e.g., _235 suffix with 'all' columns)
-        if (category === 'base' || category === null) {
-          try {
-            const wb = XLSX.read(buffer)
-            const ws = wb.Sheets[wb.SheetNames?.[0]]
-            if (ws) {
-              const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws)
-              if (rows.length > 0) {
-                const detectedByColumns = detectCategoryByColumns(rows[0])
-                if (detectedByColumns) {
-                  category = detectedByColumns
-                }
-              }
-            }
-          } catch {
-            // Silently ignore column detection errors; fall back to filename detection
+        if ((category === 'base' || category === null) && rows.length > 0) {
+          const detectedByColumns = detectCategoryByColumns(rows[0])
+          if (detectedByColumns) {
+            category = detectedByColumns
           }
         }
 
@@ -144,6 +149,8 @@ function ImportExcelTab() {
                   ? `เกิดข้อผิดพลาดที่ไม่คาดคิด: ${err.message}`
                   : 'เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างอ่านไฟล์'
           }
+        } else if (category !== null) {
+          validation = validateGenericCategoryFile(rows)
         }
 
         resolve({
