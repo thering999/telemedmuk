@@ -94,7 +94,6 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
 
 const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'base', label: 'เกณฑ์ OP68 เทียบ Telemed69' },
-  { key: 'strategic', label: 'วิเคราะห์เชิงกลยุทธ์' },
   { key: 'typein', label: 'ข้อมูลเกณฑ์จาก PH-EOC' },
   { key: 'all', label: 'แยกประเภทบริการ' },
   { key: 'person', label: 'รายคน' },
@@ -102,6 +101,7 @@ const SUB_TABS: { key: SubTabKey; label: string }[] = [
   { key: 'mch', label: 'MCH' },
   { key: 'ltc_pal', label: 'LTC/Palliative' },
   { key: 'followup', label: 'ติดตามต่อเนื่อง' },
+  { key: 'strategic', label: 'วิเคราะห์เชิงกลยุทธ์' },
 ]
 
 type LoadState =
