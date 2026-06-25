@@ -16,6 +16,7 @@ import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 import SortableTh from './SortableTh'
+import KpiCard from './KpiCard'
 
 export interface FollowupViewProps {
   snapshot: FollowupSnapshot
@@ -98,7 +99,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
   return (
-    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-emerald-50 to-white min-h-screen p-6 rounded-3xl dark:from-slate-900 dark:via-emerald-950/30 dark:to-slate-900">
+    <div className="flex flex-col gap-6">
       <ReportInfoPanel
         objective="เทียบสัดส่วนการนัดติดตามต่อเนื่องแบบมาคลินิกปกติ กับแบบโทรเวชกรรม เฉพาะปีงบประมาณ 69 (ปีปัจจุบัน) — รายงานนี้ไม่มีข้อมูลปีงบ 68"
         methodology="FollowUp_Total = จำนวนครั้งที่ typein เป็น 2 หรือ 5 รวมกัน (นัดหมายปกติ + โทรเวชกรรม), FollowUp_Normal = เฉพาะ typein=2, FollowUp_Telemed = เฉพาะ typein=5 — ร้อยละคำนวณจาก FollowUp_Telemed ÷ FollowUp_Total"
@@ -132,7 +133,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
         <KpiCard label="ผู้รับบริการรวม" value={kpis.totalVisits.toLocaleString('th-TH')} />
         <KpiCard label="ติดตามต่อเนื่องรวม" value={kpis.totalFollowUp.toLocaleString('th-TH')} />
         <KpiCard label="ติดตามแบบปกติ" value={kpis.totalNormal.toLocaleString('th-TH')} />
-        <KpiCard label="ติดตามผ่าน Telemedicine" value={kpis.totalTelemed.toLocaleString('th-TH')} accent />
+        <KpiCard label="ติดตามผ่าน Telemedicine" value={kpis.totalTelemed.toLocaleString('th-TH')} variant="accent" />
         <KpiCard
           label="ร้อยละ Telemedicine ต่อการติดตามต่อเนื่อง"
           value={kpis.percent === null ? '—' : `${kpis.percent.toFixed(1)}%`}
@@ -319,15 +320,6 @@ function FollowupView({ snapshot }: FollowupViewProps) {
           </table>
         </div>
       </div>
-    </div>
-  )
-}
-
-function KpiCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-      <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800 dark:text-slate-100'}`}>{value}</p>
     </div>
   )
 }

@@ -17,6 +17,7 @@ import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 import SortableTh from './SortableTh'
+import KpiCard from './KpiCard'
 
 export interface GroupBreakdownViewProps {
   snapshot: GroupBreakdownSnapshot
@@ -108,7 +109,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
   return (
-    <div className="flex flex-col gap-6 bg-gradient-to-b from-white via-cyan-50 to-white dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 min-h-screen p-6 rounded-3xl">
+    <div className="flex flex-col gap-6">
       <ReportInfoPanel {...docs} />
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-4 shadow-sm">
@@ -157,7 +158,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
         <KpiCard
           label={`Telemedicine รวม (ปีงบ ${fiscalYear})`}
           value={yearKpis.totalTelemed.toLocaleString('th-TH')}
-          accent
+          variant="accent"
         />
       </div>
 
@@ -344,15 +345,6 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
           </table>
         </div>
       </div>
-    </div>
-  )
-}
-
-function KpiCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
-      <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent ? 'text-brand-600' : 'text-slate-800 dark:text-slate-100'}`}>{value}</p>
     </div>
   )
 }

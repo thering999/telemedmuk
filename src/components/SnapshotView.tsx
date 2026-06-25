@@ -22,6 +22,7 @@ import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 import SortableTh from './SortableTh'
+import KpiCard from './KpiCard'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
@@ -437,7 +438,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         <KpiCard
           label={isTypeinReport ? "เกณฑ์ OP69 เทียบ Telemed69" : "เกณฑ์ OP68 เทียบ Telemed69"}
           value={`${baseMetricKpis.percent.toFixed(1)}%`}
-          accent
+          variant="accent"
           description="หลัก"
         />
       </div>
@@ -902,32 +903,6 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           </table>
         </div>
       </div>
-    </div>
-  )
-}
-
-function KpiCard({
-  label,
-  value,
-  accent,
-  description,
-}: {
-  label: string
-  value: string
-  accent?: boolean
-  description?: string
-}) {
-  return (
-    <div className={`rounded-xl border-2 p-6 shadow-md transition-all hover:shadow-xl hover:scale-105 ${accent ? 'border-cyan-400 dark:border-cyan-600 bg-gradient-to-br from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/30 dark:via-teal-950/30 dark:to-emerald-950/30' : 'border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 hover:border-slate-400 dark:hover:border-slate-500'}`}>
-      <div className="flex items-start justify-between">
-        <p className="text-xs font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">{label}</p>
-        {description && (
-          <span className={`text-xs font-bold px-3 py-1 rounded-full ${description === 'หลัก' ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md' : 'bg-gradient-to-r from-slate-200 to-slate-300 dark:from-slate-600 dark:to-slate-700 text-slate-800 dark:text-slate-100 font-semibold'}`}>
-            {description}
-          </span>
-        )}
-      </div>
-      <p className={`mt-3 text-4xl font-bold bg-clip-text ${accent ? 'text-transparent bg-gradient-to-r from-cyan-600 to-teal-600' : 'text-slate-900 dark:text-slate-100'}`}>{value}</p>
     </div>
   )
 }

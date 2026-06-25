@@ -22,6 +22,7 @@ import ReportGenerator from './ReportGenerator'
 import GeographicHeatmap from './GeographicHeatmap'
 import { useSortableTable } from '../lib/useSortableTable'
 import SortableTh from './SortableTh'
+import KpiCard from './KpiCard'
 
 export interface StrategicAnalysisViewProps {
   baseSnapshot: Snapshot
@@ -362,42 +363,33 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
 
       {/* KPI summary cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
-          <p className="text-sm text-slate-500 dark:text-slate-400">อัตรา Telemedicine ต่อ OP (ทั้งจังหวัด)</p>
-          <p className="mt-2 text-3xl font-semibold text-slate-800 dark:text-slate-100">
-            {provinceKpis.aggregateRate === null ? 'ไม่มีข้อมูล' : `${provinceKpis.aggregateRate.toFixed(2)}%`}
-          </p>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            ตัวเลขรวมทั้งจังหวัด — ดูเทียบเป้าหมายรายอำเภอ/รพ.สต. ด้านล่าง
-          </p>
-        </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
-          <p className="text-sm text-slate-500 dark:text-slate-400">อัตราการเริ่มใช้งาน (Activation Rate)</p>
-          <p className="mt-2 text-3xl font-semibold text-brand-600 dark:text-brand-400">
-            {provinceKpis.activationRate === null ? '—' : `${provinceKpis.activationRate.toFixed(1)}%`}
-          </p>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">สัดส่วนสถานบริการที่มี Type5 &gt; 0</p>
-        </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
-          <p className="text-sm text-slate-500 dark:text-slate-400">จำนวนสถานบริการที่ควรตรวจสอบ</p>
-          <p className="mt-2 text-3xl font-semibold text-rose-600 dark:text-rose-400">{provinceKpis.anomalyCount}</p>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">อัตราเกิน 50% (ควรตรวจสอบใน HDC)</p>
-        </div>
+        <KpiCard
+          label="อัตรา Telemedicine ต่อ OP (ทั้งจังหวัด)"
+          value={provinceKpis.aggregateRate === null ? 'ไม่มีข้อมูล' : `${provinceKpis.aggregateRate.toFixed(2)}%`}
+          footnote="ตัวเลขรวมทั้งจังหวัด — ดูเทียบเป้าหมายรายอำเภอ/รพ.สต. ด้านล่าง"
+        />
+        <KpiCard
+          label="อัตราการเริ่มใช้งาน (Activation Rate)"
+          value={provinceKpis.activationRate === null ? '—' : `${provinceKpis.activationRate.toFixed(1)}%`}
+          variant="accent"
+          footnote="สัดส่วนสถานบริการที่มี Type5 > 0"
+        />
+        <KpiCard
+          label="จำนวนสถานบริการที่ควรตรวจสอบ"
+          value={String(provinceKpis.anomalyCount)}
+          variant="danger"
+          footnote="อัตราเกิน 50% (ควรตรวจสอบใน HDC)"
+        />
       </div>
 
       {forecast && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm sm:col-span-1">
-            <p className="text-sm text-slate-500 dark:text-slate-400">คาดการณ์ปีงบ 70 (ค่าประมาณ)</p>
-            <p className="mt-2 text-3xl font-semibold text-brand-600 dark:text-brand-400">
-              {forecast.projected.toLocaleString('th-TH')}
-              <span className="ml-1 text-sm font-normal text-slate-400 dark:text-slate-500">ครั้ง</span>
-            </p>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              ประมาณการแบบเส้นตรงจาก Type5: ปีงบ 68 = {forecast.total68.toLocaleString('th-TH')}, ปีงบ 69 ={' '}
-              {forecast.total69.toLocaleString('th-TH')}
-            </p>
-          </div>
+          <KpiCard
+            label="คาดการณ์ปีงบ 70 (ค่าประมาณ)"
+            value={`${forecast.projected.toLocaleString('th-TH')} ครั้ง`}
+            variant="accent"
+            footnote={`ประมาณการแบบเส้นตรงจาก Type5: ปีงบ 68 = ${forecast.total68.toLocaleString('th-TH')}, ปีงบ 69 = ${forecast.total69.toLocaleString('th-TH')}`}
+          />
         </div>
       )}
 
