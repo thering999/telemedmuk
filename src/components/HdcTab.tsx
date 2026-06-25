@@ -19,7 +19,6 @@ import FollowupView from './FollowupView'
 import StrategicAnalysisView from './StrategicAnalysisView'
 import LoadingSkeleton from './LoadingSkeleton'
 import ErrorBoundary from './ErrorBoundary'
-import ExecutiveKPI from './ExecutiveKPI'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
 const ALL_DOCS: ReportInfoPanelProps = {
@@ -382,12 +381,6 @@ function HdcTab() {
       </div>
 
       <RefreshControl state={autoRefresh} />
-
-      {snapshot && effectiveSubTab === 'strategic' && currentCategoryData?.all && (
-        <ErrorBoundary label="Executive KPI">
-          <ExecutiveKPI allSnapshot={currentCategoryData.all} />
-        </ErrorBoundary>
-      )}
 
       <p className="text-xs text-slate-500 dark:text-slate-400">
         ปีงบประมาณ 68 = 1 ต.ค. 2567 – 30 ก.ย. 2568 · ปีงบประมาณ 69 = 1 ต.ค. 2568 – 30 ก.ย. 2569

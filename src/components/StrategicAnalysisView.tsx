@@ -20,6 +20,8 @@ import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 import ReportGenerator from './ReportGenerator'
 import GeographicHeatmap from './GeographicHeatmap'
+import ExecutiveKPI from './ExecutiveKPI'
+import ErrorBoundary from './ErrorBoundary'
 import { useSortableTable } from '../lib/useSortableTable'
 import SortableTh from './SortableTh'
 import KpiCard from './KpiCard'
@@ -337,6 +339,10 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         source="ตาราง service (ระบบ Hippo) ผ่านข้อมูลหมวด 'แยกประเภทบริการ' (Type1-5) ร่วมกับข้อมูลสังกัด (MCODE/M_NAME) จากรายงานภาพรวม"
         template="ร่าง SOP ขับเคลื่อน Telemedicine, MOPH Telemedicine 2569 (นพ.วรเวทย์ โรจน์จรัสไพศาล, รองผู้อำนวยการสำนักสุขภาพดิจิทัล, 11 พ.ค. 2569) — เกณฑ์เป้าหมาย 30% อ้างอิงจากเอกสารนี้; กรอบวิเคราะห์ 4 ส่วน (quadrant) และการพยากรณ์ดัดแปลงจากการวิเคราะห์ส่วนตัวใน q_telemed_hosp_muk.ipynb"
       />
+
+      <ErrorBoundary label="Executive KPI">
+        <ExecutiveKPI allSnapshot={allSnapshot} />
+      </ErrorBoundary>
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">วิเคราะห์เชิงกลยุทธ์</h2>
