@@ -431,9 +431,10 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
           description="เกณฑ์หลัก"
         />
         <KpiCard
-          label="ผู้รับบริการ Telemedicine รวม (ปีงบ 69)"
+          label={isTypeinReport ? "ผู้รับบริการ Telemedicine รวม (ปีงบ 69)" : "Type2+3+5 รวม (ปีงบ 69)"}
           value={baseMetricKpis.totalTelemed.toLocaleString('th-TH')}
           description="เกณฑ์หลัก"
+          footnote={isTypeinReport ? undefined : "นัดหมาย/ส่งต่อ + เชิงรุกชุมชน + โทรเวชกรรม (ไม่ใช่ Type5 ล้วน)"}
         />
         <KpiCard
           label={isTypeinReport ? "เกณฑ์ OP69 เทียบ Telemed69" : "เกณฑ์ OP68 เทียบ Telemed69"}
