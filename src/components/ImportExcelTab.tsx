@@ -407,7 +407,12 @@ function ImportExcelTab() {
                           <span className="text-emerald-700 dark:text-emerald-400">✓</span>
                         )}
                         {f.saveState.status === 'error' && (
-                          <span className="text-rose-700 text-xs dark:text-rose-400">ผิดพลาด</span>
+                          <span className="block max-w-[220px]">
+                            <span className="text-rose-700 dark:text-rose-400 font-medium">ผิดพลาด</span>
+                            <span className="block text-[11px] text-rose-600 dark:text-rose-400 whitespace-normal break-words">
+                              {f.saveState.message}
+                            </span>
+                          </span>
                         )}
                       </td>
                     </tr>
