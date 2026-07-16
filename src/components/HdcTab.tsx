@@ -73,7 +73,13 @@ const TYPEIN_DOCS: ReportInfoPanelProps = {
   template: 'q_telemed_hosp-235.ipynb',
 }
 
-const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
+// Cache-busting query param on every data fetch: GitHub Pages' CDN caches
+// unhashed static files (index.json, <date>.json, <date>/<category>.json)
+// at the edge for several minutes independent of browser cache, so a
+// same-URL request right after a deploy can still return stale data even
+// with a hard refresh. A unique query string per request forces both the
+// browser and the CDN edge to treat it as a fresh URL.
+const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}?t=${Date.now()}`
 
 type SubTabKey = 'base' | ReportCategory | 'strategic'
 
