@@ -14,6 +14,13 @@ export interface SnapshotIndexEntry {
    * present and intentionally NOT included here.
    */
   categories: ReportCategory[]
+  /**
+   * False when this date's Hippo export cycle had no plain base file (no
+   * Type2_Y/Type3_Y/Type5_Y/OP_Y breakdown) — only NEW-category data exists.
+   * Client must not fetch <date>.json or show the "base" sub-tab for these.
+   * Older index.json files predate this field, so treat undefined as true.
+   */
+  hasBase?: boolean
 }
 
 export interface YearStats {

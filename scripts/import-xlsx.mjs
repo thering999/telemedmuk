@@ -507,6 +507,17 @@ function rebuildIndex() {
   const snapshotFiles = entries
     .filter((e) => e.isFile() && /^\d{4}-\d{2}-\d{2}\.json$/.test(e.name))
     .map((e) => e.name);
+  const datesWithBase = new Set(snapshotFiles.map((f) => f.replace(/\.json$/i, '')));
+
+  // Dates that only have NEW-category files (no base xlsx was in this
+  // Hippo export cycle) still get an index entry — the base tab is hidden
+  // for them client-side (see hasBase) rather than the whole date being
+  // dropped from the picker, since these category files are still real,
+  // published data.
+  const dateDirs = entries
+    .filter((e) => e.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(e.name))
+    .map((e) => e.name)
+    .filter((date) => !datesWithBase.has(date));
 
   const index = [];
   for (const fname of snapshotFiles) {
@@ -530,10 +541,44 @@ function rebuildIndex() {
         sourceFile: data.sourceFile,
         facilityCount: Array.isArray(data.facilities) ? data.facilities.length : 0,
         categories: categoryFiles,
+        hasBase: true,
       });
     } catch (err) {
       console.error(`  [error] Could not read snapshot file "${fname}" while building index: ${err.message}`);
     }
+  }
+
+  for (const date of dateDirs) {
+    const dateDir = join(OUT_DIR, date);
+    let categoryFiles = [];
+    try {
+      categoryFiles = readdirSync(dateDir, { withFileTypes: true })
+        .filter((e) => e.isFile() && e.name.toLowerCase().endsWith('.json'))
+        .map((e) => e.name.replace(/\.json$/i, ''))
+        .filter((cat) => NEW_CATEGORIES.includes(cat))
+        .sort();
+    } catch {
+      categoryFiles = [];
+    }
+    if (categoryFiles.length === 0) continue;
+
+    let facilityCount = 0;
+    let sourceFile = categoryFiles[0];
+    try {
+      const first = JSON.parse(readFileSync(join(dateDir, `${categoryFiles[0]}.json`), 'utf8'));
+      facilityCount = Array.isArray(first.facilities) ? first.facilities.length : 0;
+      sourceFile = first.sourceFile ?? sourceFile;
+    } catch (err) {
+      console.error(`  [error] Could not read category file for "${date}" while building index: ${err.message}`);
+    }
+
+    index.push({
+      date,
+      sourceFile,
+      facilityCount,
+      categories: categoryFiles,
+      hasBase: false,
+    });
   }
 
   index.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));

@@ -194,8 +194,14 @@ function HdcTab() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const selectedEntry = useMemo(() => {
+    if (indexState.status !== 'ready' || !selectedDate) return null
+    return indexState.index.find((e) => e.date === selectedDate) ?? null
+  }, [indexState, selectedDate])
+  const selectedHasBase = selectedEntry?.hasBase !== false
+
   useEffect(() => {
-    if (!selectedDate) return
+    if (!selectedDate || !selectedHasBase) return
     let cancelled = false
     fetchSnapshot(selectedDate).catch(() => {
       // surfaced via snapshotError; swallow here so this isn't an unhandled rejection
@@ -204,16 +210,13 @@ function HdcTab() {
       cancelled = true
       void cancelled
     }
-  }, [selectedDate, fetchSnapshot])
+  }, [selectedDate, selectedHasBase, fetchSnapshot])
 
   const isStale = snapshot !== null && snapshot.snapshotDate !== selectedDate
   const currentError =
     snapshotError && snapshotError.date === selectedDate ? snapshotError.message : null
 
-  const currentEntry = useMemo(() => {
-    if (indexState.status !== 'ready' || !selectedDate) return null
-    return indexState.index.find((e) => e.date === selectedDate) ?? null
-  }, [indexState, selectedDate])
+  const currentEntry = selectedEntry
 
   const availableCategories = useMemo(() => currentEntry?.categories ?? [], [currentEntry])
 
@@ -240,22 +243,33 @@ function HdcTab() {
     [typeinSnapshot, filteredTypeinFacilities],
   )
 
+  // "base" and "strategic" both need the base snapshot (strategic overlays
+  // it with the 'all' category), so both are hidden on dates whose Hippo
+  // export cycle had no plain base file.
+  const tabNeedsBase = (key: SubTabKey) => key === 'base' || key === 'strategic'
+
   const visibleSubTabs = useMemo(() => {
     return SUB_TABS.filter((tab) => {
+      if (tabNeedsBase(tab.key) && !selectedHasBase) return false
       const gatingCategory = SUB_TAB_GATING_CATEGORY[tab.key]
       return !gatingCategory || availableCategories.includes(gatingCategory)
     })
-  }, [availableCategories])
+  }, [availableCategories, selectedHasBase])
 
   // If the active sub-tab isn't available for the currently-selected date
-  // (e.g. the user switched to an older date lacking that category), treat
-  // the effective tab as "base" without an extra state-correcting effect —
-  // same derive-during-render approach SnapshotView uses for its facility
-  // selection cascade. The underlying activeSubTab state is left alone so
-  // it's remembered if the user switches back to a date that has it.
+  // (e.g. the user switched to an older date lacking that category, or one
+  // with no base file), fall back to the first visible tab without an extra
+  // state-correcting effect — same derive-during-render approach
+  // SnapshotView uses for its facility selection cascade. The underlying
+  // activeSubTab state is left alone so it's remembered if the user
+  // switches back to a date that has it.
   const effectiveSubTab: SubTabKey = (() => {
     const gatingCategory = SUB_TAB_GATING_CATEGORY[activeSubTab]
-    return !gatingCategory || availableCategories.includes(gatingCategory) ? activeSubTab : 'base'
+    const isAvailable =
+      (!tabNeedsBase(activeSubTab) || selectedHasBase) &&
+      (!gatingCategory || availableCategories.includes(gatingCategory))
+    if (isAvailable) return activeSubTab
+    return visibleSubTabs[0]?.key ?? activeSubTab
   })()
 
   // Lazy-fetch the active sub-tab's category data, only when needed, and
@@ -313,7 +327,9 @@ function HdcTab() {
     try {
       await fetchIndex()
       if (selectedDate) {
-        await fetchSnapshot(selectedDate)
+        if (selectedHasBase) {
+          await fetchSnapshot(selectedDate)
+        }
         if (categoryToFetch) {
           await fetchCategory(selectedDate, categoryToFetch)
         }
@@ -322,7 +338,7 @@ function HdcTab() {
     } catch (error) {
       toast.show('รีเฟรชไม่สำเร็จ', 'error')
     }
-  }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, categoryToFetch, toast])
+  }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, selectedHasBase, categoryToFetch, toast])
 
   const autoRefresh = useAutoRefresh({ onRefresh: refreshDashboard })
 
@@ -404,13 +420,13 @@ function HdcTab() {
         ))}
       </div>
 
-      {currentError && (
+      {effectiveSubTab === 'base' && currentError && (
         <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-700 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300">
           เกิดข้อผิดพลาดในการโหลดสแนปช็อต: {currentError}
         </p>
       )}
 
-      {(!snapshot || isStale) && !currentError && (
+      {effectiveSubTab === 'base' && (!snapshot || isStale) && !currentError && (
         <p className="text-center text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูลสแนปช็อต...</p>
       )}
 
