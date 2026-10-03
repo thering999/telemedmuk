@@ -53,7 +53,8 @@ export interface Facility {
    * for this year" from "real zero usage."
    */
   byYear: Partial<Record<FiscalYear, YearStats>>
-  percentTelemed69PerOP68: number
+  /** Legacy precomputed column (FY69 telemed / FY68 OP) from older exports; compute from byYear instead. */
+  percentTelemed69PerOP68?: number
 }
 
 export interface Snapshot {
@@ -71,8 +72,74 @@ export interface Snapshot {
   facilities: Facility[]
 }
 
-export const FISCAL_YEARS = ['68', '69'] as const
-export type FiscalYear = (typeof FISCAL_YEARS)[number]
+/**
+ * Two-digit Buddhist-era fiscal year key as it appears in Hippo column names
+ * (e.g. "69" for ปีงบประมาณ 2569, "70" for 2570). Years are detected from the
+ * data itself — never hardcode a specific year in UI code; use the helpers
+ * below to resolve the current/previous year for a dataset.
+ */
+export type FiscalYear = string
+
+// Matches every year-suffixed column family across all report categories:
+// Type2_69, Type1_69_WalkIn, Telemed69, OP69, OP_Person69, Service69,
+// PersonAll69, Person_Type5_69, Total_Visits_69.
+const YEAR_COLUMN_PATTERN =
+  /^(?:Type\d_|Telemed|OP_Person|OP|Service|PersonAll|Person_Type\d_|Total_Visits_)(\d{2})(?:_[A-Za-z]+)?$/
+
+/** Fiscal years present in a raw Hippo row's column names, ascending. */
+export function detectFiscalYearsFromRow(row: Record<string, unknown>): FiscalYear[] {
+  const years = new Set<string>()
+  for (const key of Object.keys(row)) {
+    const m = YEAR_COLUMN_PATTERN.exec(key)
+    if (m) years.add(m[1])
+  }
+  return [...years].sort()
+}
+
+/** Union of fiscal years carrying data across items with a byYear map, ascending. */
+export function fiscalYearsOf(items: ReadonlyArray<{ byYear: Partial<Record<FiscalYear, unknown>> }>): FiscalYear[] {
+  const years = new Set<string>()
+  for (const item of items) {
+    for (const [y, v] of Object.entries(item.byYear)) if (v != null) years.add(y)
+  }
+  return [...years].sort()
+}
+
+/** Thai fiscal year (2-digit BE) containing an ISO date; fiscal year starts 1 Oct. */
+export function fiscalYearFromDate(isoDate: string): FiscalYear {
+  const d = new Date(isoDate)
+  const t = Number.isNaN(d.getTime()) ? new Date() : d
+  const be = t.getFullYear() + 543 + (t.getMonth() >= 9 ? 1 : 0)
+  return String(be % 100).padStart(2, '0')
+}
+
+export function previousFiscalYear(year: FiscalYear): FiscalYear {
+  return String((Number(year) + 99) % 100).padStart(2, '0')
+}
+
+/** Full BE year label, e.g. "70" -> "2570". */
+export function fullFiscalYear(year: FiscalYear): string {
+  return `25${year}`
+}
+
+export interface FiscalYearPair {
+  /** Latest year with data (falls back to the snapshot date's fiscal year). */
+  current: FiscalYear
+  /** Year before `current`, used as the comparison baseline. */
+  previous: FiscalYear
+  /** All years with data, ascending. */
+  all: FiscalYear[]
+}
+
+/** Resolve current/previous fiscal year for a dataset. */
+export function resolveFiscalYears(
+  items: ReadonlyArray<{ byYear: Partial<Record<FiscalYear, unknown>> }>,
+  snapshotDate?: string,
+): FiscalYearPair {
+  const all = fiscalYearsOf(items)
+  const current = all[all.length - 1] ?? fiscalYearFromDate(snapshotDate ?? '')
+  return { current, previous: previousFiscalYear(current), all }
+}
 
 export function telemedVisits(stats: YearStats | undefined): number {
   return stats?.telemed ?? 0
@@ -137,7 +204,10 @@ export interface GroupBreakdownSnapshot {
 }
 
 export interface FollowupFacility extends FacilityIdentity {
-  totalVisits69: number
+  /** Total visits in the report's fiscal year (FollowupSnapshot.fiscalYear). */
+  totalVisits: number
+  /** Legacy field name from FY69-only snapshots; read via followupTotalVisits(). */
+  totalVisits69?: number
   followUpTotal: number
   followUpNormal: number
   followUpTelemed: number
@@ -146,7 +216,17 @@ export interface FollowupFacility extends FacilityIdentity {
 export interface FollowupSnapshot {
   snapshotDate: string
   category: 'followup'
+  /** Fiscal year the report covers; absent on legacy snapshots (= "69"). */
+  fiscalYear?: FiscalYear
   sourceFile: string | string[]
   province: { code: string; name: string }
   facilities: FollowupFacility[]
+}
+
+export function followupFiscalYear(s: FollowupSnapshot): FiscalYear {
+  return s.fiscalYear ?? '69'
+}
+
+export function followupTotalVisits(f: FollowupFacility): number {
+  return f.totalVisits ?? f.totalVisits69 ?? 0
 }

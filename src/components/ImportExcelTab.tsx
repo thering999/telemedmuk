@@ -314,7 +314,7 @@ function ImportExcelTab() {
             <code className="rounded bg-amber-100 px-1 dark:bg-amber-900/40 dark:text-amber-300">data/raw/</code>
           </p>
           <p>
-            <strong>สำคัญ:</strong> ตรวจสอบไฟล์ให้แน่ใจว่ามีคอลัมน์ที่ถูกต้อง (hospcode, hospname, OP68, Telemed69 ฯลฯ) ก่อนบันทึก
+            <strong>สำคัญ:</strong> ตรวจสอบไฟล์ให้แน่ใจว่ามีคอลัมน์ที่ถูกต้อง (hospcode, hospname, OP และ Telemed ตามปีงบ เช่น OP{'<ปี>'}, Telemed{'<ปี>'} ฯลฯ) ก่อนบันทึก
           </p>
         </div>
       </div>

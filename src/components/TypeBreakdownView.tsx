@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
+import { resolveFiscalYears } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
@@ -50,18 +51,23 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
     })
   }, [snapshot, search, hostype])
 
+  const { current: cur, previous: prev } = useMemo(
+    () => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate),
+    [snapshot],
+  )
+
   const kpis = useMemo(() => {
-    let totalOp68 = 0
-    let totalTypes69 = 0
+    let totalOpPrev = 0
+    let totalTypesCur = 0
     for (const f of filteredFacilities) {
-      const op68 = f.byYear['68']
-      const types69 = f.byYear['69']
-      totalOp68 += op68?.op ?? 0
-      totalTypes69 += ((types69?.type2 ?? 0) + (types69?.type3 ?? 0) + (types69?.type5 ?? 0))
+      const opPrev = f.byYear[prev]
+      const typesCur = f.byYear[cur]
+      totalOpPrev += opPrev?.op ?? 0
+      totalTypesCur += ((typesCur?.type2 ?? 0) + (typesCur?.type3 ?? 0) + (typesCur?.type5 ?? 0))
     }
-    const percent = totalOp68 > 0 ? (totalTypes69 / totalOp68) * 100 : 0
-    return { totalOp68, totalTypes69, percent }
-  }, [filteredFacilities])
+    const percent = totalOpPrev > 0 ? (totalTypesCur / totalOpPrev) * 100 : 0
+    return { totalOpPrev, totalTypesCur, percent }
+  }, [filteredFacilities, cur, prev])
 
   const exportColumns = useMemo<ExportColumn<TypeBreakdownFacility>[]>(() => {
     if (isPersonReport) {
@@ -70,33 +76,33 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
         { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
         { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
         { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
-        { key: 'op68', label: 'OP68', value: (f) => f.byYear['68']?.op ?? 0 },
-        { key: 'type1', label: 'Person Type1 (69)', value: (f) => f.byYear['69']?.type1 ?? 0 },
-        { key: 'type2', label: 'Person Type2 (69)', value: (f) => f.byYear['69']?.type2 ?? 0 },
-        { key: 'type3', label: 'Person Type3 (69)', value: (f) => f.byYear['69']?.type3 ?? 0 },
-        { key: 'type4', label: 'Person Type4 (69)', value: (f) => f.byYear['69']?.type4 ?? 0 },
-        { key: 'type5', label: 'Person Type5 (69)', value: (f) => f.byYear['69']?.type5 ?? 0 },
+        { key: 'opPrev', label: `OP${prev}`, value: (f) => f.byYear[prev]?.op ?? 0 },
+        { key: 'type1', label: `Person Type1 (${cur})`, value: (f) => f.byYear[cur]?.type1 ?? 0 },
+        { key: 'type2', label: `Person Type2 (${cur})`, value: (f) => f.byYear[cur]?.type2 ?? 0 },
+        { key: 'type3', label: `Person Type3 (${cur})`, value: (f) => f.byYear[cur]?.type3 ?? 0 },
+        { key: 'type4', label: `Person Type4 (${cur})`, value: (f) => f.byYear[cur]?.type4 ?? 0 },
+        { key: 'type5', label: `Person Type5 (${cur})`, value: (f) => f.byYear[cur]?.type5 ?? 0 },
         {
           key: 'telemedPercent',
           label: 'Telemedicine %',
           value: (f) => {
-            const op68 = f.byYear['68']?.op ?? 0
-            const type5 = f.byYear['69']?.type5 ?? 0
-            return op68 > 0 ? Number(((type5 / op68) * 100).toFixed(2)) : 0
+            const opPrev = f.byYear[prev]?.op ?? 0
+            const type5 = f.byYear[cur]?.type5 ?? 0
+            return opPrev > 0 ? Number(((type5 / opPrev) * 100).toFixed(2)) : 0
           },
         },
         {
           key: 'allTypesSum',
           label: 'All Types Sum',
           value: (f) => {
-            const stats69 = f.byYear['69']
-            if (!stats69) return 0
+            const statsCur = f.byYear[cur]
+            if (!statsCur) return 0
             return (
-              (stats69.type1 ?? 0) +
-              (stats69.type2 ?? 0) +
-              (stats69.type3 ?? 0) +
-              (stats69.type4 ?? 0) +
-              (stats69.type5 ?? 0)
+              (statsCur.type1 ?? 0) +
+              (statsCur.type2 ?? 0) +
+              (statsCur.type3 ?? 0) +
+              (statsCur.type4 ?? 0) +
+              (statsCur.type5 ?? 0)
             )
           },
         },
@@ -107,17 +113,17 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
       { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
       { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
       { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
-      { key: 'op68', label: 'OP68', value: (f) => f.byYear['68']?.op ?? 0 },
-      { key: 'type2', label: 'Type2 (69)', value: (f) => f.byYear['69']?.type2 ?? 0 },
-      { key: 'type3', label: 'Type3 (69)', value: (f) => f.byYear['69']?.type3 ?? 0 },
-      { key: 'type5', label: 'Type5 (69)', value: (f) => f.byYear['69']?.type5 ?? 0 },
+      { key: 'opPrev', label: `OP${prev}`, value: (f) => f.byYear[prev]?.op ?? 0 },
+      { key: 'type2', label: `Type2 (${cur})`, value: (f) => f.byYear[cur]?.type2 ?? 0 },
+      { key: 'type3', label: `Type3 (${cur})`, value: (f) => f.byYear[cur]?.type3 ?? 0 },
+      { key: 'type5', label: `Type5 (${cur})`, value: (f) => f.byYear[cur]?.type5 ?? 0 },
       {
         key: 'typeSum',
         label: 'Type2+3+5 รวม',
-        value: (f) => ((f.byYear['69']?.type2 ?? 0) + (f.byYear['69']?.type3 ?? 0) + (f.byYear['69']?.type5 ?? 0)),
+        value: (f) => ((f.byYear[cur]?.type2 ?? 0) + (f.byYear[cur]?.type3 ?? 0) + (f.byYear[cur]?.type5 ?? 0)),
       },
     ]
-  }, [isPersonReport])
+  }, [isPersonReport, cur, prev])
 
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
@@ -148,28 +154,28 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
       </div>
 
       <div className={`grid grid-cols-1 gap-4 ${isPersonReport ? 'sm:grid-cols-3 lg:grid-cols-6' : 'sm:grid-cols-2 lg:grid-cols-5'}`}>
-        <KpiCard label="OP68 รวม" value={kpis.totalOp68.toLocaleString('th-TH')} />
+        <KpiCard label={`OP${prev} รวม`} value={kpis.totalOpPrev.toLocaleString('th-TH')} />
         {isPersonReport ? (
           <>
             <KpiCard
               label="Type1 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type1 ?? 0), 0).toLocaleString('th-TH')}
             />
             <KpiCard
               label="Type2 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type2 ?? 0), 0).toLocaleString('th-TH')}
             />
             <KpiCard
               label="Type3 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type3 ?? 0), 0).toLocaleString('th-TH')}
             />
             <KpiCard
               label="Type4 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type4 ?? 0), 0).toLocaleString('th-TH')}
             />
             <KpiCard
               label="Type5 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0).toLocaleString('th-TH')}
               variant="accent"
             />
           </>
@@ -177,22 +183,22 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
           <>
             <KpiCard
               label="Type2 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type2 ?? 0), 0).toLocaleString('th-TH')}
             />
             <KpiCard
               label="Type3 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type3 ?? 0), 0).toLocaleString('th-TH')}
             />
             <KpiCard
               label="Type5 รวม"
-              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+              value={filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0).toLocaleString('th-TH')}
               variant="accent"
             />
           </>
         )}
         <KpiCard
           label="รวมทั้งหมด"
-          value={kpis.totalTypes69.toLocaleString('th-TH')}
+          value={kpis.totalTypesCur.toLocaleString('th-TH')}
           variant="accent"
         />
       </div>
@@ -204,7 +210,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`${title}_${snapshot.snapshotDate}`}
-              title={`${title} (OP68 vs Type2+3+5/69) — ${snapshot.snapshotDate}`}
+              title={`${title} (OP${prev} vs Type2+3+5/${cur}) — ${snapshot.snapshotDate}`}
               columns={exportColumns}
               rows={filteredFacilities}
             />
@@ -251,11 +257,11 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
                 />
                 <SortableTh
-                  label="OP68"
+                  label={`OP${prev}`}
                   align="right"
-                  active={sortKey === 'op68'}
+                  active={sortKey === 'opPrev'}
                   direction={sortDir}
-                  onClick={() => toggleSort('op68', (f) => f.byYear['68']?.op ?? 0)}
+                  onClick={() => toggleSort('opPrev', (f) => f.byYear[prev]?.op ?? 0)}
                   className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                 />
                 {isPersonReport ? (
@@ -265,7 +271,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       align="right"
                       active={sortKey === 'type1'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type1', (f) => f.byYear['69']?.type1 ?? 0)}
+                      onClick={() => toggleSort('type1', (f) => f.byYear[cur]?.type1 ?? 0)}
                       className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
@@ -273,7 +279,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       align="right"
                       active={sortKey === 'type2'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type2', (f) => f.byYear['69']?.type2 ?? 0)}
+                      onClick={() => toggleSort('type2', (f) => f.byYear[cur]?.type2 ?? 0)}
                       className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
@@ -281,7 +287,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       align="right"
                       active={sortKey === 'type3'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type3', (f) => f.byYear['69']?.type3 ?? 0)}
+                      onClick={() => toggleSort('type3', (f) => f.byYear[cur]?.type3 ?? 0)}
                       className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
@@ -289,7 +295,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       align="right"
                       active={sortKey === 'type4'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type4', (f) => f.byYear['69']?.type4 ?? 0)}
+                      onClick={() => toggleSort('type4', (f) => f.byYear[cur]?.type4 ?? 0)}
                       className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
@@ -297,7 +303,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       align="right"
                       active={sortKey === 'type5'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type5', (f) => f.byYear['69']?.type5 ?? 0)}
+                      onClick={() => toggleSort('type5', (f) => f.byYear[cur]?.type5 ?? 0)}
                       className="px-1.5 py-2 text-right font-bold text-xs"
                     />
                     <SortableTh
@@ -307,9 +313,9 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       direction={sortDir}
                       onClick={() =>
                         toggleSort('telemedPercent', (f) => {
-                          const op68 = f.byYear['68']?.op ?? 0
-                          const type5 = f.byYear['69']?.type5 ?? 0
-                          return op68 > 0 ? (type5 / op68) * 100 : 0
+                          const opPrev = f.byYear[prev]?.op ?? 0
+                          const type5 = f.byYear[cur]?.type5 ?? 0
+                          return opPrev > 0 ? (type5 / opPrev) * 100 : 0
                         })
                       }
                       className="px-1.5 py-2 text-right font-bold text-xs"
@@ -321,7 +327,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       direction={sortDir}
                       onClick={() =>
                         toggleSort('typeSum', (f) => {
-                          const s = f.byYear['69']
+                          const s = f.byYear[cur]
                           return (s?.type1 ?? 0) + (s?.type2 ?? 0) + (s?.type3 ?? 0) + (s?.type4 ?? 0) + (s?.type5 ?? 0)
                         })
                       }
@@ -331,27 +337,27 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                 ) : (
                   <>
                     <SortableTh
-                      label="Type2 (69)"
+                      label={`Type2 (${cur})`}
                       align="right"
                       active={sortKey === 'type2'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type2', (f) => f.byYear['69']?.type2 ?? 0)}
+                      onClick={() => toggleSort('type2', (f) => f.byYear[cur]?.type2 ?? 0)}
                       className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                     />
                     <SortableTh
-                      label="Type3 (69)"
+                      label={`Type3 (${cur})`}
                       align="right"
                       active={sortKey === 'type3'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type3', (f) => f.byYear['69']?.type3 ?? 0)}
+                      onClick={() => toggleSort('type3', (f) => f.byYear[cur]?.type3 ?? 0)}
                       className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                     />
                     <SortableTh
-                      label="Type5 (69)"
+                      label={`Type5 (${cur})`}
                       align="right"
                       active={sortKey === 'type5'}
                       direction={sortDir}
-                      onClick={() => toggleSort('type5', (f) => f.byYear['69']?.type5 ?? 0)}
+                      onClick={() => toggleSort('type5', (f) => f.byYear[cur]?.type5 ?? 0)}
                       className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                     />
                     <SortableTh
@@ -362,7 +368,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                       onClick={() =>
                         toggleSort(
                           'typeSum',
-                          (f) => (f.byYear['69']?.type2 ?? 0) + (f.byYear['69']?.type3 ?? 0) + (f.byYear['69']?.type5 ?? 0),
+                          (f) => (f.byYear[cur]?.type2 ?? 0) + (f.byYear[cur]?.type3 ?? 0) + (f.byYear[cur]?.type5 ?? 0),
                         )
                       }
                       className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
@@ -373,12 +379,12 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
             </thead>
             <tbody>
               {sortedFacilities.map((f) => {
-                const op68 = f.byYear['68']?.op ?? 0
-                const type1 = f.byYear['69']?.type1 ?? 0
-                const type2 = f.byYear['69']?.type2 ?? 0
-                const type3 = f.byYear['69']?.type3 ?? 0
-                const type4 = f.byYear['69']?.type4 ?? 0
-                const type5 = f.byYear['69']?.type5 ?? 0
+                const opPrev = f.byYear[prev]?.op ?? 0
+                const type1 = f.byYear[cur]?.type1 ?? 0
+                const type2 = f.byYear[cur]?.type2 ?? 0
+                const type3 = f.byYear[cur]?.type3 ?? 0
+                const type4 = f.byYear[cur]?.type4 ?? 0
+                const type5 = f.byYear[cur]?.type5 ?? 0
                 const typeSum = isPersonReport
                   ? type1 + type2 + type3 + type4 + type5
                   : type2 + type3 + type5
@@ -396,7 +402,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                         )}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{op68.toLocaleString('th-TH')}</td>
+                    <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">{opPrev.toLocaleString('th-TH')}</td>
                     {isPersonReport ? (
                       <>
                         <td className="px-1.5 py-2 text-right text-slate-700 dark:text-slate-300 text-xs">{type1.toLocaleString('th-TH')}</td>
@@ -406,7 +412,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                         <td className="px-1.5 py-2 text-right font-medium text-brand-700 text-xs">{type5.toLocaleString('th-TH')}</td>
                         <td className="px-3 py-2 text-right text-brand-700">
                           {(() => {
-                            const percent = op68 > 0 ? (type5 / op68) * 100 : 0
+                            const percent = opPrev > 0 ? (type5 / opPrev) * 100 : 0
                             return `${percent.toFixed(2)}%`
                           })()}
                         </td>
@@ -436,39 +442,39 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   <td className="px-4 py-3"></td>
                   <td className="px-4 py-3"></td>
                   <td className="px-4 py-3"></td>
-                  <td className="px-4 py-3 text-right">{kpis.totalOp68.toLocaleString('th-TH')}</td>
+                  <td className="px-4 py-3 text-right">{kpis.totalOpPrev.toLocaleString('th-TH')}</td>
                   {isPersonReport ? (
                     <>
                       <td className="px-1.5 py-2 text-right text-xs">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type1 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-1.5 py-2 text-right text-xs">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type2 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-1.5 py-2 text-right text-xs">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type3 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-1.5 py-2 text-right text-xs">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type4 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-1.5 py-2 text-right text-brand-700 text-xs">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-3 py-3 text-right text-brand-700">
                         {(() => {
-                          const totalType5 = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0)
-                          const totalOp = filteredFacilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0)
+                          const totalType5 = filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0)
+                          const totalOp = filteredFacilities.reduce((sum, f) => sum + (f.byYear[prev]?.op ?? 0), 0)
                           const percent = totalOp > 0 ? (totalType5 / totalOp) * 100 : 0
                           return `${percent.toFixed(2)}%`
                         })()}
                       </td>
                       <td className="px-3 py-3 text-right text-slate-600 text-sm">
                         {(() => {
-                          const type1Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type1 ?? 0), 0)
-                          const type2Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0)
-                          const type3Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0)
-                          const type4Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type4 ?? 0), 0)
-                          const type5Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0)
+                          const type1Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type1 ?? 0), 0)
+                          const type2Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type2 ?? 0), 0)
+                          const type3Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type3 ?? 0), 0)
+                          const type4Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type4 ?? 0), 0)
+                          const type5Sum = filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0)
                           return (type1Sum + type2Sum + type3Sum + type4Sum + type5Sum).toLocaleString('th-TH')
                         })()}
                       </td>
@@ -476,15 +482,15 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   ) : (
                     <>
                       <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type2 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-3 py-3 text-right">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type3 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
                       <td className="px-3 py-3 text-right text-brand-700">
-                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0).toLocaleString('th-TH')}
+                        {filteredFacilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0).toLocaleString('th-TH')}
                       </td>
-                      <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypes69.toLocaleString('th-TH')}</td>
+                      <td className="px-3 py-3 text-right text-brand-700">{kpis.totalTypesCur.toLocaleString('th-TH')}</td>
                     </>
                   )}
                 </tr>

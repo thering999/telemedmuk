@@ -1,4 +1,5 @@
 import type { TypeBreakdownSnapshot } from '../types/hdc'
+import { resolveFiscalYears } from '../types/hdc'
 
 interface ExecutiveKPIProps {
   allSnapshot: TypeBreakdownSnapshot
@@ -6,16 +7,17 @@ interface ExecutiveKPIProps {
 
 function ExecutiveKPI({ allSnapshot }: ExecutiveKPIProps) {
   const facilities = allSnapshot.facilities
+  const { current } = resolveFiscalYears(facilities, allSnapshot.snapshotDate)
 
   // Calculate overall adoption
   const totalType5 = facilities.reduce((sum, f) => {
-    const fy69 = f.byYear['69']
-    return sum + (fy69?.type5 ?? 0)
+    const fyCur = f.byYear[current]
+    return sum + (fyCur?.type5 ?? 0)
   }, 0)
 
   const totalOP = facilities.reduce((sum, f) => {
-    const fy69 = f.byYear['69']
-    return sum + (fy69?.op ?? 0)
+    const fyCur = f.byYear[current]
+    return sum + (fyCur?.op ?? 0)
   }, 0)
 
   const adoptionRate = totalOP > 0 ? (totalType5 / totalOP) * 100 : 0
@@ -23,12 +25,12 @@ function ExecutiveKPI({ allSnapshot }: ExecutiveKPIProps) {
   // Top performers
   const topFacilities = [...facilities]
     .map((f) => {
-      const fy69 = f.byYear['69']
-      if (!fy69 || fy69.op === 0) return null
+      const fyCur = f.byYear[current]
+      if (!fyCur || fyCur.op === 0) return null
       return {
         name: f.hospname,
-        rate: (fy69.type5 / fy69.op) * 100,
-        type5: fy69.type5,
+        rate: (fyCur.type5 / fyCur.op) * 100,
+        type5: fyCur.type5,
       }
     })
     .filter((x) => x !== null)
@@ -37,9 +39,9 @@ function ExecutiveKPI({ allSnapshot }: ExecutiveKPIProps) {
 
   // Red flags (rate > 50%)
   const redFlags = facilities.filter((f) => {
-    const fy69 = f.byYear['69']
-    if (!fy69 || fy69.op === 0) return false
-    const rate = (fy69.type5 / fy69.op) * 100
+    const fyCur = f.byYear[current]
+    if (!fyCur || fyCur.op === 0) return false
+    const rate = (fyCur.type5 / fyCur.op) * 100
     return rate > 50
   }).length
 
@@ -74,8 +76,8 @@ function ExecutiveKPI({ allSnapshot }: ExecutiveKPIProps) {
           </p>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             {facilities.filter(f => {
-              const fy69 = f.byYear['69']
-              return fy69 && fy69.type5 > 0
+              const fyCur = f.byYear[current]
+              return fyCur && fyCur.type5 > 0
             }).length} active
           </p>
         </div>
@@ -94,7 +96,7 @@ function ExecutiveKPI({ allSnapshot }: ExecutiveKPIProps) {
 
       {/* Top Performers */}
       <div className="mt-6 rounded-xl bg-white/80 p-5 dark:bg-slate-800/80">
-        <h3 className="mb-3 font-semibold text-slate-800 dark:text-slate-100">🏆 Top Performers (FY69)</h3>
+        <h3 className="mb-3 font-semibold text-slate-800 dark:text-slate-100">🏆 Top Performers (FY{current})</h3>
         <div className="space-y-2">
           {topFacilities.map((facility, idx) => (
             <div key={idx} className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-700/50">
