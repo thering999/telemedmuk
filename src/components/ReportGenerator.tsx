@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { TypeBreakdownSnapshot } from '../types/hdc'
+import { resolveFiscalYears, type TypeBreakdownSnapshot } from '../types/hdc'
 import { useToast } from '../context/ToastContext'
 import { exportToPdf } from '../lib/exportPdf'
 
@@ -19,15 +19,16 @@ function ReportGenerator({ snapshot, snapshotDate }: ReportGeneratorProps) {
     setIsGenerating(true)
     try {
       const facilities = snapshot.facilities
-      const totalType5 = facilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0)
-      const totalOP = facilities.reduce((sum, f) => sum + (f.byYear['69']?.op ?? 0), 0)
+      const { current } = resolveFiscalYears(facilities, snapshotDate)
+      const totalType5 = facilities.reduce((sum, f) => sum + (f.byYear[current]?.type5 ?? 0), 0)
+      const totalOP = facilities.reduce((sum, f) => sum + (f.byYear[current]?.op ?? 0), 0)
       const adoptionRate = totalOP > 0 ? ((totalType5 / totalOP) * 100).toFixed(2) : '0'
 
       const topFacilities = facilities
         .map((f) => {
-          const fy69 = f.byYear['69']
-          if (!fy69 || fy69.op === 0) return null
-          return { name: f.hospname, rate: (fy69.type5 / fy69.op) * 100 }
+          const fy = f.byYear[current]
+          if (!fy || fy.op === 0) return null
+          return { name: f.hospname, rate: (fy.type5 / fy.op) * 100 }
         })
         .filter((x) => x !== null)
         .sort((a, b) => (b?.rate ?? 0) - (a?.rate ?? 0))
@@ -64,10 +65,10 @@ District Performance Analysis
 =============================
 ${facilities
   .map((f) => {
-    const fy69 = f.byYear['69']
-    if (!fy69 || fy69.op === 0) return null
-    const rate = ((fy69.type5 / fy69.op) * 100).toFixed(1)
-    return `${f.ampName}: ${rate}% (${fy69.type5}/${fy69.op})`
+    const fy = f.byYear[current]
+    if (!fy || fy.op === 0) return null
+    const rate = ((fy.type5 / fy.op) * 100).toFixed(1)
+    return `${f.ampName}: ${rate}% (${fy.type5}/${fy.op})`
   })
   .filter((x) => x !== null)
   .slice(0, 10)
@@ -84,10 +85,10 @@ Individual Facility Performance
 ===============================
 ${facilities
   .map((f) => {
-    const fy69 = f.byYear['69']
-    if (!fy69) return null
-    const rate = fy69.op > 0 ? ((fy69.type5 / fy69.op) * 100).toFixed(1) : 'N/A'
-    return `${f.hospname} (${f.hostypeName})\nRate: ${rate}% | Services: ${fy69.type5} | OP: ${fy69.op}\n`
+    const fy = f.byYear[current]
+    if (!fy) return null
+    const rate = fy.op > 0 ? ((fy.type5 / fy.op) * 100).toFixed(1) : 'N/A'
+    return `${f.hospname} (${f.hostypeName})\nRate: ${rate}% | Services: ${fy.type5} | OP: ${fy.op}\n`
   })
   .filter((x) => x !== null)
   .slice(0, 20)

@@ -1,5 +1,5 @@
 import type { Facility, FiscalYear, Snapshot } from '../types/hdc'
-import { FISCAL_YEARS } from '../types/hdc'
+import { fiscalYearsOf } from '../types/hdc'
 
 /**
  * Data-quality validation for a parsed Hippo "base" snapshot, run client-side
@@ -136,11 +136,12 @@ function validateFacilityRow(
       message: `แถวที่ ${rowIndex + 1}: ค่า opAll ไม่ใช่ตัวเลข`,
     })
   }
-  if (!isFiniteNumber(row.percentTelemed69PerOP68)) {
+  // Legacy optional column: only validate when present.
+  if (row.percentTelemed69PerOP68 !== undefined && !isFiniteNumber(row.percentTelemed69PerOP68)) {
     issues.push({
       severity: 'warning',
       code: 'bad_type_percent',
-      message: `แถวที่ ${rowIndex + 1}: ค่า percentTelemed69PerOP68 ไม่ใช่ตัวเลข`,
+      message: `แถวที่ ${rowIndex + 1}: ค่า percentTelemed ไม่ใช่ตัวเลข`,
     })
   }
 
@@ -156,14 +157,8 @@ function validateFacilityRow(
 
 /** Finds the min/max fiscal year that actually has data (non-null byYear entry) across all rows, for the "date range" stat. */
 function computeFiscalYearRange(facilities: Facility[]): { earliest: string; latest: string } | null {
-  const yearsWithData = new Set<FiscalYear>()
-  for (const facility of facilities) {
-    for (const year of FISCAL_YEARS) {
-      if (facility.byYear[year]) yearsWithData.add(year)
-    }
-  }
-  if (yearsWithData.size === 0) return null
-  const sorted = [...yearsWithData].sort()
+  const sorted: FiscalYear[] = fiscalYearsOf(facilities)
+  if (sorted.length === 0) return null
   return { earliest: sorted[0], latest: sorted[sorted.length - 1] }
 }
 
@@ -226,7 +221,7 @@ export function validateSnapshot(snapshot: Snapshot): ValidationReport {
       missing_hostypeName: 'hostypeName ว่าง',
       bad_type_serviceAll: 'serviceAll ไม่ใช่ตัวเลข',
       bad_type_opAll: 'opAll ไม่ใช่ตัวเลข',
-      bad_type_percent: 'percentTelemed69PerOP68 ไม่ใช่ตัวเลข',
+      bad_type_percent: 'percentTelemed ไม่ใช่ตัวเลข',
     }
 
     for (const [code, count] of typeMismatchCounts) {

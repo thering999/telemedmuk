@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import type { GroupBreakdownFacility, GroupBreakdownSnapshot } from '../types/hdc'
+import { resolveFiscalYears, type GroupBreakdownFacility, type GroupBreakdownSnapshot } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
 import { useSortableTable } from '../lib/useSortableTable'
@@ -57,18 +57,23 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
     })
   }, [snapshot, search, hostype])
 
-  // OP68 (baseline year) vs Telemed69 (current year) -- same asymmetric
+  const { current, previous } = useMemo(
+    () => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate),
+    [snapshot],
+  )
+
+  // OP[previous] (baseline year) vs Telemed[current] -- same asymmetric
   // anchor convention used everywhere else in this dashboard, not a
   // same-year comparison.
   const yearKpis = useMemo(() => {
     let totalOp = 0
     let totalTelemed = 0
     for (const f of filteredFacilities) {
-      totalOp += f.byYear['68']?.op ?? 0
-      totalTelemed += f.byYear['69']?.telemed ?? 0
+      totalOp += f.byYear[previous]?.op ?? 0
+      totalTelemed += f.byYear[current]?.telemed ?? 0
     }
     return { totalOp, totalTelemed }
-  }, [filteredFacilities])
+  }, [filteredFacilities, current, previous])
 
   const groupKpis = useMemo(() => {
     return snapshot.groupDefs.map((def) => {
@@ -100,11 +105,11 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
       { key: `${def.key}_tele`, label: `${def.label} (tele)`, value: (f) => f.groups[def.key]?.tele ?? 0 },
     ])
     const tail: ExportColumn<GroupBreakdownFacility>[] = [
-      { key: 'op', label: 'OP68 รวม', value: (f) => f.byYear['68']?.op ?? 0 },
-      { key: 'telemed', label: 'Telemedicine รวม (ปีงบ 69)', value: (f) => f.byYear['69']?.telemed ?? 0 },
+      { key: 'op', label: `OP${previous} รวม`, value: (f) => f.byYear[previous]?.op ?? 0 },
+      { key: 'telemed', label: `Telemedicine รวม (ปีงบ ${current})`, value: (f) => f.byYear[current]?.telemed ?? 0 },
     ]
     return [...base, ...groupCols, ...tail]
-  }, [snapshot.groupDefs])
+  }, [snapshot.groupDefs, current, previous])
 
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
@@ -135,9 +140,9 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <KpiCard label="OP68 รวม" value={yearKpis.totalOp.toLocaleString('th-TH')} />
+        <KpiCard label={`OP${previous} รวม`} value={yearKpis.totalOp.toLocaleString('th-TH')} />
         <KpiCard
-          label="Telemedicine รวม (ปีงบ 69)"
+          label={`Telemedicine รวม (ปีงบ ${current})`}
           value={yearKpis.totalTelemed.toLocaleString('th-TH')}
           variant="accent"
         />
@@ -188,7 +193,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`${title}_${snapshot.snapshotDate}`}
-              title={`${title} (OP68 เทียบ Telemed69) — ${snapshot.snapshotDate}`}
+              title={`${title} (OP${previous} เทียบ Telemed${current}) — ${snapshot.snapshotDate}`}
               columns={exportColumns}
               rows={filteredFacilities}
             />

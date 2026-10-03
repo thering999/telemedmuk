@@ -14,7 +14,7 @@ import {
   ZAxis,
 } from 'recharts'
 import type { FiscalYear, Snapshot, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
-import { FISCAL_YEARS } from '../types/hdc'
+import { resolveFiscalYears } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
@@ -88,7 +88,7 @@ function classifyQuadrant(op: number, rate: number, medianOp: number, medianRate
 const ALL_HOSTYPES = '__all__'
 
 function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisViewProps) {
-  const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
+  const [selectedYear, setFiscalYear] = useState<FiscalYear | null>(null)
   const [search, setSearch] = useState('')
   // Only affects the bottom "รายละเอียดสถานพยาบาล" table below — the tiered
   // target sections (district ≥30%, รพ.สต. ≥10%) intentionally always see
@@ -119,6 +119,13 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       }
     })
   }, [baseSnapshot, allSnapshot])
+
+  const { current, previous, all: fiscalYears } = useMemo(
+    () => resolveFiscalYears(allSnapshot.facilities, allSnapshot.snapshotDate),
+    [allSnapshot],
+  )
+  const fiscalYear = selectedYear !== null && fiscalYears.includes(selectedYear) ? selectedYear : current
+  const nextYear = String(Number(current) + 1).padStart(2, '0')
 
   const filteredFacilities = useMemo<CombinedFacility[]>(() => {
     const q = search.trim().toLowerCase()
@@ -178,28 +185,28 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
     return { aggregateRate, activationRate, anomalyCount, scoped }
   }, [yearRows])
 
-  // Simple forecast: province-wide Type5 total for 69 + (69 - 68), clamped at 0. Hidden if FY68 missing.
+  // Simple forecast: province-wide Type5 total for current + (current - previous), clamped at 0. Hidden if previous FY missing.
   const forecast = useMemo(() => {
-    let total68 = 0
-    let total69 = 0
-    let has68 = false
-    let has69 = false
+    let totalPrev = 0
+    let totalCurrent = 0
+    let hasPrev = false
+    let hasCurrent = false
     for (const f of filteredFacilities) {
-      const s68 = f.byYear['68']
-      const s69 = f.byYear['69']
-      if (s68) {
-        has68 = true
-        total68 += s68.type5
+      const sPrev = f.byYear[previous]
+      const sCurrent = f.byYear[current]
+      if (sPrev) {
+        hasPrev = true
+        totalPrev += sPrev.type5
       }
-      if (s69) {
-        has69 = true
-        total69 += s69.type5
+      if (sCurrent) {
+        hasCurrent = true
+        totalCurrent += sCurrent.type5
       }
     }
-    if (!has68 || !has69) return null
-    const projected = Math.max(0, total69 + (total69 - total68))
-    return { total68, total69, projected }
-  }, [filteredFacilities])
+    if (!hasPrev || !hasCurrent) return null
+    const projected = Math.max(0, totalCurrent + (totalCurrent - totalPrev))
+    return { totalPrev, totalCurrent, projected }
+  }, [filteredFacilities, current, previous])
 
   // MOPH vs LGO (สังกัด) comparison — grouped by whatever mName values actually appear.
   const affiliationComparison = useMemo(() => {
@@ -349,7 +356,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         <div className="ml-auto flex items-center gap-2">
           <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
           <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
-            {FISCAL_YEARS.map((year) => (
+            {fiscalYears.map((year) => (
               <button
                 key={year}
                 type="button"
@@ -391,10 +398,10 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
       {forecast && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <KpiCard
-            label="คาดการณ์ปีงบ 70 (ค่าประมาณ)"
+            label={`คาดการณ์ปีงบ ${nextYear} (ค่าประมาณ)`}
             value={`${forecast.projected.toLocaleString('th-TH')} ครั้ง`}
             variant="accent"
-            footnote={`ประมาณการแบบเส้นตรงจาก Type5: ปีงบ 68 = ${forecast.total68.toLocaleString('th-TH')}, ปีงบ 69 = ${forecast.total69.toLocaleString('th-TH')}`}
+            footnote={`ประมาณการแบบเส้นตรงจาก Type5: ปีงบ ${previous} = ${forecast.totalPrev.toLocaleString('th-TH')}, ปีงบ ${current} = ${forecast.totalCurrent.toLocaleString('th-TH')}`}
           />
         </div>
       )}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Snapshot, SnapshotIndexEntry } from '../types/hdc'
-import { telemedVisits } from '../types/hdc'
+import { resolveFiscalYears, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { exportToCsv, type ExportColumn } from '../lib/exportTable'
 import { trendFromDelta } from '../lib/trend'
@@ -74,27 +74,31 @@ function useSnapshotByDate(date: string | null): [FetchState, () => Promise<void
 }
 
 function buildRows(a: Snapshot, b: Snapshot): MetricRow[] {
-  const sumOp68 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear['68']?.op ?? 0), 0)
-  const sumOp69 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear['69']?.op ?? 0), 0)
-  const sumTelemed69 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0)
-  const sumType2 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear['69']?.type2 ?? 0), 0)
-  const sumType3 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear['69']?.type3 ?? 0), 0)
-  const sumType5 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear['69']?.type5 ?? 0), 0)
+  const { current: cur, previous: prev } = resolveFiscalYears(
+    [...a.facilities, ...b.facilities],
+    b.snapshotDate,
+  )
+  const sumOpPrev = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[prev]?.op ?? 0), 0)
+  const sumOpCur = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[cur]?.op ?? 0), 0)
+  const sumTelemedCur = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + telemedVisits(f.byYear[cur]), 0)
+  const sumType2 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[cur]?.type2 ?? 0), 0)
+  const sumType3 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[cur]?.type3 ?? 0), 0)
+  const sumType5 = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[cur]?.type5 ?? 0), 0)
   const percentCoverage = (s: Snapshot) => {
-    const op = sumOp68(s)
-    const telemed = sumTelemed69(s)
+    const op = sumOpPrev(s)
+    const telemed = sumTelemedCur(s)
     return op > 0 ? (telemed / op) * 100 : 0
   }
   const facilityCount = (s: Snapshot) => s.facilities.length
 
   return [
-    { key: 'op68', label: 'OP รวม (ปีงบ 68)', a: sumOp68(a), b: sumOp68(b) },
-    { key: 'op69', label: 'OP รวม (ปีงบ 69)', a: sumOp69(a), b: sumOp69(b) },
-    { key: 'telemed69', label: 'ผู้รับบริการ Telemedicine รวม (ปีงบ 69)', a: sumTelemed69(a), b: sumTelemed69(b) },
+    { key: 'opPrev', label: `OP รวม (ปีงบ ${prev})`, a: sumOpPrev(a), b: sumOpPrev(b) },
+    { key: 'opCur', label: `OP รวม (ปีงบ ${cur})`, a: sumOpCur(a), b: sumOpCur(b) },
+    { key: 'telemedCur', label: `ผู้รับบริการ Telemedicine รวม (ปีงบ ${cur})`, a: sumTelemedCur(a), b: sumTelemedCur(b) },
     { key: 'type2', label: 'Type2 (นัดหมาย/ส่งต่อ)', a: sumType2(a), b: sumType2(b) },
     { key: 'type3', label: 'Type3 (เชิงรุก/ชุมชน)', a: sumType3(a), b: sumType3(b) },
     { key: 'type5', label: 'Type5 (โทรเวชกรรม)', a: sumType5(a), b: sumType5(b) },
-    { key: 'percent', label: 'ร้อยละ OP68 เทียบ Telemed69', a: percentCoverage(a), b: percentCoverage(b) },
+    { key: 'percent', label: `ร้อยละ OP${prev} เทียบ Telemed${cur}`, a: percentCoverage(a), b: percentCoverage(b) },
     { key: 'facilities', label: 'จำนวนสถานบริการ', a: facilityCount(a), b: facilityCount(b) },
   ]
 }

@@ -7,6 +7,7 @@ import type {
   SnapshotIndexEntry,
   TypeBreakdownSnapshot,
 } from '../types/hdc'
+import { fullFiscalYear, resolveFiscalYears } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { EMPTY_FILTERS, useFilteredData, type FilterState } from '../lib/useFilteredData'
 import { useAutoRefresh } from '../hooks/useAutoRefresh'
@@ -21,14 +22,14 @@ import LoadingSkeleton from './LoadingSkeleton'
 import ErrorBoundary from './ErrorBoundary'
 import type { ReportInfoPanelProps } from './ReportInfoPanel'
 
-const ALL_DOCS: ReportInfoPanelProps = {
+const allDocs = (cur: string, prev: string): ReportInfoPanelProps => ({
   objective:
-    'เปรียบเทียบ OP68 กับผู้รับบริการ 3 รูปแบบหลักแบบการแพทย์ทางไกล (Type 2: Appointment/Refer + Type 3: Community outreach + Type 5: Telemedicine) เพื่อประเมินสัดส่วนการใช้บริการแบบไม่ต้องเข้าห้องอนุรักษ์',
+    `เปรียบเทียบ OP${prev} กับผู้รับบริการ 3 รูปแบบหลักแบบการแพทย์ทางไกล (Type 2: Appointment/Refer + Type 3: Community outreach + Type 5: Telemedicine) เพื่อประเมินสัดส่วนการใช้บริการแบบไม่ต้องเข้าห้องอนุรักษ์`,
   methodology:
-    'ใช้ OP68 (จำนวนผู้รับบริการ OP ปีงบ 68) เป็นตัวหาร (ฐานงานเดิม) เทียบกับผลรวม Type2_69 + Type3_69 + Type5_69 (ปีงบ 69) เป็นตัวตั้ง สูตร: (Type2+Type3+Type5) ÷ OP68 × 100 — ตรงตามวิธีการใน q_telemed_hosp_muk.ipynb โดย Type2 = Appointment/Refer (นัดหมายหรือส่งต่อ), Type3 = Community outreach (บริการเชิงรุก/ชุมชน), Type5 = Telemedicine (การแพทย์ทางไกล)',
+    `ใช้ OP${prev} (จำนวนผู้รับบริการ OP ปีงบ ${prev}) เป็นตัวหาร (ฐานงานเดิม) เทียบกับผลรวม Type2_${cur} + Type3_${cur} + Type5_${cur} (ปีงบ ${cur}) เป็นตัวตั้ง สูตร: (Type2+Type3+Type5) ÷ OP${prev} × 100 — ตรงตามวิธีการใน q_telemed_hosp_muk.ipynb โดย Type2 = Appointment/Refer (นัดหมายหรือส่งต่อ), Type3 = Community outreach (บริการเชิงรุก/ชุมชน), Type5 = Telemedicine (การแพทย์ทางไกล)`,
   source: 'ตาราง service (ระบบ Hippo) ร่วมกับตาราง icd10_chk_op',
   template: 'q_telemed_hosp_muk.ipynb',
-}
+})
 
 const PERSON_DOCS: ReportInfoPanelProps = {
   objective:
@@ -64,14 +65,14 @@ const LTC_PAL_DOCS: ReportInfoPanelProps = {
   template: 'q_telemed_hosp_muk.ipynb',
 }
 
-const TYPEIN_DOCS: ReportInfoPanelProps = {
+const typeinDocs = (cur: string, prev: string): ReportInfoPanelProps => ({
   objective:
-    'ข้อมูลเฉพาะปีงบประมาณ 69 ตามเกณฑ์ที่ PH-EOC (ศูนย์ปฏิบัติการฉุกเฉินด้านการแพทย์และสาธารณสุข) กำหนดให้สถานบริการกรอกข้อมูลเข้าระบบเอง (manual entry) — ไม่ได้ดึงจากระบบ Hippo เหมือนแท็บ \'เกณฑ์ OP68 เทียบ Telemed69\' แยกไว้เป็นรายงานต่างหากเพื่อไม่ให้ปนกับตัวเลขจากแหล่งข้อมูลอื่น',
+    `ข้อมูลเฉพาะปีงบประมาณ ${cur} ตามเกณฑ์ที่ PH-EOC (ศูนย์ปฏิบัติการฉุกเฉินด้านการแพทย์และสาธารณสุข) กำหนดให้สถานบริการกรอกข้อมูลเข้าระบบเอง (manual entry) — ไม่ได้ดึงจากระบบ Hippo เหมือนแท็บ 'เกณฑ์ OP${prev} เทียบ Telemed${cur}' แยกไว้เป็นรายงานต่างหากเพื่อไม่ให้ปนกับตัวเลขจากแหล่งข้อมูลอื่น`,
   methodology:
-    'ใช้ Service69 (จำนวนผู้รับบริการรวมที่กรอกเข้า) เป็นตัวหาร และ Telemed69 (จำนวนผู้ใช้บริการโทรเวชกรรมที่กรอกเข้า) เป็นตัวตั้ง — ร้อยละคำนวณมาจากสูตร: Telemed69 ÷ Service69 × 100 โดยใช้ PercentTelemed69 จากไฟล์ต้นฉบับโดยตรง (ไม่คำนวณใหม่) มีข้อมูลเฉพาะปีงบ 69 เท่านั้น ไม่มีปีงบ 68 ให้เทียบ — สูตรนี้มาจากสมุดบันทึก q_telemed_hosp-235.ipynb ซึ่งต่างจากแท็บ \'เกณฑ์ OP68 เทียบ Telemed69\' (มาจาก q_telemed_hosp_muk.ipynb) ดังนั้นจึงไม่ควรนำตัวเลขทั้งสองรายงานมารวม/เทียบกันโดยตรง',
+    `ใช้ Service${cur} (จำนวนผู้รับบริการรวมที่กรอกเข้า) เป็นตัวหาร และ Telemed${cur} (จำนวนผู้ใช้บริการโทรเวชกรรมที่กรอกเข้า) เป็นตัวตั้ง — ร้อยละคำนวณมาจากสูตร: Telemed${cur} ÷ Service${cur} × 100 โดยใช้ PercentTelemed${cur} จากไฟล์ต้นฉบับโดยตรง (ไม่คำนวณใหม่) มีข้อมูลเฉพาะปีงบ ${cur} เท่านั้น ไม่มีปีงบ ${prev} ให้เทียบ — สูตรนี้มาจากสมุดบันทึก q_telemed_hosp-235.ipynb ซึ่งต่างจากแท็บ 'เกณฑ์ OP${prev} เทียบ Telemed${cur}' (มาจาก q_telemed_hosp_muk.ipynb) ดังนั้นจึงไม่ควรนำตัวเลขทั้งสองรายงานมารวม/เทียบกันโดยตรง`,
   source: 'ไฟล์กรอกมือตามเกณฑ์ PH-EOC (20260619_49_telemed_hosp_typein235.xlsx)',
   template: 'q_telemed_hosp-235.ipynb',
-}
+})
 
 // Cache-busting query param on every data fetch: GitHub Pages' CDN caches
 // unhashed static files (index.json, <date>.json, <date>/<category>.json)
@@ -98,7 +99,7 @@ const SUB_TAB_GATING_CATEGORY: Partial<Record<SubTabKey, ReportCategory>> = {
 }
 
 const SUB_TABS: { key: SubTabKey; label: string }[] = [
-  { key: 'base', label: 'เกณฑ์ OP68 เทียบ Telemed69' },
+  { key: 'base', label: 'เกณฑ์ OP เทียบ Telemed' }, // year suffixes appended at render
   { key: 'typein', label: 'ข้อมูลเกณฑ์จาก PH-EOC' },
   { key: 'all', label: 'แยกประเภทบริการ' },
   { key: 'person', label: 'รายคน' },
@@ -237,7 +238,16 @@ function HdcTab() {
     [snapshot, filteredFacilities],
   )
 
+  const { current: cur, previous: prev } = useMemo(
+    () => resolveFiscalYears(snapshot?.facilities ?? [], snapshot?.snapshotDate ?? selectedDate ?? undefined),
+    [snapshot, selectedDate],
+  )
+
   const typeinSnapshot = selectedDate ? categoryCache[selectedDate]?.typein : undefined
+  const typeinYears = useMemo(
+    () => resolveFiscalYears(typeinSnapshot?.facilities ?? [], typeinSnapshot?.snapshotDate ?? selectedDate ?? undefined),
+    [typeinSnapshot, selectedDate],
+  )
   const filteredTypeinFacilities = useFilteredData(
     typeinSnapshot?.facilities ?? [],
     typeinSnapshot?.snapshotDate ?? null,
@@ -405,7 +415,7 @@ function HdcTab() {
       <RefreshControl state={autoRefresh} />
 
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        ปีงบประมาณ 68 = 1 ต.ค. 2567 – 30 ก.ย. 2568 · ปีงบประมาณ 69 = 1 ต.ค. 2568 – 30 ก.ย. 2569
+        ปีงบประมาณ {prev} = 1 ต.ค. {Number(fullFiscalYear(prev)) - 1} – 30 ก.ย. {fullFiscalYear(prev)} · ปีงบประมาณ {cur} = 1 ต.ค. {fullFiscalYear(prev)} – 30 ก.ย. {fullFiscalYear(cur)}
         (ข้อมูลเฉพาะจังหวัดมุกดาหาร รหัส 49)
       </p>
 
@@ -421,7 +431,7 @@ function HdcTab() {
                 : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700/50'
             }`}
           >
-            {tab.label}
+            {tab.key === 'base' ? `${tab.label.replace(' เทียบ', `${prev} เทียบ`)}${cur}` : tab.label}
           </button>
         ))}
       </div>
@@ -456,7 +466,7 @@ function HdcTab() {
                 <TypeBreakdownView
                   snapshot={currentCategoryData.all}
                   title="แยกประเภทบริการ"
-                  docs={ALL_DOCS}
+                  docs={allDocs(cur, prev)}
                 />
               )}
               {effectiveSubTab === 'person' && currentCategoryData.person && (
@@ -486,7 +496,7 @@ function HdcTab() {
                 <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
               )}
               {effectiveSubTab === 'typein' && filteredTypeinSnapshot && (
-                <SnapshotView snapshot={filteredTypeinSnapshot} docs={TYPEIN_DOCS} />
+                <SnapshotView snapshot={filteredTypeinSnapshot} docs={typeinDocs(typeinYears.current, typeinYears.previous)} />
               )}
             </>
           )}

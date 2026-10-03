@@ -48,8 +48,19 @@ const PROVINCE_NAMES = {
   49: 'มุกดาหาร',
 };
 
-// Keep in sync with FISCAL_YEARS in src/types/hdc.ts
-const FISCAL_YEARS = ['68', '69'];
+// Fiscal years are detected per row from column names (e.g. Telemed70,
+// Type1_70_WalkIn). Keep in sync with YEAR_COLUMN_PATTERN in src/types/hdc.ts.
+const YEAR_COLUMN_PATTERN =
+  /^(?:Type\d_|Telemed|OP_Person|OP|Service|PersonAll|Person_Type\d_|Total_Visits_)(\d{2})(?:_[A-Za-z]+)?$/;
+
+function detectFiscalYears(row) {
+  const years = new Set();
+  for (const key of Object.keys(row)) {
+    const m = YEAR_COLUMN_PATTERN.exec(key);
+    if (m) years.add(m[1]);
+  }
+  return [...years].sort();
+}
 
 // Keep in sync with ReportCategory in src/types/hdc.ts. "typein" is kept
 // separate from "base" (not merged in) because it's computed from a
@@ -175,7 +186,7 @@ function resolveYearStats(row, year) {
  */
 function transformRow(row) {
   const byYear = {};
-  for (const year of FISCAL_YEARS) {
+  for (const year of detectFiscalYears(row)) {
     const stats = resolveYearStats(row, year);
     if (stats) byYear[year] = stats;
   }
@@ -193,7 +204,6 @@ function transformRow(row) {
     serviceAll: toNumber(row.ServiceAll),
     opAll: toNumber(row.OPAll),
     byYear,
-    percentTelemed69PerOP68: toNumber(row.PercentTelemed69PerOP68),
   };
 }
 
@@ -218,7 +228,7 @@ function transformIdentity(row) {
  */
 function transformAllRow(row) {
   const byYear = {};
-  for (const year of FISCAL_YEARS) {
+  for (const year of detectFiscalYears(row)) {
     const serviceKey = `Service${year}`;
     const opKey = `OP${year}`;
     if (!(serviceKey in row) && !(opKey in row)) continue;
@@ -242,7 +252,7 @@ function transformAllRow(row) {
  */
 function transformPersonRow(row) {
   const byYear = {};
-  for (const year of FISCAL_YEARS) {
+  for (const year of detectFiscalYears(row)) {
     const serviceKey = `PersonAll${year}`;
     const opKey = `OP_Person${year}`;
     if (!(serviceKey in row) && !(opKey in row)) continue;
@@ -276,7 +286,7 @@ function transformGroupRow(row, groupDefs) {
   }
 
   const byYear = {};
-  for (const year of FISCAL_YEARS) {
+  for (const year of detectFiscalYears(row)) {
     const telemedKey = `Telemed${year}`;
     const opKey = `OP${year}`;
     const serviceKey = `Service${year}`;
@@ -295,13 +305,15 @@ function transformGroupRow(row, groupDefs) {
 }
 
 /**
- * Transform a row from the "followup" category (FY69-only columns, no _68
- * counterparts exist at all for this category) into a FollowupFacility.
+ * Transform a row from the "followup" category (single fiscal year, given
+ * by its Total_Visits_YY column) into a FollowupFacility.
  */
 function transformFollowupRow(row) {
+  const years = detectFiscalYears(row);
+  const year = years[years.length - 1];
   return {
     ...transformIdentity(row),
-    totalVisits69: toNumber(row.Total_Visits_69),
+    totalVisits: year ? toNumber(row[`Total_Visits_${year}`]) : 0,
     followUpTotal: toNumber(row.FollowUp_Total),
     followUpNormal: toNumber(row.FollowUp_Normal),
     followUpTelemed: toNumber(row.FollowUp_Telemed),
@@ -412,6 +424,7 @@ function parseFile(filename) {
     sourceFile: filename,
     category,
     facilities,
+    fiscalYears: rows.length ? detectFiscalYears(rows[0]) : [],
   };
 }
 
@@ -463,6 +476,11 @@ function mergeParsedFiles(snapshotDate, parsedFiles) {
     snapshot.groupDefs = GROUP_DEFS_BY_CATEGORY[category];
   } else if (category !== 'base') {
     snapshot.category = category;
+  }
+
+  if (category === 'followup') {
+    const years = parsedFiles.flatMap((pf) => pf.fiscalYears ?? []).sort();
+    if (years.length) snapshot.fiscalYear = years[years.length - 1];
   }
 
   return snapshot;

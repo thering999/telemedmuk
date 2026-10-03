@@ -9,7 +9,13 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import type { FollowupFacility, FollowupSnapshot } from '../types/hdc'
+import {
+  followupFiscalYear,
+  followupTotalVisits,
+  previousFiscalYear,
+  type FollowupFacility,
+  type FollowupSnapshot,
+} from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
 import { useSortableTable } from '../lib/useSortableTable'
@@ -27,6 +33,7 @@ const ALL_HOSTYPES = '__all__'
 function FollowupView({ snapshot }: FollowupViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
+  const fy = followupFiscalYear(snapshot)
 
   const [prevSnapshot, setPrevSnapshot] = useState(snapshot)
   if (snapshot !== prevSnapshot) {
@@ -60,7 +67,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
     let totalNormal = 0
     let totalTelemed = 0
     for (const f of filteredFacilities) {
-      totalVisits += f.totalVisits69
+      totalVisits += followupTotalVisits(f)
       totalFollowUp += f.followUpTotal
       totalNormal += f.followUpNormal
       totalTelemed += f.followUpTelemed
@@ -88,7 +95,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
       { key: 'hospname', label: 'สถานพยาบาล', value: (f) => f.hospname },
       { key: 'ampName', label: 'อำเภอ', value: (f) => f.ampName },
       { key: 'hostypeName', label: 'ประเภท', value: (f) => f.hostypeName },
-      { key: 'totalVisits69', label: 'ผู้รับบริการรวม', value: (f) => f.totalVisits69 },
+      { key: 'totalVisits', label: 'ผู้รับบริการรวม', value: (f) => followupTotalVisits(f) },
       { key: 'followUpNormal', label: 'ติดตามแบบปกติ', value: (f) => f.followUpNormal },
       { key: 'followUpTelemed', label: 'ติดตามผ่าน Telemedicine', value: (f) => f.followUpTelemed },
       { key: 'percentTelemedUsage', label: 'ร้อยละ', value: (f) => Number(f.percentTelemedUsage.toFixed(1)) },
@@ -101,14 +108,14 @@ function FollowupView({ snapshot }: FollowupViewProps) {
   return (
     <div className="flex flex-col gap-6">
       <ReportInfoPanel
-        objective="เทียบสัดส่วนการนัดติดตามต่อเนื่องแบบมาคลินิกปกติ กับแบบโทรเวชกรรม เฉพาะปีงบประมาณ 69 (ปีปัจจุบัน) — รายงานนี้ไม่มีข้อมูลปีงบ 68"
+        objective={`เทียบสัดส่วนการนัดติดตามต่อเนื่องแบบมาคลินิกปกติ กับแบบโทรเวชกรรม เฉพาะปีงบประมาณ ${fy} (ปีปัจจุบัน) — รายงานนี้ไม่มีข้อมูลปีงบ ${previousFiscalYear(fy)}`}
         methodology="FollowUp_Total = จำนวนครั้งที่ typein เป็น 2 หรือ 5 รวมกัน (นัดหมายปกติ + โทรเวชกรรม), FollowUp_Normal = เฉพาะ typein=2, FollowUp_Telemed = เฉพาะ typein=5 — ร้อยละคำนวณจาก FollowUp_Telemed ÷ FollowUp_Total"
-        source="ตาราง service เฉพาะช่วงปีงบประมาณ 69"
+        source={`ตาราง service เฉพาะช่วงปีงบประมาณ ${fy}`}
         template="q_telemed_hosp_muk.ipynb"
       />
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">ติดตามต่อเนื่อง (ปีงบ 69)</h2>
+        <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">ติดตามต่อเนื่อง (ปีงบ {fy})</h2>
         <div className="ml-auto flex flex-col gap-1">
           <label htmlFor="hostype-select" className="text-sm font-medium text-slate-600 dark:text-slate-300">
             ประเภทสถานบริการ
@@ -175,7 +182,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
           <div className="flex flex-wrap items-center gap-3">
             <ExportToolbar
               filenameBase={`ติดตามต่อเนื่อง_${snapshot.snapshotDate}`}
-              title={`ติดตามต่อเนื่อง (ปีงบ 69) — ${snapshot.snapshotDate}`}
+              title={`ติดตามต่อเนื่อง (ปีงบ ${fy}) — ${snapshot.snapshotDate}`}
               columns={exportColumns}
               rows={filteredFacilities}
             />
@@ -224,9 +231,9 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                 <SortableTh
                   label="ผู้รับบริการรวม"
                   align="right"
-                  active={sortKey === 'totalVisits69'}
+                  active={sortKey === 'totalVisits'}
                   direction={sortDir}
-                  onClick={() => toggleSort('totalVisits69', (f) => f.totalVisits69)}
+                  onClick={() => toggleSort('totalVisits', (f) => followupTotalVisits(f))}
                   className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                 />
                 <SortableTh
@@ -271,7 +278,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">
-                    {f.totalVisits69.toLocaleString('th-TH')}
+                    {followupTotalVisits(f).toLocaleString('th-TH')}
                   </td>
                   <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">
                     {f.followUpNormal.toLocaleString('th-TH')}
@@ -298,7 +305,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                   <td className="px-4 py-3"></td>
                   <td className="px-4 py-3"></td>
                   <td className="px-4 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + f.totalVisits69, 0).toLocaleString('th-TH')}
+                    {filteredFacilities.reduce((sum, f) => sum + followupTotalVisits(f), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
                     {filteredFacilities.reduce((sum, f) => sum + f.followUpNormal, 0).toLocaleString('th-TH')}
@@ -308,7 +315,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
                   </td>
                   <td className="px-3 py-3 text-right">
                     {(() => {
-                      const totalAll = filteredFacilities.reduce((sum, f) => sum + f.totalVisits69, 0)
+                      const totalAll = filteredFacilities.reduce((sum, f) => sum + followupTotalVisits(f), 0)
                       const totalTelemed = filteredFacilities.reduce((sum, f) => sum + f.followUpTelemed, 0)
                       const percent = totalAll > 0 ? (totalTelemed / totalAll) * 100 : 0
                       return `${percent.toFixed(1)}%`

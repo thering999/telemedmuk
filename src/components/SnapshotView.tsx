@@ -14,7 +14,7 @@ import {
   YAxis,
 } from 'recharts'
 import type { Facility, FiscalYear, Snapshot, SnapshotIndexEntry } from '../types/hdc'
-import { FISCAL_YEARS, telemedVisits } from '../types/hdc'
+import { resolveFiscalYears, telemedVisits } from '../types/hdc'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
@@ -30,14 +30,14 @@ const ALL_HOSTYPES = '__all__'
 
 const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
-const DEFAULT_DOCS: ReportInfoPanelProps = {
+const buildDefaultDocs = (cur: FiscalYear, prev: FiscalYear): ReportInfoPanelProps => ({
   objective:
-    "เกณฑ์หลักของรายงานนี้คือ 'OP68 เทียบ Telemed69' — เทียบจำนวนผู้รับบริการ OP ทั้งหมดในปีงบ 68 (ฐานงานเดิม) กับจำนวนผู้ใช้บริการโทรเวชกรรมในปีงบ 69 (ปีปัจจุบัน) ของแต่ละสถานบริการในจังหวัดมุกดาหาร นอกจากนี้ยังมีมุมมองเสริมที่เทียบ OP และ Telemedicine ในปีงบเดียวกัน (สลับดูได้ทั้งปีงบ 68/69 ด้วยปุ่มด้านบน) สำหรับติดตามแนวโน้มปีต่อปี",
+    `เกณฑ์หลักของรายงานนี้คือ 'OP${prev} เทียบ Telemed${cur}' — เทียบจำนวนผู้รับบริการ OP ทั้งหมดในปีงบ ${prev} (ฐานงานเดิม) กับจำนวนผู้ใช้บริการโทรเวชกรรมในปีงบ ${cur} (ปีปัจจุบัน) ของแต่ละสถานบริการในจังหวัดมุกดาหาร นอกจากนี้ยังมีมุมมองเสริมที่เทียบ OP และ Telemedicine ในปีงบเดียวกัน (สลับดูได้ทุกปีงบด้วยปุ่มด้านบน) สำหรับติดตามแนวโน้มปีต่อปี`,
   methodology:
-    "เกณฑ์หลัก OP68→Telemed69 มาจากสูตรดั้งเดิมในข้อมูลต้นทาง (คอลัมน์ PercentTelemed69PerOP68) คำนวณแบบรวมก่อนหารเสมอ (sum(Telemed69) ÷ sum(OP68)) ไม่ใช่ค่าเฉลี่ยของร้อยละรายสถานบริการ — ส่วนมุมมองเสริม (ปีงบเดียวกัน) รองรับไฟล์ส่งออก 2 รูปแบบที่ใช้ร่วมกันได้จากสูตรเดียวกัน (q_telemed_hosp_muk.ipynb): ไฟล์ที่แยกย่อย Type2 (นัดหมาย/ส่งต่อ) + Type3 (เชิงรุก/ชุมชน) + Type5 (โทรเวชกรรม) เป็น 'Telemed', และไฟล์ที่มีผลรวม Telemed สำเร็จรูปอยู่แล้ว ข้อมูลกรอกมือ (typein) แยกไว้เป็นรายงานต่างหาก (ดูแท็บ 'ข้อมูลเกณฑ์จาก PH-EOC') เนื่องจากใช้สูตรคำนวณคนละแบบ (จากสมุดบันทึก q_telemed_hosp-235.ipynb) เพื่อไม่ให้ตัวเลขสองสูตรปนกันในตารางเดียว",
+    `เกณฑ์หลัก OP${prev}→Telemed${cur} มาจากสูตรดั้งเดิมในข้อมูลต้นทาง (คอลัมน์ PercentTelemed${cur}PerOP${prev}) คำนวณแบบรวมก่อนหารเสมอ (sum(Telemed${cur}) ÷ sum(OP${prev})) ไม่ใช่ค่าเฉลี่ยของร้อยละรายสถานบริการ — ส่วนมุมมองเสริม (ปีงบเดียวกัน) รองรับไฟล์ส่งออก 2 รูปแบบที่ใช้ร่วมกันได้จากสูตรเดียวกัน (q_telemed_hosp_muk.ipynb): ไฟล์ที่แยกย่อย Type2 (นัดหมาย/ส่งต่อ) + Type3 (เชิงรุก/ชุมชน) + Type5 (โทรเวชกรรม) เป็น 'Telemed', และไฟล์ที่มีผลรวม Telemed สำเร็จรูปอยู่แล้ว ข้อมูลกรอกมือ (typein) แยกไว้เป็นรายงานต่างหาก (ดูแท็บ 'ข้อมูลเกณฑ์จาก PH-EOC') เนื่องจากใช้สูตรคำนวณคนละแบบ (จากสมุดบันทึก q_telemed_hosp-235.ipynb) เพื่อไม่ให้ตัวเลขสองสูตรปนกันในตารางเดียว`,
   source: 'ตาราง service (ระบบ Hippo) ร่วมกับตารางอ้างอิงระดับประเทศ icd10_chk_op เพื่อกรองเฉพาะการรับบริการที่นับเป็น OP ที่ถูกต้อง (valid=\'T\' และ OP_PP=\'OP\')',
   template: 'q_telemed_hosp_muk.ipynb (ตัวอย่าง Ad Hoc)',
-}
+})
 
 export interface SnapshotViewProps {
   snapshot: Snapshot
@@ -57,7 +57,13 @@ export interface SnapshotViewProps {
   docs?: ReportInfoPanelProps
 }
 
-function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: SnapshotViewProps) {
+function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewProps) {
+  const {
+    current: curYear,
+    previous: prevYear,
+    all: allYears,
+  } = useMemo(() => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate), [snapshot])
+  const docs = docsProp ?? buildDefaultDocs(curYear, prevYear)
   const [search, setSearch] = useState('')
   const [district, setDistrict] = useState<string>(ALL_DISTRICTS)
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
@@ -65,7 +71,8 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
   // Detect if this is a typein (PH-EOC) report
   const isTypeinReport = docs.template === 'q_telemed_hosp-235.ipynb'
-  const [fiscalYear, setFiscalYear] = useState<FiscalYear>('69')
+  const [pickedYear, setFiscalYear] = useState<FiscalYear | null>(null)
+  const fiscalYear: FiscalYear = pickedYear && allYears.includes(pickedYear) ? pickedYear : curYear
 
   // Reset the filters whenever the snapshot itself changes (new data
   // loaded), without an extra effect-driven render: adjust state during
@@ -139,23 +146,24 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
   const { sortedRows: sortedFacilities, sortKey, sortDir, toggleSort } = useSortableTable(filteredFacilities)
 
-  // Base metric: OP68 เทียบ Telemed69 (for base report) or OP69 เทียบ Telemed69 (for typein)
+  // Base metric: OP(prev) เทียบ Telemed(cur) (for base report) or OP(cur) เทียบ Telemed(cur) (for typein)
+  const opBaseYear = isTypeinReport ? curYear : prevYear
+  const baseOp = (f: Facility) => f.byYear[opBaseYear]?.op ?? 0
+  const facilityPercent = (f: Facility) => {
+    const op = baseOp(f)
+    return op > 0 ? (telemedVisits(f.byYear[curYear]) / op) * 100 : 0
+  }
   const baseMetricKpis = useMemo(() => {
     let totalOp = 0
-    let totalTelemed69 = 0
+    let totalTelemedCur = 0
     for (const f of filteredFacilities) {
-      if (isTypeinReport) {
-        // PH-EOC: OP69 (Service69) vs Telemed69
-        totalOp += f.byYear['69']?.op ?? 0
-      } else {
-        // Base: OP68 vs Telemed69
-        totalOp += f.byYear['68']?.op ?? 0
-      }
-      totalTelemed69 += telemedVisits(f.byYear['69'])
+      // PH-EOC: OP(cur) (Service) vs Telemed(cur); Base: OP(prev) vs Telemed(cur)
+      totalOp += f.byYear[opBaseYear]?.op ?? 0
+      totalTelemedCur += telemedVisits(f.byYear[curYear])
     }
-    const percent = totalOp > 0 ? (totalTelemed69 / totalOp) * 100 : 0
-    return { totalOp, totalTelemed: totalTelemed69, percent }
-  }, [filteredFacilities, isTypeinReport])
+    const percent = totalOp > 0 ? (totalTelemedCur / totalOp) * 100 : 0
+    return { totalOp, totalTelemed: totalTelemedCur, percent }
+  }, [filteredFacilities, opBaseYear, curYear])
 
   // Supplementary metric: Year-flexible comparison (affected by fiscal year toggle)
   const kpis = useMemo(() => {
@@ -203,19 +211,19 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
     ]
   }, [selectedFacility, fiscalYear, selectedFacilityHasTypeBreakdown])
 
-  // Whether the "หลัก" Telemed69 KPI can honestly be described as
-  // "Type2+3+5 summed" -- only true for Format A files (real Type2_69/
-  // Type3_69/Type5_69 columns). Format B/C files have no breakdown columns
-  // at all; their Telemed69 is whatever the source file's Telemed69 column
+  // Whether the "หลัก" Telemed KPI can honestly be described as
+  // "Type2+3+5 summed" -- only true for Format A files (real Type2_YY/
+  // Type3_YY/Type5_YY columns). Format B/C files have no breakdown columns
+  // at all; their Telemed is whatever the source file's Telemed column
   // already says, decomposition unknown to this dashboard. Checked against
-  // FY69 specifically (not the fiscalYear toggle) since baseMetricKpis'
-  // Telemed sum is always FY69 regardless of the toggle.
-  const hasType69Breakdown = useMemo(() => {
+  // the current FY specifically (not the fiscalYear toggle) since
+  // baseMetricKpis' Telemed sum is always the current FY regardless of the toggle.
+  const hasTypeCurBreakdown = useMemo(() => {
     return snapshot.facilities.some((f) => {
-      const stats = f.byYear['69']
+      const stats = f.byYear[curYear]
       return stats?.type2 !== undefined || stats?.type3 !== undefined || stats?.type5 !== undefined
     })
-  }, [snapshot])
+  }, [snapshot, curYear])
 
   // Only facilities whose selected-year stats actually carry a type-level
   // breakdown (Format A) can contribute to this chart — Format B/C facilities
@@ -420,7 +428,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
         <div className="ml-auto flex items-center gap-2">
           <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
           <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
-            {FISCAL_YEARS.map((year) => (
+            {allYears.map((year) => (
               <button
                 key={year}
                 type="button"
@@ -440,30 +448,30 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <KpiCard
-          label={isTypeinReport ? "OP รวม (ปีงบ 69)" : "OP รวม (ปีงบ 68)"}
+          label={`OP รวม (ปีงบ ${opBaseYear})`}
           value={baseMetricKpis.totalOp.toLocaleString('th-TH')}
           description="เกณฑ์หลัก"
         />
         <KpiCard
           label={
             isTypeinReport
-              ? "ผู้รับบริการ Telemedicine รวม (ปีงบ 69)"
-              : hasType69Breakdown
-                ? "Type2+3+5 รวม (ปีงบ 69)"
-                : "Telemed69 รวม (ปีงบ 69)"
+              ? `ผู้รับบริการ Telemedicine รวม (ปีงบ ${curYear})`
+              : hasTypeCurBreakdown
+                ? `Type2+3+5 รวม (ปีงบ ${curYear})`
+                : `Telemed${curYear} รวม (ปีงบ ${curYear})`
           }
           value={baseMetricKpis.totalTelemed.toLocaleString('th-TH')}
           description="เกณฑ์หลัก"
           footnote={
             isTypeinReport
               ? undefined
-              : hasType69Breakdown
+              : hasTypeCurBreakdown
                 ? "นัดหมาย/ส่งต่อ + เชิงรุกชุมชน + โทรเวชกรรม (ไม่ใช่ Type5 ล้วน)"
-                : "ดึงจากคอลัมน์ Telemed69 ของไฟล์ต้นฉบับตรง (ไฟล์นี้ไม่มีคอลัมน์แยก Type2/3/5 ให้แตกได้)"
+                : `ดึงจากคอลัมน์ Telemed${curYear} ของไฟล์ต้นฉบับตรง (ไฟล์นี้ไม่มีคอลัมน์แยก Type2/3/5 ให้แตกได้)`
           }
         />
         <KpiCard
-          label={isTypeinReport ? "เกณฑ์ OP69 เทียบ Telemed69" : "เกณฑ์ OP68 เทียบ Telemed69"}
+          label={`เกณฑ์ OP${opBaseYear} เทียบ Telemed${curYear}`}
           value={`${baseMetricKpis.percent.toFixed(1)}%`}
           variant="accent"
           description="หลัก"
@@ -815,23 +823,19 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   className="px-4 py-3 font-bold text-xs uppercase tracking-wide"
                 />
                 <SortableTh
-                  label={isTypeinReport ? 'OP69' : 'OP68'}
+                  label={`OP${opBaseYear}`}
                   align="right"
                   active={sortKey === 'op'}
                   direction={sortDir}
-                  onClick={() =>
-                    toggleSort('op', (f) =>
-                      isTypeinReport ? f.byYear['69']?.op ?? 0 : f.byYear['68']?.op ?? 0,
-                    )
-                  }
+                  onClick={() => toggleSort('op', baseOp)}
                   className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                 />
                 <SortableTh
-                  label="Telemed69"
+                  label={`Telemed${curYear}`}
                   align="right"
                   active={sortKey === 'telemed'}
                   direction={sortDir}
-                  onClick={() => toggleSort('telemed', (f) => telemedVisits(f.byYear['69']))}
+                  onClick={() => toggleSort('telemed', (f) => telemedVisits(f.byYear[curYear]))}
                   className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                 />
                 <SortableTh
@@ -839,7 +843,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   align="right"
                   active={sortKey === 'percent'}
                   direction={sortDir}
-                  onClick={() => toggleSort('percent', (f) => f.percentTelemed69PerOP68)}
+                  onClick={() => toggleSort('percent', facilityPercent)}
                   className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide"
                 />
                 <th className="px-4 py-3 text-right font-bold text-xs uppercase tracking-wide">สถานะ</th>
@@ -847,7 +851,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
             </thead>
             <tbody>
               {sortedFacilities.map((f) => {
-                const percent = isTypeinReport ? f.percentTelemed69PerOP68 : f.percentTelemed69PerOP68
+                const percent = facilityPercent(f)
                 return (
                   <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
@@ -863,13 +867,10 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right text-slate-700 dark:text-slate-300">
-                      {isTypeinReport
-                        ? (f.byYear['69']?.op ?? 0).toLocaleString('th-TH')
-                        : (f.byYear['68']?.op ?? 0).toLocaleString('th-TH')
-                      }
+                      {baseOp(f).toLocaleString('th-TH')}
                     </td>
                     <td className="px-4 py-3 text-right font-medium text-slate-800 dark:text-slate-100">
-                      {telemedVisits(f.byYear['69']).toLocaleString('th-TH')}
+                      {telemedVisits(f.byYear[curYear]).toLocaleString('th-TH')}
                     </td>
                     <td className="px-3 py-2 text-right text-brand-700 dark:text-brand-400">{percent.toFixed(1)}%</td>
                     <td className="px-3 py-2">
@@ -899,26 +900,16 @@ function SnapshotView({ snapshot, snapshotIndex, docs = DEFAULT_DOCS }: Snapshot
                   <td className="px-3 py-3"></td>
                   <td className="px-3 py-3 text-right">
                     {filteredFacilities
-                      .reduce(
-                        (sum, f) =>
-                          sum +
-                          (isTypeinReport ? f.byYear['69']?.op ?? 0 : f.byYear['68']?.op ?? 0),
-                        0,
-                      )
+                      .reduce((sum, f) => sum + baseOp(f), 0)
                       .toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right">
-                    {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0).toLocaleString('th-TH')}
+                    {filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[curYear]), 0).toLocaleString('th-TH')}
                   </td>
                   <td className="px-3 py-3 text-right text-brand-700 dark:text-brand-400">
                     {(() => {
-                      const totalOp = filteredFacilities.reduce(
-                        (sum, f) =>
-                          sum +
-                          (isTypeinReport ? f.byYear['69']?.op ?? 0 : f.byYear['68']?.op ?? 0),
-                        0,
-                      )
-                      const totalTelemed = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear['69']), 0)
+                      const totalOp = filteredFacilities.reduce((sum, f) => sum + baseOp(f), 0)
+                      const totalTelemed = filteredFacilities.reduce((sum, f) => sum + telemedVisits(f.byYear[curYear]), 0)
                       const percent = totalOp > 0 ? (totalTelemed / totalOp) * 100 : 0
                       return `${percent.toFixed(1)}%`
                     })()}

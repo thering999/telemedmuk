@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { BarChart, Bar, CartesianGrid, Tooltip, ResponsiveContainer, XAxis, YAxis, ScatterChart, Scatter } from 'recharts'
 import type { TypeBreakdownSnapshot } from '../types/hdc'
+import { resolveFiscalYears } from '../types/hdc'
 
 interface GeographicHeatmapProps {
   snapshot: TypeBreakdownSnapshot
@@ -8,6 +9,10 @@ interface GeographicHeatmapProps {
 
 function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null)
+  const { current } = useMemo(
+    () => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate),
+    [snapshot],
+  )
 
   // District aggregation
   const districtData = useMemo(() => {
@@ -23,8 +28,8 @@ function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
     >()
 
     snapshot.facilities.forEach((f) => {
-      const fy69 = f.byYear['69']
-      if (!fy69) return
+      const fyCur = f.byYear[current]
+      if (!fyCur) return
 
       const key = f.ampName
       const existing = byDistrict.get(key) || {
@@ -35,8 +40,8 @@ function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
         rate: 0,
       }
 
-      existing.type5 += fy69.type5 ?? 0
-      existing.op += fy69.op ?? 0
+      existing.type5 += fyCur.type5 ?? 0
+      existing.op += fyCur.op ?? 0
       existing.facilities += 1
 
       byDistrict.set(key, existing)
@@ -48,7 +53,7 @@ function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
         rate: d.op > 0 ? (d.type5 / d.op) * 100 : 0,
       }))
       .sort((a, b) => b.rate - a.rate)
-  }, [snapshot])
+  }, [snapshot, current])
 
   // Facility details for selected district
   const facilitiesInDistrict = useMemo(() => {
@@ -56,17 +61,17 @@ function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
     return snapshot.facilities
       .filter((f) => f.ampName === selectedDistrict)
       .map((f) => {
-        const fy69 = f.byYear['69']
+        const fyCur = f.byYear[current]
         return {
           name: f.hospname,
           type: f.hostypeName,
-          rate: fy69 && fy69.op > 0 ? (fy69.type5 / fy69.op) * 100 : 0,
-          type5: fy69?.type5 ?? 0,
-          op: fy69?.op ?? 0,
+          rate: fyCur && fyCur.op > 0 ? (fyCur.type5 / fyCur.op) * 100 : 0,
+          type5: fyCur?.type5 ?? 0,
+          op: fyCur?.op ?? 0,
         }
       })
       .sort((a, b) => b.rate - a.rate)
-  }, [selectedDistrict, snapshot])
+  }, [selectedDistrict, snapshot, current])
 
   return (
     <div className="space-y-6">

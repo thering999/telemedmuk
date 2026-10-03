@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx'
 import type { Facility, FiscalYear, ReportCategory, Snapshot, YearStats } from '../types/hdc'
-import { FISCAL_YEARS } from '../types/hdc'
+import { detectFiscalYearsFromRow } from '../types/hdc'
 
 // Filename pattern: YYYYMMDD_PP_telemed_hosp[_suffix][ (N)].xlsx (same as
 // scripts/import-xlsx.mjs and worker/src/index.ts). The trailing suffix is
@@ -142,7 +142,7 @@ function resolveYearStats(row: RawRow, year: FiscalYear): YearStats | null {
 /** Transform a single raw worksheet row into the per-facility JSON shape. */
 function transformRow(row: RawRow): Facility {
   const byYear: Partial<Record<FiscalYear, YearStats>> = {}
-  for (const year of FISCAL_YEARS) {
+  for (const year of detectFiscalYearsFromRow(row)) {
     const stats = resolveYearStats(row, year)
     if (stats) byYear[year] = stats
   }
@@ -160,7 +160,6 @@ function transformRow(row: RawRow): Facility {
     serviceAll: toNumber(row.ServiceAll),
     opAll: toNumber(row.OPAll),
     byYear,
-    percentTelemed69PerOP68: toNumber(row.PercentTelemed69PerOP68),
   }
 }
 
@@ -172,10 +171,10 @@ export class ParseHippoExcelError extends Error {}
 // mislabeled (or matches the base filename pattern loosely) still gets
 // rejected with a clear message instead of producing a wrong/empty preview.
 // Order matters only for the log message; checks are independent.
-const CATEGORY_SIGNATURE_COLUMNS: Array<{ category: ReportCategory; columns: string[] }> = [
-  { category: 'all', columns: ['Type1_68_WalkIn', 'Type5_69_Telemed'] },
-  { category: 'person', columns: ['PersonAll68', 'Person_Type5_69'] },
-  { category: 'followup', columns: ['Total_Visits_69', 'FollowUp_Telemed'] },
+const CATEGORY_SIGNATURE_COLUMNS: Array<{ category: ReportCategory; columns: Array<string | RegExp> }> = [
+  { category: 'all', columns: [/^Type1_\d{2}_WalkIn$/, /^Type5_\d{2}_Telemed$/] },
+  { category: 'person', columns: [/^PersonAll\d{2}$/, /^Person_Type5_\d{2}$/] },
+  { category: 'followup', columns: [/^Total_Visits_\d{2}$/, 'FollowUp_Telemed'] },
   { category: 'ncd', columns: ['Visit_DM', 'Tele_DM'] },
   { category: 'mch', columns: ['Visit_ANC', 'Tele_ANC'] },
   { category: 'ltc_pal', columns: ['Visit_LTC', 'Tele_LTC'] },
@@ -189,7 +188,10 @@ const CATEGORY_SIGNATURE_COLUMNS: Array<{ category: ReportCategory; columns: str
  */
 export function detectCategoryByColumns(row: RawRow): ReportCategory | null {
   for (const { category, columns } of CATEGORY_SIGNATURE_COLUMNS) {
-    if (columns.every((col) => col in row)) return category
+    const keys = Object.keys(row)
+    if (columns.every((col) => (typeof col === 'string' ? col in row : keys.some((k) => col.test(k))))) {
+      return category
+    }
   }
   return null
 }
