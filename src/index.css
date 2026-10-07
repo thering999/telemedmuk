@@ -33,6 +33,53 @@ body {
   color: #f1f5f9;
 }
 
+.app-bg {
+  background:
+    radial-gradient(circle at 0% 0%, rgb(45 212 191 / 0.18), transparent 40%),
+    radial-gradient(circle at 100% 10%, rgb(129 140 248 / 0.16), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgb(244 114 182 / 0.10), transparent 45%),
+    linear-gradient(to bottom, #f8fafc, #eff6ff);
+  background-attachment: fixed;
+}
+
+.dark .app-bg {
+  background:
+    radial-gradient(circle at 0% 0%, rgb(20 184 166 / 0.14), transparent 40%),
+    radial-gradient(circle at 100% 10%, rgb(99 102 241 / 0.14), transparent 40%),
+    linear-gradient(to bottom, #0f172a, #020617);
+  background-attachment: fixed;
+}
+
+.header-vivid {
+  background: linear-gradient(120deg, #0d9488, #06b6d4 45%, #6366f1);
+  background-size: 200% 200%;
+  animation: headerShift 14s ease-in-out infinite;
+}
+
+.header-vivid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 85% -20%, rgb(255 255 255 / 0.25), transparent 45%),
+    radial-gradient(circle at 10% 120%, rgb(255 255 255 / 0.15), transparent 40%);
+  pointer-events: none;
+}
+
+.dark .header-vivid {
+  background: linear-gradient(120deg, #0f766e, #0891b2 45%, #4f46e5);
+  background-size: 200% 200%;
+}
+
+@keyframes headerShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-vivid { animation: none; }
+}
+
 @keyframes slideInUp {
   from {
     opacity: 0;

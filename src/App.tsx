@@ -57,21 +57,21 @@ function App() {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-950">
+      <div className="app-bg min-h-screen">
         <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
-      <header className="relative border-b-2 border-cyan-300 bg-gradient-to-r from-white via-blue-50 to-cyan-50 shadow-md dark:border-slate-700 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 flex justify-between items-start">
+      <header className="header-vivid relative overflow-hidden shadow-lg">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 py-7 sm:px-6 flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-teal-600 sm:text-4xl dark:from-cyan-400 dark:to-teal-400">
+            <h1 className="text-3xl font-extrabold text-white drop-shadow-sm sm:text-4xl">
               📊 Dashboard Telemedicine จังหวัดมุกดาหาร
             </h1>
-            <p className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">
+            <p className="mt-2 text-sm font-medium text-white/90">
               ✨ ภาพรวมการให้บริการ Telemedicine ในพื้นที่จังหวัดมุกดาหาร
             </p>
           </div>
           <button
             onClick={() => setShowAdmin(true)}
-            className="mt-2 mr-12 text-slate-500 hover:text-cyan-600 text-2xl font-medium transition-all hover:scale-110 dark:text-slate-400 dark:hover:text-cyan-400 sm:mr-0"
+            className="mt-2 mr-12 text-white/80 hover:text-white text-2xl font-medium transition-all hover:scale-110 hover:rotate-45 sm:mr-0"
             title="Admin Panel"
           >
             ⚙️
@@ -81,7 +81,7 @@ function App() {
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <ErrorBoundary label="หน้าหลัก">
-          <div className="mb-6 overflow-x-auto rounded-xl border-2 border-cyan-300 bg-gradient-to-r from-white to-blue-50 p-1 shadow-md hover:shadow-lg transition-shadow dark:border-slate-600 dark:from-slate-800 dark:to-slate-800">
+          <div className="mb-6 overflow-x-auto rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-md backdrop-blur hover:shadow-lg transition-shadow dark:border-slate-600 dark:bg-slate-800/70">
             <div className="flex w-max gap-1">
               {TABS.map((tab) => (
                 <button
@@ -90,8 +90,8 @@ function App() {
                   onClick={() => setActiveTab(tab.key)}
                   className={`rounded-lg px-3 py-2 text-xs font-bold whitespace-nowrap transition-all sm:px-4 sm:py-2 sm:text-sm ${
                     activeTab === tab.key
-                      ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg'
-                      : 'text-slate-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-cyan-100 dark:text-slate-200 dark:hover:from-slate-700 dark:hover:to-slate-700'
+                      ? 'bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500 text-white shadow-lg shadow-cyan-500/30'
+                      : 'text-slate-700 hover:bg-gradient-to-r hover:from-teal-50 hover:via-cyan-50 hover:to-indigo-50 hover:text-cyan-700 dark:text-slate-200 dark:hover:from-slate-700 dark:hover:to-slate-700'
                   }`}
                 >
                   {tab.label}
