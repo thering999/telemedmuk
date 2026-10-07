@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 
-const STORAGE_KEY = 'telemedmuk-dark-mode'
+// v2: old key auto-persisted the OS dark preference; reset everyone to the bright light theme.
+const STORAGE_KEY = 'telemedmuk-dark-mode-v2'
 
 function getInitialDarkMode(): boolean {
   if (typeof window === 'undefined') return false
-  const stored = window.localStorage.getItem(STORAGE_KEY)
-  if (stored === 'true') return true
-  if (stored === 'false') return false
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === 'true'
+  } catch {
+    return false
+  }
 }
 
 export function useDarkMode() {
