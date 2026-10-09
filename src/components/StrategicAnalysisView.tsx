@@ -14,7 +14,7 @@ import {
   ZAxis,
 } from 'recharts'
 import type { FiscalYear, Snapshot, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
-import { resolveFiscalYears } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
@@ -88,7 +88,6 @@ function classifyQuadrant(op: number, rate: number, medianOp: number, medianRate
 const ALL_HOSTYPES = '__all__'
 
 function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisViewProps) {
-  const [selectedYear, setFiscalYear] = useState<FiscalYear | null>(null)
   const [search, setSearch] = useState('')
   // Only affects the bottom "รายละเอียดสถานพยาบาล" table below — the tiered
   // target sections (district ≥30%, รพ.สต. ≥10%) intentionally always see
@@ -120,11 +119,8 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
     })
   }, [baseSnapshot, allSnapshot])
 
-  const { current, previous, all: fiscalYears } = useMemo(
-    () => resolveFiscalYears(allSnapshot.facilities, allSnapshot.snapshotDate),
-    [allSnapshot],
-  )
-  const fiscalYear = selectedYear !== null && fiscalYears.includes(selectedYear) ? selectedYear : current
+  const { current, previous } = useFiscalYears(allSnapshot.facilities, allSnapshot.snapshotDate)
+  const fiscalYear = current
   const nextYear = String(Number(current) + 1).padStart(2, '0')
 
   const filteredFacilities = useMemo<CombinedFacility[]>(() => {
@@ -353,25 +349,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
 
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-4 shadow-sm">
         <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">วิเคราะห์เชิงกลยุทธ์</h2>
-        <div className="ml-auto flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
-          <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
-            {fiscalYears.map((year) => (
-              <button
-                key={year}
-                type="button"
-                onClick={() => setFiscalYear(year)}
-                className={`rounded-md px-2.5 py-1.5 text-xs sm:px-3 sm:text-sm font-medium transition-colors ${
-                  fiscalYear === year
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                }`}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-        </div>
+        <span className="ml-auto text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ {fiscalYear}</span>
       </div>
 
       {/* KPI summary cards */}

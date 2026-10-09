@@ -1,5 +1,5 @@
 import type { TypeBreakdownSnapshot } from '../types/hdc'
-import { resolveFiscalYears } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
 
 interface ExecutiveKPIProps {
   allSnapshot: TypeBreakdownSnapshot
@@ -7,7 +7,7 @@ interface ExecutiveKPIProps {
 
 function ExecutiveKPI({ allSnapshot }: ExecutiveKPIProps) {
   const facilities = allSnapshot.facilities
-  const { current } = resolveFiscalYears(facilities, allSnapshot.snapshotDate)
+  const { current } = useFiscalYears(facilities, allSnapshot.snapshotDate)
 
   // Calculate overall adoption
   const totalType5 = facilities.reduce((sum, f) => {

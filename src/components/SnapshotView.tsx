@@ -14,7 +14,8 @@ import {
   YAxis,
 } from 'recharts'
 import type { Facility, FiscalYear, Snapshot, SnapshotIndexEntry } from '../types/hdc'
-import { resolveFiscalYears, telemedVisits } from '../types/hdc'
+import { telemedVisits } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
@@ -58,11 +59,7 @@ export interface SnapshotViewProps {
 }
 
 function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewProps) {
-  const {
-    current: curYear,
-    previous: prevYear,
-    all: allYears,
-  } = useMemo(() => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate), [snapshot])
+  const { current: curYear, previous: prevYear } = useFiscalYears(snapshot.facilities, snapshot.snapshotDate)
   const docs = docsProp ?? buildDefaultDocs(curYear, prevYear)
   const [search, setSearch] = useState('')
   const [district, setDistrict] = useState<string>(ALL_DISTRICTS)
@@ -71,8 +68,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
 
   // Detect if this is a typein (PH-EOC) report
   const isTypeinReport = docs.template === 'q_telemed_hosp-235.ipynb'
-  const [pickedYear, setFiscalYear] = useState<FiscalYear | null>(null)
-  const fiscalYear: FiscalYear = pickedYear && allYears.includes(pickedYear) ? pickedYear : curYear
+  const fiscalYear: FiscalYear = curYear
 
   // Reset the filters whenever the snapshot itself changes (new data
   // loaded), without an extra effect-driven render: adjust state during
@@ -423,26 +419,6 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
               </option>
             ))}
           </select>
-        </div>
-
-        <div className="ml-auto flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">ปีงบประมาณ</span>
-          <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 p-1">
-            {allYears.map((year) => (
-              <button
-                key={year}
-                type="button"
-                onClick={() => setFiscalYear(year)}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                  fiscalYear === year
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                }`}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 

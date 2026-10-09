@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Snapshot, SnapshotIndexEntry } from '../types/hdc'
 import { resolveFiscalYears, telemedVisits } from '../types/hdc'
+import {
+  applyFiscalYearSelection,
+  useFiscalYearSelection,
+  type FiscalYearSelection,
+} from '../context/FiscalYearContext'
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { exportToCsv, type ExportColumn } from '../lib/exportTable'
 import { trendFromDelta } from '../lib/trend'
@@ -73,10 +78,10 @@ function useSnapshotByDate(date: string | null): [FetchState, () => Promise<void
   return [state, refetch]
 }
 
-function buildRows(a: Snapshot, b: Snapshot): MetricRow[] {
-  const { current: cur, previous: prev } = resolveFiscalYears(
-    [...a.facilities, ...b.facilities],
-    b.snapshotDate,
+function buildRows(a: Snapshot, b: Snapshot, selection: FiscalYearSelection): MetricRow[] {
+  const { current: cur, previous: prev } = applyFiscalYearSelection(
+    resolveFiscalYears([...a.facilities, ...b.facilities], b.snapshotDate),
+    selection,
   )
   const sumOpPrev = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[prev]?.op ?? 0), 0)
   const sumOpCur = (s: Snapshot) => s.facilities.reduce((sum, f) => sum + (f.byYear[cur]?.op ?? 0), 0)
@@ -147,10 +152,11 @@ function ComparisonView({ snapshotIndex }: ComparisonViewProps) {
 
   const autoRefresh = useAutoRefresh({ onRefresh: refreshBoth })
 
+  const { selection } = useFiscalYearSelection()
   const rows = useMemo(() => {
     if (stateA.status !== 'ready' || stateB.status !== 'ready') return []
-    return buildRows(stateA.snapshot, stateB.snapshot)
-  }, [stateA, stateB])
+    return buildRows(stateA.snapshot, stateB.snapshot, selection)
+  }, [stateA, stateB, selection])
 
   const periodDays = useMemo(() => daysBetween(dateA, dateB), [dateA, dateB])
 

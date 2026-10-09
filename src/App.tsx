@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import DarkModeToggle from './components/DarkModeToggle'
 import ErrorBoundary from './components/ErrorBoundary'
 import { ToastProvider } from './context/ToastContext'
+import { FiscalYearProvider } from './context/FiscalYearContext'
 import { useDarkMode } from './hooks/useDarkMode'
 import type { SnapshotIndexEntry } from './types/hdc'
 
@@ -57,6 +58,7 @@ function App() {
 
   return (
     <ToastProvider>
+    <FiscalYearProvider>
       <div className="app-bg min-h-screen">
         <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
       <header className="header-vivid relative overflow-hidden shadow-lg">
@@ -147,6 +149,7 @@ function App() {
         </Suspense>
       )}
       </div>
+    </FiscalYearProvider>
     </ToastProvider>
   )
 }

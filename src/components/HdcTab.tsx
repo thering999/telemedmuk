@@ -7,7 +7,10 @@ import type {
   SnapshotIndexEntry,
   TypeBreakdownSnapshot,
 } from '../types/hdc'
-import { fullFiscalYear, resolveFiscalYears } from '../types/hdc'
+import { fullFiscalYear } from '../types/hdc'
+import { FiscalYearPicker, useFiscalYears } from '../context/FiscalYearContext'
+
+const EMPTY_FACILITIES: never[] = []
 import { formatThaiDate } from '../lib/formatThaiDate'
 import { EMPTY_FILTERS, useFilteredData, type FilterState } from '../lib/useFilteredData'
 import { useAutoRefresh } from '../hooks/useAutoRefresh'
@@ -238,15 +241,15 @@ function HdcTab() {
     [snapshot, filteredFacilities],
   )
 
-  const { current: cur, previous: prev } = useMemo(
-    () => resolveFiscalYears(snapshot?.facilities ?? [], snapshot?.snapshotDate ?? selectedDate ?? undefined),
-    [snapshot, selectedDate],
+  const { current: cur, previous: prev, all: availableYears } = useFiscalYears(
+    snapshot?.facilities ?? EMPTY_FACILITIES,
+    snapshot?.snapshotDate ?? selectedDate ?? undefined,
   )
 
   const typeinSnapshot = selectedDate ? categoryCache[selectedDate]?.typein : undefined
-  const typeinYears = useMemo(
-    () => resolveFiscalYears(typeinSnapshot?.facilities ?? [], typeinSnapshot?.snapshotDate ?? selectedDate ?? undefined),
-    [typeinSnapshot, selectedDate],
+  const typeinYears = useFiscalYears(
+    typeinSnapshot?.facilities ?? EMPTY_FACILITIES,
+    typeinSnapshot?.snapshotDate ?? selectedDate ?? undefined,
   )
   const filteredTypeinFacilities = useFilteredData(
     typeinSnapshot?.facilities ?? [],
@@ -414,8 +417,10 @@ function HdcTab() {
 
       <RefreshControl state={autoRefresh} />
 
+      <FiscalYearPicker years={availableYears} />
+
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        ปีงบประมาณ {prev} = 1 ต.ค. {Number(fullFiscalYear(prev)) - 1} – 30 ก.ย. {fullFiscalYear(prev)} · ปีงบประมาณ {cur} = 1 ต.ค. {fullFiscalYear(prev)} – 30 ก.ย. {fullFiscalYear(cur)}
+        ปีงบประมาณ {prev} = 1 ต.ค. {Number(fullFiscalYear(prev)) - 1} – 30 ก.ย. {fullFiscalYear(prev)} · ปีงบประมาณ {cur} = 1 ต.ค. {Number(fullFiscalYear(cur)) - 1} – 30 ก.ย. {fullFiscalYear(cur)}
         (ข้อมูลเฉพาะจังหวัดมุกดาหาร รหัส 49)
       </p>
 

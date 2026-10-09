@@ -9,7 +9,8 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { resolveFiscalYears, type GroupBreakdownFacility, type GroupBreakdownSnapshot } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
+import { type GroupBreakdownFacility, type GroupBreakdownSnapshot } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
 import { useSortableTable } from '../lib/useSortableTable'
@@ -57,10 +58,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
     })
   }, [snapshot, search, hostype])
 
-  const { current, previous } = useMemo(
-    () => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate),
-    [snapshot],
-  )
+  const { current, previous } = useFiscalYears(snapshot.facilities, snapshot.snapshotDate)
 
   // OP[previous] (baseline year) vs Telemed[current] -- same asymmetric
   // anchor convention used everywhere else in this dashboard, not a

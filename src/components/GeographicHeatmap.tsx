@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { BarChart, Bar, CartesianGrid, Tooltip, ResponsiveContainer, XAxis, YAxis, ScatterChart, Scatter } from 'recharts'
 import type { TypeBreakdownSnapshot } from '../types/hdc'
-import { resolveFiscalYears } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
 
 interface GeographicHeatmapProps {
   snapshot: TypeBreakdownSnapshot
@@ -9,10 +9,7 @@ interface GeographicHeatmapProps {
 
 function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null)
-  const { current } = useMemo(
-    () => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate),
-    [snapshot],
-  )
+  const { current } = useFiscalYears(snapshot.facilities, snapshot.snapshotDate)
 
   // District aggregation
   const districtData = useMemo(() => {

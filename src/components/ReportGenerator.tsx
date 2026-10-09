@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { resolveFiscalYears, type TypeBreakdownSnapshot } from '../types/hdc'
+import type { TypeBreakdownSnapshot } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
 import { useToast } from '../context/ToastContext'
 import { exportToPdf } from '../lib/exportPdf'
 
@@ -14,12 +15,12 @@ function ReportGenerator({ snapshot, snapshotDate }: ReportGeneratorProps) {
   const toast = useToast()
   const [reportType, setReportType] = useState<ReportType>('monthly')
   const [isGenerating, setIsGenerating] = useState(false)
+  const { current } = useFiscalYears(snapshot.facilities, snapshotDate)
 
   const generateReport = async () => {
     setIsGenerating(true)
     try {
       const facilities = snapshot.facilities
-      const { current } = resolveFiscalYears(facilities, snapshotDate)
       const totalType5 = facilities.reduce((sum, f) => sum + (f.byYear[current]?.type5 ?? 0), 0)
       const totalOP = facilities.reduce((sum, f) => sum + (f.byYear[current]?.op ?? 0), 0)
       const adoptionRate = totalOP > 0 ? ((totalType5 / totalOP) * 100).toFixed(2) : '0'

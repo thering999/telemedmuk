@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
-import { resolveFiscalYears } from '../types/hdc'
+import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
 import { useSortableTable } from '../lib/useSortableTable'
 import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
@@ -51,10 +51,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
     })
   }, [snapshot, search, hostype])
 
-  const { current: cur, previous: prev } = useMemo(
-    () => resolveFiscalYears(snapshot.facilities, snapshot.snapshotDate),
-    [snapshot],
-  )
+  const { current: cur, previous: prev } = useFiscalYears(snapshot.facilities, snapshot.snapshotDate)
 
   const kpis = useMemo(() => {
     let totalOpPrev = 0
