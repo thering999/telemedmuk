@@ -400,6 +400,151 @@ async function handleClearAll(
   }
 }
 
+interface ClearDateRequestBody {
+  date?: unknown
+}
+
+const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
+
+/**
+ * Wipes only the data for a single snapshot date: every data/raw/ file whose
+ * filename starts with that date (in YYYYMMDD form, any province/category
+ * suffix) plus public/data/snapshots/<date>.json and the
+ * public/data/snapshots/<date>/ category subfolder. Same single-commit
+ * "delete via null sha" approach as handleClearAll, but filtered to the one
+ * date instead of everything — so other snapshot dates are left untouched.
+ */
+async function handleClearDate(
+  request: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  const appKey = request.headers.get('X-App-Key')
+  if (!appKey || appKey !== env.APP_SHARED_KEY) {
+    return jsonResponse(
+      { ok: false, error: 'Unauthorized: missing or invalid X-App-Key header' },
+      401,
+      origin,
+    )
+  }
+
+  let body: ClearDateRequestBody
+  try {
+    body = await request.json()
+  } catch {
+    return jsonResponse({ ok: false, error: 'Invalid JSON body' }, 400, origin)
+  }
+
+  const { date } = body
+  if (typeof date !== 'string' || !DATE_PATTERN.test(date)) {
+    return jsonResponse({ ok: false, error: 'Missing or invalid "date" (expected YYYY-MM-DD)' }, 400, origin)
+  }
+  const rawPrefix = `data/raw/${date.replace(/-/g, '')}_`
+  const snapshotJsonPath = `public/data/snapshots/${date}.json`
+  const snapshotDirPrefix = `public/data/snapshots/${date}/`
+
+  const githubHeaders = {
+    Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+    Accept: 'application/vnd.github+json',
+    'User-Agent': 'telemedmuk-save-snapshot-worker',
+  }
+
+  try {
+    const refResult = await githubApi<GitRefResponse>(
+      `${GIT_API}/git/refs/heads/${GITHUB_BRANCH}`,
+      githubHeaders,
+    )
+    if (!refResult.ok) return jsonResponse({ ok: false, error: refResult.error }, refResult.status, origin)
+    const latestCommitSha = refResult.body.object.sha
+
+    const commitResult = await githubApi<GitCommitResponse>(
+      `${GIT_API}/git/commits/${latestCommitSha}`,
+      githubHeaders,
+    )
+    if (!commitResult.ok) return jsonResponse({ ok: false, error: commitResult.error }, commitResult.status, origin)
+    const baseTreeSha = commitResult.body.tree.sha
+
+    const treeResult = await githubApi<GitTreeResponse>(
+      `${GIT_API}/git/trees/${baseTreeSha}?recursive=1`,
+      githubHeaders,
+    )
+    if (!treeResult.ok) return jsonResponse({ ok: false, error: treeResult.error }, treeResult.status, origin)
+
+    const deletions = treeResult.body.tree.filter((entry) => {
+      if (entry.type !== 'blob') return false
+      return (
+        entry.path.startsWith(rawPrefix) ||
+        entry.path === snapshotJsonPath ||
+        entry.path.startsWith(snapshotDirPrefix)
+      )
+    })
+
+    if (deletions.length === 0) {
+      return jsonResponse(
+        { ok: true, deletedCount: 0, actionsUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions` },
+        200,
+        origin,
+      )
+    }
+
+    const newTreeEntries: GitNewTreeEntry[] = deletions.map((entry) => ({
+      path: entry.path,
+      mode: entry.mode,
+      type: entry.type,
+      sha: null,
+    }))
+
+    const newTreeResult = await githubApi<GitShaResponse>(`${GIT_API}/git/trees`, githubHeaders, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ base_tree: baseTreeSha, tree: newTreeEntries }),
+    })
+    if (!newTreeResult.ok) return jsonResponse({ ok: false, error: newTreeResult.error }, newTreeResult.status, origin)
+
+    const newCommitResult = await githubApi<GitShaResponse>(`${GIT_API}/git/commits`, githubHeaders, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Clear imported data for ${date} via Admin Panel`,
+        tree: newTreeResult.body.sha,
+        parents: [latestCommitSha],
+      }),
+    })
+    if (!newCommitResult.ok) {
+      return jsonResponse({ ok: false, error: newCommitResult.error }, newCommitResult.status, origin)
+    }
+
+    const updateRefResult = await githubApi<GitRefResponse>(
+      `${GIT_API}/git/refs/heads/${GITHUB_BRANCH}`,
+      githubHeaders,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sha: newCommitResult.body.sha }),
+      },
+    )
+    if (!updateRefResult.ok) {
+      return jsonResponse({ ok: false, error: updateRefResult.error }, updateRefResult.status, origin)
+    }
+
+    return jsonResponse(
+      {
+        ok: true,
+        deletedCount: deletions.length,
+        actionsUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions`,
+      },
+      200,
+      origin,
+    )
+  } catch (err) {
+    return jsonResponse(
+      { ok: false, error: err instanceof Error ? err.message : 'Unexpected error' },
+      500,
+      origin,
+    )
+  }
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const origin = request.headers.get('Origin')
@@ -419,6 +564,9 @@ export default {
       }
       if (url.pathname === '/clear-all') {
         return await handleClearAll(request, env, origin)
+      }
+      if (url.pathname === '/clear-date') {
+        return await handleClearDate(request, env, origin)
       }
       return jsonResponse({ ok: false, error: 'Not found' }, 404, origin)
     } catch (err) {
