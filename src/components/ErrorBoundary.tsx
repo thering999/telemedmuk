@@ -14,6 +14,29 @@ interface ErrorBoundaryState {
 
 const isDev = import.meta.env.DEV
 
+// After a new deploy, a tab left open still references the old hashed chunk
+// files, which no longer exist — lazy() then rejects and caches the failure,
+// so only a full reload (fetching the new index.html) recovers.
+const CHUNK_ERROR = /dynamically imported module|Importing a module script failed|Loading chunk|Unable to preload CSS/i
+const RELOAD_KEY = 'telemedmuk.chunkReloadAt'
+
+function isChunkLoadError(error: Error): boolean {
+  return CHUNK_ERROR.test(error.message)
+}
+
+function reloadOnceForChunkError(): boolean {
+  try {
+    const last = Number(sessionStorage.getItem(RELOAD_KEY) ?? 0)
+    // Guard against a reload loop if the chunk is genuinely missing.
+    if (Date.now() - last < 10_000) return false
+    sessionStorage.setItem(RELOAD_KEY, String(Date.now()))
+  } catch {
+    // storage unavailable — still try one reload
+  }
+  window.location.reload()
+  return true
+}
+
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { error: null, errorInfo: null }
 
@@ -25,10 +48,15 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (isDev) {
       console.error('ErrorBoundary caught an error:', error, errorInfo)
     }
+    if (isChunkLoadError(error) && reloadOnceForChunkError()) return
     this.setState({ errorInfo })
   }
 
   handleReset = () => {
+    if (this.state.error && isChunkLoadError(this.state.error)) {
+      window.location.reload()
+      return
+    }
     this.setState({ error: null, errorInfo: null })
   }
 
