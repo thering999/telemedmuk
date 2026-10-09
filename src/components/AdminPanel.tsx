@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ADMIN_PASSWORD } from '../lib/adminAuth'
+import { formatThaiDate } from '../lib/formatThaiDate'
 
 const SAVE_WORKER_URL = import.meta.env.VITE_SAVE_WORKER_URL ?? ''
 const APP_SHARED_KEY = import.meta.env.VITE_APP_SHARED_KEY ?? ''
 const CLEAR_ALL_URL = SAVE_WORKER_URL.replace(/\/save-snapshot$/, '/clear-all')
+const CLEAR_DATE_URL = SAVE_WORKER_URL.replace(/\/save-snapshot$/, '/clear-date')
+const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
 interface AdminPanelProps {
   onClose?: () => void
@@ -16,6 +19,10 @@ function AdminPanel({ onClose }: AdminPanelProps) {
   const [successMessage, setSuccessMessage] = useState('')
   const [isClearingAll, setIsClearingAll] = useState(false)
   const [clearAllError, setClearAllError] = useState('')
+  const [availableDates, setAvailableDates] = useState<string[]>([])
+  const [selectedDate, setSelectedDate] = useState('')
+  const [isClearingDate, setIsClearingDate] = useState(false)
+  const [clearDateError, setClearDateError] = useState('')
 
   const handleLogin = () => {
     setError('')
@@ -54,6 +61,58 @@ function AdminPanel({ onClose }: AdminPanelProps) {
     sessionStorage.clear()
 
     setSuccessMessage(`ล้างประวัติการนำเข้า ${keysToDelete.length} รายการและ session storage สำเร็จ`)
+  }
+
+  useEffect(() => {
+    fetch(dataUrl('index.json'))
+      .then((res) => (res.ok ? res.json() : []))
+      .then((index: { date: string }[]) => {
+        setAvailableDates(index.map((e) => e.date))
+        setSelectedDate((prev) => prev || index[0]?.date || '')
+      })
+      .catch(() => setAvailableDates([]))
+  }, [])
+
+  const handleClearDate = async () => {
+    setClearDateError('')
+    if (!CLEAR_DATE_URL) {
+      setClearDateError('ยังไม่ได้ตั้งค่าระบบบันทึกถาวร (VITE_SAVE_WORKER_URL)')
+      return
+    }
+    if (!selectedDate) {
+      setClearDateError('กรุณาเลือกวันที่')
+      return
+    }
+    const confirmed = confirm(
+      `ต้องการลบข้อมูลนำเข้าเฉพาะวันที่ ${formatThaiDate(selectedDate)} ใช่หรือไม่?\n\n⚠️ การกระทำนี้ไม่สามารถย้อนกลับได้`,
+    )
+    if (!confirmed) return
+
+    setIsClearingDate(true)
+    setSuccessMessage('')
+    try {
+      const response = await fetch(CLEAR_DATE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-App-Key': APP_SHARED_KEY },
+        body: JSON.stringify({ date: selectedDate }),
+      })
+      const body = (await response.json().catch(() => ({}))) as {
+        ok?: boolean
+        error?: string
+        deletedCount?: number
+      }
+      if (!response.ok || !body.ok) {
+        throw new Error(body.error ?? `ลบข้อมูลไม่สำเร็จ (HTTP ${response.status})`)
+      }
+      setSuccessMessage(
+        `ลบข้อมูลวันที่ ${formatThaiDate(selectedDate)} สำเร็จ (ลบ ${body.deletedCount ?? 0} ไฟล์) — รอ GitHub Actions build เสร็จแล้วรีเฟรชหน้า`,
+      )
+      setAvailableDates((prev) => prev.filter((d) => d !== selectedDate))
+    } catch (err) {
+      setClearDateError(`ลบข้อมูลไม่สำเร็จ — ${err instanceof Error ? err.message : String(err)}`)
+    } finally {
+      setIsClearingDate(false)
+    }
   }
 
   const handleClearAllData = async () => {
@@ -225,6 +284,41 @@ function AdminPanel({ onClose }: AdminPanelProps) {
                 <p className="text-xs text-blue-800 leading-relaxed dark:text-blue-300">
                   Dashboard ใช้ <code className="bg-blue-100 px-1 rounded dark:bg-blue-900/50">Browser Cache</code> ไม่ใช่ localStorage
                 </p>
+              </div>
+
+              <div className="mt-4 rounded-lg border border-orange-300 bg-orange-50 p-3 dark:border-orange-800 dark:bg-orange-950/30 space-y-2">
+                <p className="text-sm font-semibold text-orange-900 dark:text-orange-300">
+                  🗓️ ลบข้อมูลเฉพาะวันที่ (ลบจาก GitHub)
+                </p>
+                <select
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  disabled={availableDates.length === 0}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+                >
+                  {availableDates.length === 0 ? (
+                    <option value="">ไม่มีข้อมูล</option>
+                  ) : (
+                    availableDates.map((d) => (
+                      <option key={d} value={d}>
+                        {formatThaiDate(d)}
+                      </option>
+                    ))
+                  )}
+                </select>
+                <button
+                  onClick={handleClearDate}
+                  disabled={isClearingDate || !selectedDate}
+                  className="w-full rounded-lg bg-orange-600 hover:bg-orange-700 disabled:cursor-not-allowed disabled:bg-slate-300 text-white px-3 sm:px-4 py-2 sm:py-3 text-sm font-bold border border-orange-700 transition dark:disabled:bg-slate-700"
+                >
+                  {isClearingDate ? 'กำลังลบข้อมูล...' : 'ลบข้อมูลวันที่ที่เลือก'}
+                </button>
+                <p className="text-xs text-orange-800 dark:text-orange-400">
+                  ⚠️ ลบเฉพาะไฟล์ใน <code className="bg-orange-100 px-1 rounded dark:bg-orange-900/50">data/raw/</code> และ snapshot ของวันที่ที่เลือกเท่านั้น — วันอื่นไม่กระทบ — ย้อนกลับไม่ได้
+                </p>
+                {clearDateError && (
+                  <p className="text-xs text-rose-700 dark:text-rose-400">❌ {clearDateError}</p>
+                )}
               </div>
 
               <button
