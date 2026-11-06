@@ -354,7 +354,7 @@ function HdcTab() {
         }
       }
       toast.show('ข้อมูลรีเฟรชสำเร็จ', 'success')
-    } catch (error) {
+    } catch {
       toast.show('รีเฟรชไม่สำเร็จ', 'error')
     }
   }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, selectedHasBase, categoryToFetch, toast])
