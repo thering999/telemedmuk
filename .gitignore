@@ -25,6 +25,16 @@ api/.env
 api/.env.local
 api/dist
 
+# Local scratch / secrets — never commit (tk.txt holds a GitHub PAT)
+tk.txt
+excel/
+scratch_*.xlsx
+.playwright-mcp/
+
+# Snapshots are regenerated in CI from data/raw; only the index is tracked
+public/data/snapshots/*
+!public/data/snapshots/index.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

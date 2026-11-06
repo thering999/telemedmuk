@@ -390,7 +390,8 @@ function parseFile(filename) {
   const filePath = join(RAW_DIR, filename);
   let workbook;
   try {
-    workbook = XLSX.readFile(filePath);
+    // xlsx >=0.20 ESM build has no built-in fs; read the bytes ourselves.
+    workbook = XLSX.read(readFileSync(filePath));
   } catch (err) {
     throw new Error(`Failed to parse "${filename}": ${err.message}`);
   }

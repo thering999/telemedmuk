@@ -34,6 +34,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
       - name: Regenerate snapshots from data/raw
         run: npm run import:hippo
 

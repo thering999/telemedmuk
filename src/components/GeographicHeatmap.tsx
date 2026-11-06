@@ -94,7 +94,7 @@ function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
                 dataKey="rate"
                 fill="#0d9488"
                 radius={[4, 4, 0, 0]}
-                onClick={(data: any) => setSelectedDistrict(data.district)}
+                onClick={(data) => setSelectedDistrict((data.payload as { district?: string } | undefined)?.district ?? null)}
               />
             </BarChart>
           </ResponsiveContainer>
@@ -172,7 +172,7 @@ function GeographicHeatmap({ snapshot }: GeographicHeatmapProps) {
                 name="Districts"
                 data={districtData}
                 fill="#0d9488"
-                onClick={(data: any) => setSelectedDistrict(data.district)}
+                onClick={(data) => setSelectedDistrict((data.payload as { district?: string } | undefined)?.district ?? null)}
               />
             </ScatterChart>
           </ResponsiveContainer>

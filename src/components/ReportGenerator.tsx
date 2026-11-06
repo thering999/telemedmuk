@@ -102,13 +102,13 @@ ${facilities
         filenameBase: `telemedicine-report-${reportType}-${snapshotDate}`,
         title: reportTitle,
         columns: [
-          { key: 'text', label: 'Report Content', value: (row: any) => row },
+          { key: 'text', label: 'Report Content', value: (row: { text: string }) => row.text },
         ],
         rows: [{ text: reportContent }],
       })
 
       toast.show(`${reportType} report generated successfully`, 'success')
-    } catch (error) {
+    } catch {
       toast.show('Failed to generate report', 'error')
     } finally {
       setIsGenerating(false)
