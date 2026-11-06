@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, type KeyboardEvent } from 'react'
 import {
   Bar,
   BarChart,
@@ -25,6 +25,7 @@ import ExportToolbar from './ExportToolbar'
 import SortableTh from './SortableTh'
 import KpiCard from './KpiCard'
 import { useSnapshotTrend } from '../hooks/useSnapshotTrend'
+import FacilityDetailDrawer from './FacilityDetailDrawer'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
@@ -62,6 +63,19 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
   const docs = docsProp ?? buildDefaultDocs(curYear, prevYear)
   const [search, setSearch] = useState('')
   const [district, setDistrict] = useState<string>(ALL_DISTRICTS)
+  const [detailFacility, setDetailFacility] = useState<Facility | null>(null)
+  const closeDetail = useCallback(() => setDetailFacility(null), [])
+  const rowProps = (f: Facility) => ({
+    onClick: () => setDetailFacility(f),
+    onKeyDown: (e: KeyboardEvent<HTMLTableRowElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        setDetailFacility(f)
+      }
+    },
+    tabIndex: 0,
+    title: 'คลิกเพื่อดูรายละเอียด',
+  })
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const [facilityCode, setFacilityCode] = useState<string>(ALL_FACILITIES)
 
@@ -540,7 +554,17 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
                       }
                       contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
                     />
-                    <Bar dataKey="telemed" name="ผู้รับบริการ Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
+                    <Bar
+                      dataKey="telemed"
+                      name="ผู้รับบริการ Telemedicine"
+                      fill="#0d9488"
+                      radius={[6, 6, 0, 0]}
+                      cursor="pointer"
+                      onClick={(d) => {
+                        const amp = (d.payload as { ampName?: string } | undefined)?.ampName
+                        if (amp) setDistrict(amp)
+                      }}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -669,7 +693,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
                   .slice(0, 10);
 
                 return highImpact.map((item, idx) => (
-                  <tr key={item.f.hospcode} className={`${idx % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-amber-50 dark:bg-amber-950/20'} text-slate-800 dark:text-slate-100`}>
+                  <tr key={item.f.hospcode} {...rowProps(item.f)} className={`cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-900/30${idx % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-amber-50 dark:bg-amber-950/20'} text-slate-800 dark:text-slate-100`}>
                     <td className="px-3 py-2 font-medium">{idx + 1}</td>
                     <td className="px-3 py-2">{item.f.hospcode}</td>
                     <td className="px-3 py-2">{item.f.hospname}</td>
@@ -772,7 +796,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
               {sortedFacilities.map((f) => {
                 const percent = facilityPercent(f)
                 return (
-                  <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <tr key={f.hospcode} {...rowProps(f)} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
                     <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
@@ -840,6 +864,15 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
           </table>
         </div>
       </div>
+      {detailFacility && (
+        <FacilityDetailDrawer
+          facility={detailFacility}
+          snapshot={snapshot}
+          snapshotIndex={snapshotIndex}
+          fiscalYear={fiscalYear}
+          onClose={closeDetail}
+        />
+      )}
     </div>
   )
 }
