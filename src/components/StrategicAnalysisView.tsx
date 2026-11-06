@@ -16,7 +16,7 @@ import {
   YAxis,
   ZAxis,
 } from 'recharts'
-import type { FiscalYear, Snapshot, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
+import type { FiscalYear, Snapshot, SnapshotIndexEntry, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
 import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
@@ -32,6 +32,7 @@ import KpiCard from './KpiCard'
 export interface StrategicAnalysisViewProps {
   baseSnapshot: Snapshot
   allSnapshot: TypeBreakdownSnapshot
+  snapshotIndex?: SnapshotIndexEntry[]
 }
 
 type Quadrant = 'champions' | 'sleepingGiants' | 'activeSmall' | 'waitingForSupport'
@@ -90,7 +91,7 @@ function classifyQuadrant(op: number, rate: number, medianOp: number, medianRate
 
 const ALL_HOSTYPES = '__all__'
 
-function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisViewProps) {
+function StrategicAnalysisView({ baseSnapshot, allSnapshot, snapshotIndex }: StrategicAnalysisViewProps) {
   const [search, setSearch] = useState('')
   // Only affects the bottom "รายละเอียดสถานพยาบาล" table below — the tiered
   // target sections (district ≥30%, รพ.สต. ≥10%) intentionally always see
@@ -967,7 +968,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
         </div>
       </div>
       {detail?.kind === 'facility' && (
-        <TypeBreakdownDetailDrawer facility={detail.f} fiscalYear={fiscalYear} isPerson={false} onClose={closeDetail} />
+        <TypeBreakdownDetailDrawer facility={detail.f} fiscalYear={fiscalYear} isPerson={false} snapshotIndex={snapshotIndex} category="all" onClose={closeDetail} />
       )}
       {detail?.kind === 'group' && (
         <DetailDrawer title={detail.title} subtitle={`ปีงบ ${fiscalYear} · คลิกหน่วยบริการเพื่อดูรายละเอียด`} onClose={closeDetail}>

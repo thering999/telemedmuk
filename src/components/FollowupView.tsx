@@ -17,6 +17,7 @@ import {
   previousFiscalYear,
   type FollowupFacility,
   type FollowupSnapshot,
+  type SnapshotIndexEntry,
 } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
@@ -28,11 +29,12 @@ import KpiCard from './KpiCard'
 
 export interface FollowupViewProps {
   snapshot: FollowupSnapshot
+  snapshotIndex?: SnapshotIndexEntry[]
 }
 
 const ALL_HOSTYPES = '__all__'
 
-function FollowupView({ snapshot }: FollowupViewProps) {
+function FollowupView({ snapshot, snapshotIndex }: FollowupViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const fy = followupFiscalYear(snapshot)
@@ -331,7 +333,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
           </table>
         </div>
       </div>
-      {detail && <FollowupDetailDrawer facility={detail} fiscalYear={fy} onClose={closeDetail} />}
+      {detail && <FollowupDetailDrawer facility={detail} fiscalYear={fy} snapshotIndex={snapshotIndex} onClose={closeDetail} />}
     </div>
   )
 }

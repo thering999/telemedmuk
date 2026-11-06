@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { drillRowProps } from '../lib/drill'
 import { TypeBreakdownDetailDrawer } from './CategoryDetailDrawers'
-import type { TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
+import type { SnapshotIndexEntry, TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
 import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
 import { useSortableTable } from '../lib/useSortableTable'
@@ -12,6 +12,7 @@ import KpiCard from './KpiCard'
 
 export interface TypeBreakdownViewProps {
   snapshot: TypeBreakdownSnapshot
+  snapshotIndex?: SnapshotIndexEntry[]
   /** Section title, e.g. "แยกประเภทบริการ" or "รายคน". */
   title: string
   /** Per-instance documentation content (differs between "all" and "person"). */
@@ -20,7 +21,7 @@ export interface TypeBreakdownViewProps {
 
 const ALL_HOSTYPES = '__all__'
 
-function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
+function TypeBreakdownView({ snapshot, snapshotIndex, title, docs }: TypeBreakdownViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const [detail, setDetail] = useState<TypeBreakdownFacility | null>(null)
@@ -501,7 +502,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
         </div>
       </div>
       {detail && (
-        <TypeBreakdownDetailDrawer facility={detail} fiscalYear={cur} isPerson={isPersonReport} onClose={closeDetail} />
+        <TypeBreakdownDetailDrawer facility={detail} fiscalYear={cur} isPerson={isPersonReport} snapshotIndex={snapshotIndex} category={snapshot.category} onClose={closeDetail} />
       )}
     </div>
   )

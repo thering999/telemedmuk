@@ -12,7 +12,7 @@ import {
   YAxis,
 } from 'recharts'
 import { useFiscalYears } from '../context/FiscalYearContext'
-import { type GroupBreakdownFacility, type GroupBreakdownSnapshot } from '../types/hdc'
+import { type GroupBreakdownFacility, type GroupBreakdownSnapshot, type SnapshotIndexEntry } from '../types/hdc'
 import type { ExportColumn } from '../lib/exportTable'
 import { CHART_COLORS } from '../lib/designSystem'
 import { useSortableTable } from '../lib/useSortableTable'
@@ -23,6 +23,7 @@ import KpiCard from './KpiCard'
 
 export interface GroupBreakdownViewProps {
   snapshot: GroupBreakdownSnapshot
+  snapshotIndex?: SnapshotIndexEntry[]
   title: string
   /** Per-instance documentation content (differs between ncd/mch/ltc_pal). */
   docs: ReportInfoPanelProps
@@ -30,7 +31,7 @@ export interface GroupBreakdownViewProps {
 
 const ALL_HOSTYPES = '__all__'
 
-function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) {
+function GroupBreakdownView({ snapshot, snapshotIndex, title, docs }: GroupBreakdownViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const [detail, setDetail] = useState<GroupBreakdownFacility | null>(null)
@@ -338,6 +339,8 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
           facility={detail}
           groupDefs={snapshot.groupDefs}
           fiscalYear={current}
+          snapshotIndex={snapshotIndex}
+          category={snapshot.category}
           onClose={closeDetail}
         />
       )}
