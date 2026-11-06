@@ -276,6 +276,25 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
     }))
   }, [quadrantData])
 
+  // Facility-type comparison table rows.
+  const hostypeComparison = useMemo(() => {
+    const byHostype = new Map<string, { count: number; totalOp: number; totalType5: number }>()
+    for (const row of yearRows) {
+      if (!row.stats) continue
+      const key = row.facility.hostypeName
+      const entry = byHostype.get(key) ?? { count: 0, totalOp: 0, totalType5: 0 }
+      entry.count += 1
+      entry.totalOp += row.op
+      entry.totalType5 += row.type5
+      byHostype.set(key, entry)
+    }
+    return Array.from(byHostype, ([key, entry]) => ({
+      key,
+      entry,
+      rate: entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null,
+    }))
+  }, [yearRows])
+
   // Anomaly review table: rate > 50% for the selected year.
   const anomalyRows = useMemo(() => {
     return yearRows.filter((row) => row.rate !== null && row.rate > 50)
@@ -591,21 +610,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               </tr>
             </thead>
             <tbody>
-              {useMemo(() => {
-                const byHostype = new Map<string, { count: number; totalOp: number; totalType5: number }>()
-                for (const row of yearRows) {
-                  if (!row.stats) continue
-                  const key = row.facility.hostypeName
-                  const entry = byHostype.get(key) ?? { count: 0, totalOp: 0, totalType5: 0 }
-                  entry.count += 1
-                  entry.totalOp += row.op
-                  entry.totalType5 += row.type5
-                  byHostype.set(key, entry)
-                }
-                return Array.from(byHostype.values())
-                  .map((entry, idx) => {
-                    const key = Array.from(byHostype.keys())[idx]
-                    const rate = entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null
+              {hostypeComparison.map(({ key, entry, rate }) => {
                     return (
                       <tr key={key} {...drillRowProps(() => openGroup(`ประเภท: ${key}`, (f) => f.hostypeName === key))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                         <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{key}</td>
@@ -628,8 +633,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                         </td>
                       </tr>
                     )
-                  })
-              }, [yearRows])}
+                  })}
             </tbody>
           </table>
         </div>
