@@ -1,4 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { DRILL_ROW_CLASS, drillRowProps, fmtNum } from '../lib/drill'
+import { TypeBreakdownDetailDrawer } from './CategoryDetailDrawers'
+import DetailDrawer, { DrawerSection } from './DetailDrawer'
 import {
   Bar,
   BarChart,
@@ -94,6 +97,15 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
   // every facility type, since "อำเภอ รวม รพ.+รพ.สต." only means something
   // when both types are present.
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
+  const [detail, setDetail] = useState<
+    | { kind: 'facility'; f: CombinedFacility }
+    | { kind: 'group'; title: string; match: (f: CombinedFacility) => boolean }
+    | null
+  >(null)
+  const closeDetail = useCallback(() => setDetail(null), [])
+  const openFacility = (f: CombinedFacility) => setDetail({ kind: 'facility', f })
+  const openGroup = (title: string, match: (f: CombinedFacility) => boolean) =>
+    setDetail({ kind: 'group', title, match })
 
   const [prevSnapshot, setPrevSnapshot] = useState(allSnapshot)
   if (allSnapshot !== prevSnapshot) {
@@ -426,7 +438,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             </thead>
             <tbody>
               {districtTargets.map((row) => (
-                <tr key={row.ampName} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                <tr key={row.ampName} {...drillRowProps(() => openGroup(`อำเภอ${row.ampName}`, (f) => f.ampName === row.ampName))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                   <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.ampName}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.count.toLocaleString('th-TH')}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.totalOp.toLocaleString('th-TH')}</td>
@@ -510,7 +522,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             </thead>
             <tbody>
               {affiliationComparison.map((row) => (
-                <tr key={row.mName} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                <tr key={row.mName} {...drillRowProps(() => openGroup(`สังกัด: ${row.mName}`, (f) => f.mName === row.mName))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                   <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.mName}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.count.toLocaleString('th-TH')}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
@@ -595,7 +607,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                     const key = Array.from(byHostype.keys())[idx]
                     const rate = entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null
                     return (
-                      <tr key={key} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                      <tr key={key} {...drillRowProps(() => openGroup(`ประเภท: ${key}`, (f) => f.hostypeName === key))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                         <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{key}</td>
                         <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{entry.count}</td>
                         <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{entry.totalOp.toLocaleString('th-TH')}</td>
@@ -715,7 +727,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               </thead>
               <tbody>
                 {anomalyRows.map((row) => (
-                  <tr key={row.facility.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <tr key={row.facility.hospcode} {...drillRowProps(() => openFacility(row.facility))} className={`${DRILL_ROW_CLASS} border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50`}>
                     <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.facility.hospname}</td>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.ampName}</td>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.mName}</td>
@@ -849,7 +861,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               {sortedTableRows.map((row) => {
                 const quadrant = quadrantData.lookup.get(row.facility.hospcode)
                 return (
-                  <tr key={row.facility.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <tr key={row.facility.hospcode} {...drillRowProps(() => openFacility(row.facility))} className={`${DRILL_ROW_CLASS} border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50`}>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.hospcode}</td>
                     <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.facility.hospname}</td>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.ampName}</td>
@@ -950,6 +962,42 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           </div>
         </div>
       </div>
+      {detail?.kind === 'facility' && (
+        <TypeBreakdownDetailDrawer facility={detail.f} fiscalYear={fiscalYear} isPerson={false} onClose={closeDetail} />
+      )}
+      {detail?.kind === 'group' && (
+        <DetailDrawer title={detail.title} subtitle={`ปีงบ ${fiscalYear} · คลิกหน่วยบริการเพื่อดูรายละเอียด`} onClose={closeDetail}>
+          <DrawerSection title="หน่วยบริการในกลุ่ม (เรียงตามอัตรา Type5/OP)">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                  <th className="px-2 py-2 text-left">หน่วยบริการ</th>
+                  <th className="px-2 py-2 text-right">OP</th>
+                  <th className="px-2 py-2 text-right">Type5</th>
+                  <th className="px-2 py-2 text-right">อัตรา %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {yearRows
+                  .filter((r) => detail.match(r.facility))
+                  .sort((a, b) => (b.rate ?? -1) - (a.rate ?? -1))
+                  .map((r) => (
+                    <tr
+                      key={r.facility.hospcode}
+                      {...drillRowProps(() => openFacility(r.facility))}
+                      className={`${DRILL_ROW_CLASS} border-b border-slate-100 text-slate-800 hover:bg-blue-50 dark:border-slate-800 dark:text-slate-100 dark:hover:bg-slate-800`}
+                    >
+                      <td className="px-2 py-2">{r.facility.hospname}</td>
+                      <td className="px-2 py-2 text-right">{fmtNum(r.op)}</td>
+                      <td className="px-2 py-2 text-right">{fmtNum(r.type5)}</td>
+                      <td className="px-2 py-2 text-right">{r.rate === null ? '-' : `${r.rate.toFixed(2)}%`}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </DrawerSection>
+        </DetailDrawer>
+      )}
     </div>
   )
 }

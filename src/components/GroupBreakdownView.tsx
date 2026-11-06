@@ -1,4 +1,6 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useCallback, useMemo, useState } from 'react'
+import { drillRowProps } from '../lib/drill'
+import { GroupDetailDrawer } from './CategoryDetailDrawers'
 import {
   Bar,
   BarChart,
@@ -31,6 +33,8 @@ const ALL_HOSTYPES = '__all__'
 function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
+  const [detail, setDetail] = useState<GroupBreakdownFacility | null>(null)
+  const closeDetail = useCallback(() => setDetail(null), [])
 
   const [prevSnapshot, setPrevSnapshot] = useState(snapshot)
   if (snapshot !== prevSnapshot) {
@@ -272,7 +276,7 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
             </thead>
             <tbody>
               {sortedFacilities.map((f) => (
-                <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                <tr key={f.hospcode} {...drillRowProps(() => setDetail(f))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
                   <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
                   <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
                   <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
@@ -329,6 +333,14 @@ function GroupBreakdownView({ snapshot, title, docs }: GroupBreakdownViewProps) 
           </table>
         </div>
       </div>
+      {detail && (
+        <GroupDetailDrawer
+          facility={detail}
+          groupDefs={snapshot.groupDefs}
+          fiscalYear={current}
+          onClose={closeDetail}
+        />
+      )}
     </div>
   )
 }

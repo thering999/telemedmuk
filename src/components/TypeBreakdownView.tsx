@@ -1,4 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { drillRowProps } from '../lib/drill'
+import { TypeBreakdownDetailDrawer } from './CategoryDetailDrawers'
 import type { TypeBreakdownFacility, TypeBreakdownSnapshot } from '../types/hdc'
 import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
@@ -21,6 +23,8 @@ const ALL_HOSTYPES = '__all__'
 function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
+  const [detail, setDetail] = useState<TypeBreakdownFacility | null>(null)
+  const closeDetail = useCallback(() => setDetail(null), [])
 
   // Detect if this is person report (has all 5 types) vs service breakdown (has Type2,3,5 only)
   const isPersonReport = snapshot.category === 'person'
@@ -386,7 +390,7 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
                   ? type1 + type2 + type3 + type4 + type5
                   : type2 + type3 + type5
                 return (
-                  <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <tr key={f.hospcode} {...drillRowProps(() => setDetail(f))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
                     <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
@@ -496,6 +500,9 @@ function TypeBreakdownView({ snapshot, title, docs }: TypeBreakdownViewProps) {
           </table>
         </div>
       </div>
+      {detail && (
+        <TypeBreakdownDetailDrawer facility={detail} fiscalYear={cur} isPerson={isPersonReport} onClose={closeDetail} />
+      )}
     </div>
   )
 }

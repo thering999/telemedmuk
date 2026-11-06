@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState, type KeyboardEvent } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { drillRowProps } from '../lib/drill'
 import {
   Bar,
   BarChart,
@@ -65,17 +66,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
   const [district, setDistrict] = useState<string>(ALL_DISTRICTS)
   const [detailFacility, setDetailFacility] = useState<Facility | null>(null)
   const closeDetail = useCallback(() => setDetailFacility(null), [])
-  const rowProps = (f: Facility) => ({
-    onClick: () => setDetailFacility(f),
-    onKeyDown: (e: KeyboardEvent<HTMLTableRowElement>) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault()
-        setDetailFacility(f)
-      }
-    },
-    tabIndex: 0,
-    title: 'คลิกเพื่อดูรายละเอียด',
-  })
+  const rowProps = (f: Facility) => drillRowProps(() => setDetailFacility(f))
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const [facilityCode, setFacilityCode] = useState<string>(ALL_FACILITIES)
 

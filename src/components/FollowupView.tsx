@@ -1,4 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { drillRowProps } from '../lib/drill'
+import { FollowupDetailDrawer } from './CategoryDetailDrawers'
 import {
   Bar,
   BarChart,
@@ -34,6 +36,8 @@ function FollowupView({ snapshot }: FollowupViewProps) {
   const [search, setSearch] = useState('')
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const fy = followupFiscalYear(snapshot)
+  const [detail, setDetail] = useState<FollowupFacility | null>(null)
+  const closeDetail = useCallback(() => setDetail(null), [setDetail])
 
   const [prevSnapshot, setPrevSnapshot] = useState(snapshot)
   if (snapshot !== prevSnapshot) {
@@ -264,7 +268,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
             </thead>
             <tbody>
               {sortedFacilities.map((f) => (
-                <tr key={f.hospcode} className="border-b border-slate-100 hover:bg-blue-50 transition-colors dark:border-slate-700 dark:hover:bg-slate-700/50">
+                <tr key={f.hospcode} {...drillRowProps(() => setDetail(f))} className="cursor-pointer border-b border-slate-100 hover:bg-blue-50 transition-colors dark:border-slate-700 dark:hover:bg-slate-700/50">
                   <td className="px-4 py-3 text-slate-600 text-sm font-mono dark:text-slate-300">{f.hospcode}</td>
                   <td className="px-4 py-3 text-slate-800 font-medium dark:text-slate-100">{f.hospname}</td>
                   <td className="px-4 py-3 text-slate-600 text-sm dark:text-slate-300">{f.ampName}</td>
@@ -327,6 +331,7 @@ function FollowupView({ snapshot }: FollowupViewProps) {
           </table>
         </div>
       </div>
+      {detail && <FollowupDetailDrawer facility={detail} fiscalYear={fy} onClose={closeDetail} />}
     </div>
   )
 }
