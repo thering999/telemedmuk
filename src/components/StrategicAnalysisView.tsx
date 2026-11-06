@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
-import { DRILL_ROW_CLASS, drillRowProps, fmtNum } from '../lib/drill'
+import { DRILL_ROW_CLASS, drillRowProps } from '../lib/drill'
 import { TypeBreakdownDetailDrawer } from './CategoryDetailDrawers'
-import DetailDrawer, { DrawerSection } from './DetailDrawer'
+import StrategicGroupDrawer from './StrategicGroupDrawer'
 import {
   Bar,
   BarChart,
@@ -16,7 +16,19 @@ import {
   YAxis,
   ZAxis,
 } from 'recharts'
-import type { FiscalYear, Snapshot, SnapshotIndexEntry, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
+import type { Snapshot, SnapshotIndexEntry, TypeBreakdownSnapshot } from '../types/hdc'
+import {
+  classifyQuadrant,
+  DISTRICT_TARGET_RATE,
+  median,
+  officialDenominator,
+  officialRate,
+  QUADRANT_META,
+  RPST_HOSTYPE_MATCH,
+  RPST_TARGET_RATE,
+  type CombinedFacility,
+  type Quadrant,
+} from '../lib/strategic'
 import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
@@ -33,60 +45,6 @@ export interface StrategicAnalysisViewProps {
   baseSnapshot: Snapshot
   allSnapshot: TypeBreakdownSnapshot
   snapshotIndex?: SnapshotIndexEntry[]
-}
-
-type Quadrant = 'champions' | 'sleepingGiants' | 'activeSmall' | 'waitingForSupport'
-
-const QUADRANT_META: Record<Quadrant, { label: string; color: string }> = {
-  champions: { label: 'Champions (ต้นแบบ)', color: '#0d9488' },
-  sleepingGiants: { label: 'Sleeping Giants (ศักยภาพสูงที่ต้องกระตุ้น)', color: '#f59e0b' },
-  activeSmall: { label: 'Active Small (จิ๋วแต่แจ๋ว)', color: '#2563eb' },
-  waitingForSupport: { label: 'Waiting for Support (กลุ่มรอการสนับสนุน)', color: '#94a3b8' },
-}
-
-const DISTRICT_TARGET_RATE = 30
-const RPST_TARGET_RATE = 10
-const RPST_HOSTYPE_MATCH = 'ส่งเสริมสุขภาพตำบล'
-
-interface CombinedFacility {
-  hospcode: string
-  hospname: string
-  ampName: string
-  hostypeName: string
-  mName: string
-  byYear: Partial<Record<FiscalYear, TypeYearStats>>
-}
-
-function officialDenominator(stats: TypeYearStats | undefined): number {
-  if (!stats) return 0
-  return stats.op
-}
-
-/** Type5 (Telemedicine) ÷ OP × 100 — the same definition used everywhere else in this
- * dashboard (q_telemed_hosp_muk.ipynb's own convention), so this view's percentage reads
- * consistently with ภาพรวม/แยกประเภทบริการ instead of introducing a second, differently-scaled
- * "official" formula. Null when OP is 0 ("ไม่มีข้อมูล"), never NaN/0-by-force. */
-function officialRate(stats: TypeYearStats | undefined): number | null {
-  if (!stats) return null
-  const op = officialDenominator(stats)
-  if (op <= 0) return null
-  return (stats.type5 / op) * 100
-}
-
-function median(values: number[]): number {
-  if (values.length === 0) return 0
-  const sorted = [...values].sort((a, b) => a - b)
-  const mid = Math.floor(sorted.length / 2)
-  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid]
-}
-
-function classifyQuadrant(op: number, rate: number, medianOp: number, medianRate: number): Quadrant {
-  const highOp = op >= medianOp
-  const highRate = rate >= medianRate
-  if (highOp && highRate) return 'champions'
-  if (highOp && !highRate) return 'sleepingGiants'
-  if (!highOp && highRate) return 'activeSmall'
-  return 'waitingForSupport'
 }
 
 const ALL_HOSTYPES = '__all__'
@@ -971,37 +929,13 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot, snapshotIndex }: Str
         <TypeBreakdownDetailDrawer facility={detail.f} fiscalYear={fiscalYear} isPerson={false} snapshotIndex={snapshotIndex} category="all" onClose={closeDetail} />
       )}
       {detail?.kind === 'group' && (
-        <DetailDrawer title={detail.title} subtitle={`ปีงบ ${fiscalYear} · คลิกหน่วยบริการเพื่อดูรายละเอียด`} onClose={closeDetail}>
-          <DrawerSection title="หน่วยบริการในกลุ่ม (เรียงตามอัตรา Type5/OP)">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300">
-                  <th className="px-2 py-2 text-left">หน่วยบริการ</th>
-                  <th className="px-2 py-2 text-right">OP</th>
-                  <th className="px-2 py-2 text-right">Type5</th>
-                  <th className="px-2 py-2 text-right">อัตรา %</th>
-                </tr>
-              </thead>
-              <tbody>
-                {yearRows
-                  .filter((r) => detail.match(r.facility))
-                  .sort((a, b) => (b.rate ?? -1) - (a.rate ?? -1))
-                  .map((r) => (
-                    <tr
-                      key={r.facility.hospcode}
-                      {...drillRowProps(() => openFacility(r.facility))}
-                      className={`${DRILL_ROW_CLASS} border-b border-slate-100 text-slate-800 hover:bg-blue-50 dark:border-slate-800 dark:text-slate-100 dark:hover:bg-slate-800`}
-                    >
-                      <td className="px-2 py-2">{r.facility.hospname}</td>
-                      <td className="px-2 py-2 text-right">{fmtNum(r.op)}</td>
-                      <td className="px-2 py-2 text-right">{fmtNum(r.type5)}</td>
-                      <td className="px-2 py-2 text-right">{r.rate === null ? '-' : `${r.rate.toFixed(2)}%`}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </DrawerSection>
-        </DetailDrawer>
+        <StrategicGroupDrawer
+          title={detail.title}
+          fiscalYear={fiscalYear}
+          rows={yearRows.filter((r) => detail.match(r.facility))}
+          onPick={openFacility}
+          onClose={closeDetail}
+        />
       )}
     </div>
   )
