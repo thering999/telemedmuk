@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -24,12 +24,11 @@ import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 import SortableTh from './SortableTh'
 import KpiCard from './KpiCard'
+import { useSnapshotTrend } from '../hooks/useSnapshotTrend'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
 const ALL_HOSTYPES = '__all__'
-
-const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
 const buildDefaultDocs = (cur: FiscalYear, prev: FiscalYear): ReportInfoPanelProps => ({
   objective:
@@ -249,76 +248,20 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
     ].filter((d) => d.value > 0)
   }, [filteredFacilities, fiscalYear, hasTypeBreakdownData])
 
-  // Optional multi-snapshot trend line: only meaningful when there is more
-  // than one snapshot available in the index. Fetches the other snapshots
-  // lazily and degrades gracefully (friendly message) when there's only one.
-  const [trendState, setTrendState] = useState<
-    | { status: 'idle' }
-    | { status: 'loading' }
-    | { status: 'error'; message: string }
-    | { status: 'ready'; points: { date: string; telemed: number }[] }
-  >({ status: 'idle' })
-
-  const otherDates = useMemo(() => {
-    if (!snapshotIndex || snapshotIndex.length <= 1) return []
-    return snapshotIndex.map((e) => e.date).filter((d) => d !== snapshot.snapshotDate)
-  }, [snapshotIndex, snapshot.snapshotDate])
-
-  const showTrendChart = Boolean(snapshotIndex && snapshotIndex.length > 1)
-
-  useEffect(() => {
-    if (!showTrendChart) return
-
-    let cancelled = false
-    // Defer the "loading" transition to a microtask so it's not a
-    // synchronous setState call in the effect body (avoids cascading
-    // renders flagged by react-hooks/set-state-in-effect) while still
-    // showing a loading state almost immediately.
-    Promise.resolve().then(() => {
-      if (!cancelled) setTrendState({ status: 'loading' })
-    })
-
-    const computeTelemedFor = (s: Snapshot) => {
-      let total = 0
-      for (const f of s.facilities) {
-        if (district !== ALL_DISTRICTS && f.ampName !== district) continue
-        if (hostype !== ALL_HOSTYPES && f.hostypeName !== hostype) continue
-        if (effectiveFacilityCode !== ALL_FACILITIES && f.hospcode !== effectiveFacilityCode) continue
-        total += telemedVisits(f.byYear[fiscalYear])
-      }
-      return total
-    }
-
-    Promise.all(
-      otherDates.map((date) =>
-        fetch(dataUrl(`${date}.json`))
-          .then((res) => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`)
-            return res.json() as Promise<Snapshot>
-          })
-          .then((s) => ({ date, telemed: computeTelemedFor(s) })),
-      ),
-    )
-      .then((others) => {
-        if (cancelled) return
-        const points = [
-          ...others,
-          { date: snapshot.snapshotDate, telemed: computeTelemedFor(snapshot) },
-        ].sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
-        setTrendState({ status: 'ready', points })
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return
-        setTrendState({
-          status: 'error',
-          message: err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลแนวโน้มได้',
-        })
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [showTrendChart, otherDates, snapshot, district, hostype, effectiveFacilityCode, fiscalYear])
+  // Optional multi-snapshot trend line (see useSnapshotTrend).
+  const includeInTrend = useCallback(
+    (f: Facility) =>
+      (district === ALL_DISTRICTS || f.ampName === district) &&
+      (hostype === ALL_HOSTYPES || f.hostypeName === hostype) &&
+      (effectiveFacilityCode === ALL_FACILITIES || f.hospcode === effectiveFacilityCode),
+    [district, hostype, effectiveFacilityCode],
+  )
+  const { enabled: showTrendChart, state: trendState } = useSnapshotTrend(
+    snapshot,
+    snapshotIndex,
+    fiscalYear,
+    includeInTrend,
+  )
 
   const exportColumns = useMemo<ExportColumn<Facility>[]>(() => {
     return [
