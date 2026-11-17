@@ -1,0 +1,41 @@
+name: Stale data alert
+
+# Opens (or updates) a GitHub issue when the newest Hippo export in data/raw
+# is older than STALE_DAYS. GitHub emails repo watchers on new issues, so this
+# needs no extra secrets.
+on:
+  schedule:
+    - cron: '0 2 * * 1' # Mondays 09:00 Asia/Bangkok
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  STALE_DAYS: 45
+  ISSUE_TITLE: 'ข้อมูล Hippo ไม่ได้อัปเดต'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check newest export date
+        id: age
+        run: |
+          latest=$(ls data/raw | grep -oE '^[0-9]{8}_' | tr -d _ | sort | tail -n1)
+          if [ -z "$latest" ]; then echo "days=9999" >> "$GITHUB_OUTPUT"; echo "latest=none" >> "$GITHUB_OUTPUT"; exit 0; fi
+          days=$(( ( $(date +%s) - $(date -d "$latest" +%s) ) / 86400 ))
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          echo "days=$days" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update issue
+        if: fromJSON(steps.age.outputs.days) > fromJSON(env.STALE_DAYS)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          body="ไฟล์ export ล่าสุดใน data/raw คือ ${{ steps.age.outputs.latest }} (ผ่านมา ${{ steps.age.outputs.days }} วัน เกิน $STALE_DAYS วัน) กรุณานำเข้าข้อมูลใหม่ผ่านแท็บนำเข้า Excel"
+          num=$(gh issue list --state open --search "in:title \"$ISSUE_TITLE\"" --json number -q '.[0].number')
+          if [ -n "$num" ]; then gh issue comment "$num" --body "$body"; else gh issue create --title "$ISSUE_TITLE" --body "$body"; fi

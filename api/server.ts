@@ -40,11 +40,13 @@ app.post('/api/snapshots/import', (req, res) => {
 })
 
 // Error handling
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+// Express identifies error middleware by its 4-arg signature, so `next` must stay.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(err)
   res.status(500).json({
     error: 'Internal server error',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+    message: process.env.NODE_ENV === 'development' ? (err instanceof Error ? err.message : String(err)) : undefined
   })
 })
 

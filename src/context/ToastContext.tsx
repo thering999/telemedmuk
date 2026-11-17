@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- provider + its hook live together by design */
 import { createContext, useCallback, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
 import Toast from '../components/Toast'

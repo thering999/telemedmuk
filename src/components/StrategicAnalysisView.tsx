@@ -1,4 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { DRILL_ROW_CLASS, drillRowProps } from '../lib/drill'
+import { TypeBreakdownDetailDrawer } from './CategoryDetailDrawers'
+import StrategicGroupDrawer from './StrategicGroupDrawer'
 import {
   Bar,
   BarChart,
@@ -13,7 +16,19 @@ import {
   YAxis,
   ZAxis,
 } from 'recharts'
-import type { FiscalYear, Snapshot, TypeBreakdownSnapshot, TypeYearStats } from '../types/hdc'
+import type { Snapshot, SnapshotIndexEntry, TypeBreakdownSnapshot } from '../types/hdc'
+import {
+  classifyQuadrant,
+  DISTRICT_TARGET_RATE,
+  median,
+  officialDenominator,
+  officialRate,
+  QUADRANT_META,
+  RPST_HOSTYPE_MATCH,
+  RPST_TARGET_RATE,
+  type CombinedFacility,
+  type Quadrant,
+} from '../lib/strategic'
 import { useFiscalYears } from '../context/FiscalYearContext'
 import type { ExportColumn } from '../lib/exportTable'
 import ReportInfoPanel from './ReportInfoPanel'
@@ -29,71 +44,27 @@ import KpiCard from './KpiCard'
 export interface StrategicAnalysisViewProps {
   baseSnapshot: Snapshot
   allSnapshot: TypeBreakdownSnapshot
-}
-
-type Quadrant = 'champions' | 'sleepingGiants' | 'activeSmall' | 'waitingForSupport'
-
-const QUADRANT_META: Record<Quadrant, { label: string; color: string }> = {
-  champions: { label: 'Champions (ต้นแบบ)', color: '#0d9488' },
-  sleepingGiants: { label: 'Sleeping Giants (ศักยภาพสูงที่ต้องกระตุ้น)', color: '#f59e0b' },
-  activeSmall: { label: 'Active Small (จิ๋วแต่แจ๋ว)', color: '#2563eb' },
-  waitingForSupport: { label: 'Waiting for Support (กลุ่มรอการสนับสนุน)', color: '#94a3b8' },
-}
-
-const DISTRICT_TARGET_RATE = 30
-const RPST_TARGET_RATE = 10
-const RPST_HOSTYPE_MATCH = 'ส่งเสริมสุขภาพตำบล'
-
-interface CombinedFacility {
-  hospcode: string
-  hospname: string
-  ampName: string
-  hostypeName: string
-  mName: string
-  byYear: Partial<Record<FiscalYear, TypeYearStats>>
-}
-
-function officialDenominator(stats: TypeYearStats | undefined): number {
-  if (!stats) return 0
-  return stats.op
-}
-
-/** Type5 (Telemedicine) ÷ OP × 100 — the same definition used everywhere else in this
- * dashboard (q_telemed_hosp_muk.ipynb's own convention), so this view's percentage reads
- * consistently with ภาพรวม/แยกประเภทบริการ instead of introducing a second, differently-scaled
- * "official" formula. Null when OP is 0 ("ไม่มีข้อมูล"), never NaN/0-by-force. */
-function officialRate(stats: TypeYearStats | undefined): number | null {
-  if (!stats) return null
-  const op = officialDenominator(stats)
-  if (op <= 0) return null
-  return (stats.type5 / op) * 100
-}
-
-function median(values: number[]): number {
-  if (values.length === 0) return 0
-  const sorted = [...values].sort((a, b) => a - b)
-  const mid = Math.floor(sorted.length / 2)
-  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid]
-}
-
-function classifyQuadrant(op: number, rate: number, medianOp: number, medianRate: number): Quadrant {
-  const highOp = op >= medianOp
-  const highRate = rate >= medianRate
-  if (highOp && highRate) return 'champions'
-  if (highOp && !highRate) return 'sleepingGiants'
-  if (!highOp && highRate) return 'activeSmall'
-  return 'waitingForSupport'
+  snapshotIndex?: SnapshotIndexEntry[]
 }
 
 const ALL_HOSTYPES = '__all__'
 
-function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisViewProps) {
+function StrategicAnalysisView({ baseSnapshot, allSnapshot, snapshotIndex }: StrategicAnalysisViewProps) {
   const [search, setSearch] = useState('')
   // Only affects the bottom "รายละเอียดสถานพยาบาล" table below — the tiered
   // target sections (district ≥30%, รพ.สต. ≥10%) intentionally always see
   // every facility type, since "อำเภอ รวม รพ.+รพ.สต." only means something
   // when both types are present.
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
+  const [detail, setDetail] = useState<
+    | { kind: 'facility'; f: CombinedFacility }
+    | { kind: 'group'; title: string; match: (f: CombinedFacility) => boolean }
+    | null
+  >(null)
+  const closeDetail = useCallback(() => setDetail(null), [])
+  const openFacility = (f: CombinedFacility) => setDetail({ kind: 'facility', f })
+  const openGroup = (title: string, match: (f: CombinedFacility) => boolean) =>
+    setDetail({ kind: 'group', title, match })
 
   const [prevSnapshot, setPrevSnapshot] = useState(allSnapshot)
   if (allSnapshot !== prevSnapshot) {
@@ -264,6 +235,25 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
     }))
   }, [quadrantData])
 
+  // Facility-type comparison table rows.
+  const hostypeComparison = useMemo(() => {
+    const byHostype = new Map<string, { count: number; totalOp: number; totalType5: number }>()
+    for (const row of yearRows) {
+      if (!row.stats) continue
+      const key = row.facility.hostypeName
+      const entry = byHostype.get(key) ?? { count: 0, totalOp: 0, totalType5: 0 }
+      entry.count += 1
+      entry.totalOp += row.op
+      entry.totalType5 += row.type5
+      byHostype.set(key, entry)
+    }
+    return Array.from(byHostype, ([key, entry]) => ({
+      key,
+      entry,
+      rate: entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null,
+    }))
+  }, [yearRows])
+
   // Anomaly review table: rate > 50% for the selected year.
   const anomalyRows = useMemo(() => {
     return yearRows.filter((row) => row.rate !== null && row.rate > 50)
@@ -426,7 +416,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             </thead>
             <tbody>
               {districtTargets.map((row) => (
-                <tr key={row.ampName} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                <tr key={row.ampName} {...drillRowProps(() => openGroup(`อำเภอ${row.ampName}`, (f) => f.ampName === row.ampName))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                   <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.ampName}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.count.toLocaleString('th-TH')}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.totalOp.toLocaleString('th-TH')}</td>
@@ -510,7 +500,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
             </thead>
             <tbody>
               {affiliationComparison.map((row) => (
-                <tr key={row.mName} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                <tr key={row.mName} {...drillRowProps(() => openGroup(`สังกัด: ${row.mName}`, (f) => f.mName === row.mName))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                   <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.mName}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{row.count.toLocaleString('th-TH')}</td>
                   <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">
@@ -579,23 +569,9 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               </tr>
             </thead>
             <tbody>
-              {useMemo(() => {
-                const byHostype = new Map<string, { count: number; totalOp: number; totalType5: number }>()
-                for (const row of yearRows) {
-                  if (!row.stats) continue
-                  const key = row.facility.hostypeName
-                  const entry = byHostype.get(key) ?? { count: 0, totalOp: 0, totalType5: 0 }
-                  entry.count += 1
-                  entry.totalOp += row.op
-                  entry.totalType5 += row.type5
-                  byHostype.set(key, entry)
-                }
-                return Array.from(byHostype.values())
-                  .map((entry, idx) => {
-                    const key = Array.from(byHostype.keys())[idx]
-                    const rate = entry.totalOp > 0 ? (entry.totalType5 / entry.totalOp) * 100 : null
+              {hostypeComparison.map(({ key, entry, rate }) => {
                     return (
-                      <tr key={key} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                      <tr key={key} {...drillRowProps(() => openGroup(`ประเภท: ${key}`, (f) => f.hostypeName === key))} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                         <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{key}</td>
                         <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{entry.count}</td>
                         <td className="px-3 py-2 text-right text-slate-700 dark:text-slate-300">{entry.totalOp.toLocaleString('th-TH')}</td>
@@ -616,8 +592,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
                         </td>
                       </tr>
                     )
-                  })
-              }, [yearRows])}
+                  })}
             </tbody>
           </table>
         </div>
@@ -715,7 +690,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               </thead>
               <tbody>
                 {anomalyRows.map((row) => (
-                  <tr key={row.facility.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <tr key={row.facility.hospcode} {...drillRowProps(() => openFacility(row.facility))} className={`${DRILL_ROW_CLASS} border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50`}>
                     <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.facility.hospname}</td>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.ampName}</td>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.mName}</td>
@@ -849,7 +824,7 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
               {sortedTableRows.map((row) => {
                 const quadrant = quadrantData.lookup.get(row.facility.hospcode)
                 return (
-                  <tr key={row.facility.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <tr key={row.facility.hospcode} {...drillRowProps(() => openFacility(row.facility))} className={`${DRILL_ROW_CLASS} border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50`}>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.hospcode}</td>
                     <td className="px-3 py-2 text-slate-800 dark:text-slate-100">{row.facility.hospname}</td>
                     <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{row.facility.ampName}</td>
@@ -950,6 +925,18 @@ function StrategicAnalysisView({ baseSnapshot, allSnapshot }: StrategicAnalysisV
           </div>
         </div>
       </div>
+      {detail?.kind === 'facility' && (
+        <TypeBreakdownDetailDrawer facility={detail.f} fiscalYear={fiscalYear} isPerson={false} snapshotIndex={snapshotIndex} category="all" onClose={closeDetail} />
+      )}
+      {detail?.kind === 'group' && (
+        <StrategicGroupDrawer
+          title={detail.title}
+          fiscalYear={fiscalYear}
+          rows={yearRows.filter((r) => detail.match(r.facility))}
+          onPick={openFacility}
+          onClose={closeDetail}
+        />
+      )}
     </div>
   )
 }

@@ -354,7 +354,7 @@ function HdcTab() {
         }
       }
       toast.show('ข้อมูลรีเฟรชสำเร็จ', 'success')
-    } catch (error) {
+    } catch {
       toast.show('รีเฟรชไม่สำเร็จ', 'error')
     }
   }, [fetchIndex, fetchSnapshot, fetchCategory, selectedDate, selectedHasBase, categoryToFetch, toast])
@@ -470,6 +470,7 @@ function HdcTab() {
               {effectiveSubTab === 'all' && currentCategoryData.all && (
                 <TypeBreakdownView
                   snapshot={currentCategoryData.all}
+                  snapshotIndex={index}
                   title="แยกประเภทบริการ"
                   docs={allDocs(cur, prev)}
                 />
@@ -477,28 +478,30 @@ function HdcTab() {
               {effectiveSubTab === 'person' && currentCategoryData.person && (
                 <TypeBreakdownView
                   snapshot={currentCategoryData.person}
+                  snapshotIndex={index}
                   title="รายคน"
                   docs={PERSON_DOCS}
                 />
               )}
               {effectiveSubTab === 'ncd' && currentCategoryData.ncd && (
-                <GroupBreakdownView snapshot={currentCategoryData.ncd} title="NCD" docs={NCD_DOCS} />
+                <GroupBreakdownView snapshot={currentCategoryData.ncd} snapshotIndex={index} title="NCD" docs={NCD_DOCS} />
               )}
               {effectiveSubTab === 'mch' && currentCategoryData.mch && (
-                <GroupBreakdownView snapshot={currentCategoryData.mch} title="MCH" docs={MCH_DOCS} />
+                <GroupBreakdownView snapshot={currentCategoryData.mch} snapshotIndex={index} title="MCH" docs={MCH_DOCS} />
               )}
               {effectiveSubTab === 'ltc_pal' && currentCategoryData.ltc_pal && (
                 <GroupBreakdownView
                   snapshot={currentCategoryData.ltc_pal}
+                  snapshotIndex={index}
                   title="LTC/Palliative"
                   docs={LTC_PAL_DOCS}
                 />
               )}
               {effectiveSubTab === 'followup' && currentCategoryData.followup && (
-                <FollowupView snapshot={currentCategoryData.followup} />
+                <FollowupView snapshot={currentCategoryData.followup} snapshotIndex={index} />
               )}
               {effectiveSubTab === 'strategic' && currentCategoryData.all && (
-                <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} />
+                <StrategicAnalysisView baseSnapshot={snapshot} allSnapshot={currentCategoryData.all} snapshotIndex={index} />
               )}
               {effectiveSubTab === 'typein' && filteredTypeinSnapshot && (
                 <SnapshotView snapshot={filteredTypeinSnapshot} docs={typeinDocs(typeinYears.current, typeinYears.previous)} />

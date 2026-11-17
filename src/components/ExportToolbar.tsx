@@ -23,7 +23,7 @@ function ExportToolbar<T>({ filenameBase, title, columns, rows }: ExportToolbarP
     try {
       exportToExcel(filenameBase, columns, rows)
       toast.show('ดาวน์โหลด Excel สำเร็จ', 'success')
-    } catch (error) {
+    } catch {
       toast.show('ดาวน์โหลด Excel ไม่สำเร็จ', 'error')
     }
   }
@@ -32,7 +32,7 @@ function ExportToolbar<T>({ filenameBase, title, columns, rows }: ExportToolbarP
     try {
       exportToCsv(filenameBase, columns, rows)
       toast.show('ดาวน์โหลด CSV สำเร็จ', 'success')
-    } catch (error) {
+    } catch {
       toast.show('ดาวน์โหลด CSV ไม่สำเร็จ', 'error')
     }
   }
@@ -43,7 +43,7 @@ function ExportToolbar<T>({ filenameBase, title, columns, rows }: ExportToolbarP
       const { exportToPdf } = await import('../lib/exportPdf')
       await exportToPdf({ filenameBase, title, columns, rows })
       toast.show('ดาวน์โหลด PDF สำเร็จ', 'success')
-    } catch (error) {
+    } catch {
       toast.show('ดาวน์โหลด PDF ไม่สำเร็จ', 'error')
     } finally {
       setPdfPending(false)
@@ -54,7 +54,7 @@ function ExportToolbar<T>({ filenameBase, title, columns, rows }: ExportToolbarP
     try {
       printTable(title, columns, rows)
       toast.show('เปิดหน้าพิมพ์สำเร็จ', 'success')
-    } catch (error) {
+    } catch {
       toast.show('เปิดหน้าพิมพ์ไม่สำเร็จ', 'error')
     }
   }

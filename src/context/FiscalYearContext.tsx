@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- provider + its hooks live together by design */
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
 import {
   fullFiscalYear,

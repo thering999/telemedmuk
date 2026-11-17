@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { drillRowProps } from '../lib/drill'
 import {
   Bar,
   BarChart,
@@ -24,12 +25,12 @@ import ReportInfoPanel, { type ReportInfoPanelProps } from './ReportInfoPanel'
 import ExportToolbar from './ExportToolbar'
 import SortableTh from './SortableTh'
 import KpiCard from './KpiCard'
+import { useSnapshotTrend } from '../hooks/useSnapshotTrend'
+import FacilityDetailDrawer from './FacilityDetailDrawer'
 
 const ALL_DISTRICTS = '__all__'
 const ALL_FACILITIES = '__all__'
 const ALL_HOSTYPES = '__all__'
-
-const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/snapshots/${path}`
 
 const buildDefaultDocs = (cur: FiscalYear, prev: FiscalYear): ReportInfoPanelProps => ({
   objective:
@@ -63,6 +64,9 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
   const docs = docsProp ?? buildDefaultDocs(curYear, prevYear)
   const [search, setSearch] = useState('')
   const [district, setDistrict] = useState<string>(ALL_DISTRICTS)
+  const [detailFacility, setDetailFacility] = useState<Facility | null>(null)
+  const closeDetail = useCallback(() => setDetailFacility(null), [])
+  const rowProps = (f: Facility) => drillRowProps(() => setDetailFacility(f))
   const [hostype, setHostype] = useState<string>(ALL_HOSTYPES)
   const [facilityCode, setFacilityCode] = useState<string>(ALL_FACILITIES)
 
@@ -249,76 +253,20 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
     ].filter((d) => d.value > 0)
   }, [filteredFacilities, fiscalYear, hasTypeBreakdownData])
 
-  // Optional multi-snapshot trend line: only meaningful when there is more
-  // than one snapshot available in the index. Fetches the other snapshots
-  // lazily and degrades gracefully (friendly message) when there's only one.
-  const [trendState, setTrendState] = useState<
-    | { status: 'idle' }
-    | { status: 'loading' }
-    | { status: 'error'; message: string }
-    | { status: 'ready'; points: { date: string; telemed: number }[] }
-  >({ status: 'idle' })
-
-  const otherDates = useMemo(() => {
-    if (!snapshotIndex || snapshotIndex.length <= 1) return []
-    return snapshotIndex.map((e) => e.date).filter((d) => d !== snapshot.snapshotDate)
-  }, [snapshotIndex, snapshot.snapshotDate])
-
-  const showTrendChart = Boolean(snapshotIndex && snapshotIndex.length > 1)
-
-  useEffect(() => {
-    if (!showTrendChart) return
-
-    let cancelled = false
-    // Defer the "loading" transition to a microtask so it's not a
-    // synchronous setState call in the effect body (avoids cascading
-    // renders flagged by react-hooks/set-state-in-effect) while still
-    // showing a loading state almost immediately.
-    Promise.resolve().then(() => {
-      if (!cancelled) setTrendState({ status: 'loading' })
-    })
-
-    const computeTelemedFor = (s: Snapshot) => {
-      let total = 0
-      for (const f of s.facilities) {
-        if (district !== ALL_DISTRICTS && f.ampName !== district) continue
-        if (hostype !== ALL_HOSTYPES && f.hostypeName !== hostype) continue
-        if (effectiveFacilityCode !== ALL_FACILITIES && f.hospcode !== effectiveFacilityCode) continue
-        total += telemedVisits(f.byYear[fiscalYear])
-      }
-      return total
-    }
-
-    Promise.all(
-      otherDates.map((date) =>
-        fetch(dataUrl(`${date}.json`))
-          .then((res) => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`)
-            return res.json() as Promise<Snapshot>
-          })
-          .then((s) => ({ date, telemed: computeTelemedFor(s) })),
-      ),
-    )
-      .then((others) => {
-        if (cancelled) return
-        const points = [
-          ...others,
-          { date: snapshot.snapshotDate, telemed: computeTelemedFor(snapshot) },
-        ].sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
-        setTrendState({ status: 'ready', points })
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return
-        setTrendState({
-          status: 'error',
-          message: err instanceof Error ? err.message : 'ไม่สามารถโหลดข้อมูลแนวโน้มได้',
-        })
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [showTrendChart, otherDates, snapshot, district, hostype, effectiveFacilityCode, fiscalYear])
+  // Optional multi-snapshot trend line (see useSnapshotTrend).
+  const includeInTrend = useCallback(
+    (f: Facility) =>
+      (district === ALL_DISTRICTS || f.ampName === district) &&
+      (hostype === ALL_HOSTYPES || f.hostypeName === hostype) &&
+      (effectiveFacilityCode === ALL_FACILITIES || f.hospcode === effectiveFacilityCode),
+    [district, hostype, effectiveFacilityCode],
+  )
+  const { enabled: showTrendChart, state: trendState } = useSnapshotTrend(
+    snapshot,
+    snapshotIndex,
+    fiscalYear,
+    includeInTrend,
+  )
 
   const exportColumns = useMemo<ExportColumn<Facility>[]>(() => {
     return [
@@ -597,7 +545,17 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
                       }
                       contentStyle={{ borderRadius: 12, borderColor: '#cbd5e1' }}
                     />
-                    <Bar dataKey="telemed" name="ผู้รับบริการ Telemedicine" fill="#0d9488" radius={[6, 6, 0, 0]} />
+                    <Bar
+                      dataKey="telemed"
+                      name="ผู้รับบริการ Telemedicine"
+                      fill="#0d9488"
+                      radius={[6, 6, 0, 0]}
+                      cursor="pointer"
+                      onClick={(d) => {
+                        const amp = (d.payload as { ampName?: string } | undefined)?.ampName
+                        if (amp) setDistrict(amp)
+                      }}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -726,7 +684,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
                   .slice(0, 10);
 
                 return highImpact.map((item, idx) => (
-                  <tr key={item.f.hospcode} className={`${idx % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-amber-50 dark:bg-amber-950/20'} text-slate-800 dark:text-slate-100`}>
+                  <tr key={item.f.hospcode} {...rowProps(item.f)} className={`cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-900/30${idx % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-amber-50 dark:bg-amber-950/20'} text-slate-800 dark:text-slate-100`}>
                     <td className="px-3 py-2 font-medium">{idx + 1}</td>
                     <td className="px-3 py-2">{item.f.hospcode}</td>
                     <td className="px-3 py-2">{item.f.hospname}</td>
@@ -829,7 +787,7 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
               {sortedFacilities.map((f) => {
                 const percent = facilityPercent(f)
                 return (
-                  <tr key={f.hospcode} className="border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <tr key={f.hospcode} {...rowProps(f)} className="cursor-pointer border-b border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 transition-colors">
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono">{f.hospcode}</td>
                     <td className="px-4 py-3 text-slate-800 dark:text-slate-100 font-medium">{f.hospname}</td>
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300 text-sm">{f.ampName}</td>
@@ -897,6 +855,15 @@ function SnapshotView({ snapshot, snapshotIndex, docs: docsProp }: SnapshotViewP
           </table>
         </div>
       </div>
+      {detailFacility && (
+        <FacilityDetailDrawer
+          facility={detailFacility}
+          snapshot={snapshot}
+          snapshotIndex={snapshotIndex}
+          fiscalYear={fiscalYear}
+          onClose={closeDetail}
+        />
+      )}
     </div>
   )
 }
